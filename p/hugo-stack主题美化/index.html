@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="网站装修">
+<meta name="keywords" content="theme"><title>Hugo-Stack主题美化</title>
+
+<link rel='canonical' href='https://blog.zycloud.tk/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/'>
+
+<link rel="stylesheet" href="/scss/style.min.69f1b4d1951bab63f5414b26f52a86faf1104aefda41f213669d59f6f6b36b17.css"><meta property='og:title' content="Hugo-Stack主题美化">
+<meta property='og:description' content="网站装修">
+<meta property='og:url' content='https://blog.zycloud.tk/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/'>
+<meta property='og:site_name' content='烟火075博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='design' /><meta property='article:published_time' content='2025-06-01T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-06-04T00:00:00&#43;08:00'/>
+<meta name="twitter:title" content="Hugo-Stack主题美化">
+<meta name="twitter:description" content="网站装修"><style>
+    :root {
+         
+        --sys-font-family: "HarmonyOS_Sans_SC_Medium", Georgia, -apple-system, 'Nimbus Roman No9 L', 'PingFang SC', 'Hiragino Sans GB', 'Noto Serif SC', 'Microsoft Yahei', 'WenQuanYi Micro Hei', 'ST Heiti', sans-serif;
+        --code-font-family: "JetBrainsMono Regular", Menlo, Monaco, Consolas, "Courier New";
+        --article-font-family: "HarmonyOS_Sans_SC_Medium", var(--base-font-family);
+    }
+</style>
+
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://img.shimoko.com/fonts/font.css";
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_9771e63749b04b7c.png" width="300"
+                            height="303" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">烟火075博客</a></h1>
+            <h2 class="site-description">日常IT技术分享</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#hugo-目录结构">Hugo 目录结构</a></li>
+    <li><a href="#hugoyaml-配置文件详解">hugo.yaml 配置文件详解</a></li>
+    <li><a href="#站点配置">站点配置</a>
+      <ol>
+        <li><a href="#网站图标">网站图标</a></li>
+        <li><a href="#首页头像">首页头像</a></li>
+        <li><a href="#网站名称">网站名称</a></li>
+        <li><a href="#导航栏">导航栏</a></li>
+        <li><a href="#站点底部文字">站点底部文字</a>
+          <ol>
+            <li><a href="#更改使用-hugo-构建-主题stack由jimmy设计等字样">更改“使用 Hugo 构建 主题Stack由Jimmy设计”等字样</a></li>
+            <li><a href="#添加备案">添加备案</a></li>
+            <li><a href="#统计站点文章数量和字数">统计站点文章数量和字数</a></li>
+            <li><a href="#站点访问人数统计">站点访问人数统计</a></li>
+          </ol>
+        </li>
+        <li><a href="#页面加载进度条显示">页面加载进度条显示</a></li>
+      </ol>
+    </li>
+    <li><a href="#首页设置">首页设置</a>
+      <ol>
+        <li><a href="#首页全局配置">首页全局配置</a></li>
+        <li><a href="#首页欢迎栏">首页欢迎栏</a></li>
+        <li><a href="#首页文章布局">首页文章布局</a></li>
+        <li><a href="#首页文章样式">首页文章样式</a></li>
+        <li><a href="#文章内部图片样式">文章内部图片样式</a></li>
+        <li><a href="#首页右侧导航栏美化">首页右侧导航栏美化</a></li>
+        <li><a href="#首页左侧导航栏美化">首页左侧导航栏美化</a></li>
+        <li><a href="#归档页面双栏样式">归档页面双栏样式</a></li>
+        <li><a href="#链接页面三栏样式">链接页面三栏样式</a></li>
+        <li><a href="#首页显示文章">首页显示文章</a></li>
+        <li><a href="#单页文章数量设置">单页文章数量设置</a></li>
+      </ol>
+    </li>
+    <li><a href="#文章设置">文章设置</a>
+      <ol>
+        <li><a href="#文章生成模板">文章生成模板</a></li>
+        <li><a href="#文章目录层级显示问题">文章目录层级显示问题</a></li>
+        <li><a href="#文章图片不显示问题">文章图片不显示问题</a></li>
+        <li><a href="#文章代码块样式">文章代码块样式</a>
+          <ol>
+            <li><a href="#代码块高亮">代码块高亮</a></li>
+            <li><a href="#代码块样式">代码块样式</a></li>
+          </ol>
+        </li>
+        <li><a href="#文章统计字数">文章统计字数</a></li>
+      </ol>
+    </li>
+    <li><a href="#致谢">致谢</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/test/" style="background-color: #2a9d8f; color: #fff;">
+                Test
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/">Hugo-Stack主题美化</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            网站装修
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 01, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+        
+        
+        <footer class="article-wordcount">
+            <div>
+                
+<svg width="21px" height="21px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 3)"><path d="m12.5 12.5v-10c0-1.1045695-.8954305-2-2-2h-8c-1.1045695 0-2 .8954305-2 2v10c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2z"/><path d="m3.5 5.5h5"/><path d="m3.5 7.5h6"/><path d="m3.5 9.5h3"/></g></svg>
+
+                <span class="article-wordcount--count">字数: 5355</span>
+            </div>
+        </footer>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="hugo-目录结构">Hugo 目录结构
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── archetypes                  
+</span></span><span class="line"><span class="cl">│   └── default.md				# hugo新建文章的默认模板
+</span></span><span class="line"><span class="cl">├── config.yaml                 # 网站配置文件
+</span></span><span class="line"><span class="cl">├── content                     # 站点内的内容都在这里
+</span></span><span class="line"><span class="cl">│   ├── categories              # “分类”页面的首页
+</span></span><span class="line"><span class="cl">│   │   └── Test                # “分类”页面下的一个具体分类页面
+</span></span><span class="line"><span class="cl">│   ├── page                    # 显示在网站主页左侧边栏菜单的选项（导航栏）
+</span></span><span class="line"><span class="cl">│   │   ├── about               # 左侧边栏菜单中的“关于”页面
+</span></span><span class="line"><span class="cl">│   │   ├── archives            # 左侧边栏菜单中的“归档”页面
+</span></span><span class="line"><span class="cl">│   │   ├── links               # 左侧边栏菜单中的“链接”页面
+</span></span><span class="line"><span class="cl">│   │   └── search              # 左侧边栏菜单中的“搜索”页面
+</span></span><span class="line"><span class="cl">│   └── post                    # 用户写的帖子都放在这里，每个子文件夹对应一个帖子
+</span></span><span class="line"><span class="cl">│       ├── 2024
+</span></span><span class="line"><span class="cl">│            ├── 09
+</span></span><span class="line"><span class="cl">│                ├── 文章目录
+</span></span><span class="line"><span class="cl">│					  ├── .md
+</span></span><span class="line"><span class="cl">│					  ├── .img
+</span></span><span class="line"><span class="cl">│			 ├── 10
+</span></span><span class="line"><span class="cl">│                ├── 文章目录
+</span></span><span class="line"><span class="cl">│					  ├── .md
+</span></span><span class="line"><span class="cl">├── data
+</span></span><span class="line"><span class="cl">├── layouts
+</span></span><span class="line"><span class="cl">├── LICENSE
+</span></span><span class="line"><span class="cl">├── README.md
+</span></span><span class="line"><span class="cl">├── resources
+</span></span><span class="line"><span class="cl">│   └── _gen
+</span></span><span class="line"><span class="cl">│       ├── assets
+</span></span><span class="line"><span class="cl">│       └── images
+</span></span><span class="line"><span class="cl">├── static                     # 放用户自定义字体、用户头像、网站小图标等
+</span></span><span class="line"><span class="cl">└── themes                     # 放各种主题
+</span></span><span class="line"><span class="cl">    └── hugo-theme-stack       # stack主题
+</span></span><span class="line"><span class="cl">        ├── archetypes
+</span></span><span class="line"><span class="cl">        ├── assets
+</span></span><span class="line"><span class="cl">        ├── config.yaml
+</span></span><span class="line"><span class="cl">        ├── data
+</span></span><span class="line"><span class="cl">        ├── debug.sh
+</span></span><span class="line"><span class="cl">        ├── exampleSite
+</span></span><span class="line"><span class="cl">        ├── go.mod
+</span></span><span class="line"><span class="cl">        ├── i18n
+</span></span><span class="line"><span class="cl">        ├── images
+</span></span><span class="line"><span class="cl">        ├── layouts
+</span></span><span class="line"><span class="cl">        ├── LICENSE
+</span></span><span class="line"><span class="cl">        ├── netlify.toml
+</span></span><span class="line"><span class="cl">        ├── README.md
+</span></span><span class="line"><span class="cl">        └── theme.toml
+</span></span></code></pre></div><h2 id="hugoyaml-配置文件详解">hugo.yaml 配置文件详解
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">baseurl: https://example.com/
+</span></span><span class="line"><span class="cl">languageCode: zh-cn 
+</span></span><span class="line"><span class="cl">theme: hugo-theme-stack # 主题
+</span></span><span class="line"><span class="cl">title: 额，随便测试 # 这个没用
+</span></span><span class="line"><span class="cl">copyright: Wei Qi   # 这个是在页脚显示的
+</span></span><span class="line"><span class="cl">TimeZone: Asia/Shanghai
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">DefaultContentLanguage: zh-cn # 中文支持
+</span></span><span class="line"><span class="cl">hasCJKLanguage: true # 如果是中文就设置为true，否则设置为false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">languages:  # 多语言支持
+</span></span><span class="line"><span class="cl">    zh-cn:
+</span></span><span class="line"><span class="cl">        languageName: 中文
+</span></span><span class="line"><span class="cl">        title: 网站名称
+</span></span><span class="line"><span class="cl">        weight: 2
+</span></span><span class="line"><span class="cl">        params:
+</span></span><span class="line"><span class="cl">            description: 网站描述
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">services:   # 主题配置
+</span></span><span class="line"><span class="cl">    disqus:
+</span></span><span class="line"><span class="cl">        shortname: &#34;hugo-theme-stack&#34;
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">pagination:
+</span></span><span class="line"><span class="cl">    pagerSize: 6	# 页面显示的文章数量
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">    mainSections:
+</span></span><span class="line"><span class="cl">        - post		# 首页显示的文章所在路径，即首页会显示 hugo/content/post/ 下的所有文章
+</span></span><span class="line"><span class="cl">    featuredImageField: image
+</span></span><span class="line"><span class="cl">    rssFullContent: true
+</span></span><span class="line"><span class="cl">    favicon: /favicon.ico    # 网站的图标，放到主题根目录下
+</span></span><span class="line"><span class="cl">    footer:
+</span></span><span class="line"><span class="cl">        since: 2024 # 页脚显示年份的开始年份
+</span></span><span class="line"><span class="cl">	dateFormat:	# 时间显示格式
+</span></span><span class="line"><span class="cl">        published: 2006年1月2日 # Jan 02, 2006
+</span></span><span class="line"><span class="cl">        lastUpdated: 2006年1月2日 15:04 # Jan 02, 2006 15:04 MST
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	sidebar:
+</span></span><span class="line"><span class="cl">        emoji: 🍥
+</span></span><span class="line"><span class="cl">        subtitle: Life is Passion !  # 头像下边的文字
+</span></span><span class="line"><span class="cl">        avatar:
+</span></span><span class="line"><span class="cl">            enabled: true
+</span></span><span class="line"><span class="cl">            local: false	# false 头像才显示本地的图片
+</span></span><span class="line"><span class="cl">            src: /img/tx.png	# 放到 hugo/static/img/ 下边，没有 img 则新建
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">	article:    # 文章页配置
+</span></span><span class="line"><span class="cl">        math: false # 启用数学公式
+</span></span><span class="line"><span class="cl">        toc: true   # 文章显示目录
+</span></span><span class="line"><span class="cl">        readingTime: true   # 文字显示阅读时间
+</span></span><span class="line"><span class="cl">        license:
+</span></span><span class="line"><span class="cl">            enabled: true
+</span></span><span class="line"><span class="cl">            default: Licensed under CC BY-NC-SA 4.0 # 默认的版权许可
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	comments:   # 评论系统
+</span></span><span class="line"><span class="cl">        enabled: false	# 开评论则为 true，需要到网上搜索相关的配置
+</span></span><span class="line"><span class="cl">        provider: disqus
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    widgets:	# 右侧导航栏，即在页面右边显示：搜索、归档、标签，将对应的 type 注释掉则不显示
+</span></span><span class="line"><span class="cl">        homepage:
+</span></span><span class="line"><span class="cl">            - type: search  # 首页搜索框
+</span></span><span class="line"><span class="cl">            - type: archives    # 首页归档
+</span></span><span class="line"><span class="cl">              params:
+</span></span><span class="line"><span class="cl">                  limit: 5
+</span></span><span class="line"><span class="cl">            - type: categories  # 首页分类
+</span></span><span class="line"><span class="cl">              params:
+</span></span><span class="line"><span class="cl">                  limit: 10
+</span></span><span class="line"><span class="cl">            - type: tag-cloud   # 首页标签云
+</span></span><span class="line"><span class="cl">              params:
+</span></span><span class="line"><span class="cl">                  limit: 10
+</span></span><span class="line"><span class="cl">        page:
+</span></span><span class="line"><span class="cl">            - type: toc # 文章目录
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">    colorScheme:
+</span></span><span class="line"><span class="cl">        # Display toggle
+</span></span><span class="line"><span class="cl">        toggle: true    # 显示切换暗色模式按钮
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        # Available values: auto, light, dark
+</span></span><span class="line"><span class="cl">        default: auto   # 默认主题模式
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    imageProcessing:
+</span></span><span class="line"><span class="cl">        cover:
+</span></span><span class="line"><span class="cl">            enabled: true   # 是否启用封面图
+</span></span><span class="line"><span class="cl">        content:
+</span></span><span class="line"><span class="cl">            enabled: true   # 是否启用内容图片
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">menu:   # 菜单、导航栏
+</span></span><span class="line"><span class="cl">    main: []	# 这里不配置，配置菜单最好是在 hugo/content/page/ 下加 .md 文件
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    social: # 头像下边的社交链接
+</span></span><span class="line"><span class="cl">        - identifier: github
+</span></span><span class="line"><span class="cl">          name: GitHub
+</span></span><span class="line"><span class="cl">          url: # https://github.com/CaiJimmy/hugo-theme-stack
+</span></span><span class="line"><span class="cl">          params:
+</span></span><span class="line"><span class="cl">              icon: brand-github
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        - identifier: twitter
+</span></span><span class="line"><span class="cl">          name: Twitter
+</span></span><span class="line"><span class="cl">          url: # https://twitter.com
+</span></span><span class="line"><span class="cl">          params:
+</span></span><span class="line"><span class="cl">              icon: brand-twitter
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">related:    # 相关文章
+</span></span><span class="line"><span class="cl">    includeNewer: true
+</span></span><span class="line"><span class="cl">    threshold: 60
+</span></span><span class="line"><span class="cl">    toLower: false
+</span></span><span class="line"><span class="cl">    indices:
+</span></span><span class="line"><span class="cl">        - name: tags
+</span></span><span class="line"><span class="cl">          weight: 100
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        - name: categories
+</span></span><span class="line"><span class="cl">          weight: 200
+</span></span><span class="line"><span class="cl">          
+</span></span><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">    goldmark:
+</span></span><span class="line"><span class="cl">        # 这里是 goldmark 渲染选项，默认即可
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    tableOfContents:    # 文章目录（右边），层级
+</span></span><span class="line"><span class="cl">        endLevel: 5		# 显示几层标题
+</span></span><span class="line"><span class="cl">        ordered: true	# 标题显示序号，false则无序
+</span></span><span class="line"><span class="cl">        startLevel: 2	# 从第几级标题开始显示
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    highlight:	# 代码块高亮
+</span></span><span class="line"><span class="cl">        noClasses: false	# 不启用特定css类高亮
+</span></span><span class="line"><span class="cl">        codeFences: true	# 启用代码块
+</span></span><span class="line"><span class="cl">        guessSyntax: true	# 自动识别语法
+</span></span><span class="line"><span class="cl">    #     lineNoStart: 1
+</span></span><span class="line"><span class="cl">        lineNos: true		# 启用行号
+</span></span><span class="line"><span class="cl">    #     lineNumbersInTable: true
+</span></span><span class="line"><span class="cl">    #     tabWidth: 4
+</span></span><span class="line"><span class="cl">        style: github-dark	# 代码块样式
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">frontmatter:
+</span></span><span class="line"><span class="cl">  lastmod: :fileModTime		# 文章末尾显示文章的更新时间
+</span></span></code></pre></div><h2 id="站点配置">站点配置
+</h2><h3 id="网站图标">网站图标
+</h3><p>根据上边的 【hugo.yaml 配置文件】，把 <code>.ico</code> 文件放到<strong>主题</strong>的根目录下，然后修改</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">favicon: /favicon.ico
+</span></span></code></pre></div><h3 id="首页头像">首页头像
+</h3><p>根据上边的 【hugo.yaml 配置文件】，把 <code>.png</code> 放到 <code>hugo/static/img/</code> 下，然后修改</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    sidebar:
+</span></span><span class="line"><span class="cl">        emoji: 🍥
+</span></span><span class="line"><span class="cl">        subtitle: 好好生活  # 头像下边的文字
+</span></span><span class="line"><span class="cl">        avatar:
+</span></span><span class="line"><span class="cl">            enabled: true
+</span></span><span class="line"><span class="cl">            local: false # true 这里要改为 false 才生效
+</span></span><span class="line"><span class="cl">            src: /img/tx.png # 头像
+</span></span></code></pre></div><h3 id="网站名称">网站名称
+</h3><p>根据上边的 【hugo.yaml 配置文件】，自己改改 <code>languages</code></p>
+<h3 id="导航栏">导航栏
+</h3><p>根据上边的 【Hugo 目录结构】，将 <code>hugo-theme-stack\exampleSite\content</code> 的内容放到 <code>hugo/content/</code> 下，其中 <code>page</code> 目录就是导航栏。</p>
+<p><img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015145754525.png"
+	width="983"
+	height="536"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015145754525_hu_849bf6e6a3b3e4fa.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015145754525_hu_3500422e06e9c8c7.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="183"
+		data-flex-basis="440px"
+	
+></p>
+<h3 id="站点底部文字">站点底部文字
+</h3><p>底部文字在 <code>hugo-theme-stack/layout/partials/footer/footer.html</code> 里，相关的网安备案、ICP备案、使用Hugo构建、文章数量、访问人数等文字都写在这里。</p>
+<h4 id="更改使用-hugo-构建-主题stack由jimmy设计等字样">更改“使用 Hugo 构建 主题Stack由Jimmy设计”等字样
+</h4><p><code>hugo-theme-stack/layout/partials/footer/footer.html</code> 注释掉原先的代码，注意是 <code>&lt;section class=&quot;powerby&quot;&gt;</code> 里边</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;section class=&#34;powerby&#34;&gt;
+</span></span><span class="line"><span class="cl">    ......
+</span></span><span class="line"><span class="cl">&lt;!-- {{- $Generator := `&lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hugo&lt;/a&gt;` -}}
+</span></span><span class="line"><span class="cl">{{- $Theme := printf `&lt;b&gt;&lt;a href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34; data-version=&#34;%s&#34;&gt;Stack&lt;/a&gt;&lt;/b&gt;` $ThemeVersion -}}
+</span></span><span class="line"><span class="cl">{{- $DesignedBy := `&lt;a href=&#34;https://jimmycai.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Jimmy&lt;/a&gt;` -}}
+</span></span><span class="line"><span class="cl">{{ T &#34;footer.builtWith&#34; (dict &#34;Generator&#34; $Generator) | safeHTML }}  {{ T &#34;footer.designedBy&#34; (dict &#34;Theme&#34; $Theme &#34;DesignedBy&#34; $DesignedBy) | safeHTML }} --&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!-- 加入这串 --&gt;
+</span></span><span class="line"><span class="cl">    &lt;section class=&#34;powerby&#34;&gt;
+</span></span><span class="line"><span class="cl">           &lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hugo&lt;/a&gt; theme &lt;b&gt;&lt;a href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34; data-version=&#34;3.27.0&#34;&gt;Stack&lt;/a&gt;&lt;/b&gt; &lt;a&gt;designed by Jimmy&lt;/a&gt;
+</span></span><span class="line"><span class="cl">    &lt;/section&gt;
+</span></span><span class="line"><span class="cl">&lt;!-- 结束 --&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/section&gt;
+</span></span></code></pre></div><p>效果就如现在的网站一致。</p>
+<blockquote>
+<p>[!CAUTION]</p>
+<p>由于自己不会写相关的代码，所以这个操作是：</p>
+<p>在网页上，F12控制台找到该相关元素，右键选择【编辑为 HTML 】，将这段 HTML 代码复制贴贴到 <code>footer.html</code> 里，然后再修改文字</p></blockquote>
+<h4 id="添加备案">添加备案
+</h4><p><code>hugo-theme-stack/layout/partials/footer/footer.html</code> 在 <code>&lt;section class=&quot;powerby&quot;&gt;</code> 里边，自己调整代码的位置，看得舒服就行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;a href=&#34;https://beian.miit.gov.cn/&#34; target=&#34;_blank&#34;&gt;X ICP 备 2024XXXXXX 号&lt;/a&gt; &lt;br/&gt;
+</span></span><span class="line"><span class="cl">&lt;a href=&#34;http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=XXXXXXXXXXXX&#34; target=&#34;_blank&#34;&gt;XX网安备 XXXXXXXXXX 号&lt;/a&gt;
+</span></span></code></pre></div><h4 id="统计站点文章数量和字数">统计站点文章数量和字数
+</h4><blockquote>
+<p>参考：<a class="link" href="https://blog.huaxiangshan.com/zh-cn/posts/runtime/"  target="_blank" rel="noopener"
+    >多语言 hugo 添加总字数统计和建站时间 - 滑翔闪’S BLOG (huaxiangshan.com)</a></p></blockquote>
+<p><code>hugo-theme-stack/layout/partials/footer/footer.html</code> 在 <code>&lt;section class=&quot;powerby&quot;&gt;</code> 里边，加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        {{ $articleCount := len .Site.RegularPages }}
+</span></span><span class="line"><span class="cl">        {{ $totalWordCount := 0 }}
+</span></span><span class="line"><span class="cl">        {{ range .Site.Pages }}
+</span></span><span class="line"><span class="cl">        {{ $totalWordCount = add $totalWordCount .WordCount }}
+</span></span><span class="line"><span class="cl">        {{ end }}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        &lt;p&gt;发布了 {{ $articleCount }} 篇文章 | 共 {{$totalWordCount}} 字&lt;/p&gt;
+</span></span></code></pre></div><p>效果如下：</p>
+<p>[<img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2.png"
+	width="282"
+	height="162"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2_hu_9c7f8424e97b7bea.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2_hu_a6a7f904a2d4abb8.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="174"
+		data-flex-basis="417px"
+	
+>]</p>
+<p>但是我觉得这个效果不好，用 k 来做单位会更直观一些。所以做如下修改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        {{ $totalWordCountInK := div $totalWordCount 100.0 }}
+</span></span><span class="line"><span class="cl">        {{ $totalWordCountInKCeiling := math.Ceil $totalWordCountInK }}
+</span></span><span class="line"><span class="cl">        {{ $totalWordCountInKFloat := div $totalWordCountInKCeiling 10.0 | printf &#34;%.1f&#34;}}
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        &lt;p&gt;发布了 {{ $articleCount }} 篇文章 | 共 {{ $totalWordCountInKFloat }}K 字&lt;/p&gt;
+</span></span></code></pre></div><p>效果如下：</p>
+<p>[<img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05.png"
+	width="278"
+	height="163"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05_hu_9ef6f29024b35356.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05_hu_4ecc1a564f9a8b60.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="170"
+		data-flex-basis="409px"
+	
+>]</p>
+<h4 id="站点访问人数统计">站点访问人数统计
+</h4><blockquote>
+<p>参考：<a class="link" href="https://blog.farb.top/p/hugo_stack_vercount/#:~:text=%e7%bd%91%e7%ab%99%e6%80%bb%e8%ae%bf%e9%97%ae%e9%87%8f%ef%bc%9a"  target="_blank" rel="noopener"
+    >Hugo+Stack主题集成Vercount统计网站访问信息 (farb.top)</a></p></blockquote>
+<p>1）在 <code>hugo-theme-stack/layout/partials/footer/custom.html</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;script defer src=&#34;https://cn.vercount.one/js&#34;&gt;&lt;/script&gt;
+</span></span></code></pre></div><p>2）在 <code>hugo-theme-stack/layout/partials/footer/footer.html</code> 在 <code>&lt;section class=&quot;powerby&quot;&gt;</code> 里边，加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;a&gt;总访客数: &lt;/a&gt;&lt;span id=&#39;busuanzi_value_site_uv&#39;&gt;Loading&lt;/span&gt; &lt;a&gt; | &lt;/a&gt; &lt;a&gt;总访问量: &lt;/a&gt;&lt;span id=&#39;busuanzi_value_site_pv&#39;&gt;Loading&lt;/span&gt;&lt;/br&gt;
+</span></span></code></pre></div><h3 id="页面加载进度条显示">页面加载进度条显示
+</h3><p>在 <code>hugo-theme-stack/layout/partials/footer/custom.html</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;!-- layouts/partials/footer/custom.html --&gt;
+</span></span><span class="line"><span class="cl">&lt;script
+</span></span><span class="line"><span class="cl">    src=&#34;https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js&#34;
+</span></span><span class="line"><span class="cl">    integrity=&#34;sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg&#34;
+</span></span><span class="line"><span class="cl">    crossorigin=&#34;anonymous&#34;
+</span></span><span class="line"><span class="cl">&gt;&lt;/script&gt;
+</span></span><span class="line"><span class="cl">&lt;link
+</span></span><span class="line"><span class="cl">    rel=&#34;stylesheet&#34;
+</span></span><span class="line"><span class="cl">    href=&#34;https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css&#34;
+</span></span><span class="line"><span class="cl">    integrity=&#34;sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE&#34;
+</span></span><span class="line"><span class="cl">    crossorigin=&#34;anonymous&#34;
+</span></span><span class="line"><span class="cl">/&gt;
+</span></span><span class="line"><span class="cl">&lt;script&gt;
+</span></span><span class="line"><span class="cl">    NProgress.start();
+</span></span><span class="line"><span class="cl">    document.addEventListener(&#34;readystatechange&#34;, () =&gt; {
+</span></span><span class="line"><span class="cl">        if (document.readyState === &#34;interactive&#34;) NProgress.inc(0.8);
+</span></span><span class="line"><span class="cl">        if (document.readyState === &#34;complete&#34;) NProgress.done();
+</span></span><span class="line"><span class="cl">    });
+</span></span><span class="line"><span class="cl">&lt;/script&gt;
+</span></span></code></pre></div><h2 id="首页设置">首页设置
+</h2><h3 id="首页全局配置">首页全局配置
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 里边，加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/*---------------全局设置-------------*/
+</span></span><span class="line"><span class="cl">:root {
+</span></span><span class="line"><span class="cl">  --card-border-radius: 20px; //小卡片圆角
+</span></span><span class="line"><span class="cl">  --article-font-size: 1.7rem; // 全局字体大小
+</span></span><span class="line"><span class="cl">  //--card-background: #ffffff;//小卡片背景颜色
+</span></span><span class="line"><span class="cl">  //--body-text-color: rgba(171, 169, 169, 0.58);//字体颜色
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*选中文字颜色*/
+</span></span><span class="line"><span class="cl">::selection {
+</span></span><span class="line"><span class="cl">  color: #fff;
+</span></span><span class="line"><span class="cl">  background: #557697;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*滚动条样式*/
+</span></span><span class="line"><span class="cl">html {
+</span></span><span class="line"><span class="cl">  ::-webkit-scrollbar {
+</span></span><span class="line"><span class="cl">    width: 18px;
+</span></span><span class="line"><span class="cl">    //display: none; //隐藏滚动条
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ::-webkit-scrollbar-track {
+</span></span><span class="line"><span class="cl">    //background-color: #fff; //滚动条背景颜色
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ::-webkit-scrollbar-thumb {
+</span></span><span class="line"><span class="cl">    //鼠标移动上去前的滚动条颜色
+</span></span><span class="line"><span class="cl">    background-color: rgba(111, 114, 115, 0.65); 
+</span></span><span class="line"><span class="cl">    border-radius: 20px;
+</span></span><span class="line"><span class="cl">    border: 6px solid transparent;
+</span></span><span class="line"><span class="cl">    background-clip: content-box;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ::-webkit-scrollbar-thumb:hover {
+</span></span><span class="line"><span class="cl">    //鼠标移动上去时的滚动条颜色
+</span></span><span class="line"><span class="cl">    background-color: #232525; 
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><h3 id="首页欢迎栏">首页欢迎栏
+</h3><p>1）在 <code>hugo-theme-stack/layouts/index.html</code> 里加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;!-- 首页欢迎字幅 --&gt;
+</span></span><span class="line"><span class="cl">&lt;div class=&#34;welcome&#34;&gt;
+</span></span><span class="line"><span class="cl">  &lt;p style=&#34;font-size: 2rem; text-align: center; font-weight: bold&#34;&gt;
+</span></span><span class="line"><span class="cl">    &lt;span class=&#34;shake&#34;&gt;👋&lt;/span&gt;
+</span></span><span class="line"><span class="cl">    &lt;span class=&#34;jump-text1&#34; &gt; Welcome&lt;/span&gt;
+</span></span><span class="line"><span class="cl">    &lt;span class=&#34;jump-text2&#34;&gt; To &lt;/span&gt;
+</span></span><span class="line"><span class="cl">    &lt;span class=&#34;jump-text3&#34; style=&#34;color:#e99312&#34;&gt;Wei Qi&lt;/span&gt;
+</span></span><span class="line"><span class="cl">    &lt;span class=&#34;jump-text9&#34; style=&#34;color:#e99312&#34;&gt;Blog&lt;/span&gt;
+</span></span><span class="line"><span class="cl">  &lt;/p&gt;
+</span></span><span class="line"><span class="cl">  &lt;/div&gt;
+</span></span><span class="line"><span class="cl">&lt;!-- 首页欢迎字幅 --&gt;
+</span></span></code></pre></div><p>位置如下：</p>
+<p>[<img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b.png"
+	width="927"
+	height="517"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b_hu_ea3ef2b1827162b9.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b_hu_9be63c7f47e8e2f5.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="179"
+		data-flex-basis="430px"
+	
+>]</p>
+<p>2）在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 里边，加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span><span class="err">首页欢迎板块样式</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">welcome</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">text</span><span class="o">-</span><span class="n">color</span><span class="o">-</span><span class="n">main</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">background</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="err">👋</span><span class="n">emoji实现摆动效果</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">shake</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">shake</span> <span class="mi">1</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">duration</span><span class="p">:</span> <span class="mi">1</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">timing</span><span class="o">-</span><span class="n">function</span><span class="p">:</span> <span class="nb">ease</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mi">0</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">iteration</span><span class="o">-</span><span class="n">count</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">direction</span><span class="p">:</span> <span class="n">normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">fill</span><span class="o">-</span><span class="n">mode</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">play</span><span class="o">-</span><span class="n">state</span><span class="p">:</span> <span class="n">running</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">shake</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">timeline</span><span class="p">:</span> <span class="n">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="nb">range</span><span class="o">-</span><span class="n">start</span><span class="p">:</span> <span class="n">normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="nb">range</span><span class="o">-</span><span class="n">end</span><span class="p">:</span> <span class="n">normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mi">2</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">@</span><span class="n">keyframes</span> <span class="n">shake</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">25</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">45</span><span class="n">deg</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="mf">1.2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">50</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="mf">1.2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">75</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">45</span><span class="n">deg</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="mf">1.2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">100</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="err">实现字符跳动动画</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.1</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text3</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.2</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text4</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.3</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.4</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text6</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.5</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text7</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.6</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text8</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.7</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">jump</span><span class="o">-</span><span class="n">text9</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="p">:</span> <span class="n">jump</span> <span class="mf">0.5</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">animation</span><span class="o">-</span><span class="n">delay</span><span class="p">:</span> <span class="mf">0.9</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="n">keyframes</span> <span class="n">jump</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">0</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">50</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="n">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">100</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">:</span> <span class="n">translateY</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="首页文章布局">首页文章布局
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/*主页布局间距调整*/
+</span></span><span class="line"><span class="cl">.main-container {
+</span></span><span class="line"><span class="cl">  gap: 50px; //文章宽度
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  @include respond(md) {
+</span></span><span class="line"><span class="cl">    padding: 0 30px;
+</span></span><span class="line"><span class="cl">    gap: 40px; //中等屏幕时的文章宽度
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.related-contents {
+</span></span><span class="line"><span class="cl">  overflow-x: visible; //显示隐藏的图标
+</span></span><span class="line"><span class="cl">  padding-bottom: 15px;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><h3 id="首页文章样式">首页文章样式
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/*主页文章图片样式*/
+</span></span><span class="line"><span class="cl">$image-scale: 1.2;
+</span></span><span class="line"><span class="cl">.article-list article .article-image img {
+</span></span><span class="line"><span class="cl">  width: 100%;
+</span></span><span class="line"><span class="cl">  height: 150px;
+</span></span><span class="line"><span class="cl">  object-fit: cover;
+</span></span><span class="line"><span class="cl">  //不同显示器（手机，小屏幕电脑，大屏幕电脑）显示的图片高度大小
+</span></span><span class="line"><span class="cl">  @include respond(sm) {
+</span></span><span class="line"><span class="cl">    height: 305px;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  @include respond(md) {
+</span></span><span class="line"><span class="cl">    height: 305px;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">  @include respond(xl) {
+</span></span><span class="line"><span class="cl">    height: 325px;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*主页文章图片圆角*/
+</span></span><span class="line"><span class="cl">.article-list article {
+</span></span><span class="line"><span class="cl">  --card-border-radius: 24px;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*文章标签圆角*/
+</span></span><span class="line"><span class="cl">.article-category a, .article-tags a {
+</span></span><span class="line"><span class="cl">  border-radius: 11px;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*鼠标移动到文章图片放大*/
+</span></span><span class="line"><span class="cl">.article-list article .article-image {
+</span></span><span class="line"><span class="cl">  position: relative;
+</span></span><span class="line"><span class="cl">  overflow: hidden; //不显示超出的部分
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.article-list article .article-image img:hover {
+</span></span><span class="line"><span class="cl">  transform: scale($image-scale); //放大尺寸
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.article-list article .article-image img {
+</span></span><span class="line"><span class="cl">  transition: transform 0.85s ease-in-out;//持续时间
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><h3 id="文章内部图片样式">文章内部图片样式
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/*文章内部-页脚-相关文章图片圆角*/
+</span></span><span class="line"><span class="cl">.article-list--compact article .article-image img {
+</span></span><span class="line"><span class="cl">  border-radius: 17%;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*文章内部-页脚-相关文章图片放大动画*/
+</span></span><span class="line"><span class="cl">.article-list--compact article &gt; a {
+</span></span><span class="line"><span class="cl">  transition: .6s ease;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.article-list--compact article &gt; a:hover {
+</span></span><span class="line"><span class="cl">  transform: scale(1.03, 1.03);
+</span></span><span class="line"><span class="cl">  overflow: visible;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><h3 id="首页右侧导航栏美化">首页右侧导航栏美化
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/*------------------右侧导航栏--------------*/
+</span></span><span class="line"><span class="cl">/*搜索菜单动画*/
+</span></span><span class="line"><span class="cl">.search-form.widget {
+</span></span><span class="line"><span class="cl">  transition: transform 0.6s ease;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.search-form.widget:hover {
+</span></span><span class="line"><span class="cl">  transform: scale(1.1, 1.1);
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*归档小图标放大动画*/
+</span></span><span class="line"><span class="cl">.widget.archives .widget-archive--list {
+</span></span><span class="line"><span class="cl">  transition: transform .3s ease;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.widget.archives .widget-archive--list:hover {
+</span></span><span class="line"><span class="cl">  transform: scale(1.05, 1.05);
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*右侧标签放大动画*/
+</span></span><span class="line"><span class="cl">.tagCloud .tagCloud-tags a {
+</span></span><span class="line"><span class="cl">  border-radius: 10px;
+</span></span><span class="line"><span class="cl">  font-size: 1.4rem;
+</span></span><span class="line"><span class="cl">  transition: transform .3s ease;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.tagCloud .tagCloud-tags a:hover {
+</span></span><span class="line"><span class="cl">  transform: scale(1.1, 1.1);
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><h3 id="首页左侧导航栏美化">首页左侧导航栏美化
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*--------------------</span><span class="err">左侧导航栏</span><span class="o">---------------*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">left</span><span class="o">-</span><span class="n">sidebar</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">--</span><span class="n">sidebar</span><span class="o">-</span><span class="n">avatar</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">115</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">左侧头像大小</span>
+</span></span><span class="line"><span class="cl">  <span class="o">--</span><span class="n">sidebar</span><span class="o">-</span><span class="n">element</span><span class="o">-</span><span class="n">separation</span><span class="p">:</span> <span class="mi">15</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">头像下方间距</span>
+</span></span><span class="line"><span class="cl">  <span class="o">--</span><span class="n">emoji</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">40</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="n">emoji容器大小</span>
+</span></span><span class="line"><span class="cl">  <span class="o">--</span><span class="n">emoji</span><span class="o">-</span><span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="n">emoji字体大小</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">头像旋转动画</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">sidebar</span> <span class="n">header</span> <span class="o">.</span><span class="n">site</span><span class="o">-</span><span class="n">avatar</span> <span class="o">.</span><span class="n">site</span><span class="o">-</span><span class="n">logo</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transition</span><span class="p">:</span> <span class="n">transform</span> <span class="mf">1.65</span><span class="n">s</span> <span class="nb">ease</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">out</span><span class="p">;</span> <span class="o">//</span><span class="err">旋转时间</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">sidebar</span> <span class="n">header</span> <span class="o">.</span><span class="n">site</span><span class="o">-</span><span class="n">avatar</span> <span class="o">.</span><span class="n">site</span><span class="o">-</span><span class="n">logo</span><span class="p">:</span><span class="n">hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="mi">360</span><span class="n">deg</span><span class="p">);</span> <span class="o">//</span><span class="err">旋转角度为</span><span class="mi">360</span><span class="err">度</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">社交菜单居中</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">social</span><span class="o">-</span><span class="n">menu</span> <span class="n">svg</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gap</span><span class="p">:</span> <span class="mi">15</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">justify</span><span class="o">-</span><span class="n">content</span><span class="p">:</span> <span class="n">center</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">width</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">height</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">社交菜单大小</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stroke</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">body</span><span class="o">-</span><span class="n">text</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stroke</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mf">1.33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">暗色模式按钮距离上边按钮边距调整</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">menu</span> <span class="o">.</span><span class="n">menu</span><span class="o">-</span><span class="n">bottom</span><span class="o">-</span><span class="n">section</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="o">-</span><span class="n">top</span><span class="p">:</span> <span class="mi">70</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="c1">#dark-mode-toggle {</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span>   <span class="n">gap</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">暗色模式横向长度</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">下拉菜单美化</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">menu</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">list</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">flex</span><span class="o">-</span><span class="n">direction</span><span class="p">:</span> <span class="n">column</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overflow</span><span class="o">-</span><span class="n">x</span><span class="p">:</span> <span class="n">hidden</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overflow</span><span class="o">-</span><span class="n">y</span><span class="p">:</span> <span class="n">scroll</span><span class="p">;</span> <span class="o">//</span><span class="err">搭配菜单滚动条美化使用</span>
+</span></span><span class="line"><span class="cl">  <span class="n">flex</span><span class="o">-</span><span class="n">grow</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">1.7</span><span class="n">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">//</span> <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">rgb</span><span class="p">(</span><span class="mi">252</span><span class="p">,</span> <span class="mi">252</span><span class="p">,</span> <span class="mi">252</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l2</span><span class="p">);</span> <span class="o">//</span><span class="err">改个阴影</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span><span class="err">改为</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">//</span> <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">加个圆角</span> 	<span class="err">这个圆角看起来怪怪的，不适合，注释掉</span>
+</span></span><span class="line"><span class="cl">  <span class="n">padding</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">xl</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">15</span><span class="n">px</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&amp;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">menu</span><span class="o">-</span><span class="n">bottom</span><span class="o">-</span><span class="n">section</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gap</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">xl</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">gap</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&amp;.</span><span class="n">show</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">align</span><span class="o">-</span><span class="n">items</span><span class="p">:</span> <span class="n">flex</span><span class="o">-</span><span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">transparent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">li</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vertical</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">middle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">svg</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">stroke</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mf">1.33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">width</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">height</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">height</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">align</span><span class="o">-</span><span class="n">items</span><span class="p">:</span> <span class="n">center</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">body</span><span class="o">-</span><span class="n">text</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">gap</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">menu</span><span class="o">-</span><span class="n">icon</span><span class="o">-</span><span class="n">separation</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">span</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">&amp;.</span><span class="n">current</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">accent</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="n">bold</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">手机模式下的菜单滚动条美化</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">menu</span><span class="p">::</span><span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">scrollbar</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span> <span class="o">//</span><span class="err">防止大屏幕时出现滚动条</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">sidebar</span> <span class="n">header</span> <span class="o">.</span><span class="n">site</span><span class="o">-</span><span class="n">name</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="p">:</span> <span class="mi">8</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">2</span><span class="n">rem</span><span class="p">;</span> <span class="o">//</span><span class="err">字体大小</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="o">--------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="err">菜单栏样式</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="err">下拉菜单改圆角样式</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">menu</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">padding</span><span class="o">-</span><span class="n">left</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">list</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">flex</span><span class="o">-</span><span class="n">direction</span><span class="p">:</span> <span class="n">column</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overflow</span><span class="o">-</span><span class="n">x</span><span class="p">:</span> <span class="n">hidden</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overflow</span><span class="o">-</span><span class="n">y</span><span class="p">:</span> <span class="n">scroll</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">flex</span><span class="o">-</span><span class="n">grow</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">1.6</span><span class="n">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">background</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l2</span><span class="p">);</span> <span class="o">//</span><span class="err">改个阴影</span>
+</span></span><span class="line"><span class="cl">  <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span><span class="err">改为</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">10</span><span class="n">px</span><span class="p">;</span> <span class="o">//</span><span class="err">加个圆角</span>
+</span></span><span class="line"><span class="cl">  <span class="n">padding</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">xl</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">15</span><span class="n">px</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&amp;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">menu</span><span class="o">-</span><span class="n">bottom</span><span class="o">-</span><span class="n">section</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gap</span><span class="p">:</span> <span class="mi">30</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">xl</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">gap</span><span class="p">:</span> <span class="mi">25</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&amp;.</span><span class="n">show</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">align</span><span class="o">-</span><span class="n">items</span><span class="p">:</span> <span class="n">flex</span><span class="o">-</span><span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">transparent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">li</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vertical</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">middle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">@</span><span class="n">include</span> <span class="n">respond</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">svg</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">stroke</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mf">1.33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">width</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">height</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">height</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">align</span><span class="o">-</span><span class="n">items</span><span class="p">:</span> <span class="n">center</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">body</span><span class="o">-</span><span class="n">text</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">gap</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">menu</span><span class="o">-</span><span class="n">icon</span><span class="o">-</span><span class="n">separation</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">span</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">&amp;.</span><span class="n">current</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">accent</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="n">bold</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="归档页面双栏样式">归档页面双栏样式
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">/*----------------</span><span class="err">归档页面</span><span class="o">---------------*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">归档页面卡片缩放</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">list</span><span class="o">--</span><span class="n">tile</span> <span class="n">article</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transition</span><span class="p">:</span> <span class="o">.</span><span class="mi">6</span><span class="n">s</span> <span class="nb">ease</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">list</span><span class="o">--</span><span class="n">tile</span> <span class="n">article</span><span class="p">:</span><span class="n">hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="mf">1.03</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">/*</span> <span class="err">归档页面两栏</span> <span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="n">media</span> <span class="p">(</span><span class="nb">min</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mi">1024</span><span class="n">px</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">list</span><span class="o">--</span><span class="n">compact</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grid</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">columns</span><span class="p">:</span> <span class="mi">1</span><span class="n">fr</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">background</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gap</span><span class="p">:</span> <span class="mi">1</span><span class="n">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">article</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">background</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">background</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">border</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">margin</span><span class="o">-</span><span class="n">bottom</span><span class="p">:</span> <span class="mi">8</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">16</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="链接页面三栏样式">链接页面三栏样式
+</h3><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">/*--------------*-</span><span class="err">链接页面</span><span class="o">-----------------*/</span>
+</span></span><span class="line"><span class="cl"><span class="o">/*</span><span class="err">友情链接设置成三栏样式</span><span class="o">*/</span>
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="n">media</span> <span class="p">(</span><span class="nb">min</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mi">1024</span><span class="n">px</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">list</span><span class="o">--</span><span class="n">compact</span><span class="o">.</span><span class="n">links</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grid</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">columns</span><span class="p">:</span> <span class="mi">1</span><span class="n">fr</span> <span class="mi">1</span><span class="n">fr</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">background</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gap</span><span class="p">:</span> <span class="mi">1</span><span class="n">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">article</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">background</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">background</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">border</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">margin</span><span class="o">-</span><span class="n">bottom</span><span class="p">:</span> <span class="mi">8</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">child</span><span class="p">(</span><span class="n">odd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">margin</span><span class="o">-</span><span class="n">right</span><span class="p">:</span> <span class="mi">8</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="首页显示文章">首页显示文章
+</h3><p>根据 【hugo.yaml 配置文件详解】，修改参数 <code>mainSections</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">    mainSections:
+</span></span><span class="line"><span class="cl">        - post # hugo/content/post/ 下的所有文章都能显示，不然首页不显示文章
+</span></span></code></pre></div><h3 id="单页文章数量设置">单页文章数量设置
+</h3><p>根据 【hugo.yaml 配置文件详解】，修改参数 <code>pagerSize</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pagination:
+</span></span><span class="line"><span class="cl">    pagerSize: 8	# 改这个
+</span></span></code></pre></div><h2 id="文章设置">文章设置
+</h2><h3 id="文章生成模板">文章生成模板
+</h3><p>修改 <code>hugo/archetypes/default.md</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">title = &#39;{{ replace .File.ContentBaseName &#34;-&#34; &#34; &#34; | title }}&#39;
+</span></span><span class="line"><span class="cl">date = {{ .Date }}
+</span></span><span class="line"><span class="cl">draft = false
+</span></span><span class="line"><span class="cl">categories = [&#34;Category&#34;]
+</span></span><span class="line"><span class="cl">tags = [&#34;Tag&#34;]
+</span></span><span class="line"><span class="cl">description = [&#34;描述&#34;]
+</span></span><span class="line"><span class="cl">keywords = [&#34;关键词&#34;]
+</span></span></code></pre></div><p>然后使用 <code>hugo new content/post/xxxx.md</code> 命令时，生成的 <code>.md</code> 文件，就是根据这个模块生成的。</p>
+<h3 id="文章目录层级显示问题">文章目录层级显示问题
+</h3><p>如果我们在文章时，标题前喜欢带个数字，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1.标题
+</span></span><span class="line"><span class="cl">1.1 标题
+</span></span><span class="line"><span class="cl">1.1.1 标题
+</span></span></code></pre></div><p>如果 <code>hugo.yaml</code> 中，<code>ordered: true</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    tableOfContents:    # 侧边栏目录（右边），层级
+</span></span><span class="line"><span class="cl">        endLevel: 5
+</span></span><span class="line"><span class="cl">        ordered: true 
+</span></span><span class="line"><span class="cl">        startLevel: 2
+</span></span></code></pre></div><p>网页渲染时，会变成这样</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1 1.标题
+</span></span><span class="line"><span class="cl">1.1 1.1 标题
+</span></span><span class="line"><span class="cl">1.1.1 1.1.1 标题
+</span></span></code></pre></div><p>1）一种是文章里自带数字标题，则 <code>ordered: false</code></p>
+<p>2）另一种是文章里标题不带数字，则 <code>ordered: true</code></p>
+<h3 id="文章图片不显示问题">文章图片不显示问题
+</h3><blockquote>
+<p>参考：<a class="link" href="https://images.hugomods.com/zh-hans/docs/types/"  target="_blank" rel="noopener"
+    >图片类型 - 文档 - Hugo 图片模块 | HugoMods</a></p></blockquote>
+<p>我用的 Typora，其他应用写的 md 大概也是这样</p>
+<p>做法：</p>
+<p>1）我在 <code>hugo/content/post/2024/10/</code> 创建一个文章目录：HugoStack主题美化</p>
+<p>2）然后到里边，<code>hugo/content/post/2024/10/HugoStack主题美化/</code> 创建 <code>index.md</code> （名字一定要叫 index ）</p>
+<p>3）<code>.md</code> 里对图片进行设置，这样直接把图片贴进去就行了。</p>
+<p>[<img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c.png"
+	width="767"
+	height="378"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c_hu_fb530196c085d0a7.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c_hu_257f2c181e76b103.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="202"
+		data-flex-basis="486px"
+	
+>]</p>
+<p>4）如果不是 Typora，则需要在 <code>index.md</code> 的同级目录创建一个目录，例如 <code>hugo/content/post/2024/10/HugoStack主题美化/img/</code> ，图片放到 <code>img</code> 目录下，然后引用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">![图片描述可忽略](img/1727420925875.png)
+</span></span></code></pre></div><blockquote>
+<p>[!NOTE]</p>
+<p>Hugo 好像是只渲染 index.md 的图片，如果 .md 文件名不是 index ，则里边的图片是不显示的。</p></blockquote>
+<h3 id="文章代码块样式">文章代码块样式
+</h3><h4 id="代码块高亮">代码块高亮
+</h4><p>在 <code>hugo.yaml</code> 中，添加 <code>highlight</code> 参数，我文章里的代码块配置是这样子的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">    highlight:
+</span></span><span class="line"><span class="cl">        noClasses: false
+</span></span><span class="line"><span class="cl">        codeFences: true
+</span></span><span class="line"><span class="cl">        guessSyntax: true
+</span></span><span class="line"><span class="cl">    #     lineNoStart: 1
+</span></span><span class="line"><span class="cl">        lineNos: true
+</span></span><span class="line"><span class="cl">    #     lineNumbersInTable: true
+</span></span><span class="line"><span class="cl">    #     tabWidth: 4
+</span></span><span class="line"><span class="cl">        style: github-dark
+</span></span></code></pre></div><h4 id="代码块样式">代码块样式
+</h4><p>在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span><span class="err">为代码块顶部添加</span><span class="n">macos样式</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">content</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">highlight</span><span class="p">:</span><span class="n">before</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">background</span><span class="p">:</span> <span class="c1">#fc625d;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">50</span><span class="o">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span> <span class="mi">0</span> <span class="c1">#fdbc40, 40px 0 #35cd4b;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">height</span><span class="p">:</span> <span class="mi">12</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">width</span><span class="p">:</span> <span class="mi">12</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margin</span><span class="o">-</span><span class="n">bottom</span><span class="p">:</span> <span class="mi">5</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="err">代码块基础样式修改</span>
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">highlight</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">max</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mi">102</span><span class="o">%</span> <span class="o">!</span><span class="n">important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">pre</span><span class="o">-</span><span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">padding</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">card</span><span class="o">-</span><span class="n">padding</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">border</span><span class="o">-</span><span class="n">radius</span><span class="p">:</span> <span class="mi">20</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="o">-</span><span class="n">left</span><span class="p">:</span> <span class="o">-</span><span class="mi">7</span><span class="n">px</span> <span class="o">!</span><span class="n">important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">margin</span><span class="o">-</span><span class="n">right</span><span class="p">:</span> <span class="o">-</span><span class="mi">12</span><span class="n">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="p">:</span> <span class="k">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow</span><span class="o">-</span><span class="n">l1</span><span class="p">)</span> <span class="o">!</span><span class="n">important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&amp;</span><span class="p">:</span><span class="n">hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">copyCodeButton</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">opacity</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">//</span> <span class="n">keep</span> <span class="n">Codeblocks</span> <span class="n">LTR</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="n">dir</span><span class="o">=</span><span class="s2">&#34;rtl&#34;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">direction</span><span class="p">:</span> <span class="n">ltr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pre</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margin</span><span class="p">:</span> <span class="n">initial</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">width</span><span class="p">:</span> <span class="n">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#282c34 !important;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="n">light模式下的代码块样式调整</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">data</span><span class="o">-</span><span class="n">scheme</span><span class="o">=</span><span class="s2">&#34;light&#34;</span><span class="p">]</span> <span class="o">.</span><span class="n">article</span><span class="o">-</span><span class="n">content</span> <span class="o">.</span><span class="n">highlight</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#fff9f3;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">data</span><span class="o">-</span><span class="n">scheme</span><span class="o">=</span><span class="s2">&#34;light&#34;</span><span class="p">]</span> <span class="o">.</span><span class="n">chroma</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">color</span><span class="p">:</span> <span class="c1">#ff6f00;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#fff9f3cc;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="文章统计字数">文章统计字数
+</h3><blockquote>
+<p>参考：<a class="link" href="https://v2.mogeko.me/posts/033#:~:text=%e4%b8%ba%e4%b8%bb%e9%a2%98%e6%b7%bb%e5%8a%a0%e3%80%8c%e5%ad%97%e6%95%b0%e7%bb%9f%e8%ae%a1"  target="_blank" rel="noopener"
+    >为 Hugo 博客添加字数统计 - Mogeko’s Blog</a></p></blockquote>
+<p>1）在 <code>hugo-theme-stack/layouts/paritals/article/components/details.html</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;footer class=&#34;article-time&#34;&gt;
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        {{ if .WordCount }}
+</span></span><span class="line"><span class="cl">        &lt;footer class=&#34;article-wordcount&#34;&gt;
+</span></span><span class="line"><span class="cl">            &lt;div&gt;
+</span></span><span class="line"><span class="cl">                {{ partial &#34;helper/字数.svg&#34; }}
+</span></span><span class="line"><span class="cl">                &lt;span class=&#34;article-wordcount--count&#34;&gt;{{ T &#34;article.wordCount&#34; .WordCount }}&lt;/span&gt;
+</span></span><span class="line"><span class="cl">            &lt;/div&gt;
+</span></span><span class="line"><span class="cl">        &lt;/footer&gt;
+</span></span><span class="line"><span class="cl">        {{ end }}
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">&lt;/footer&gt;
+</span></span></code></pre></div><p>注意：<code>{{ partial &quot;helper/字数.svg&quot; }}</code> 这里是把 <code>.svg</code> 图片放到 <code>hugo-theme-stack/layouts/paritals/helper/字数.svg</code> ，这里看代码前边的显示阅读时间引用了 <code>helper</code> 里的内容，所以我这里也放到这里。不用图片的话可以删掉。</p>
+<p>2）在 <code>hugo-theme-stack/i18n/zh-cn.yaml</code> 中的 <code>article</code> 下，加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    wordCount:
+</span></span><span class="line"><span class="cl">        other: &#34;字数: {{ .Count }}&#34;
+</span></span></code></pre></div><p>3）这个时候，预览会发现，字数的字体相当大，与日期、阅读时间不协调，所以得更改它们的样式，保持统一。在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 加入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">// 阅读时间、字数样式
+</span></span><span class="line"><span class="cl">.article-time {
+</span></span><span class="line"><span class="cl">  display: flex;
+</span></span><span class="line"><span class="cl">  align-items: center;
+</span></span><span class="line"><span class="cl">  font-size: 14px;
+</span></span><span class="line"><span class="cl">  color: #666;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.article-time div {
+</span></span><span class="line"><span class="cl">  margin-right: 10px;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.article-time--count {
+</span></span><span class="line"><span class="cl">  font-size: 14px;
+</span></span><span class="line"><span class="cl">  color: #666;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>如果需要在字数前边加个小图标，则需要把小图标放到这里 <code>hugo-theme-stack/layouts/partials/helper/xxx.svg</code> 下，然后需要把 <code>.svg</code> 文件里的前缀给删掉，这个前缀删掉才可以：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;?xml version=&#34;1.0&#34; standalone=&#34;no&#34;?&gt;
+</span></span></code></pre></div><p>效果：</p>
+<p>[<img src="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015164427827.png"
+	width="463"
+	height="127"
+	srcset="/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015164427827_hu_f769a827e97da9cb.png 480w, /p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/image-20241015164427827_hu_fd2bc514fecee97b.png 1024w"
+	loading="lazy"
+	
+		alt="img"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="364"
+		data-flex-basis="874px"
+	
+>]</p>
+<h2 id="致谢">致谢
+</h2><p>美化过程中，参考了很多优秀的博主博客：</p>
+<p><a class="link" href="https://skfwe.cn/p/%e5%8d%9a%e5%ae%a2%e5%88%87%e6%8d%a2%e5%88%b0stack-%e4%b8%bb%e9%a2%98/"  target="_blank" rel="noopener"
+    >博客切换到STACK 主题 (skfwe.cn)</a></p>
+<p><a class="link" href="https://munlelee.github.io/post/hugo%e5%8d%9a%e5%ae%a2-stack%e4%b8%bb%e9%a2%98%e4%bf%ae%e6%94%b9%e7%ac%ac%e4%b8%80%e7%ab%99/#top"  target="_blank" rel="noopener"
+    >Hugo博客 | stack主题修改第一站 (munlelee.github.io)</a></p>
+<p><a class="link" href="https://www.xalaok.top/post/stack-modify/"  target="_blank" rel="noopener"
+    >Hugo-theme-Stack 魔改美化 | Naive Koala (xalaok.top)</a></p>
+<p><a class="link" href="https://lovir.cn/p/build-with-hugo02/#%e4%b8%bb%e9%a1%b5%e6%96%87%e7%ab%a0%e6%a0%b7%e5%bc%8f"  target="_blank" rel="noopener"
+    >基于 Hugo 的网站搭建日志 02 (lovir.cn)</a></p>
+<p><a class="link" href="https://fourxiajiao.github.io/2022/hugo-blog/"  target="_blank" rel="noopener"
+    >不是从零开始的 Hugo 建站笔记 (fourxiajiao.github.io)</a></p>
+<p><a class="link" href="https://www.qjwhz.top/2022/stack-theme-mod/"  target="_blank" rel="noopener"
+    >Hugo | Hugo-stack-theme 主题魔改版 (qjwhz.top)</a></p>
+<p><a class="link" href="https://blog.linsnow.cn/p/modify-hugo/"  target="_blank" rel="noopener"
+    >（3）Stack主题的自定义 (linsnow.cn)</a></p>
+<p><a class="link" href="https://oxidane-uni.github.io/p/%e4%bd%bf%e7%94%a8-hugo-%e5%af%b9%e5%8d%9a%e5%ae%a2%e7%9a%84%e9%87%8d%e5%bb%ba%e4%b8%8e-stack-%e4%b8%bb%e9%a2%98%e4%bc%98%e5%8c%96%e8%ae%b0%e5%bd%95/#%e7%bd%91%e7%ab%99%e5%9b%be%e6%a0%87%e6%9b%b4%e6%94%b9"  target="_blank" rel="noopener"
+    >使用 Hugo 对博客的重建与 Stack 主题优化记录 (oxidane-uni.github.io)</a></p>
+<p><a class="link" href="https://www.shimoko.com/p/stcak-setting/"  target="_blank" rel="noopener"
+    >HUGO+Stack 下的美化修改 (shimoko.com)</a></p>
+<p><a class="link" href="https://irithys.com/hugo-mod-3/"  target="_blank" rel="noopener"
+    >时隔半年，博客又有了那些新变化？！ (irithys.com)</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/design/">Design</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jun 04, 2025 00:00 CST
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">我的第一篇博客</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 YanHuo075@copyright
+    </section>
+    
+    <section class="powerby">
+	
+        
+
+       
+        <p>发布了 6 篇文章</p>
+	<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> <a>designed by Jimmy        </a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+
+    </body>
+</html>
