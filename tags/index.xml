@@ -6,23 +6,6 @@
         <description>Recent content in Tags on 烟火075博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>YanHuo075@copyright</copyright>
-        <lastBuildDate>Wed, 04 Jun 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.zycloud.tk/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Design</title>
-        <link>https://blog.zycloud.tk/tags/design/</link>
-        <pubDate>Sun, 01 Jun 2025 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/tags/design/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Testing</title>
-        <link>https://blog.zycloud.tk/tags/testing/</link>
-        <pubDate>Tue, 18 Sep 2018 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/tags/testing/</guid>
-        <description></description>
-        </item>
-        
+        <copyright>YanHuo075@copyright</copyright><atom:link href="https://blog.zycloud.tk/tags/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
