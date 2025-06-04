@@ -7,45 +7,13 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>YanHuo075@copyright</copyright>
-        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.zycloud.tk/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 26 Sep 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.zycloud.tk/categories/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Test</title>
         <link>https://blog.zycloud.tk/categories/test/</link>
-        <pubDate>Wed, 09 Sep 2020 00:00:00 +0800</pubDate>
+        <pubDate>Tue, 18 Sep 2018 00:00:00 +0800</pubDate>
         
         <guid>https://blog.zycloud.tk/categories/test/</guid>
         <description>&lt;img src="https://blog.zycloud.tk/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
-        </item>
-        <item>
-        <title>测试</title>
-        <link>https://blog.zycloud.tk/categories/%E6%B5%8B%E8%AF%95/</link>
-        <pubDate>Wed, 09 Sep 2020 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/categories/%E6%B5%8B%E8%AF%95/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Syntax</title>
-        <link>https://blog.zycloud.tk/categories/syntax/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/categories/syntax/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Themes</title>
-        <link>https://blog.zycloud.tk/categories/themes/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/categories/themes/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Test With Whitespaces</title>
-        <link>https://blog.zycloud.tk/categories/test-with-whitespaces/</link>
-        <pubDate>Sat, 09 Mar 2019 00:00:00 +0800</pubDate>
-        
-        <guid>https://blog.zycloud.tk/categories/test-with-whitespaces/</guid>
-        <description></description>
         </item>
         
     </channel>
