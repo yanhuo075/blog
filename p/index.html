@@ -384,7 +384,7 @@
                 
 <svg width="21px" height="21px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 3)"><path d="m12.5 12.5v-10c0-1.1045695-.8954305-2-2-2h-8c-1.1045695 0-2 .8954305-2 2v10c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2z"/><path d="m3.5 5.5h5"/><path d="m3.5 7.5h6"/><path d="m3.5 9.5h3"/></g></svg>
 
-                <span class="article-wordcount--count">字数: 5350</span>
+                <span class="article-wordcount--count">字数: 5355</span>
             </div>
         </footer>
         
@@ -599,14 +599,18 @@
 </h3><p>根据上边的 【hugo.yaml 配置文件】，自己改改 <code>languages</code></p>
 <h3 id="导航栏">导航栏
 </h3><p>根据上边的 【Hugo 目录结构】，将 <code>hugo-theme-stack\exampleSite\content</code> 的内容放到 <code>hugo/content/</code> 下，其中 <code>page</code> 目录就是导航栏。</p>
-<p><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/image-20241015145754525.png"
-	
-	
-	
+<p><img src="/p/image-20241015145754525.png"
+	width="983"
+	height="536"
+	srcset="/p/image-20241015145754525_hu_849bf6e6a3b3e4fa.png 480w, /p/image-20241015145754525_hu_3500422e06e9c8c7.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="183"
+		data-flex-basis="440px"
 	
 ></p>
 <h3 id="站点底部文字">站点底部文字
@@ -649,17 +653,20 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        &lt;p&gt;发布了 {{ $articleCount }} 篇文章 | 共 {{$totalWordCount}} 字&lt;/p&gt;
 </span></span></code></pre></div><p>效果如下：</p>
-<p><a class="link" href="https://weiqifun.com/posts/2024/10/hugo&#43;stack%e4%b8%bb%e9%a2%98%e7%be%8e%e5%8c%96/index/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2.png"  target="_blank" rel="noopener"
-    ><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2.png"
-	
-	
-	
+<p>[<img src="/p/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2.png"
+	width="282"
+	height="162"
+	srcset="/p/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2_hu_9c7f8424e97b7bea.png 480w, /p/1727676037439-1e1cd0d2-bb34-46f5-ba50-edff20023bb2_hu_a6a7f904a2d4abb8.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
 	
-></a></p>
+		class="gallery-image" 
+		data-flex-grow="174"
+		data-flex-basis="417px"
+	
+>]</p>
 <p>但是我觉得这个效果不好，用 k 来做单位会更直观一些。所以做如下修改：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        {{ $totalWordCountInK := div $totalWordCount 100.0 }}
 </span></span><span class="line"><span class="cl">        {{ $totalWordCountInKCeiling := math.Ceil $totalWordCountInK }}
@@ -667,17 +674,20 @@
 </span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        &lt;p&gt;发布了 {{ $articleCount }} 篇文章 | 共 {{ $totalWordCountInKFloat }}K 字&lt;/p&gt;
 </span></span></code></pre></div><p>效果如下：</p>
-<p><a class="link" href="https://weiqifun.com/posts/2024/10/hugo&#43;stack%e4%b8%bb%e9%a2%98%e7%be%8e%e5%8c%96/index/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05.png"  target="_blank" rel="noopener"
-    ><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05.png"
-	
-	
-	
+<p>[<img src="/p/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05.png"
+	width="278"
+	height="163"
+	srcset="/p/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05_hu_9ef6f29024b35356.png 480w, /p/1727678152303-42c96f1c-664f-4410-af91-11e0cf370e05_hu_4ecc1a564f9a8b60.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
 	
-></a></p>
+		class="gallery-image" 
+		data-flex-grow="170"
+		data-flex-basis="409px"
+	
+>]</p>
 <h4 id="站点访问人数统计">站点访问人数统计
 </h4><blockquote>
 <p>参考：<a class="link" href="https://blog.farb.top/p/hugo_stack_vercount/#:~:text=%e7%bd%91%e7%ab%99%e6%80%bb%e8%ae%bf%e9%97%ae%e9%87%8f%ef%bc%9a"  target="_blank" rel="noopener"
@@ -766,17 +776,20 @@
 </span></span><span class="line"><span class="cl">  &lt;/div&gt;
 </span></span><span class="line"><span class="cl">&lt;!-- 首页欢迎字幅 --&gt;
 </span></span></code></pre></div><p>位置如下：</p>
-<p><a class="link" href="https://weiqifun.com/posts/2024/10/hugo&#43;stack%e4%b8%bb%e9%a2%98%e7%be%8e%e5%8c%96/index/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b.png"  target="_blank" rel="noopener"
-    ><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b.png"
-	
-	
-	
+<p>[<img src="/p/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b.png"
+	width="927"
+	height="517"
+	srcset="/p/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b_hu_ea3ef2b1827162b9.png 480w, /p/1727312871096-c51b9d20-01f2-48c9-870a-eb19e02b0f5b_hu_9be63c7f47e8e2f5.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
 	
-></a></p>
+		class="gallery-image" 
+		data-flex-grow="179"
+		data-flex-basis="430px"
+	
+>]</p>
 <p>2）在 <code>hugo-theme-stack/assets/scss/custom.scss</code> 里边，加入</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span><span class="err">首页欢迎板块样式</span>
 </span></span><span class="line"><span class="cl"><span class="o">.</span><span class="n">welcome</span> <span class="p">{</span>
@@ -1314,17 +1327,20 @@
 <p>1）我在 <code>hugo/content/post/2024/10/</code> 创建一个文章目录：HugoStack主题美化</p>
 <p>2）然后到里边，<code>hugo/content/post/2024/10/HugoStack主题美化/</code> 创建 <code>index.md</code> （名字一定要叫 index ）</p>
 <p>3）<code>.md</code> 里对图片进行设置，这样直接把图片贴进去就行了。</p>
-<p><a class="link" href="https://weiqifun.com/posts/2024/10/hugo&#43;stack%e4%b8%bb%e9%a2%98%e7%be%8e%e5%8c%96/index/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c.png"  target="_blank" rel="noopener"
-    ><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c.png"
-	
-	
-	
+<p>[<img src="/p/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c.png"
+	width="767"
+	height="378"
+	srcset="/p/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c_hu_fb530196c085d0a7.png 480w, /p/1727420925875-5fa5fb55-a551-4332-9b07-4573f1c6796c_hu_257f2c181e76b103.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
 	
-></a></p>
+		class="gallery-image" 
+		data-flex-grow="202"
+		data-flex-basis="486px"
+	
+>]</p>
 <p>4）如果不是 Typora，则需要在 <code>index.md</code> 的同级目录创建一个目录，例如 <code>hugo/content/post/2024/10/HugoStack主题美化/img/</code> ，图片放到 <code>img</code> 目录下，然后引用：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">![图片描述可忽略](img/1727420925875.png)
 </span></span></code></pre></div><blockquote>
@@ -1443,17 +1459,20 @@
 </span></span></code></pre></div><p>如果需要在字数前边加个小图标，则需要把小图标放到这里 <code>hugo-theme-stack/layouts/partials/helper/xxx.svg</code> 下，然后需要把 <code>.svg</code> 文件里的前缀给删掉，这个前缀删掉才可以：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;?xml version=&#34;1.0&#34; standalone=&#34;no&#34;?&gt;
 </span></span></code></pre></div><p>效果：</p>
-<p><a class="link" href="https://weiqifun.com/posts/2024/10/hugo&#43;stack%e4%b8%bb%e9%a2%98%e7%be%8e%e5%8c%96/index/image-20241015164427827.png"  target="_blank" rel="noopener"
-    ><img src="https://weiqifun.com/posts/2024/10/hugo&#43;stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/index/image-20241015164427827.png"
-	
-	
-	
+<p>[<img src="/p/image-20241015164427827.png"
+	width="463"
+	height="127"
+	srcset="/p/image-20241015164427827_hu_f769a827e97da9cb.png 480w, /p/image-20241015164427827_hu_fd2bc514fecee97b.png 1024w"
 	loading="lazy"
 	
 		alt="img"
 	
 	
-></a></p>
+		class="gallery-image" 
+		data-flex-grow="364"
+		data-flex-basis="874px"
+	
+>]</p>
 <h2 id="致谢">致谢
 </h2><p>美化过程中，参考了很多优秀的博主博客：</p>
 <p><a class="link" href="https://skfwe.cn/p/%e5%8d%9a%e5%ae%a2%e5%88%87%e6%8d%a2%e5%88%b0stack-%e4%b8%bb%e9%a2%98/"  target="_blank" rel="noopener"
@@ -1566,7 +1585,7 @@
         
 
        
-        <p>发布了 7 篇文章</p>
+        <p>发布了 6 篇文章</p>
 	<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> <a>designed by Jimmy        </a>
     </section>
 </footer>
