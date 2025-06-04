@@ -329,6 +329,7 @@
         <li><a href="#文章统计字数">文章统计字数</a></li>
       </ol>
     </li>
+    <li><a href="#添加站点统计信息与-i18n">添加站点统计信息与 i18n</a></li>
     <li><a href="#致谢">致谢</a></li>
   </ol>
 </nav>
@@ -398,7 +399,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 11 分钟
+                    阅读时长: 12 分钟
                 </time>
             </div>
         
@@ -409,7 +410,7 @@
                 
 <svg width="21px" height="21px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 3)"><path d="m12.5 12.5v-10c0-1.1045695-.8954305-2-2-2h-8c-1.1045695 0-2 .8954305-2 2v10c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2z"/><path d="m3.5 5.5h5"/><path d="m3.5 7.5h6"/><path d="m3.5 9.5h3"/></g></svg>
 
-                <span class="article-wordcount--count">字数: 5355</span>
+                <span class="article-wordcount--count">字数: 5772</span>
             </div>
         </footer>
         
@@ -1498,7 +1499,81 @@
 		data-flex-basis="874px"
 	
 >]</p>
-<h2 id="致谢">致谢
+<h2 id="添加站点统计信息与-i18n">添加站点统计信息与 i18n
+</h2><p>期望展示格式：</p>
+<p>中文：</p>
+<ul>
+<li>本博客已稳定运行 x 天 y 小时 z 分钟</li>
+<li>共发表 x 篇文章・总计 y k 字</li>
+<li>本站总访问量 x 次</li>
+</ul>
+<p>其中访问量使用<a class="link" href="https://busuanzi.ibruce.info/"  target="_blank" rel="noopener"
+    >不蒜子</a>实现</p>
+<p>在<code>根目录/layouts/partials/footer/footer.html</code> 文件内添加如下代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;section class=&#34;count_info&#34;&gt;
+</span></span><span class="line"><span class="cl">        &lt;div&gt;
+</span></span><span class="line"><span class="cl">            {{ T &#34;footer.runtime1&#34; }}
+</span></span><span class="line"><span class="cl">            &lt;span id=&#34;ds&#34; class=&#34;running-days&#34;&gt;&lt;/span&gt;
+</span></span><span class="line"><span class="cl">            {{ T &#34;footer.runtime2&#34; }}
+</span></span><span class="line"><span class="cl">            &lt;span id=&#34;hs&#34; class=&#34;running-days&#34;&gt;&lt;/span&gt;
+</span></span><span class="line"><span class="cl">            {{ T &#34;footer.runtime3&#34; }}
+</span></span><span class="line"><span class="cl">            &lt;span id=&#34;ms&#34; class=&#34;running-days&#34;&gt;&lt;/span&gt;
+</span></span><span class="line"><span class="cl">            {{ T &#34;footer.runtime4&#34; }}
+</span></span><span class="line"><span class="cl">        &lt;/div&gt;
+</span></span><span class="line"><span class="cl">        &lt;div&gt;
+</span></span><span class="line"><span class="cl">            {{$scratch := newScratch}}
+</span></span><span class="line"><span class="cl">            {{ range (where .Site.Pages &#34;Kind&#34; &#34;page&#34; )}}
+</span></span><span class="line"><span class="cl">            {{$scratch.Add &#34;total&#34; .WordCount}}
+</span></span><span class="line"><span class="cl">            {{ end }}
+</span></span><span class="line"><span class="cl">            {{ T &#34;footer.count1&#34; }} {{ len (where .Site.RegularPages &#34;Section&#34; &#34;post&#34;) }} {{ T &#34;footer.count2&#34; }} {{ div ($scratch.Get &#34;total&#34;) 1000.0 | lang.FormatNumber 2 }} k {{ T &#34;footer.count3&#34; }}
+</span></span><span class="line"><span class="cl">        &lt;/div&gt;
+</span></span><span class="line"><span class="cl">        &lt;div&gt;
+</span></span><span class="line"><span class="cl">            &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt;{{ T &#34;footer.pv1&#34; }}&lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt;{{ T &#34;footer.pv2&#34; }}&lt;/span&gt;
+</span></span><span class="line"><span class="cl">        &lt;/div&gt;
+</span></span><span class="line"><span class="cl">&lt;/section&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!-- Add blog running time --&gt;
+</span></span><span class="line"><span class="cl">&lt;script&gt;
+</span></span><span class="line"><span class="cl">    let s1 = &#39;2023-6-18&#39;; //website start date
+</span></span><span class="line"><span class="cl">    s1 = new Date(s1.replace(/-/g, &#34;/&#34;));
+</span></span><span class="line"><span class="cl">    let s2 = new Date();
+</span></span><span class="line"><span class="cl">    let timeDifference = s2.getTime() - s1.getTime();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+</span></span><span class="line"><span class="cl">    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+</span></span><span class="line"><span class="cl">    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+</span></span><span class="line"><span class="cl">    document.getElementById(&#39;ds&#39;).innerHTML = days;
+</span></span><span class="line"><span class="cl">    document.getElementById(&#39;hs&#39;).innerHTML = hours;
+</span></span><span class="line"><span class="cl">    document.getElementById(&#39;ms&#39;).innerHTML = minutes;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/script&gt;
+</span></span></code></pre></div><p>在<code>主题目录/i18n</code> 下找到对应语言的文件，在属性 <code>footer</code> 下添加相应字段，结果如下</p>
+<p>zh-cn.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">footer:
+</span></span><span class="line"><span class="cl">    # 本博客已稳定运行1天2小时3分钟
+</span></span><span class="line"><span class="cl">    runtime1:
+</span></span><span class="line"><span class="cl">        other: 本博客已稳定运行
+</span></span><span class="line"><span class="cl">    runtime2:
+</span></span><span class="line"><span class="cl">        other: 天
+</span></span><span class="line"><span class="cl">    runtime3:
+</span></span><span class="line"><span class="cl">        other: 小时
+</span></span><span class="line"><span class="cl">    runtime4:
+</span></span><span class="line"><span class="cl">        other: 分钟
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    # 共发表x篇文章，总计y k字
+</span></span><span class="line"><span class="cl">    count1:
+</span></span><span class="line"><span class="cl">        other: 共发表
+</span></span><span class="line"><span class="cl">    count2:
+</span></span><span class="line"><span class="cl">        other: 篇文章 · 总计
+</span></span><span class="line"><span class="cl">    count3:
+</span></span><span class="line"><span class="cl">        other: 字
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    # 本站总访问量X次
+</span></span><span class="line"><span class="cl">    pv1:
+</span></span><span class="line"><span class="cl">        other: 本站总访问量
+</span></span><span class="line"><span class="cl">    pv2:
+</span></span><span class="line"><span class="cl">        other: 次
+</span></span></code></pre></div><h2 id="致谢">致谢
 </h2><p>美化过程中，参考了很多优秀的博主博客：</p>
 <p><a class="link" href="https://skfwe.cn/p/%e5%8d%9a%e5%ae%a2%e5%88%87%e6%8d%a2%e5%88%b0stack-%e4%b8%bb%e9%a2%98/"  target="_blank" rel="noopener"
     >博客切换到STACK 主题 (skfwe.cn)</a></p>
@@ -1636,7 +1711,7 @@
             
             
             
-            共发表 1 篇文章 · 总计 5.42 k 字
+            共发表 1 篇文章 · 总计 5.84 k 字
         </div>
         <div>
             <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>

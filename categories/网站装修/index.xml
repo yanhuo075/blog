@@ -1087,7 +1087,81 @@
 		data-flex-basis=&#34;874px&#34;
 	
 &gt;]&lt;/p&gt;
-&lt;h2 id=&#34;致谢&#34;&gt;致谢
+&lt;h2 id=&#34;添加站点统计信息与-i18n&#34;&gt;添加站点统计信息与 i18n
+&lt;/h2&gt;&lt;p&gt;期望展示格式：&lt;/p&gt;
+&lt;p&gt;中文：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本博客已稳定运行 x 天 y 小时 z 分钟&lt;/li&gt;
+&lt;li&gt;共发表 x 篇文章・总计 y k 字&lt;/li&gt;
+&lt;li&gt;本站总访问量 x 次&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中访问量使用&lt;a class=&#34;link&#34; href=&#34;https://busuanzi.ibruce.info/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;不蒜子&lt;/a&gt;实现&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;根目录/layouts/partials/footer/footer.html&lt;/code&gt; 文件内添加如下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;section class=&amp;#34;count_info&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ T &amp;#34;footer.runtime1&amp;#34; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &amp;lt;span id=&amp;#34;ds&amp;#34; class=&amp;#34;running-days&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ T &amp;#34;footer.runtime2&amp;#34; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &amp;lt;span id=&amp;#34;hs&amp;#34; class=&amp;#34;running-days&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ T &amp;#34;footer.runtime3&amp;#34; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &amp;lt;span id=&amp;#34;ms&amp;#34; class=&amp;#34;running-days&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ T &amp;#34;footer.runtime4&amp;#34; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{$scratch := newScratch}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ range (where .Site.Pages &amp;#34;Kind&amp;#34; &amp;#34;page&amp;#34; )}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{$scratch.Add &amp;#34;total&amp;#34; .WordCount}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            {{ T &amp;#34;footer.count1&amp;#34; }} {{ len (where .Site.RegularPages &amp;#34;Section&amp;#34; &amp;#34;post&amp;#34;) }} {{ T &amp;#34;footer.count2&amp;#34; }} {{ div ($scratch.Get &amp;#34;total&amp;#34;) 1000.0 | lang.FormatNumber 2 }} k {{ T &amp;#34;footer.count3&amp;#34; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &amp;lt;span id=&amp;#34;busuanzi_container_site_pv&amp;#34;&amp;gt;{{ T &amp;#34;footer.pv1&amp;#34; }}&amp;lt;span id=&amp;#34;busuanzi_value_site_pv&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;{{ T &amp;#34;footer.pv2&amp;#34; }}&amp;lt;/span&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;/section&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;!-- Add blog running time --&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;script&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let s1 = &amp;#39;2023-6-18&amp;#39;; //website start date
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    s1 = new Date(s1.replace(/-/g, &amp;#34;/&amp;#34;));
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let s2 = new Date();
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let timeDifference = s2.getTime() - s1.getTime();
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    document.getElementById(&amp;#39;ds&amp;#39;).innerHTML = days;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    document.getElementById(&amp;#39;hs&amp;#39;).innerHTML = hours;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    document.getElementById(&amp;#39;ms&amp;#39;).innerHTML = minutes;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;/script&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在&lt;code&gt;主题目录/i18n&lt;/code&gt; 下找到对应语言的文件，在属性 &lt;code&gt;footer&lt;/code&gt; 下添加相应字段，结果如下&lt;/p&gt;
+&lt;p&gt;zh-cn.yaml&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;footer:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    # 本博客已稳定运行1天2小时3分钟
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    runtime1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 本博客已稳定运行
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    runtime2:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 天
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    runtime3:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 小时
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    runtime4:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 分钟
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    # 共发表x篇文章，总计y k字
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    count1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 共发表
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    count2:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 篇文章 · 总计
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    count3:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 字
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    # 本站总访问量X次
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    pv1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 本站总访问量
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    pv2:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        other: 次
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;致谢&#34;&gt;致谢
 &lt;/h2&gt;&lt;p&gt;美化过程中，参考了很多优秀的博主博客：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://skfwe.cn/p/%e5%8d%9a%e5%ae%a2%e5%88%87%e6%8d%a2%e5%88%b0stack-%e4%b8%bb%e9%a2%98/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;博客切换到STACK 主题 (skfwe.cn)&lt;/a&gt;&lt;/p&gt;
