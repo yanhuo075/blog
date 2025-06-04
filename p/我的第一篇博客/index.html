@@ -10,7 +10,7 @@
 <meta property='og:description' content="这是描述信息">
 <meta property='og:url' content='https://blog.zycloud.tk/p/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/'>
 <meta property='og:site_name' content='烟火075博客'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='testing' /><meta property='article:published_time' content='2018-09-18T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2018-09-26T00:00:00&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='testing' /><meta property='article:published_time' content='2018-09-18T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2018-09-26T00:00:00&#43;08:00'/>
 <meta name="twitter:title" content="我的第一篇博客">
 <meta name="twitter:description" content="这是描述信息"><style>
     :root {
@@ -392,79 +392,25 @@
     
     <h2 id="openssl升级版本">OpenSSL升级版本
 </h2><p>安装依赖包</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yum update -y
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yum update -y
 </span></span><span class="line"><span class="cl">yum install -y perl-IPC-Cmd perl-Pod-Html
 </span></span><span class="line"><span class="cl">yum install -y openssl openssl-devel
 </span></span><span class="line"><span class="cl">yum install -y make zlib zlib-devel openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++
 </span></span><span class="line"><span class="cl">yum install -y wget
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>查看当前openssl版本</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl version
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>备份原文件</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mv /usr/bin/openssl /usr/bin/openssl.bak
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>下载指定openssl版本源码包</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>解压源码包并进入指定目录</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tar -xzvf openssl-1.1.1w.tar.gz &amp;&amp; cd openssl-1.1.1w
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>编译源码安装</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./config -Wl,-rpath=/usr/lib64 --prefix=/usr/local/openssl --openssldir=/usr/local/openssl --libdir=/usr/lib64
+</span></span></code></pre></div><p>查看当前openssl版本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl version
+</span></span></code></pre></div><p>备份原文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mv /usr/bin/openssl /usr/bin/openssl.bak
+</span></span></code></pre></div><p>下载指定openssl版本源码包</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz
+</span></span></code></pre></div><p>解压源码包并进入指定目录</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tar -xzvf openssl-1.1.1w.tar.gz &amp;&amp; cd openssl-1.1.1w
+</span></span></code></pre></div><p>编译源码安装</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./config -Wl,-rpath=/usr/lib64 --prefix=/usr/local/openssl --openssldir=/usr/local/openssl --libdir=/usr/lib64
 </span></span><span class="line"><span class="cl">make -j 4 &amp;&amp; make install
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>查看版本修改是否生效</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl version -a
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>备注：</p>
+</span></span></code></pre></div><p>查看版本修改是否生效</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl version -a
+</span></span></code></pre></div><p>备注：</p>
 <p>openssl升级后dnf安装软件包会报错，所以不建议升级openssl版本</p>
 
 </section>
@@ -501,7 +447,7 @@
 
 
         <span>
-            最后更新于 Sep 26, 2018 00:00 UTC
+            最后更新于 Sep 26, 2018 00:00 CST
         </span>
     </section></footer>
 
@@ -566,7 +512,7 @@
         
             2020 - 
         
-        2025 YanHuo075@write
+        2025 YanHuo075@copyright
     </section>
     
     <section class="powerby">
