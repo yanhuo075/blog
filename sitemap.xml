@@ -5,6 +5,12 @@
     <loc>https://blog.zycloud.tk/</loc>
     <lastmod>2025-06-04T00:00:00+08:00</lastmod>
   </url><url>
+    <loc>https://blog.zycloud.tk/categories/cat/</loc>
+    <lastmod>2025-06-04T00:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.zycloud.tk/categories/</loc>
+    <lastmod>2025-06-04T00:00:00+08:00</lastmod>
+  </url><url>
     <loc>https://blog.zycloud.tk/p/hugo-stack%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</loc>
     <lastmod>2025-06-04T00:00:00+08:00</lastmod>
   </url><url>
@@ -16,10 +22,6 @@
   </url><url>
     <loc>https://blog.zycloud.tk/archives/</loc>
     <lastmod>2025-05-28T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.zycloud.tk/categories/cat/</loc>
-  </url><url>
-    <loc>https://blog.zycloud.tk/categories/</loc>
   </url><url>
     <loc>https://blog.zycloud.tk/tags/</loc>
   </url><url>
