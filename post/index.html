@@ -55,40 +55,44 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+<div class="container main-container flex on-phone--column extended">
+
+<aside class="sidebar left-sidebar sticky ">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
     </button>
-
+    
     <header>
         
             
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
+                <figure class="site-avatar hidden-post">
+                    <a href="/">
                         
-                        <img src="/img/avatar_hu_9771e63749b04b7c.png" width="300"
-                            height="303" class="site-logo" loading="lazy" alt="Avatar">
+                            
+                            
+                            
+                                
+                                <img src="/img/avatar_hu_9771e63749b04b7c.png" width="300"
+                                    height="303" class="site-logo" loading="lazy" alt="Avatar">
+                            
+                        
+                    </a>
                     
-                
-                </a>
-                
-            </figure>
+                </figure>
             
         
-        
+
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">烟火075博客</a></h1>
-            <h2 class="site-description">日常IT技术分享</h2>
+            <h1 class="site-name hidden-post"><a href="/">烟火075博客</a></h1>
+            <h2 class="site-description hidden-post">日常IT技术分享</h2>
         </div>
-    </header><ol class="menu-social">
+    </header>
+
+    <ol class="menu-social">
             
-                <li>
+                <li class="hidden-post">
                     <a 
                         href='https://github.com/CaiJimmy/hugo-theme-stack'
                         target="_blank"
@@ -108,7 +112,7 @@
                     </a>
                 </li>
             
-                <li>
+                <li class="hidden-post">
                     <a 
                         href='https://twitter.com'
                         target="_blank"
@@ -130,6 +134,14 @@
             
         </ol><ol class="menu" id="main-menu">
         
+            <li class="" id="back-button"> 
+                <a href="javascript:history.back();" title="Go back">
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
+
+                </a>
+            </li>
+        
+        
         
         
         <li >
@@ -147,7 +159,7 @@
 
 
                 
-                <span>主页</span>
+                    <span class="hidden-post">主页</span>
             </a>
         </li>
         
@@ -166,7 +178,7 @@
 
 
                 
-                <span>关于</span>
+                    <span class="hidden-post">关于</span>
             </a>
         </li>
         
@@ -186,7 +198,7 @@
 
 
                 
-                <span>归档</span>
+                    <span class="hidden-post">归档</span>
             </a>
         </li>
         
@@ -205,7 +217,7 @@
 
 
                 
-                <span>搜索</span>
+                    <span class="hidden-post">搜索</span>
             </a>
         </li>
         
@@ -224,7 +236,7 @@
 
 
                 
-                <span>友链</span>
+                    <span class="hidden-post">友链</span>
             </a>
         </li>
         
@@ -249,13 +261,39 @@
 
 
 
-                        <span>暗色模式</span>
+                        <span class="hidden-post">暗色模式</span>
                     </li>
                 
             </ol>
         </li>
     </ol>
 </aside>
+
+<style>
+     
+    .hidden-post {
+        display: block;
+    }
+
+     
+    @media (min-width: 768px) {
+        
+        .hidden-post {
+            display: none;
+        }
+        
+    }
+
+     
+    @media (max-width: 767px) {
+        .hidden-post {
+            display: block !important;
+        }
+        #back-button {
+            display: none;
+        }
+    }
+</style>
 
     <aside class="sidebar right-sidebar sticky">
         
