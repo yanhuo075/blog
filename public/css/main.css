@@ -259,7 +259,7 @@ table:not([class]) tr:hover {
   background: var(--block);
 }
 *[ff=title] {
-  font-family: "LXGW WenKai Screen", system-ui, ...;
+  font-family: "LXGW WenKai Screen", sans-serif;
 }
 blockquote {
   display: block;
@@ -946,7 +946,7 @@ table:not([class]) {
   outline: none;
 }
 html {
-  font-family: "LXGW WenKai Screen", system-ui, ...;
+  font-family: "LXGW WenKai Screen", sans-serif;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -6033,7 +6033,7 @@ details.toc[open] >div.body section .header+.doc_tree {
 .search-wrapper .search-input {
   width: 100%;
   box-sizing: border-box;
-  font-family: "LXGW WenKai Screen", system-ui, ...;
+  font-family: "LXGW WenKai Screen", sans-serif;
   font-size: 0.875rem;
   padding: 12px 0;
   color: var(--text);
@@ -6186,6 +6186,21 @@ details.toc[open] >div.body section .header+.doc_tree {
     backdrop-filter: saturate(240%) blur(var(--blur-px));
     -webkit-backdrop-filter: saturate(240%) blur(var(--blur-px));
   }
+}
+.widget-wrapper.categories-widget .widget-body {
+  border-radius: 12px;
+  padding: 12px 20px;
+  background: var(--alpha50);
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+}
+.categories-widget {
+  border-radius: 12px;
+  padding: 12px 8px;
+  background: var(--card);
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+}
+.categories-widget .post-list .cat.child {
+  margin-left: 20px;
 }
 .widget-body .linklist {
   display: grid;
