@@ -1,0 +1,826 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Hexo-Stellar主题装修日记(一) - 烟火075的博客</title>
+
+  
+    <meta name="description" content="前言记录一下自己从默认主题样式到现在本网站的样子中间都修改了哪些地方，也作为完善博客期间的备份。 博客引用资源本地资源文件夹将头像、图标、css、js等文件放在source下 静态资源本地化有两次发现通过jsdelivr引入的静态资源会失效，为了网站的稳定性，决定将所有通过jsdelivr引入的静态资源保存到本地，防止失效后网站无法访问。 引用落霞孤鹜字体12345678910tale&#x2F;_conf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo-Stellar主题装修日记(一)">
+<meta property="og:url" content="http://example.com/2025/06/09/2025/06/theme-design1/index.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="前言记录一下自己从默认主题样式到现在本网站的样子中间都修改了哪些地方，也作为完善博客期间的备份。 博客引用资源本地资源文件夹将头像、图标、css、js等文件放在source下 静态资源本地化有两次发现通过jsdelivr引入的静态资源会失效，为了网站的稳定性，决定将所有通过jsdelivr引入的静态资源保存到本地，防止失效后网站无法访问。 引用落霞孤鹜字体12345678910tale&#x2F;_conf">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/10/6525053ada517.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/10/6525053c629b0.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/10/652506ecef464.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/10/65250743df7b0.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653934aa64f92.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653934abc41c2.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653939ea76abe.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653939ec3590b.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653939edb10db.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653939ef268d9.png">
+<meta property="og:image" content="https://bu.dusays.com/2023/10/25/653939f04aa4b.png">
+<meta property="article:published_time" content="2025-06-09T03:12:20.462Z">
+<meta property="article:modified_time" content="2025-06-09T03:12:20.462Z">
+<meta property="article:author" content="YanHuo075">
+<meta property="article:tag" content="主题装修">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bu.dusays.com/2023/10/10/6525053ada517.png">
+  
+  
+  
+  <meta name="keywords" content="主题装修">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'"><script src="/js/random.js"></script>
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="img/yanhuo-logo.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">烟火075的博客</div><div class="sub normal cap">YanHuo's blog</div><div class="sub hover cap" style="opacity:0"> blog.zycloud.tk</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/09/2025/06/theme-design2/"><span class="title">Hexo-Stellar主题装修日记(二)</span></a><a class="item title" href="/2025/06/09/2025/06/theme-design1/"><span class="title">Hexo-Stellar主题装修日记(一)</span></a><a class="item title" href="/2025/06/09/hello-world/"><span class="title">Hello World</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/">装修日记</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-09T03:12:20.462Z">2025-06-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-09T03:12:20.462Z">2025-06-09</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Hexo-Stellar主题装修日记(一)</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>记录一下自己从默认主题样式到现在本网站的样子中间都修改了哪些地方，也作为完善博客期间的备份。</p>
+<h2 id="博客引用资源"><a href="#博客引用资源" class="headerlink" title="博客引用资源"></a>博客引用资源</h2><h3 id="本地资源文件夹"><a href="#本地资源文件夹" class="headerlink" title="本地资源文件夹"></a>本地资源文件夹</h3><p>将头像、图标、css、js等文件放在source下</p>
+<h3 id="静态资源本地化"><a href="#静态资源本地化" class="headerlink" title="静态资源本地化"></a>静态资源本地化</h3><p>有两次发现通过jsdelivr引入的静态资源会失效，为了网站的稳定性，决定将所有<strong>通过jsdelivr引入的静态资源</strong>保存到本地，防止失效后网站无法访问。</p>
+<h3 id="引用落霞孤鹜字体"><a href="#引用落霞孤鹜字体" class="headerlink" title="引用落霞孤鹜字体"></a>引用落霞孤鹜字体</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.ymlinject:</span><br><span class="line">  head:</span><br><span class="line">    - &lt;link rel=&quot;stylesheet&quot; href=&quot;https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css&quot; media=&quot;print&quot; onload=&quot;this.media=&#x27;all&#x27;&quot;&gt; #字体</span><br><span class="line"></span><br><span class="line">Copy</span><br><span class="line">tale/_config.stellar.ymlstyle:</span><br><span class="line">  font-family:</span><br><span class="line">    body: &#x27;&quot;LXGW WenKai Screen&quot;, sans-serif&#x27;</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用鸿蒙字体"><a href="#引用鸿蒙字体" class="headerlink" title="引用鸿蒙字体"></a>引用鸿蒙字体</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.ymlinject:</span><br><span class="line">  head:</span><br><span class="line">    - &lt;link rel=&quot;preconnect&quot; href=&quot;https://s1.hdslb.com/&quot; /&gt; </span><br><span class="line">    - &lt;link rel=&quot;stylesheet&quot; href=&quot;//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css&quot; media=&quot;all&quot; onload=&quot;this.media=&#x27;all&#x27;&quot; /&gt; #鸿蒙正常字体</span><br><span class="line">    - &lt;link rel=&quot;stylesheet&quot; href=&quot;//s1.hdslb.com/bfs/static/jinkela/long/font/medium.css&quot; media=&quot;all&quot; onload=&quot;this.media=&#x27;all&#x27;&quot; /&gt; #鸿蒙加粗字体</span><br><span class="line"></span><br><span class="line">Copy</span><br><span class="line">tale/_config.stellar.ymlstyle:</span><br><span class="line">  font-family:</span><br><span class="line">    body: &#x27;HarmonyOS_Regular&#x27; # 鸿蒙正常字体</span><br><span class="line">    #body: &#x27;HarmonyOS_Regular&#x27; # 鸿蒙加粗字体</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h2 id="博客基本配置"><a href="#博客基本配置" class="headerlink" title="博客基本配置"></a>博客基本配置</h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.yml# Site</span><br><span class="line">title: SFZhang #网站名称</span><br><span class="line">avatar: /customize/images/sfzhang.jpg #博客头像</span><br><span class="line">favicon: /customize/images/sfzhang.jpg #网站图标</span><br><span class="line">subtitle: &quot;SFZhang&#x27;s blog | blog.sfzhang.cn&quot; #鼠标移入翻转效果</span><br><span class="line">description: &#x27;一个积极生活的人&#x27;</span><br><span class="line">keywords:</span><br><span class="line">author: SFZhang #博客作者</span><br><span class="line">language: zh-CN #博客语言：en、zh-CN</span><br><span class="line">timezone: &#x27;&#x27;</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="显示导航"><a href="#显示导航" class="headerlink" title="显示导航"></a>显示导航</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.stellar.ymlsidebar:</span><br><span class="line">  menu:</span><br><span class="line">    post: &#x27;[btn.blog](/)&#x27;</span><br><span class="line">    wiki: &#x27;[btn.wiki](/)&#x27;</span><br><span class="line">    friends: &#x27;[友链](/)&#x27;</span><br><span class="line">    about: &#x27;[关于](/)&#x27;</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片放大（fancybox）"><a href="#图片放大（fancybox）" class="headerlink" title="图片放大（fancybox）"></a>图片放大（fancybox）</h3><p>其中selector设置为需要放大图片的HTML选择器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.ymltag_plugins:</span><br><span class="line">  # &#123;% image %&#125;</span><br><span class="line">  image:</span><br><span class="line">    fancybox: true # true, false</span><br><span class="line">    parse_markdown: true # 把 markdown 格式的图片解析成图片标签</span><br><span class="line"></span><br><span class="line">######## JS Plugins ########</span><br><span class="line">plugins:</span><br><span class="line">  # https://fancyapps.com/docs/ui/fancybox/</span><br><span class="line">  # available for &#123;% image xxx %&#125;</span><br><span class="line">  fancybox:</span><br><span class="line">    enable: true</span><br><span class="line">    #js: /customize/js/fancybox.umd.js</span><br><span class="line">    css: /customize/css/fancybox.css</span><br><span class="line">    js: https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js</span><br><span class="line">    #css: https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css</span><br><span class="line">    # 可以处理评论区的图片（不支持 iframe 类评论系统）例如：</span><br><span class="line">    # 使用twikoo评论可以写: .tk-content img:not([class*=&quot;emo&quot;])</span><br><span class="line">    # 使用waline评论可以写: #waline_container .vcontent img</span><br><span class="line">    selector: .swiper-slide img, .md-text.content p&gt;img, .md-text.content li img , .wl-content img, .image-bg img # 多个选择器用英文逗号隔开</span><br><span class="line">    #selector: .swiper-slide img # 多个选择器用英文逗号隔开</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h2 id="侧边栏"><a href="#侧边栏" class="headerlink" title="侧边栏"></a>侧边栏</h2><h3 id="侧边栏底部按钮"><a href="#侧边栏底部按钮" class="headerlink" title="侧边栏底部按钮"></a>侧边栏底部按钮</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.stellar.ymlfooter:</span><br><span class="line">  social:</span><br><span class="line">    QQ:</span><br><span class="line">      icon: &#x27;&lt;img src=&quot;/customize/svg/contact.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: https://wpa.qq.com/msgrd?v=3&amp;uin=1119716380&amp;site=qq&amp;menu=yes&amp;jumpflag=1</span><br><span class="line">    github:</span><br><span class="line">      icon: &#x27;&lt;img src=&quot;/customize/svg/github.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: https://github.com/z23654262</span><br><span class="line">    #iconfont:</span><br><span class="line">    #  icon: &#x27;&lt;img src=&quot;/customize/svg/iconfont.svg&quot;/&gt;&#x27;</span><br><span class="line">    #  url: https://www.iconfont.cn/</span><br><span class="line">    unsplash:</span><br><span class="line">      icon: &#x27;&lt;img src=&quot;/customize/svg/unsplash.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: https://unsplash.com/@z23654262</span><br><span class="line">    train:</span><br><span class="line">      icon: &#x27;&lt;img src=&quot;/customize/svg/train.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: https://unsplash.com/@z23654262</span><br><span class="line">    Moon:</span><br><span class="line">      icon: &#x27;&lt;img id=&quot;ThemeM&quot; src=&quot;/customize/svg/moon.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: javaScript:void(&#x27;永夜&#x27;);</span><br><span class="line">    Sun:</span><br><span class="line">      icon: &#x27;&lt;img id=&quot;ThemeL&quot; src=&quot;/customize/svg/sun.svg&quot;/&gt;&#x27;</span><br><span class="line">      url: javaScript:void(&#x27;永昼&#x27;);</span><br><span class="line">    #AI:</span><br><span class="line">    # icon: &#x27;&lt;img id=&quot;ThemeAI&quot; src=&quot;/customize/svg/auto.svg&quot;/&gt;&#x27;</span><br><span class="line">    # url: javaScript:void(&#x27;跟随系统&#x27;);</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="小组件"><a href="#小组件" class="headerlink" title="小组件"></a>小组件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">tale/source/_data/widget,ymlwelcome:</span><br><span class="line">  layout: markdown</span><br><span class="line">  title: &#x27;欢迎来到SFZhang的知识库&#x27;</span><br><span class="line">  content: |</span><br><span class="line">    不以物喜，不以己悲</span><br><span class="line">    &lt;script src=&quot;https://v1.hitokoto.cn/?c=i&amp;encode=js&amp;select=%23hitokoto&quot; defer=&quot;&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;p&gt;一诗：&lt;span id=&quot;hitokoto&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">yiyan:</span><br><span class="line">  layout: markdown</span><br><span class="line">  title: &#x27;一诗&#x27;</span><br><span class="line">  content: |</span><br><span class="line">    &lt;script src=&quot;https://v1.hitokoto.cn/?c=i&amp;encode=js&amp;select=%23hitokoto&quot; defer=&quot;&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;p&gt;&lt;span id=&quot;hitokoto&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">timeline:</span><br><span class="line">  layout: timeline</span><br><span class="line">  title: 生活碎片</span><br><span class="line">  api: https://api.github.com/repos/z23654262/blog-life/issues?per_page=10 # 若你想限制数量，在api链接后面加上?per_page=1指限制为1条</span><br><span class="line">  user: # 是否过滤只显示某个人发布的内容，如果要筛选多人，用英文逗号隔开</span><br><span class="line">  hide: # title,footer # 隐藏标题或底部 # 此功能需要 Stellar v1.13.0</span><br><span class="line"></span><br><span class="line">ghuser:</span><br><span class="line">  layout: ghuser</span><br><span class="line">  username: z23654262 # your github login username</span><br><span class="line">  avatar: true # show avatar or not</span><br><span class="line">  menu: true # show menu or not</span><br><span class="line"></span><br><span class="line">#搜索</span><br><span class="line">search_blog:</span><br><span class="line">  layout: search</span><br><span class="line">  filter: /blog/ # or /posts/ ...</span><br><span class="line">  placeholder: 文章搜索</span><br><span class="line"></span><br><span class="line">search_all_docs:</span><br><span class="line">  layout: search</span><br><span class="line">  filter: /wiki/</span><br><span class="line">  placeholder: 文档系统搜索</span><br><span class="line"></span><br><span class="line">search_docs:</span><br><span class="line">  layout: search</span><br><span class="line">  filter: auto</span><br><span class="line">  placeholder: 文档内搜索</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h2 id="生活碎片"><a href="#生活碎片" class="headerlink" title="生活碎片"></a>生活碎片</h2><h3 id="添加页面"><a href="#添加页面" class="headerlink" title="添加页面"></a>添加页面</h3><h3 id="添加首页按钮"><a href="#添加首页按钮" class="headerlink" title="添加首页按钮"></a>添加首页按钮</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.stellar.ymlpost-index: # 近期发布 分类 标签 归档 and ...</span><br><span class="line">  &#x27;生活碎片&#x27;: /life</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="导航高亮问题"><a href="#导航高亮问题" class="headerlink" title="导航高亮问题"></a>导航高亮问题</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tale/node_modules/hexo-theme-stellar/layout/_partial/main/navbar/list_post.ejsif (full_url_for(page.path) == full_url_for(obj[key]))</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<p>修改为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tale/node_modules/hexo-theme-stellar/layout/_partial/main/navbar/list_post.ejsif (full_url_for(page.path) == full_url_for(obj[key]) + &#x27;/index.html&#x27;)</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="新建github仓库并添加一条issue"><a href="#新建github仓库并添加一条issue" class="headerlink" title="新建github仓库并添加一条issue"></a>新建github仓库并添加一条issue</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/10/6525053ada517.png" alt="img"></p>
+<h3 id="编辑生活碎片页面"><a href="#编辑生活碎片页面" class="headerlink" title="编辑生活碎片页面"></a>编辑生活碎片页面</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tale/source/life/index.md---</span><br><span class="line">title: </span><br><span class="line">menu_id: post #侧边栏首页高亮</span><br><span class="line">breadcrumb: false # 隐藏面包屑导航</span><br><span class="line">post_list: true # 显示首页导航</span><br><span class="line">date: 2023-10-10 10:34:34</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">&#123;% note color:orange 分享自己的生活碎片！ %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% timeline api:https://api.github.com/repos/z23654262/blog-life/issues?direction=asc&amp;per_page=30 %&#125;&#123;% endtimeline %&#125;</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="预览生活碎片页面"><a href="#预览生活碎片页面" class="headerlink" title="预览生活碎片页面"></a>预览生活碎片页面</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/10/6525053c629b0.png" alt="img"></p>
+<h2 id="添加评论系统giscus"><a href="#添加评论系统giscus" class="headerlink" title="添加评论系统giscus"></a>添加评论系统giscus</h2><h3 id="新增github仓库"><a href="#新增github仓库" class="headerlink" title="新增github仓库"></a>新增github仓库</h3><p>新增blog-comments仓库并开启Discussions功能并勾选<strong>blog-comments&#x2F;Settings&#x2F;Features&#x2F;Discussions</strong>即可。</p>
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.stellar.ymlcomments:</span><br><span class="line">  service: giscus</span><br><span class="line">  # giscus</span><br><span class="line">  # https://giscus.app/zh-CN</span><br><span class="line">  giscus:</span><br><span class="line">    data-repo: xxx/xxx # [在此输入仓库]</span><br><span class="line">    data-repo-id: # [在此输入仓库 ID]</span><br><span class="line">    data-category: # [在此输入分类名]</span><br><span class="line">    data-category-id:</span><br><span class="line">    data-mapping: pathname</span><br><span class="line">    data-strict: 0</span><br><span class="line">    data-reactions-enabled: 1</span><br><span class="line">    data-emit-metadata: 0</span><br><span class="line">    data-input-position: top # top, bottom</span><br><span class="line">    data-theme: preferred_color_scheme</span><br><span class="line">    data-lang: zh-CN</span><br><span class="line">    data-loading: lazy</span><br><span class="line">    crossorigin: anonymous</span><br><span class="line"></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试giscus评论系统"><a href="#测试giscus评论系统" class="headerlink" title="测试giscus评论系统"></a>测试giscus评论系统</h3><p>博客内评论：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/10/652506ecef464.png" alt="img"></p>
+<p>github仓库中Discussions：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/10/65250743df7b0.png" alt="img"></p>
+<h2 id="添加waline评论系统"><a href="#添加waline评论系统" class="headerlink" title="添加waline评论系统"></a>添加waline评论系统</h2><p><a target="_blank" rel="noopener" href="https://waline.js.org/guide/get-started/">waline官方教程</a></p>
+<p>waline程序托管于vercel，数据存储使用learncloud国际版，域名使用waline.sfzhang.top二级域名</p>
+<h3 id="learncloud国际版设置"><a href="#learncloud国际版设置" class="headerlink" title="learncloud国际版设置"></a>learncloud国际版设置</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://console.leancloud.app/login">登录</a> 或 <a target="_blank" rel="noopener" href="https://console.leancloud.app/register">注册</a> <code>LeanCloud 国际版</code> 并进入 <a target="_blank" rel="noopener" href="https://console.leancloud.app/apps">控制台</a></p>
+</li>
+<li><p>点击左上角<code>创建应用</code>并起一个你喜欢的名字 (请选择免费的开发版)</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653934aa64f92.png" alt="img"></p>
+</li>
+<li><p>进入应用，选择左下角的 <code>设置</code> &gt; <code>应用 Key</code>。你可以看到你的 <code>APP ID</code>,<code>APP Key</code> 和 <code>Master Key</code>。请记录它们，以便后续使用。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653934abc41c2.png" alt="img"></p>
+</li>
+</ol>
+<h3 id="vercel设置"><a href="#vercel设置" class="headerlink" title="vercel设置"></a>vercel设置</h3><ol>
+<li><p>点击<a target="_blank" rel="noopener" href="https://vercel.com/new/clone?repository-url=https://github.com/walinejs/waline/tree/main/example">Vercel</a>，跳转至 Vercel 进行 Server 端部署。（如果登录无法访问github，则使用邮箱登录）</p>
+</li>
+<li><p>跳转后会自动机遇waline仓库进行初始化，只需要填写Vercel仓库名称即可。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653939ea76abe.png" alt="img"></p>
+</li>
+<li><p>点击顶部的 <code>Settings</code> - <code>Environment Variables</code> 进入环境变量配置页，并配置三个环境变量 <code>LEAN_ID</code>, <code>LEAN_KEY</code> 和 <code>LEAN_MASTER_KEY</code> 。它们的值分别对应上一步在 LeanCloud 中获得的 <code>APP ID</code>, <code>APP KEY</code>, <code>Master Key</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653939ec3590b.png" alt="img"></p>
+</li>
+<li><p>环境变量配置完成之后点击顶部的 <code>Deployments</code> 点击顶部最新的一次部署右侧的 <code>Redeploy</code> 按钮进行重新部署。该步骤是为了让刚才设置的环境变量生效。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653939edb10db.png" alt="img"></p>
+</li>
+<li><p>此时会跳转到 <code>Overview</code> 界面开始部署，等待片刻后 <code>STATUS</code> 会变成 <code>Ready</code>。此时请点击 <code>Visit</code> ，即可跳转到部署好的网站地址，此地址即为你的服务端地址。</p>
+</li>
+</ol>
+<h3 id="Vercel绑定域名"><a href="#Vercel绑定域名" class="headerlink" title="Vercel绑定域名"></a>Vercel绑定域名</h3><ol>
+<li><p>点击顶部的 <code>Settings</code> - <code>Domains</code> 进入域名配置页，并输入需要绑定的域名</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653939ef268d9.png" alt="img"></p>
+</li>
+<li><p>在阿里云处配置域名解析</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/10/25/653939f04aa4b.png" alt="img"></p>
+</li>
+</ol>
+<h3 id="博客配置文件"><a href="#博客配置文件" class="headerlink" title="博客配置文件"></a>博客配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">tale/_config.staller.yml######## Comments ########</span><br><span class="line">comments:</span><br><span class="line">  service: waline # beaudar, utterances, giscus, twikoo, waline, artalk</span><br><span class="line">  </span><br><span class="line">  # Waline</span><br><span class="line">  # https://waline.js.org/</span><br><span class="line">  waline:</span><br><span class="line">    js: https://unpkg.com/@waline/client@2.14.1/dist/waline.js</span><br><span class="line">    css: https://unpkg.com/@waline/client@2.14.1/dist/waline.css</span><br><span class="line">    # Waline server address url, you should set this to your own link</span><br><span class="line">    serverURL: https://domain</span><br><span class="line">    # If false, comment count will only be displayed in post page, not in home page</span><br><span class="line">    commentCount: true</span><br><span class="line">    # Pageviews count, Note: You should not enable both `waline.pageview` and `leancloud_visitors`.</span><br><span class="line">    pageview: false</span><br><span class="line">    # Custom emoji</span><br><span class="line">    # emoji:</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/weibo</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/alus</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/bilibili</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/qq</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/tieba</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/tw-emoji</span><br><span class="line">    #   - https://unpkg.com/@waline/emojis@1.1.0/bmoji</span><br><span class="line">    # 设置自己的图床服务，替换默认的 Base 64 编码嵌入（有体积大小限制），在评论中上传图片更加方便</span><br><span class="line">    # imageUploader:</span><br><span class="line">      # 适配了兰空图床V1、V2版本</span><br><span class="line">      # 以兰空图床V1为例，下列填写内容为：</span><br><span class="line">      # fileName: file</span><br><span class="line">      # tokenName: Authorization</span><br><span class="line">      # api: https://xxxxxx/api/v1/upload</span><br><span class="line">      # token: Bearer xxxxxxxxxxxxxx</span><br><span class="line">      # resp: data.links.url</span><br><span class="line">      # 以兰空图床V2为例，下列填写内容为：</span><br><span class="line">      # fileName: image</span><br><span class="line">      # tokenName: token</span><br><span class="line">      # api: https://xxxxxx/api/upload</span><br><span class="line">      # token: xxxxxxxxxxxxxx</span><br><span class="line">      # resp: data.url</span><br><span class="line">    #   fileName: # 根据版本二选一</span><br><span class="line">    #   tokenName: # 根据版本二选一</span><br><span class="line">    #   api: # 图床 api 地址</span><br><span class="line">    #   token: # 图床验证</span><br><span class="line">    #   resp: # 图片地址返回值的字段</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/09/2025/06/theme-design2/">Hexo-Stellar主题装修日记(二)</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/09/hello-world/">Hello World</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%BC%95%E7%94%A8%E8%B5%84%E6%BA%90"><span class="toc-text">博客引用资源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">本地资源文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E6%9C%AC%E5%9C%B0%E5%8C%96"><span class="toc-text">静态资源本地化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%90%BD%E9%9C%9E%E5%AD%A4%E9%B9%9C%E5%AD%97%E4%BD%93"><span class="toc-text">引用落霞孤鹜字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E9%B8%BF%E8%92%99%E5%AD%97%E4%BD%93"><span class="toc-text">引用鸿蒙字体</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-text">博客基本配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%AF%BC%E8%88%AA"><span class="toc-text">显示导航</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%94%BE%E5%A4%A7%EF%BC%88fancybox%EF%BC%89"><span class="toc-text">图片放大（fancybox）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%A7%E8%BE%B9%E6%A0%8F"><span class="toc-text">侧边栏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BA%95%E9%83%A8%E6%8C%89%E9%92%AE"><span class="toc-text">侧边栏底部按钮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%84%E4%BB%B6"><span class="toc-text">小组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87"><span class="toc-text">生活碎片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%A1%B5%E9%9D%A2"><span class="toc-text">添加页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%A6%96%E9%A1%B5%E6%8C%89%E9%92%AE"><span class="toc-text">添加首页按钮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E9%AB%98%E4%BA%AE%E9%97%AE%E9%A2%98"><span class="toc-text">导航高亮问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BAgithub%E4%BB%93%E5%BA%93%E5%B9%B6%E6%B7%BB%E5%8A%A0%E4%B8%80%E6%9D%A1issue"><span class="toc-text">新建github仓库并添加一条issue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87%E9%A1%B5%E9%9D%A2"><span class="toc-text">编辑生活碎片页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%A7%88%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87%E9%A1%B5%E9%9D%A2"><span class="toc-text">预览生活碎片页面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9Fgiscus"><span class="toc-text">添加评论系统giscus</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%A2%9Egithub%E4%BB%93%E5%BA%93"><span class="toc-text">新增github仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="toc-text">修改配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95giscus%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F"><span class="toc-text">测试giscus评论系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0waline%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F"><span class="toc-text">添加waline评论系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#learncloud%E5%9B%BD%E9%99%85%E7%89%88%E8%AE%BE%E7%BD%AE"><span class="toc-text">learncloud国际版设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vercel%E8%AE%BE%E7%BD%AE"><span class="toc-text">vercel设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vercel%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D"><span class="toc-text">Vercel绑定域名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">博客配置文件</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
