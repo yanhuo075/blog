@@ -1,0 +1,20 @@
+name: sql
+title: 数据库教程
+subtitle: '数据库语法教程 | Designed by YanHuo075'
+tags: 数据库
+icon: 
+cover: true
+description: SQL 是用于访问和处理数据库的标准的计算机语言。
+repo: 
+search:
+  filter: /wiki/sql/
+  placeholder: 在SQL文档中搜索...
+leftbar: 
+  - tree
+  #- timeline_stellar_releases
+  - related
+base_dir: /wiki/sql/
+tree:
+  '目录':
+    - index
+    - brief
