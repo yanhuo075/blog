@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>sql：SQL RBDMS概念 - 烟火075的博客</title>
+  <title>sql：SQL 按关键字排序 - 烟火075的博客</title>
 
   
-    <meta name="description" content="SQL RDBMS 概念 RDBMS是关系数据库管理系统(Relational Database Management System)的缩写。 RDBMS是SQL的基础，也是所有现代数据库系统(如MS SQL Server、IBMDB2、Oracle、MySQL和MicrosoftAccess)的基础。 关系数据库管理系统(Relational Database Management System">
+    <meta name="description" content="SQL ORDER BY 关键字 ORDER BY 关键字用于按升序或降序对结果集进行排序。 ORDER BY 关键字默认情况下按升序排序记录。 如果需要按降序对记录进行排序，可以使用DESC关键字。 SQL ORDER BY 语法SELECT column1, column2, ...FROM table_nameORDER BY column1, column2, ... ASC|DESC;">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SQL RBDMS概念">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/rdbms.html">
+<meta property="og:title" content="SQL 按关键字排序">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/order.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="SQL RDBMS 概念 RDBMS是关系数据库管理系统(Relational Database Management System)的缩写。 RDBMS是SQL的基础，也是所有现代数据库系统(如MS SQL Server、IBMDB2、Oracle、MySQL和MicrosoftAccess)的基础。 关系数据库管理系统(Relational Database Management System">
+<meta property="og:description" content="SQL ORDER BY 关键字 ORDER BY 关键字用于按升序或降序对结果集进行排序。 ORDER BY 关键字默认情况下按升序排序记录。 如果需要按降序对记录进行排序，可以使用DESC关键字。 SQL ORDER BY 语法SELECT column1, column2, ...FROM table_nameORDER BY column1, column2, ... ASC|DESC;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-10T09:52:51.063Z">
-<meta property="article:modified_time" content="2025-06-10T09:52:51.063Z">
+<meta property="article:published_time" content="2025-06-10T14:00:14.269Z">
+<meta property="article:modified_time" content="2025-06-10T14:00:14.269Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">文章目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 教程</span></a><a class="link" href="/wiki/sql/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link active" href="/wiki/sql/rdbms.html"><span class="toc-text">SQL RBDMS概念</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/sql/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link" href="/wiki/sql/order.html"><span class="toc-text">SQL 按关键字排序</span></a><a class="link" href="/wiki/sql/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/null.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">文章目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 教程</span></a><a class="link" href="/wiki/sql/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link" href="/wiki/sql/rdbms.html"><span class="toc-text">SQL RBDMS概念</span></a><a class="link" href="/wiki/sql/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link active" href="/wiki/sql/order.html"><span class="toc-text">SQL 按关键字排序</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/sql/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/null.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a></div></widget>
 
 
 </div>
@@ -80,79 +80,110 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/sql/index.html">sql</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-10T09:52:51.063Z">2025-06-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-10T14:00:14.269Z">2025-06-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>SQL RBDMS概念</span></h1>
+        <h1 class="text title"><span>SQL 按关键字排序</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="SQL-RDBMS-概念"><a href="#SQL-RDBMS-概念" class="headerlink" title="SQL RDBMS 概念"></a>SQL RDBMS 概念</h2><hr>
-<p>RDBMS是关系数据库管理系统(Relational Database Management System)的缩写。</p>
-<p>RDBMS是SQL的基础，也是所有现代数据库系统(如MS SQL Server、IBMDB2、Oracle、MySQL和MicrosoftAccess)的基础。</p>
-<p>关系数据库管理系统(Relational Database Management System，RDBMS)是一种基于E.F.Codd提出的关系模型的数据库管理系统。</p>
-<h2 id="什么是表？"><a href="#什么是表？" class="headerlink" title="什么是表？"></a>什么是表？</h2><hr>
-<p>RDBMS中的数据存储在称为表的数据库对象中。这个表基本上是一个相关数据条目的集合，它由许多列和行组成。请记住，表是关系数据库中最常见和最简单的数据存储形式。</p>
-<p>下面的程序是Customers表的一个示例</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">| ID | NAME     | AGE | ADDRESS   | SALARY   |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |</span><br><span class="line">|  2 | Khilan   |  25 | Delhi     |  1500.00 |</span><br><span class="line">|  3 | kaushik  |  23 | Kota      |  2000.00 |</span><br><span class="line">|  4 | Chaitali |  25 | Mumbai    |  6500.00 |</span><br><span class="line">|  5 | Hardik   |  27 | Bhopal    |  8500.00 |</span><br><span class="line">|  6 | Komal    |  22 | MP        |  4500.00 |</span><br><span class="line">|  7 | Muffy    |  24 | Indore    | 10000.00 |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><h2 id="SQL-ORDER-BY-关键字"><a href="#SQL-ORDER-BY-关键字" class="headerlink" title="SQL ORDER BY 关键字"></a>SQL ORDER BY 关键字</h2><hr>
+<p>ORDER BY 关键字用于按升序或降序对结果集进行排序。</p>
+<p>ORDER BY 关键字默认情况下按升序排序记录。</p>
+<p>如果需要按降序对记录进行排序，可以使用DESC关键字。</p>
+<h3 id="SQL-ORDER-BY-语法"><a href="#SQL-ORDER-BY-语法" class="headerlink" title="SQL ORDER BY 语法"></a>SQL ORDER BY 语法</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT column1, column2, ...</span><br><span class="line">FROM table_name</span><br><span class="line">ORDER BY column1, column2, ... ASC|DESC;</span><br></pre></td></tr></table></figure>
 
-<h2 id="什么是字段？"><a href="#什么是字段？" class="headerlink" title="什么是字段？"></a>什么是字段？</h2><hr>
-<p>每个表都被分解成更小的实体，称为字段。Customers表中的字段由ID、姓名、年龄、地址和薪资组成。</p>
-<p>字段是表中的列，用于维护有关表中每条记录的特定信息。</p>
-<h2 id="什么是记录或者行数据？"><a href="#什么是记录或者行数据？" class="headerlink" title="什么是记录或者行数据？"></a>什么是记录或者行数据？</h2><hr>
-<p>记录也称为数据行，即表中存在的每个单独的条目。例如，上面的Customers表中有7条记录。下面是Customers表中的单行数据或记录。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br></pre></td></tr></table></figure>
+<p>您可以在ORDER BY子句中使用多个列，但要确保用于对该列进行排序的列应该在列表中。</p>
+<h2 id="演示数据库"><a href="#演示数据库" class="headerlink" title="演示数据库"></a>演示数据库</h2><hr>
+<p>在本教程中，我们将使用著名的Northwind示例数据库。</p>
+<p>以下是 “Customers” 表中的数据：</p>
+<table>
+<thead>
+<tr>
+<th align="left">CustomerID</th>
+<th align="left">CustomerName</th>
+<th align="left">ContactName</th>
+<th align="left">Address</th>
+<th align="left">City</th>
+<th align="left">PostalCode</th>
+<th align="left">Country</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">Alfreds Futterkiste</td>
+<td align="left">Maria Anders</td>
+<td align="left">Obere Str. 57</td>
+<td align="left">Berlin</td>
+<td align="left">12209</td>
+<td align="left">Germany</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Ana Trujillo Emparedados y helados</td>
+<td align="left">Ana Trujillo</td>
+<td align="left">Avda. de la Constitución 2222</td>
+<td align="left">México D.F.</td>
+<td align="left">05021</td>
+<td align="left">Mexico</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Antonio Moreno Taquería</td>
+<td align="left">Antonio Moreno</td>
+<td align="left">Mataderos 2312</td>
+<td align="left">México D.F.</td>
+<td align="left">05023</td>
+<td align="left">Mexico</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">Around the Horn</td>
+<td align="left">Thomas Hardy</td>
+<td align="left">120 Hanover Sq.</td>
+<td align="left">London</td>
+<td align="left">WA1 1DP</td>
+<td align="left">UK</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">Berglunds snabbköp</td>
+<td align="left">Christina Berglund</td>
+<td align="left">Berguvsvägen 8</td>
+<td align="left">Luleå</td>
+<td align="left">S-958 22</td>
+<td align="left">Sweden</td>
+</tr>
+</tbody></table>
+<h2 id="ORDER-BY-实例"><a href="#ORDER-BY-实例" class="headerlink" title="ORDER BY 实例"></a>ORDER BY 实例</h2><hr>
+<p>下面的 SQL 语句从 “Customers” 表中选取所有客户，并按照 “Country” 列排序：</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM Customers</span><br><span class="line">ORDER BY Country;</span><br></pre></td></tr></table></figure>
 
-<p>记录是表中的水平实体。</p>
-<h2 id="什么是列？"><a href="#什么是列？" class="headerlink" title="什么是列？"></a>什么是列？</h2><hr>
-<p>列是表中的垂直实体，其中包含与表中特定字段关联的所有信息。</p>
-<p>例如，Customers表中的一列是Address，它表示位置描述，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| ADDRESS   |</span><br><span class="line">+-----------+</span><br><span class="line">| Ahmedabad |</span><br><span class="line">| Delhi     |</span><br><span class="line">| Kota      |</span><br><span class="line">| Mumbai    |</span><br><span class="line">| Bhopal    |</span><br><span class="line">| MP        |</span><br><span class="line">| Indore    |</span><br><span class="line">+----+------+</span><br></pre></td></tr></table></figure>
+<h2 id="ORDER-BY-DESC-实例"><a href="#ORDER-BY-DESC-实例" class="headerlink" title="ORDER BY DESC 实例"></a>ORDER BY DESC 实例</h2><hr>
+<p>下面的 SQL 语句从 “Customers” 表中选取所有客户，并按照 “Country” 列降序排序：</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM Customers</span><br><span class="line">ORDER BY Country DESC;</span><br></pre></td></tr></table></figure>
 
-<h2 id="什么是空值？"><a href="#什么是空值？" class="headerlink" title="什么是空值？"></a>什么是空值？</h2><hr>
-<p>表中的空值是显示为空的字段中的值，这意味着具有空值的字段是没有值的字段。</p>
-<p>非常重要的一点是空值不同于零值或包含空格的字段。具有空值的字段是在创建记录时留空的字段。</p>
-<h2 id="SQL约束"><a href="#SQL约束" class="headerlink" title="SQL约束"></a>SQL约束</h2><hr>
-<p>约束是在表上的数据列上强制执行的规则。它们用于限制可以进入表中的数据类型。</p>
-<p>这确保了数据库中数据的准确性和可靠性。</p>
-<p>约束可以是列级别，也可以是表级别。列级约束仅应用于一列，而表级约束则应用于整个表。</p>
-<p>以下是sql−中可用的一些最常用的约束</p>
-<ul>
-<li>：保证列中数据不能有 NULL 值</li>
-<li>：提供该列数据未指定时所采用的默认值</li>
-<li>：保证列中的所有数据各不相同</li>
-<li>：唯一标识数据表中的行&#x2F;记录</li>
-<li>：唯一标识其他表中的一条行&#x2F;记录</li>
-<li>：此约束保证列中的所有值满足某一条件</li>
-<li>：用于在数据库中快速创建或检索数据</li>
-</ul>
-<p>约束可以在创建表时规定（通过 CREATE TABLE 语句），或者在表创建之后规定（通过 ALTER TABLE 语句）。</p>
-<h2 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h2><hr>
-<p>每个关系数据库管理系统都存在以下类型的数据完整性：</p>
-<blockquote>
-<p>实体完整性−表中没有重复行。<br>域完整性−通过限制值的类型、格式或范围来强制执行给定列的有效条目。<br>引用完整性−不能删除其他记录使用的行。<br>用户定义的完整性−强制执行一些不属于实体、域或引用完整性的特定业务规则。</p>
-</blockquote>
-<h2 id="数据库规范化"><a href="#数据库规范化" class="headerlink" title="数据库规范化"></a>数据库规范化</h2><hr>
-<p>数据库规范化是在数据库中有效地组织数据的过程。这个规范化过程有两个原因：</p>
-<ul>
-<li>消除冗余数据，例如，将相同的数据存储在多个表中。</li>
-<li>确保数据依赖关系是有意义的。</li>
-</ul>
-<p>这两个原因都是值得追求的目标，因为它们减少了数据库消耗的空间量，并确保了数据的逻辑存储。</p>
-<p>规范化由一系列指导原则组成，有助于指导您创建良好的数据库结构。</p>
-<p>规范化指导原则称为范式，范式的目的是组织数据库结构，使其符合第一范式、第二范式和第三范式的规则。</p>
-<p>你可以更长远的去选择第四范式，第五范式，等等，但一般来说，第三范式已经足够了。</p>
-<blockquote>
-<p>第一范式(1NF)<br>第二范式(2NF)<br>第三范式(3NF)</p>
-</blockquote>
+
+
+<h2 id="ORDER-BY-多列-实例1"><a href="#ORDER-BY-多列-实例1" class="headerlink" title="ORDER BY 多列 实例1"></a>ORDER BY 多列 实例1</h2><hr>
+<p>下面的 SQL 语句从 “Customers” 表中选取所有客户，并按照 “Country” 和 “CustomerName” 列排序：</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM Customers</span><br><span class="line">ORDER BY Country, CustomerName;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ORDER-BY-多列-实例2"><a href="#ORDER-BY-多列-实例2" class="headerlink" title="ORDER BY 多列 实例2"></a>ORDER BY 多列 实例2</h2><hr>
+<p>以下SQL语句从”Customers” 表中选择所有客户，按 “Country” 升序排列，并按 “CustomerName” 列降序排列：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM Customers</span><br><span class="line">ORDER BY Country ASC, CustomerName DESC;</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/sql/brief.html">SQL 简介</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/yufa.html">SQL 语法</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/sql/andor.html">SQL 与/或运算符</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/insert.html">SQL 在表中插入</a></div></section></div>
 
 
 
@@ -164,7 +195,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-RDBMS-%E6%A6%82%E5%BF%B5"><span class="toc-text">SQL RDBMS 概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A1%A8%EF%BC%9F"><span class="toc-text">什么是表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%97%E6%AE%B5%EF%BC%9F"><span class="toc-text">什么是字段？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%B0%E5%BD%95%E6%88%96%E8%80%85%E8%A1%8C%E6%95%B0%E6%8D%AE%EF%BC%9F"><span class="toc-text">什么是记录或者行数据？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%97%EF%BC%9F"><span class="toc-text">什么是列？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%A9%BA%E5%80%BC%EF%BC%9F"><span class="toc-text">什么是空值？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E7%BA%A6%E6%9D%9F"><span class="toc-text">SQL约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-text">数据完整性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83%E5%8C%96"><span class="toc-text">数据库规范化</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-ORDER-BY-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">SQL ORDER BY 关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-ORDER-BY-%E8%AF%AD%E6%B3%95"><span class="toc-text">SQL ORDER BY 语法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">演示数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ORDER-BY-%E5%AE%9E%E4%BE%8B"><span class="toc-text">ORDER BY 实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ORDER-BY-DESC-%E5%AE%9E%E4%BE%8B"><span class="toc-text">ORDER BY DESC 实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ORDER-BY-%E5%A4%9A%E5%88%97-%E5%AE%9E%E4%BE%8B1"><span class="toc-text">ORDER BY 多列 实例1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ORDER-BY-%E5%A4%9A%E5%88%97-%E5%AE%9E%E4%BE%8B2"><span class="toc-text">ORDER BY 多列 实例2</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

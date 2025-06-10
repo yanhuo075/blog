@@ -1,5 +1,5 @@
 name: sql
-title: 数据库教程
+title: 数据库SQL语法大全
 subtitle: '数据库语法教程 | Designed by YanHuo075'
 tags: 数据库
 icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/icon-db.svg
@@ -15,9 +15,25 @@ leftbar:
   - related
 base_dir: /wiki/sql/
 tree:
-  '目录章节':
+  '文章目录':
     - index
     - brief
     - rdbms
     - yufa
     - xuanze
+    - distinct
+    - ziju
+    - andor
+    - order
+    - insert
+    - null
+    - update
+    - delete
+    - yunsf
+    - express
+    - use
+    - limit
+    - like
+    - wildcards
+    - in
+    - between
