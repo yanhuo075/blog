@@ -15,6 +15,9 @@ leftbar:
   - related
 base_dir: /wiki/sql/
 tree:
-  '目录':
+  '目录章节':
     - index
     - brief
+    - rdbms
+    - yufa
+    - xuanze
