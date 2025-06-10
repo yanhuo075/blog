@@ -21,7 +21,7 @@ open_graph:
 ######## Sidebar ########
 # 左上角显示的 logo 区域，包含图标、大标题、副标题
 logo:
-  avatar: img/yanhuo-logo.png # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
+  avatar: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/yanhuo-logo.png # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
   subtitle: "YanHuo's blog | blog.zycloud.tk" # '文字1 | 文字2' (鼠标放上去会切换到文字2)
   description: '一个积极生活的人'
   #avatar: '[{config.avatar}](/about/)' # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
