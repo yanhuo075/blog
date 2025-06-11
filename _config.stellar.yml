@@ -605,7 +605,8 @@ inject:
   head:
     - <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'"> #字体
     #- <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'"> #字体
-    - <script src="/js/random.js"></script> # 随机文章
+  #script:
+  #  - <script src="/js/random.js"></script> # 随机文章
 
 style:
   prefers_theme: auto # auto / light / dark
