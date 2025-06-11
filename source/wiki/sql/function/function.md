@@ -1,11 +1,11 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: sql # 这是项目id，对应 /_data/wiki/sql.yml
-title: SQL 函数
-order: 0
+title: SQL 函数说明
+order: 1
 ---
 
-## SQL 函数
+## SQL 函数说明
 
 ------
 

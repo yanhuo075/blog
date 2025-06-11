@@ -80,3 +80,4 @@ tree:
     - function/function
     - function/max
     - function/min
+    - function/count

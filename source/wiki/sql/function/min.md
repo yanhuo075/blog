@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: sql # 这是项目id，对应 /_data/wiki/sql.yml
 title: SQL MIN() 函数
-order: 2
+order: 3
 ---
 
 ## SQL MIN() 函数
