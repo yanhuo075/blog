@@ -1,0 +1,21 @@
+name: Redis
+title: Redis数据库教程
+subtitle: '数据库教程 | Designed by YanHuo075'
+tags: 数据库
+icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Redis.svg
+cover: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Redis.svg
+coverpage: true
+description: Redis（全称为Remote Dictionary Server）是一个开源的高性能键值对存储系统。
+repo: 
+search:
+  filter: /wiki/redis/
+  placeholder: 在Redis文档中搜索...
+leftbar: 
+  - tree
+  #- timeline_stellar_releases
+  - related
+base_dir: /wiki/redis/
+tree:
+  '目录':
+    - redis-intro
+    - install

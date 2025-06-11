@@ -1,0 +1,22 @@
+name: Git
+title: Git实用教程
+subtitle: 'Git实用教程 | Designed by YanHuo075'
+tags: 代码仓库
+icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/git.svg
+cover: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/git.svg
+coverpage: true
+description: Git 是目前世界上最先进的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。
+repo: 
+search:
+  filter: /wiki/git/
+  placeholder: 在Git文档中搜索...
+leftbar: 
+  - tree
+  - timeline_stellar_releases
+  - related
+base_dir: /wiki/git/
+tree:
+  '目录':
+    - start
+    - install-and-config
+    - usage

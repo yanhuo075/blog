@@ -1,9 +1,10 @@
 name: SQL
 title: 数据库SQL语法大全
-subtitle: '数据库语法教程 | Designed by YanHuo075'
+subtitle: '数据库语法大全 | Designed by YanHuo075'
 tags: 数据库
 icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/icon-db.svg
 cover: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/icon-db.svg
+coverpage: true
 description: SQL 是用于访问和处理数据库的标准的计算机语言。
 repo: 
 search:
