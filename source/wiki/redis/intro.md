@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: redis # 这是项目id，对应 /_data/wiki/git.yml
 title: Redis 简介
-order: 0
+order: 1
 ---
 
 # Redis 简介

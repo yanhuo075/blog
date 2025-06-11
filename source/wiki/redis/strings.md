@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: redis # 这是项目id，对应 /_data/wiki/git.yml
 title: Redis 字符串
-order: 6
+order: 3
 ---
 
 # Redis 字符串 ( Strings )

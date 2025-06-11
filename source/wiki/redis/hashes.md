@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: redis # 这是项目id，对应 /_data/wiki/git.yml
 title: Redis 哈希
-order: 7
+order: 4
 ---
 
 # Redis 哈希 ( Hashes )

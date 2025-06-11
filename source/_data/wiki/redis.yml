@@ -16,14 +16,44 @@ leftbar:
   - related
 base_dir: /wiki/redis/
 tree:
-  '目录':
+  '第一章 Redis教程':
     - intro
     - install
     - config
     - data-types
+  
+  '第二章 Redis命令':
     - commands
     - keys
     - strings
     - hashes
     - lists
     - sets
+    - sorted-sets
+    - hyperloglog
+    - geo
+    - stream
+    - pub-sub
+    - transaction
+    - scripting
+    - connection
+    - server
+  
+  '第三章 Redis高级功能':
+    - backup-restore
+    - persistence
+    - security
+    - benchmarks
+    - client-connection
+    - pipelining
+    - partitioning
+    - java-redis
+    - php-redis
+  
+  '第四章 Redis差异':
+    - redis-vs-memcached
+    - redis-vs-mongodb
+    - redis-vs-elasticsearch
+  
+  '第五章 Redis面试题':
+    - interview-questions
