@@ -1,0 +1,846 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>SQL：全面解析SQL存储过程 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="全面解析SQL存储过程 存储过程(Stored Procedure),是一组为了完成特定功能的SQL 语句，类似一门程序设计语言，也包括了数据类型、流程控制、输入和输出和它自己的函数库。存储过程可以说是一个记录集，它是由一些T-SQL语句组成的代码块，这些T-SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后再给这个代码块取一个名字，在用到这个功能的时候调用他就行了。不过SQ">
+<meta property="og:type" content="website">
+<meta property="og:title" content="全面解析SQL存储过程">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/summary/storage.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="全面解析SQL存储过程 存储过程(Stored Procedure),是一组为了完成特定功能的SQL 语句，类似一门程序设计语言，也包括了数据类型、流程控制、输入和输出和它自己的函数库。存储过程可以说是一个记录集，它是由一些T-SQL语句组成的代码块，这些T-SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后再给这个代码块取一个名字，在用到这个功能的时候调用他就行了。不过SQ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-11T07:36:39.558Z">
+<meta property="article:modified_time" content="2025-06-11T07:36:39.558Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'"><script src="/js/random.js"></script>
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/icon-db.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/sql/index.html"><div class="main" ff="title">SQL</div><div class="sub normal cap">数据库语法教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/sql/" placeholder="在SQL文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第一章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 概述</span></a></div><div class="widget-header dis-select"><span class="name">第二章 SQL语句</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/sentence/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link" href="/wiki/sql/sentence/rdbms.html"><span class="toc-text">SQL RBDMS概念</span></a><a class="link" href="/wiki/sql/sentence/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/sentence/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/sentence/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/sentence/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/sentence/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link" href="/wiki/sql/sentence/order.html"><span class="toc-text">SQL 按关键字排序</span></a><a class="link" href="/wiki/sql/sentence/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/sentence/kongzhi.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/sentence/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/sentence/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/sentence/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/sentence/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/sentence/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/sentence/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/sentence/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/sentence/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/sentence/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/sentence/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a><a class="link" href="/wiki/sql/sentence/datatype.html"><span class="toc-text">SQL 通用数据类型</span></a><a class="link" href="/wiki/sql/sentence/refer.html"><span class="toc-text">SQL 语句快速参考</span></a><a class="link" href="/wiki/sql/sentence/join.html"><span class="toc-text">SQL Join连接</span></a><a class="link" href="/wiki/sql/sentence/inner.html"><span class="toc-text">SQL 内部连接</span></a><a class="link" href="/wiki/sql/sentence/left.html"><span class="toc-text">SQL 左连接</span></a><a class="link" href="/wiki/sql/sentence/right.html"><span class="toc-text">SQL 右连接</span></a><a class="link" href="/wiki/sql/sentence/outer.html"><span class="toc-text">SQL 完整外部连接</span></a><a class="link" href="/wiki/sql/sentence/self.html"><span class="toc-text">SQL 自连接</span></a><a class="link" href="/wiki/sql/sentence/union.html"><span class="toc-text">SQL UNION运算符</span></a><a class="link" href="/wiki/sql/sentence/selectinto.html"><span class="toc-text">SQL SELECT INTO语句</span></a><a class="link" href="/wiki/sql/sentence/instosel.html"><span class="toc-text">SQL INSECT INTO SELECT语句</span></a><a class="link" href="/wiki/sql/sentence/drop.html"><span class="toc-text">SQL 撤销索引/表/数据库</span></a><a class="link" href="/wiki/sql/sentence/createdb.html"><span class="toc-text">SQL CREATE DATABASE语句</span></a><a class="link" href="/wiki/sql/sentence/createtable.html"><span class="toc-text">SQL CREATE TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/alter.html"><span class="toc-text">SQL ALTER TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/autoincrement.html"><span class="toc-text">SQL AUTO INCREMENT语句</span></a><a class="link" href="/wiki/sql/sentence/view.html"><span class="toc-text">SQL VIEW语句</span></a><a class="link" href="/wiki/sql/sentence/date.html"><span class="toc-text">SQL Date函数</span></a><a class="link" href="/wiki/sql/sentence/valuenull.html"><span class="toc-text">SQL NULL值处理</span></a><a class="link" href="/wiki/sql/sentence/aliases.html"><span class="toc-text">SQL Aliases别名</span></a><a class="link" href="/wiki/sql/sentence/constraint.html"><span class="toc-text">SQL Constraint约束</span></a><a class="link" href="/wiki/sql/sentence/unionziju.html"><span class="toc-text">SQL UNION子句</span></a><a class="link" href="/wiki/sql/sentence/clonedb.html"><span class="toc-text">SQL 克隆数据库</span></a><a class="link" href="/wiki/sql/sentence/dbindex.html"><span class="toc-text">SQL 索引</span></a><a class="link" href="/wiki/sql/sentence/subquery.html"><span class="toc-text">SQL 子查询</span></a><a class="link" href="/wiki/sql/sentence/alteryufa.html"><span class="toc-text">SQL ALTER TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/truncate.html"><span class="toc-text">SQL TRUNCATE TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/repeat.html"><span class="toc-text">SQL 处理重复数据</span></a><a class="link" href="/wiki/sql/sentence/useview.html"><span class="toc-text">SQL 使用视图</span></a><a class="link" href="/wiki/sql/sentence/input.html"><span class="toc-text">SQL 注入</span></a><a class="link" href="/wiki/sql/sentence/hav.html"><span class="toc-text">SQL HAVING 子句</span></a><a class="link" href="/wiki/sql/sentence/affairs.html"><span class="toc-text">SQL 事务</span></a><a class="link" href="/wiki/sql/sentence/sequence.html"><span class="toc-text">SQL 使用序列</span></a><a class="link" href="/wiki/sql/sentence/wild.html"><span class="toc-text">SQL 通配符</span></a><a class="link" href="/wiki/sql/sentence/temp.html"><span class="toc-text">SQL 临时表</span></a><a class="link" href="/wiki/sql/sentence/summary.html"><span class="toc-text">SQL 各种数据库的数据类型</span></a></div><div class="widget-header dis-select"><span class="name">第三章 SQL函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/function/function.html"><span class="toc-text">SQL 函数说明</span></a><a class="link" href="/wiki/sql/function/max.html"><span class="toc-text">SQL MAX() 函数</span></a><a class="link" href="/wiki/sql/function/min.html"><span class="toc-text">SQL MIN() 函数</span></a><a class="link" href="/wiki/sql/function/count.html"><span class="toc-text">SQL COUNT() 函数</span></a><a class="link" href="/wiki/sql/function/avg.html"><span class="toc-text">SQL AVG() 函数</span></a><a class="link" href="/wiki/sql/function/sum.html"><span class="toc-text">SQL SUM() 函数</span></a><a class="link" href="/wiki/sql/function/datetime.html"><span class="toc-text">SQL 日期函数</span></a><a class="link" href="/wiki/sql/function/field.html"><span class="toc-text">SQL FIELD()函数</span></a><a class="link" href="/wiki/sql/function/first.html"><span class="toc-text">SQL FIRST()函数</span></a><a class="link" href="/wiki/sql/function/last.html"><span class="toc-text">SQL LAST()函数</span></a><a class="link" href="/wiki/sql/function/groupby.html"><span class="toc-text">SQL GROUP BY()函数</span></a><a class="link" href="/wiki/sql/function/having.html"><span class="toc-text">SQL HAVING函数</span></a><a class="link" href="/wiki/sql/function/case.html"><span class="toc-text">SQL 字母大小写转换函数</span></a><a class="link" href="/wiki/sql/function/upper.html"><span class="toc-text">SQL UPPER()函数</span></a><a class="link" href="/wiki/sql/function/lower.html"><span class="toc-text">SQL LOWER()函数</span></a><a class="link" href="/wiki/sql/function/ucase.html"><span class="toc-text">SQL UCASE()函数</span></a><a class="link" href="/wiki/sql/function/lcase.html"><span class="toc-text">SQL LCASE()函数</span></a><a class="link" href="/wiki/sql/function/mid.html"><span class="toc-text">SQL MID()函数</span></a><a class="link" href="/wiki/sql/function/len.html"><span class="toc-text">SQL LEN()函数</span></a><a class="link" href="/wiki/sql/function/round.html"><span class="toc-text">SQL ROUND()函数</span></a><a class="link" href="/wiki/sql/function/now.html"><span class="toc-text">SQL NOW()函数</span></a><a class="link" href="/wiki/sql/function/format.html"><span class="toc-text">SQL FORMAT()函数</span></a><a class="link" href="/wiki/sql/function/sqrt.html"><span class="toc-text">SQL SQRT()函数</span></a><a class="link" href="/wiki/sql/function/rand.html"><span class="toc-text">SQL RAND()函数</span></a><a class="link" href="/wiki/sql/function/concat.html"><span class="toc-text">SQL CONCAT()函数</span></a><a class="link" href="/wiki/sql/function/null.html"><span class="toc-text">SQL NULL()函数</span></a><a class="link" href="/wiki/sql/function/replace.html"><span class="toc-text">SQL REPLACE()函数</span></a><a class="link" href="/wiki/sql/function/trim.html"><span class="toc-text">SQL TRIM()函数</span></a></div><div class="widget-header dis-select"><span class="name">第四章 SQL总结</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/summary/study.html"><span class="toc-text">关于SQL学习过程</span></a><a class="link active" href="/wiki/sql/summary/storage.html"><span class="toc-text">全面解析SQL存储过程</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">附录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/appendix/appendix.html"><span class="toc-text">SQL语句大全分类整理</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/sql/index.html">SQL</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T07:36:39.558Z">2025-06-11</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>全面解析SQL存储过程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="全面解析SQL存储过程"><a href="#全面解析SQL存储过程" class="headerlink" title="全面解析SQL存储过程"></a>全面解析SQL存储过程</h2><hr>
+<p>存储过程(Stored Procedure),是一组为了完成特定功能的SQL 语句，类似一门程序设计语言，也包括了数据类型、流程控制、输入和输出和它自己的函数库。存储过程可以说是一个记录集，它是由一些T-SQL语句组成的代码块，这些T-SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后再给这个代码块取一个名字，在用到这个功能的时候调用他就行了。不过SQL存储过程对于一些初学者来说还是比较抽象难理解的，因此本文将由浅至深地剖析SQL存储过程，帮助你学习它。</p>
+<h2 id="存储过程的优点"><a href="#存储过程的优点" class="headerlink" title="存储过程的优点"></a>存储过程的优点</h2><hr>
+<ol>
+<li>存储过程只在创造时进行编译，以后每次执行存储过程都不需再重新编译，而一般SQL语句每执行一次就编译一次,所以使用存储过程可提高数据库执行速度，效率要比T-SQL语句高。</li>
+<li>当对数据库进行复杂操作时，可将此复杂操作用存储过程封装起来与数据库提供的事务处理结合一起使用。</li>
+<li>一个存储过程在程序在网络中交互时可以替代大堆的T-SQL语句，所以也能降低网络的通信量，提高通信速率。</li>
+<li>存储过程可以重复使用,可减少数据库开发人员的工作量。</li>
+<li>安全性高,可设定只有某些用户才具有对指定存储过程的使用权</li>
+</ol>
+<h2 id="存储过程基本语法"><a href="#存储过程基本语法" class="headerlink" title="存储过程基本语法"></a>存储过程基本语法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--------------创建存储过程-----------------</span><br><span class="line"></span><br><span class="line">CREATE PROC [ EDURE ] procedure_name [ ; number ]</span><br><span class="line">    [ &#123; @parameter data_type &#125;</span><br><span class="line">        [ VARYING ] [ = default ] [ OUTPUT ]</span><br><span class="line">    ] [ ,...n ]</span><br><span class="line"></span><br><span class="line">[ WITH</span><br><span class="line">    &#123; RECOMPILE | ENCRYPTION | RECOMPILE , ENCRYPTION &#125; ]</span><br><span class="line"></span><br><span class="line">[ FOR REPLICATION ]</span><br><span class="line"></span><br><span class="line">AS sql_statement [ ...n ]</span><br><span class="line"></span><br><span class="line">--------------调用存储过程-----------------</span><br><span class="line"></span><br><span class="line">EXECUTE Procedure_name &#x27;&#x27; --存储过程如果有参数，后面加参数格式为：@参数名=value，也可直接为参数值value</span><br><span class="line"></span><br><span class="line">--------------删除存储过程-----------------</span><br><span class="line"></span><br><span class="line">drop procedure procedure_name    --在存储过程中能调用另外一个存储过程，而不能删除另外一个存储过程</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建存储过程的参数"><a href="#创建存储过程的参数" class="headerlink" title="创建存储过程的参数"></a>创建存储过程的参数</h2><hr>
+<ol>
+<li><code>procedure_name </code>：存储过程的名称，在前面加#为局部临时存储过程，加##为全局临时存储过程。</li>
+<li><code>number</code>：是可选的整数，用来对同名的过程分组，以便用一条 DROP PROCEDURE 语句即可将同组的过程一起除去。例如，名为 orders 的应用程序使用的过程可以命名为 orderproc;1、orderproc;2 等。DROP PROCEDURE orderproc 语句将除去整个组。如果名称中包含定界标识符，则数字不应包含在标识符中，只应在 procedure_name 前后使用适当的定界符。</li>
+<li><code>@parameter</code>：存储过程的参数。可以有一个或多个。用户必须在执行过程时提供每个所声明参数的值（除非定义了该参数的默认值）。存储过程最多可以有 2100 个参数。<br>使用 @ 符号作为第一个字符来指定参数名称。参数名称必须符合标识符的规则。每个过程的参数仅用于该过程本身；相同的参数名称可以用在其它过程中。默认情况下，参数只能代替常量，而不能用于代替表名、列名或其它数据库对象的名称。有关更多信息，请参见 EXECUTE。</li>
+<li><code>data_type</code>：参数的数据类型。所有数据类型（包括 text、ntext 和 image）均可以用作存储过程的参数。不过，cursor 数据类型只能用于 OUTPUT 参数。如果指定的数据类型为 cursor，也必须同时指定 VARYING 和 OUTPUT 关键字。有关 SQL Server 提供的数据类型及其语法的更多信息，请参见数据类型。<br>说明对于可以是 cursor 数据类型的输出参数，没有最大数目的限制。</li>
+<li><code>VARYING</code>：指定作为输出参数支持的结果集（由存储过程动态构造，内容可以变化）。仅适用于游标参数。</li>
+<li><code>default</code>： 参数的默认值。如果定义了默认值，不必指定该参数的值即可执行过程。默认值必须是常量或 NULL。如果过程将对该参数使用 LIKE 关键字，那么默认值中可以包含通配符（%、_、[] 和 [^]）。</li>
+<li><code>OUTPUT</code>：表明参数是返回参数。该选项的值可以返回给 EXEC[UTE]。使用 OUTPUT 参数可将信息返回给调用过程。Text、ntext 和 image 参数可用作 OUTPUT 参数。使用 OUTPUT 关键字的输出参数可以是游标占位符。</li>
+<li><code>RECOMPILE</code>: 表明 SQL Server 不会缓存该过程的计划，该过程将在运行时重新编译。在使用非典型值或临时值而不希望覆盖缓存在内存中的执行计划时，请使用 RECOMPILE 选项。</li>
+<li><code>ENCRYPTION</code>: 表示 SQL Server 加密 syscomments 表中包含 CREATE PROCEDURE 语句文本的条目。使用 ENCRYPTION 可防止将过程作为 SQL Server 复制的一部分发布。 说明在升级过程中，SQL Server 利用存储在 syscomments 中的加密注释来重新创建加密过程。</li>
+<li><code>FOR REPLICATION</code>:指定不能在订阅服务器上执行为复制创建的存储过程。.使用 FOR REPLICATION 选项创建的存储过程可用作存储过程筛选，且只能在复制过程中执行。本选项不能和 WITH RECOMPILE 选项一起使用。</li>
+<li>AS:指定过程要执行的操作。</li>
+<li><code>sql_statement</code>:过程中要包含的任意数目和类型的 Transact-SQL 语句。但有一些限制。</li>
+</ol>
+<h2 id="实例操作学习"><a href="#实例操作学习" class="headerlink" title="实例操作学习"></a>实例操作学习</h2><hr>
+<p>下面通过表Student来具体了解一下存储过程，因为是要了解存储过程的简单用法，所以例子很简单。</p>
+<h3 id="无参数存储过程"><a href="#无参数存储过程" class="headerlink" title="无参数存储过程"></a><strong>无参数存储过程</strong></h3><p>选出Student表中的所有信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">as      //此处 as 不可以省略不写</span><br><span class="line">begin   //begin 和 end 是一对，不可以只写其中一个，但可以都不写</span><br><span class="line">select S#,Sname,Sage,Ssex from student</span><br><span class="line">end</span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+<h3 id="有参数存储过程"><a href="#有参数存储过程" class="headerlink" title="有参数存储过程"></a><strong>有参数存储过程</strong></h3><p>**　全局变量**</p>
+<p>全局变量也称为外部变量，是在函数的外部定义的，它的作用域为从变量定义处开始，到本程序文件的末尾。</p>
+<p>选出指定姓名的学生信息:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">@sname varchar(100)   </span><br><span class="line">as </span><br><span class="line">begin</span><br><span class="line">select S#,Sname,Sage,Ssex from student where sname=@sname</span><br><span class="line">end</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">exec StuProc &#x27;赵雷&#x27;   //执行语句</span><br></pre></td></tr></table></figure>
+
+<p>上面是在外部给变量赋值，也可以在内部直接给变量设置默认值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">@sname varchar(100)=&#x27;赵雷&#x27;</span><br><span class="line">as </span><br><span class="line">begin</span><br><span class="line">select S#,Sname,Sage,Ssex from student where sname=@sname</span><br><span class="line">end</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">exec StuProc</span><br></pre></td></tr></table></figure>
+
+<p>也可以把变量的内容输出，使用output</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">@sname varchar(100),</span><br><span class="line">@IsRight int  output //传出参数</span><br><span class="line">as </span><br><span class="line">if exists (select S#,Sname,Sage,Ssex from student where sname=@sname)</span><br><span class="line">set @IsRight =1</span><br><span class="line">else</span><br><span class="line">set @IsRight=0</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">declare @IsRight int </span><br><span class="line">exec StuProc &#x27;赵雷&#x27; , @IsRight output</span><br><span class="line">select @IsRight</span><br></pre></td></tr></table></figure>
+
+<p>以上是全局变量，下面来了解局部变量</p>
+<p>**　局部变量**</p>
+<p>局部变量也称为内部变量。局部变量是在函数内作定义说明的。其作用域仅限于函数内部，离开该函数后再使用这种变量是非法的。</p>
+<p>**　局部变量的定义**</p>
+<p>必须先用Declare命令定以后才可以使用，declare</p>
+<p>**　局部变量的赋值方法**</p>
+<p>set{@变量名&#x3D;表达式}或者select</p>
+<p>**　局部变量的显示**</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">as </span><br><span class="line">declare @sname varchar(100)</span><br><span class="line">set @sname=&#x27;赵雷&#x27;</span><br><span class="line">select S#,Sname,Sage,Ssex from student where sname=@sname</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">exec StuProc</span><br></pre></td></tr></table></figure>
+
+<p>那如果是要把局部变量的数据显示出来怎么办呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">as </span><br><span class="line">declare @sname varchar(100)</span><br><span class="line">set @sname=(select Sname from student where S#=01)</span><br><span class="line">select @sname</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">exec StuProc</span><br></pre></td></tr></table></figure>
+
+<h2 id="更详细的实例操作学习"><a href="#更详细的实例操作学习" class="headerlink" title="更详细的实例操作学习"></a>更详细的实例操作学习</h2><hr>
+<p>比如，在SQL Server查询编辑器窗口中用CREATE PROCEDURE语句创建存储过程PROC_InsertEmployee，用于实现向员工信息表（tb_Employee）中添加信息，同时生成自动编号。其SQL语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">IF EXISTS (SELECT name  </span><br><span class="line">   FROM   sysobjects  </span><br><span class="line">   WHERE  name = &#x27;Proc_InsertEmployee&#x27;  </span><br><span class="line">   AND          type = &#x27;P&#x27;) </span><br><span class="line">DROP PROCEDURE Proc_InsertEmployee </span><br><span class="line">GO </span><br><span class="line">CREATE PROCEDURE Proc_InsertEmployee </span><br><span class="line">@PName nvarchar(50), </span><br><span class="line">@PSex nvarchar(4), </span><br><span class="line">@PAge int, </span><br><span class="line">@PWage money </span><br><span class="line">AS </span><br><span class="line">begin </span><br><span class="line">   declare @PID nvarchar(50) </span><br><span class="line">   select @PID=Max(员工编号) from tb_Employee </span><br><span class="line">   if(@PID is null) </span><br><span class="line">       set @PID=&#x27;P1001&#x27; </span><br><span class="line">   else </span><br><span class="line">       set @PID=&#x27;P&#x27;+cast(cast(substring(@PID,2,4) as int)+1 as nvarchar(50)) </span><br><span class="line">   begin </span><br><span class="line">       insert into tb_Employee values(@PID,@PName,@PSex,@PAge,@PWage) </span><br><span class="line">   end </span><br><span class="line">end </span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储过程的修改"><a href="#存储过程的修改" class="headerlink" title="存储过程的修改"></a><strong>存储过程的修改</strong></h3><p>创建完存储过程之后，如果需要重新修改存储过程的功能及参数，可以在SQL Server 2005中通过以下两种方法进行修改：一种是用Microsoft SQL Server Mangement修改存储过程；另外一种是用T-SQL语句修改存储过程。</p>
+<p>**　使用Microsoft SQL Server Mangement修改存储过程，步骤如下：**<br>　（1）在SQL Server Management Studio的”对象资源管理器”中，选择要修改存储过程所在的数据库（如：db_18），然后在该数据库下，选择”可编程性”。<br>　（2）打开”存储过程”文件夹，右键单击要修改的存储过程（如：PROC_SEINFO），在弹出的快捷菜单中选择”修改”命令，将会出现查询编辑器窗口。用户可以在此窗口中编辑T-SQL代码，完成编辑后，单击工具栏中的”执行（X）”按钮，执行修改代码。用户可以在查询编辑器下方的Message窗口中看到执行结果信息。</p>
+<p>**　使用Transact-SQL修改存储过程：**<br>　使用ALTER PROCEDURE语句修改存储过程，它不会影响存储过程的权限设定，也不会更改存储过程的名称。</p>
+<p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER PROC [ EDURE ] procedure_name [ ; number ] </span><br><span class="line">    [ &#123; @parameter data_type &#125;  </span><br><span class="line">         [ VARYING ] [ = default ] [ OUTPUT ] </span><br><span class="line">    ] [ ,...n ]  </span><br><span class="line">[ WITH </span><br><span class="line">    &#123; RECOMPILE | ENCRYPTION </span><br><span class="line">        | RECOMPILE , ENCRYPTION   &#125;  </span><br><span class="line">] </span><br><span class="line">[ FOR REPLICATION ]  </span><br><span class="line">AS </span><br><span class="line">    sql_statement [ ...n ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a><strong>参数说明</strong></h3><p>procedure_name：是要更改的存储过程的名称。</p>
+<p>交叉链接：关于ALTER PROCEDURE语句的其他参数与CREATE PROCEDURE语句相同，可参见上面的”创建存储过程的参数”。</p>
+<p>例如，修改存储过程PROC_SEINFO，用于查询年龄大于35的员工信息。SQL语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER PROCEDURE [dbo].[PROC_SEINFO] </span><br><span class="line">AS </span><br><span class="line">BEGIN </span><br><span class="line">SELECT * FROM tb_Employee where 员工年龄&gt;35 </span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储过程的删除"><a href="#存储过程的删除" class="headerlink" title="存储过程的删除"></a><strong>存储过程的删除</strong></h3><p>**　使用Microsoft SQL Server Mangement删除存储过程，步骤如下：**</p>
+<p>（1）在SQL Server Management Studio的”对象资源管理器”中，选择要删除存储过程所在的数据库（如：db_student），然后在该数据库下选择”可编程性”。</p>
+<p>（2）打开”存储过程”文件夹，右键单击要删除的存储过程（如：PROC_SEINFO），在弹出的快捷菜单中选择”删除”命令。</p>
+<p>（3）单击”确定”按钮，即可删除所选定的存储过程。</p>
+<blockquote>
+<p>**注意：**删除数据表后，并不会删除相关联的存储过程，只是其存储过程无法执行。</p>
+</blockquote>
+<p>**　使用T-SQL删除存储过程：**</p>
+<p>DROP PROCEDURE语句用于从当前数据库中删除一个或多个存储过程或过程组。</p>
+<p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP PROCEDURE &#123; procedure &#125; [ ,...n ]</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li>Procedure：是要删除的存储过程或存储过程组的名称。过程名称必须符合标识符规则。可以选择是否指定过程所有者名称，但不能指定服务器名称和数据库名称。</li>
+<li>n：是表示可以指定多个过程的占位符。</li>
+</ul>
+<p>例如删除PROC_SEINFO存储过程的SQL语句如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP PROCEDURE PROC_SEINFO</span><br></pre></td></tr></table></figure>
+
+<p>例如，删除多个存储过程proc10、proc20和proc30。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP PROCEDURE proc10, proc20, proc30</span><br></pre></td></tr></table></figure>
+
+<p>例如，删除存储过程组procs（其中包含存储过程proc1、proc2、proc3）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP PROCEDURE procs</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>**注意：**SQL语句DROP不能删除存储过程组中的单个存储过程。</p>
+</blockquote>
+<h3 id="应用存储过程验证用户登录身份："><a href="#应用存储过程验证用户登录身份：" class="headerlink" title="应用存储过程验证用户登录身份："></a><strong>应用存储过程验证用户登录身份：</strong></h3><p>目前，验证用户登录身份的方法有多种，而通过调用存储过程来实现用户身份验证是目前最好的解决方案之一。因为存储过程在创建时即在服务器上进行编译，所以执行起来比单个SQL语句要快得多。</p>
+<p>本例是通过调用存储过程来验证用户登录的用户名和密码是否正确。运行本实例，在”用户名”和”密码”文本框中输入相应的用户名和密码，单击”登录”按钮即可。</p>
+<p>程序开发步骤：</p>
+<p>（1）新建一个网站，将其命名为”index”，默认主页名为Default.aspx。</p>
+<p>（2）Default.aspx页面涉及到的控件如表1所示。</p>
+<p>（3）主要程序代码如下。<br>　打开SQL Server Management Studio，并连接到SQL Server2005中的数据库。单击工具栏中” “按钮，新建查询编辑器。在该查询编辑器中，创建验证登录用户身份的存储过程PROC_EXISTS，具体的SQL语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE PROC PROC_EXISTS </span><br><span class="line">( </span><br><span class="line">@UserName NVARCHAR(20), </span><br><span class="line">@PassWord NVARCHAR(20), </span><br><span class="line">@ReturnValue int OUTPUT </span><br><span class="line">) </span><br><span class="line">AS </span><br><span class="line">IF EXISTS(select * from tb_member where userName=@UserName AND passWord=@PassWord) </span><br><span class="line">       set @ReturnValue= 100 </span><br><span class="line">ELSE </span><br><span class="line">       set @ReturnValue= -100 </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>在”登录”按钮的Click事件下，执行验证登录用户身份的存储过程，如果输入的用户名和密码正确，则弹出对话框提示用户登录成功，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">protected void btnLogin_Click(object sender, EventArgs e) </span><br><span class="line">    &#123; </span><br><span class="line">        //连接数据库 </span><br><span class="line">        myConn = new SqlConnection(ConfigurationManager.AppSettings[&quot;ConnectionString&quot;].ToString()); </span><br><span class="line">        myCmd = new SqlCommand(&quot;PROC_EXISTS&quot;, myConn);   //调用存储过程，判断用户是否存在</span><br><span class="line">        myCmd.CommandType = CommandType.StoredProcedure; </span><br><span class="line">        //为存储过程的参数赋值 </span><br><span class="line">        SqlParameter userName=new SqlParameter(&quot;@UserName&quot;, SqlDbType.NVarChar, 20); </span><br><span class="line">        userName.Value=this.txtName.Text.Trim(); </span><br><span class="line">        myCmd.Parameters.Add(userName); </span><br><span class="line">        SqlParameter passWord=new SqlParameter(&quot;@PassWord&quot;, SqlDbType.NVarChar, 20); </span><br><span class="line">        passWord.Value = this.txtPassword.Text.Trim(); </span><br><span class="line">        myCmd.Parameters.Add(passWord); </span><br><span class="line">        //指出该参数是存储过程的OUTPUT参数 </span><br><span class="line">        SqlParameter ReturnValue = new SqlParameter(&quot;@ReturnValue&quot;,SqlDbType.Int ,4); </span><br><span class="line">        ReturnValue.Direction = ParameterDirection.Output; </span><br><span class="line">        myCmd.Parameters.Add(ReturnValue); </span><br><span class="line">        try </span><br><span class="line">        &#123; </span><br><span class="line">            myConn.Open(); </span><br><span class="line">            myCmd.ExecuteNonQuery(); </span><br><span class="line">            if (int.Parse(ReturnValue.Value.ToString()) == 100) </span><br><span class="line">            &#123; </span><br><span class="line">                Response.Write(&quot;&lt;script&gt;alert(&#x27;您是合法用户，登录成功！&#x27;)&lt;/script&gt;&quot;); </span><br><span class="line">                return; </span><br><span class="line">            &#125; </span><br><span class="line">            else </span><br><span class="line">            &#123; </span><br><span class="line">                Response.Write(&quot;&lt;script&gt;alert(&#x27;您输入的用户名和密码不正确，请重新输入！&#x27;)&lt;/script&gt;&quot;); </span><br><span class="line">                return; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">        catch(Exception ex) </span><br><span class="line">        &#123; </span><br><span class="line">            Response.Write(ex.Message.ToString()); </span><br><span class="line">        &#125; </span><br><span class="line">        finally </span><br><span class="line">        &#123; </span><br><span class="line">            myConn.Close(); </span><br><span class="line">            myConn.Dispose(); </span><br><span class="line">            myCmd.Dispose(); </span><br><span class="line">        &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/sql/summary/study.html">关于SQL学习过程</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/appendix/appendix.html">SQL语句大全分类整理</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90SQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">全面解析SQL存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-text">存储过程的优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">存储过程基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">创建存储过程的参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%93%8D%E4%BD%9C%E5%AD%A6%E4%B9%A0"><span class="toc-text">实例操作学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%8F%82%E6%95%B0%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">无参数存储过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%8F%82%E6%95%B0%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">有参数存储过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E8%AF%A6%E7%BB%86%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%93%8D%E4%BD%9C%E5%AD%A6%E4%B9%A0"><span class="toc-text">更详细的实例操作学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-text">存储过程的修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="toc-text">参数说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-text">存储过程的删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E9%AA%8C%E8%AF%81%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E8%BA%AB%E4%BB%BD%EF%BC%9A"><span class="toc-text">应用存储过程验证用户登录身份：</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/09/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

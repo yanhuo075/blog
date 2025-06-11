@@ -1,4 +1,4 @@
-name: sql
+name: SQL
 title: 数据库SQL语法大全
 subtitle: '数据库语法教程 | Designed by YanHuo075'
 tags: 数据库
@@ -28,7 +28,7 @@ tree:
     - sentence/andor
     - sentence/order
     - sentence/insert
-    - sentence/null
+    - sentence/kongzhi
     - sentence/update
     - sentence/delete
     - sentence/yunsf
@@ -69,7 +69,7 @@ tree:
     - sentence/repeat
     - sentence/useview
     - sentence/input
-    - sentence/having
+    - sentence/hav
     - sentence/affairs
     - sentence/sequence
     - sentence/wild
@@ -81,3 +81,34 @@ tree:
     - function/max
     - function/min
     - function/count
+    - function/avg
+    - function/sum
+    - function/datetime
+    - function/field
+    - function/first
+    - function/last
+    - function/groupby
+    - function/having
+    - function/case
+    - function/upper
+    - function/lower
+    - function/ucase
+    - function/lcase
+    - function/mid
+    - function/len
+    - function/round
+    - function/now
+    - function/format
+    - function/sqrt
+    - function/rand
+    - function/concat
+    - function/null
+    - function/replace
+    - function/trim
+
+  '第四章 SQL总结':
+    - summary/study
+    - summary/storage
+
+  '附录':
+    - appendix/appendix

@@ -1,0 +1,968 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>SQL：SQL 日期函数 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="SQL 日期函数 下面的列表中是 SQL 中所有与日期和时间相关的重要函数。你所用的 RDBMS 可能会支持更多其他的函数。下面的列表基于 MySQL 关系型数据库管理系统。 |—————————————-|—————————————————–| | 名称 | 描述 | | ADDDATE() | 增加日期 | | ADDTIME() | 增加时间 | | CONVERT_TZ() | 将当前时区">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SQL 日期函数">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/function/datetime.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="SQL 日期函数 下面的列表中是 SQL 中所有与日期和时间相关的重要函数。你所用的 RDBMS 可能会支持更多其他的函数。下面的列表基于 MySQL 关系型数据库管理系统。 |—————————————-|—————————————————–| | 名称 | 描述 | | ADDDATE() | 增加日期 | | ADDTIME() | 增加时间 | | CONVERT_TZ() | 将当前时区">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-11T06:22:58.061Z">
+<meta property="article:modified_time" content="2025-06-11T06:22:58.057Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'"><script src="/js/random.js"></script>
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/icon-db.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/sql/index.html"><div class="main" ff="title">SQL</div><div class="sub normal cap">数据库语法教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/sql/" placeholder="在SQL文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第一章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 概述</span></a></div><div class="widget-header dis-select"><span class="name">第二章 SQL语句</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/sentence/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link" href="/wiki/sql/sentence/rdbms.html"><span class="toc-text">SQL RBDMS概念</span></a><a class="link" href="/wiki/sql/sentence/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/sentence/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/sentence/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/sentence/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/sentence/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link" href="/wiki/sql/sentence/order.html"><span class="toc-text">SQL 按关键字排序</span></a><a class="link" href="/wiki/sql/sentence/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/sentence/kongzhi.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/sentence/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/sentence/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/sentence/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/sentence/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/sentence/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/sentence/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/sentence/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/sentence/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/sentence/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/sentence/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a><a class="link" href="/wiki/sql/sentence/datatype.html"><span class="toc-text">SQL 通用数据类型</span></a><a class="link" href="/wiki/sql/sentence/refer.html"><span class="toc-text">SQL 语句快速参考</span></a><a class="link" href="/wiki/sql/sentence/join.html"><span class="toc-text">SQL Join连接</span></a><a class="link" href="/wiki/sql/sentence/inner.html"><span class="toc-text">SQL 内部连接</span></a><a class="link" href="/wiki/sql/sentence/left.html"><span class="toc-text">SQL 左连接</span></a><a class="link" href="/wiki/sql/sentence/right.html"><span class="toc-text">SQL 右连接</span></a><a class="link" href="/wiki/sql/sentence/outer.html"><span class="toc-text">SQL 完整外部连接</span></a><a class="link" href="/wiki/sql/sentence/self.html"><span class="toc-text">SQL 自连接</span></a><a class="link" href="/wiki/sql/sentence/union.html"><span class="toc-text">SQL UNION运算符</span></a><a class="link" href="/wiki/sql/sentence/selectinto.html"><span class="toc-text">SQL SELECT INTO语句</span></a><a class="link" href="/wiki/sql/sentence/instosel.html"><span class="toc-text">SQL INSECT INTO SELECT语句</span></a><a class="link" href="/wiki/sql/sentence/drop.html"><span class="toc-text">SQL 撤销索引/表/数据库</span></a><a class="link" href="/wiki/sql/sentence/createdb.html"><span class="toc-text">SQL CREATE DATABASE语句</span></a><a class="link" href="/wiki/sql/sentence/createtable.html"><span class="toc-text">SQL CREATE TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/alter.html"><span class="toc-text">SQL ALTER TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/autoincrement.html"><span class="toc-text">SQL AUTO INCREMENT语句</span></a><a class="link" href="/wiki/sql/sentence/view.html"><span class="toc-text">SQL VIEW语句</span></a><a class="link" href="/wiki/sql/sentence/date.html"><span class="toc-text">SQL Date函数</span></a><a class="link" href="/wiki/sql/sentence/valuenull.html"><span class="toc-text">SQL NULL值处理</span></a><a class="link" href="/wiki/sql/sentence/aliases.html"><span class="toc-text">SQL Aliases别名</span></a><a class="link" href="/wiki/sql/sentence/constraint.html"><span class="toc-text">SQL Constraint约束</span></a><a class="link" href="/wiki/sql/sentence/unionziju.html"><span class="toc-text">SQL UNION子句</span></a><a class="link" href="/wiki/sql/sentence/clonedb.html"><span class="toc-text">SQL 克隆数据库</span></a><a class="link" href="/wiki/sql/sentence/dbindex.html"><span class="toc-text">SQL 索引</span></a><a class="link" href="/wiki/sql/sentence/subquery.html"><span class="toc-text">SQL 子查询</span></a><a class="link" href="/wiki/sql/sentence/alteryufa.html"><span class="toc-text">SQL ALTER TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/truncate.html"><span class="toc-text">SQL TRUNCATE TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/repeat.html"><span class="toc-text">SQL 处理重复数据</span></a><a class="link" href="/wiki/sql/sentence/useview.html"><span class="toc-text">SQL 使用视图</span></a><a class="link" href="/wiki/sql/sentence/input.html"><span class="toc-text">SQL 注入</span></a><a class="link" href="/wiki/sql/sentence/hav.html"><span class="toc-text">SQL HAVING 子句</span></a><a class="link" href="/wiki/sql/sentence/affairs.html"><span class="toc-text">SQL 事务</span></a><a class="link" href="/wiki/sql/sentence/sequence.html"><span class="toc-text">SQL 使用序列</span></a><a class="link" href="/wiki/sql/sentence/wild.html"><span class="toc-text">SQL 通配符</span></a><a class="link" href="/wiki/sql/sentence/temp.html"><span class="toc-text">SQL 临时表</span></a><a class="link" href="/wiki/sql/sentence/summary.html"><span class="toc-text">SQL 各种数据库的数据类型</span></a></div><div class="widget-header dis-select"><span class="name">第三章 SQL函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/function/function.html"><span class="toc-text">SQL 函数说明</span></a><a class="link" href="/wiki/sql/function/max.html"><span class="toc-text">SQL MAX() 函数</span></a><a class="link" href="/wiki/sql/function/min.html"><span class="toc-text">SQL MIN() 函数</span></a><a class="link" href="/wiki/sql/function/count.html"><span class="toc-text">SQL COUNT() 函数</span></a><a class="link" href="/wiki/sql/function/avg.html"><span class="toc-text">SQL AVG() 函数</span></a><a class="link" href="/wiki/sql/function/sum.html"><span class="toc-text">SQL SUM() 函数</span></a><a class="link active" href="/wiki/sql/function/datetime.html"><span class="toc-text">SQL 日期函数</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/sql/function/field.html"><span class="toc-text">SQL FIELD()函数</span></a><a class="link" href="/wiki/sql/function/first.html"><span class="toc-text">SQL FIRST()函数</span></a><a class="link" href="/wiki/sql/function/last.html"><span class="toc-text">SQL LAST()函数</span></a><a class="link" href="/wiki/sql/function/groupby.html"><span class="toc-text">SQL GROUP BY()函数</span></a><a class="link" href="/wiki/sql/function/having.html"><span class="toc-text">SQL HAVING函数</span></a><a class="link" href="/wiki/sql/function/case.html"><span class="toc-text">SQL 字母大小写转换函数</span></a><a class="link" href="/wiki/sql/function/upper.html"><span class="toc-text">SQL UPPER()函数</span></a><a class="link" href="/wiki/sql/function/lower.html"><span class="toc-text">SQL LOWER()函数</span></a><a class="link" href="/wiki/sql/function/ucase.html"><span class="toc-text">SQL UCASE()函数</span></a><a class="link" href="/wiki/sql/function/lcase.html"><span class="toc-text">SQL LCASE()函数</span></a><a class="link" href="/wiki/sql/function/mid.html"><span class="toc-text">SQL MID()函数</span></a><a class="link" href="/wiki/sql/function/len.html"><span class="toc-text">SQL LEN()函数</span></a><a class="link" href="/wiki/sql/function/round.html"><span class="toc-text">SQL ROUND()函数</span></a><a class="link" href="/wiki/sql/function/now.html"><span class="toc-text">SQL NOW()函数</span></a><a class="link" href="/wiki/sql/function/format.html"><span class="toc-text">SQL FORMAT()函数</span></a><a class="link" href="/wiki/sql/function/sqrt.html"><span class="toc-text">SQL SQRT()函数</span></a><a class="link" href="/wiki/sql/function/rand.html"><span class="toc-text">SQL RAND()函数</span></a><a class="link" href="/wiki/sql/function/concat.html"><span class="toc-text">SQL CONCAT()函数</span></a><a class="link" href="/wiki/sql/function/null.html"><span class="toc-text">SQL NULL()函数</span></a><a class="link" href="/wiki/sql/function/replace.html"><span class="toc-text">SQL REPLACE()函数</span></a><a class="link" href="/wiki/sql/function/trim.html"><span class="toc-text">SQL TRIM()函数</span></a></div><div class="widget-header dis-select"><span class="name">第四章 SQL总结</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/summary/study.html"><span class="toc-text">关于SQL学习过程</span></a><a class="link" href="/wiki/sql/summary/storage.html"><span class="toc-text">全面解析SQL存储过程</span></a></div><div class="widget-header dis-select"><span class="name">附录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/appendix/appendix.html"><span class="toc-text">SQL语句大全分类整理</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/sql/index.html">SQL</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T06:22:58.057Z">2025-06-11</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>SQL 日期函数</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="SQL-日期函数"><a href="#SQL-日期函数" class="headerlink" title="SQL 日期函数"></a>SQL 日期函数</h2><hr>
+<p>下面的列表中是 SQL 中所有与日期和时间相关的重要函数。你所用的 RDBMS 可能会支持更多其他的函数。下面的列表基于 MySQL 关系型数据库管理系统。</p>
+<p>|—————————————-|—————————————————–| | 名称 | 描述 | | ADDDATE() | 增加日期 | | ADDTIME() | 增加时间 | | CONVERT_TZ() | 将当前时区更改为另一时区 | | CURDATE() | 返回当前日期 | | CURRENT_DATE(), CURRENT_DATE | CURDATE() 的别名 | | CURRENT_TIME(), CURRENT_TIME | CURTIME() 的别名 | | CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP | NOW() 的别名 | | CURTIME() | 返回当前时间 | | DATE_ADD() | 将两个日期相加 | | DATE_FORMAT() | 按照指定格式格式化日期 | | DATE_SUB() | 将两个日期相减 | | DATE() | 从 date 或者 datetime 表达式中提取出日期部分 | | DATEDIFF() | 将两个日期相减 | | DAY() | DAYOFMONTH() 的别名 | | DAYNAME() | 返回某天在用星期中的名称 | | DAYOFMONTH() | 返回某天是当月的第几天 （1-31） | | DAYOFWEEK() | 返回某天是该星期的第几天 | | DAYOFYEAR() | 返回某天是一年中的第几天（1-366） | | EXTRACT | 提取日期中的某一部分 | | FROM_DAYS() | 将天数转换为日期 | | FROM_UNIXTIME() | 将某个日期格式化为 UNIX 时间戳 | | HOUR() | 提取小时 | | LAST_DAY | 返回参数日期所在月份的最后一天 | | LOCALTIME(), LOCALTIME | NOW() 的别名 | | LOCALTIMESTAMP, LOCALTIMESTAMP() | NOW() 的别名 | | MAKEDATE() | 利用年份和某天在该年所处的天数来创建日期 | | MAKETIME | MAKETIME() | | MICROSECOND() | 由参数返回微秒 | | MINUTE() | 由参数返回分钟 | | MONTH() | 返回日期参数的月份 | | MONTHNAME() | 返回月份的名字 | | NOW() | 返回当前日期和时间 | | PERIOD_ADD() | 向年月格式的日期数据之间添加一段时间 | | PERIOD_DIFF() | 返回两个年月格式的日期数据之间的月份数 | | QUARTER() | 返回日期参数所在的季度 | | SEC_TO_TIME() | 将秒数转换为 ‘HH:MM:SS’ 格式 | | SECOND() | 返回参数中的秒数 (0-59) | | STR_TO_DATE() | 将字符串转换为日期数据 | | SUBDATE() | 以三个参数调用的时候是 DATE_SUB() 的同义词 | | SUBTIME() | 减去时间 | | SYSDATE() | 返回函数执行的时的时刻 | | TIME_FORMAT() | 格式化时间 | | TIME_TO_SEC() | 将时间参数转换为秒数 | | TIME() | 返回参数表达式中的时间部分 | | TIMEDIFF() | 将两个时间相减 | | TIMESTAMP() | 只有一个参数时，该函数返回 date 或者 datetime 表达式。当有两个参数时，将两个参数相加。 | | TIMESTAMPADD() | 在 datetime 表达式上加上一段时间 | | TIMESTAMPDIFF() | 在 datetime 表达式上减去一段时间 | | TO_DAYS() | 将日期参数转换为天数 | | UNIX_TIMESTAMP() | 返回 UNIX 时间戳 | | UTC_DATE() | 返回当前 UTC 日期 | | UTC_TIME() | 返回当前 UTC 时间 | | UTC_TIMESTAMP() | 返回当前 UTC 日期和时间 | | WEEK() | 返回参数的星期数 | | WEEKDAY() | 返回日期参数时一个星期中的第几天 | | WEEKOFYEAR() | 返回日期参数是日历上的第几周 (1-53) | | YEAR() | 返回日期参数中的年份 | | YEARWEEK() | 返回年份和星期 |</p>
+<h2 id="ADDDATE-date-INTERVAL-expr-unit-ADDDATE-expr-days"><a href="#ADDDATE-date-INTERVAL-expr-unit-ADDDATE-expr-days" class="headerlink" title="ADDDATE(date, INTERVAL expr unit), ADDDATE(expr, days)"></a>ADDDATE(date, INTERVAL expr unit), ADDDATE(expr, days)</h2><hr>
+<p>如果调用时第二个参数为 INTERVAL 形式的话，ADDDATE() 就是 DATE_ADD() 的同义词。同样的情况下，SUBDATE() 是 DATE_SUB() 的同义词。有关 INTERVAL 单位参数的信息，见有关 DATE_ADD() 的讨论。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_ADD(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_ADD(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY)                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998-02-02                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT ADDDATE(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| ADDDATE(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY)                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998-02-02                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>如果调用时第二个参数为天数形式的话，则 MySQL 会将其作为整数加到 expr 上。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT ADDDATE(&#x27;1998-01-02&#x27;, 31);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_ADD(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY)                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998-02-02                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="ADDTIME-expr1-expr2"><a href="#ADDTIME-expr1-expr2" class="headerlink" title="ADDTIME(expr1,expr2)"></a>ADDTIME(expr1,expr2)</h2><hr>
+<p>ADDTIME() 将 expr2 加到 expr1 上，并返回结果。expr1 为 time 或者 datetime 表达式，expr2 为 time 表达式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT ADDTIME(&#x27;1997-12-31 23:59:59.999999&#x27;,&#x27;1 1:1:1.000002&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_ADD(&#x27;1997-12-31 23:59:59.999999&#x27;,&#x27;1 1:1:1.000002&#x27;) |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998-01-02 01:01:01.000001                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="CONVERT-TZ-dt-from-tz-to-tz"><a href="#CONVERT-TZ-dt-from-tz-to-tz" class="headerlink" title="CONVERT_TZ(dt,from_tz,to_tz)"></a>CONVERT_TZ(dt,from_tz,to_tz)</h2><hr>
+<p>该函数将 datetime 类型的值 dt 的时区从 from_dt 转换为 to_dt，并返回结果。如果参数无效，则函数返回 NULL。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT CONVERT_TZ(&#x27;2004-01-01 12:00:00&#x27;,&#x27;GMT&#x27;,&#x27;MET&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CONVERT_TZ(&#x27;2004-01-01 12:00:00&#x27;,&#x27;GMT&#x27;,&#x27;MET&#x27;)           |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2004-01-01 13:00:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT CONVERT_TZ(&#x27;2004-01-01 12:00:00&#x27;,&#x27;+00:00&#x27;,&#x27;+10:00&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CONVERT_TZ(&#x27;2004-01-01 12:00:00&#x27;,&#x27;+00:00&#x27;,&#x27;+10:00&#x27;)     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2004-01-01 22:00:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="CURDATE"><a href="#CURDATE" class="headerlink" title="CURDATE()"></a>CURDATE()</h2><hr>
+<p>以 ‘YYYY-MM-DD’（字符串） 或者 YYYYMMDD（数值） 的形式返回当前日期， 具体形式取决于函数处于字符串还是数值型的上下文环境中。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT CURDATE();</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CURDATE()                                               |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-12-15                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT CURDATE() + 0;</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CURDATE() + 0                                           |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 19971215                                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="CURRENT-DATE-and-CURRENT-DATE"><a href="#CURRENT-DATE-and-CURRENT-DATE" class="headerlink" title="CURRENT_DATE and CURRENT_DATE()"></a>CURRENT_DATE and CURRENT_DATE()</h2><hr>
+<p>CURRENT_DATE 和 CURRENT_DATE() 是 CURDATE() 的别名。</p>
+<h2 id="CURTIME"><a href="#CURTIME" class="headerlink" title="CURTIME()"></a>CURTIME()</h2><hr>
+<p>以 ‘HH:MM:SS’（字符串） 或者 HHMMSS（数值） 的形式返回当前时间， 具体形式取决于函数处于字符串还是数值型的上下文环境中。该函数按照当前时区来表示返回值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT CURTIME();</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CURTIME()                                               |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 23:50:26                                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT CURTIME() + 0;</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| CURTIME() + 0                                           |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 235026                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="CURRENT-TIME-and-CURRENT-TIME"><a href="#CURRENT-TIME-and-CURRENT-TIME" class="headerlink" title="CURRENT_TIME and CURRENT_TIME()"></a>CURRENT_TIME and CURRENT_TIME()</h2><hr>
+<p>CURRENT_TIME 和 CURRENT_TIME() 是 CURTIME() 的别名。</p>
+<h2 id="CURRENT-TIMESTAMP-and-CURRENT-TIMESTAMP"><a href="#CURRENT-TIMESTAMP-and-CURRENT-TIMESTAMP" class="headerlink" title="CURRENT_TIMESTAMP and CURRENT_TIMESTAMP()"></a>CURRENT_TIMESTAMP and CURRENT_TIMESTAMP()</h2><hr>
+<p>CURRENT_TIMESTAMP 和 CURRENT_TIMESTAMP() 是 NOW() 的别名。</p>
+<h2 id="DATE-expr"><a href="#DATE-expr" class="headerlink" title="DATE(expr)"></a>DATE(expr)</h2><hr>
+<p>提取 date 表达式或者 datetime 表达式中的日期部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATE(&#x27;2003-12-31 01:02:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE(&#x27;2003-12-31 01:02:03&#x27;)                             |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|  2003-12-31                                             |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DATEDIFF-expr1-expr2"><a href="#DATEDIFF-expr1-expr2" class="headerlink" title="DATEDIFF(expr1,expr2)"></a>DATEDIFF(expr1,expr2)</h2><hr>
+<p>DATEDIFF() 返回 expr1 和 expr2 的差，以天数的形式表示。expr1 和 expr2 应为 date 或者 datetime 表达式。只有参数的日期部分参与了计算。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATEDIFF(&#x27;1997-12-31 23:59:59&#x27;,&#x27;1997-12-30&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATEDIFF(&#x27;1997-12-31 23:59:59&#x27;,&#x27;1997-12-30&#x27;)            |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DATE-ADD-date-INTERVAL-expr-unit-DATE-SUB-date-INTERVAL-expr-unit"><a href="#DATE-ADD-date-INTERVAL-expr-unit-DATE-SUB-date-INTERVAL-expr-unit" class="headerlink" title="DATE_ADD(date,INTERVAL expr unit), DATE_SUB(date,INTERVAL expr unit)"></a>DATE_ADD(date,INTERVAL expr unit), DATE_SUB(date,INTERVAL expr unit)</h2><hr>
+<p>这些函数进行有关日期的算术运算。date 是一个 DATETIME 或者 DATE 类型的值，指明了起始时间。expr 表达式则是 date 要增加或者减去的时间间隔。expr 是一个字符串，可以以 ‘-‘ 开始来表示负时间区间。 unit 是一个关键词，指明了expr 的单位。</p>
+<p>INTERVAL 关键字和 unit（单位）指示符不区分大小写。</p>
+<p>下表列出了对于每种单位，expr 应有的形式。</p>
+<p>|——————–|————| | unit 值 | expr 应有的格式 | | MICROSECOND | 微秒 | | SECOND | 秒 | | MINUTE | 分钟 | | HOUR | 小时 | | DAY | 天 | | WEEK | 星期 | | MONTH | 月 | | QUARTER | 季度 | | YEAR | 年 | | SECOND_MICROSECOND | ‘秒.微秒’ | | MINUTE_MICROSECOND | ‘分.微秒’ | | MINUTE_SECOND | ‘分:秒’ | | HOUR_MICROSECOND | ‘小时.微秒’ | | HOUR_SECOND | ‘时:分:秒’ | | HOUR_MINUTE | ‘时:分’ | | DAY_MICROSECOND | ‘天.微秒’ | | DAY_SECOND | ‘天 时:分:秒’ | | DAY_MINUTE | ‘天 时:分’ | | DAY_HOUR | ‘天 时’ | | YEAR_MONTH | ‘年-月’ |</p>
+<p>QUARTER 和 WEEK 自 MySQL 5.0.0 起受到支持。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_ADD(&#x27;1997-12-31 23:59:59&#x27;, </span><br><span class="line">    -&gt; INTERVAL &#x27;1:1&#x27; MINUTE_SECOND);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_ADD(&#x27;1997-12-31 23:59:59&#x27;, INTERVAL...             |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998-01-01 00:01:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT DATE_ADD(&#x27;1999-01-01&#x27;, INTERVAL 1 HOUR);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_ADD(&#x27;1999-01-01&#x27;, INTERVAL 1 HOUR)                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1999-01-01 01:00:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DATE-FORMAT-date-format"><a href="#DATE-FORMAT-date-format" class="headerlink" title="DATE_FORMAT(date,format)"></a>DATE_FORMAT(date,format)</h2><hr>
+<p>根据格式字符串对日期值进行格式化。</p>
+<p>下面这些占位符可以用在格式字符串中，’%’ 必须出现在特定的格式字符之前。</p>
+<p>|—–|——————————————| | 占位符 | 描述 | | %a | 简写的星期名称（Sun..Sat） | | %b | 简写的月份名称 （Jan..Dec） | | %c | 月份，以数值形式表示（0..12） | | %D | 月份中的日期，带有英文后缀（0th，1st，2nd，3rd 等等） | | %d | 月份中的日期，以数值表示 (00..31) | | %e | 月份中的日期，以数值表示 (0..31) | | %f | 微秒（000000..999999） | | %H | 小时(00..23) | | %h | 小时(01..12) | | %I | 小时(01..12) | | %i | 分钟,以数值表示(00..59) | | %j | 一年中的第几天（001..366） | | %k | 小时（0..23） | | %l | 小时（1..12） | | %M | 月份的名称（January..December） | | %m | 月份，以数值形式表示（00..12） | | %p | AM 或者 PM | | %r | 时间，12 小时制(hh:mm:ss followed by AM or PM) | | %S | 秒(00..59) | | %s | 秒(00..59) | | %T | 时间，24小时制（hh:mm:ss） | | %U | 星期（00..53），此处星期日为一周的第一天 | | %u | 星期（00..53），此处星期一为一周的第一天 | | %V | 星期（01..53），此处星期日为一周的第一天；与 %X 一起使用。 | | %v | 星期（01..53），此处星期一为一周的第一天；与 %x 一起使用。 | | %W | 一周中日期的名称（Sunday..Saturday） | | %w | 一周中的第几天（0&#x3D;Sunday..6&#x3D;Saturday） | | %X | 以星期日为第一天的周所处的年份，四位数字表示；同 %V 一起使用。 | | %x | 以星期一为第一天的周所处的年份，四位数字表示；同 %v 一起使用。 | | %Y | 年份，四位数字表示。 | | %y | 年份，两位数字表示。 | | %% | % 字面值 | | %x | x，针对任何以上没有列出的情况。 |</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_FORMAT(&#x27;1997-10-04 22:23:00&#x27;, &#x27;%W %M %Y&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_FORMAT(&#x27;1997-10-04 22:23:00&#x27;, &#x27;%W %M %Y&#x27;)          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| Saturday October 1997                                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT DATE_FORMAT(&#x27;1997-10-04 22:23:00&#x27;</span><br><span class="line">    -&gt; &#x27;%H %k %I %r %T %S %w&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_FORMAT(&#x27;1997-10-04 22:23:00.......                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|  22 22 10 10:23:00 PM 22:23:00 00 6                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DATE-SUB-date-INTERVAL-expr-unit"><a href="#DATE-SUB-date-INTERVAL-expr-unit" class="headerlink" title="DATE_SUB(date,INTERVAL expr unit)"></a>DATE_SUB(date,INTERVAL expr unit)</h2><hr>
+<p>同 DATE_ADD() 函数相似。</p>
+<h2 id="DAY-date"><a href="#DAY-date" class="headerlink" title="DAY(date)"></a>DAY(date)</h2><hr>
+<p>DAY() 是 DAYOFMONTH() 的别名。</p>
+<h2 id="DAYNAME-date"><a href="#DAYNAME-date" class="headerlink" title="DAYNAME(date)"></a>DAYNAME(date)</h2><hr>
+<p>返回 date 在星期中的名称。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DAYNAME(&#x27;1998-02-05&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DAYNAME(&#x27;1998-02-05&#x27;)                                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| Thursday                                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DAYOFMONTH-date"><a href="#DAYOFMONTH-date" class="headerlink" title="DAYOFMONTH(date)"></a>DAYOFMONTH(date)</h2><hr>
+<p>返回 date 是当月的第几天，范围为 0 到 31。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DAYOFMONTH(&#x27;1998-02-03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DAYOFMONTH(&#x27;1998-02-03&#x27;)                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 3                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DAYOFWEEK-date"><a href="#DAYOFWEEK-date" class="headerlink" title="DAYOFWEEK(date)"></a>DAYOFWEEK(date)</h2><hr>
+<p>返回 date 是其所在星期的第几天(1 &#x3D; Sunday, 2 &#x3D; Monday,.., 7 &#x3D; Saturday)，这里一星期中日期的名称与数字的对应关系符合 ODBC 标准。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DAYOFWEEK(&#x27;1998-02-03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|DAYOFWEEK(&#x27;1998-02-03&#x27;)                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 3                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DAYOFYEAR-date"><a href="#DAYOFYEAR-date" class="headerlink" title="DAYOFYEAR(date)"></a>DAYOFYEAR(date)</h2><hr>
+<p>返回 date 是当年的第几天，范围为 1 到 366。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DAYOFYEAR(&#x27;1998-02-03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DAYOFYEAR(&#x27;1998-02-03&#x27;)                                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 34                                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="EXTRACT-unit-FROM-date"><a href="#EXTRACT-unit-FROM-date" class="headerlink" title="EXTRACT(unit FROM date)"></a>EXTRACT(unit FROM date)</h2><hr>
+<p>EXTRACT() 与 DATE_ADD() 和 DATE_SUB() 使用相同的表示单位的占位符，其作用是提取日期值中相应的组成部分，而不是进行日期运算。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT EXTRACT(YEAR FROM &#x27;1999-07-02&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| EXTRACT(YEAR FROM &#x27;1999-07-02&#x27;)                         |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1999                                                    |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT EXTRACT(YEAR_MONTH FROM &#x27;1999-07-02 01:02:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| EXTRACT(YEAR_MONTH FROM &#x27;1999-07-02 01:02:03&#x27;)          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 199907                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="FROM-DAYS-N"><a href="#FROM-DAYS-N" class="headerlink" title="FROM_DAYS(N)"></a>FROM_DAYS(N)</h2><hr>
+<p>给出天数 N，返回 DATE 值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT FROM_DAYS(729669);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| FROM_DAYS(729669)                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-10-07                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>在使用 FROM_DAYS() 处理比较老的日期的时候应当特别小心，该函数不适用于格里高利历诞生（1582）之前的日期。</p>
+<h2 id="FROM-UNIXTIME-unix-timestamp-FROM-UNIXTIME-unix-timestamp-format"><a href="#FROM-UNIXTIME-unix-timestamp-FROM-UNIXTIME-unix-timestamp-format" class="headerlink" title="FROM_UNIXTIME(unix_timestamp), FROM_UNIXTIME(unix_timestamp,format)"></a>FROM_UNIXTIME(unix_timestamp), FROM_UNIXTIME(unix_timestamp,format)</h2><hr>
+<p>返回 UNIX 时间戳对应的日期值，根据函数所处的上下文环境不同，返回值得格式也不同，字符串上下文返回格式为 ‘YYYY-MM-DD HH:MM:SS’，数值型上下文返回格式则为 YYYYMMDDHHMMSS。返回值的时区为系统当前时区。UNIX 时间戳是一种系统内部时间表示，例如 UNIX_TIMESTAMP() 的返回值。</p>
+<p>如果给定格式的话，返回结果将会根据格式字符串进行格式化，其规则同 DATE_FORMAT() 函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT FROM_UNIXTIME(875996580);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| FROM_UNIXTIME(875996580)                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-10-04 22:23:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="HOUR-time"><a href="#HOUR-time" class="headerlink" title="HOUR(time)"></a>HOUR(time)</h2><hr>
+<p>返回时间值的小时部分。对于一天中的时间来说，返回值的范围为 0 到 23。不过，TIME 类型的值可以大得多，所以 HOUR 函数可以返回比 23 大的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT HOUR(&#x27;10:05:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| HOUR(&#x27;10:05:03&#x27;)                                        |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 10                                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="LAST-DAY-date"><a href="#LAST-DAY-date" class="headerlink" title="LAST_DAY(date)"></a>LAST_DAY(date)</h2><hr>
+<p>返回 date 或者 datetime 值所在月份的最后一天。如果参数无效的话，返回　NULL。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT LAST_DAY(&#x27;2003-02-05&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| LAST_DAY(&#x27;2003-02-05&#x27;)                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2003-02-28                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="LOCALTIME-and-LOCALTIME"><a href="#LOCALTIME-and-LOCALTIME" class="headerlink" title="LOCALTIME and LOCALTIME()"></a>LOCALTIME and LOCALTIME()</h2><hr>
+<p>LOCALTIME 和 LOCALTIME() 是 NOW() 的别名。</p>
+<h2 id="LOCALTIMESTAMP-and-LOCALTIMESTAMP"><a href="#LOCALTIMESTAMP-and-LOCALTIMESTAMP" class="headerlink" title="LOCALTIMESTAMP and LOCALTIMESTAMP()"></a>LOCALTIMESTAMP and LOCALTIMESTAMP()</h2><hr>
+<p>LOCALTIMESTAMP 和 LOCALTIMESTAMP() 是 NOW() 的别名。</p>
+<h2 id="MAKEDATE-year-dayofyear"><a href="#MAKEDATE-year-dayofyear" class="headerlink" title="MAKEDATE(year,dayofyear)"></a>MAKEDATE(year,dayofyear)</h2><hr>
+<p>给定年份和（某天在一年中）的天数，返回对应的日期值。天数必须大于 0，否则返回值为 NULL。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MAKEDATE(2001,31), MAKEDATE(2001,32);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MAKEDATE(2001,31), MAKEDATE(2001,32)                    |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| &#x27;2001-01-31&#x27;, &#x27;2001-02-01&#x27;                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MAKETIME-hour-minute-second"><a href="#MAKETIME-hour-minute-second" class="headerlink" title="MAKETIME(hour,minute,second)"></a>MAKETIME(hour,minute,second)</h2><hr>
+<p>根据参数给出的时、分、秒，返回对应的时间值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MAKETIME(12,15,30);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MAKETIME(12,15,30)                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| &#x27;12:15:30&#x27;                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MICROSECOND-expr"><a href="#MICROSECOND-expr" class="headerlink" title="MICROSECOND(expr)"></a>MICROSECOND(expr)</h2><hr>
+<p>根据 time 或者 datetime 表达式 expr，返回微秒数，结果在 0 到 999999 之间。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MICROSECOND(&#x27;12:00:00.123456&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MICROSECOND(&#x27;12:00:00.123456&#x27;)                          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 123456                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MINUTE-time"><a href="#MINUTE-time" class="headerlink" title="MINUTE(time)"></a>MINUTE(time)</h2><hr>
+<p>返回时间型值中的分钟部分，范围为 0 到 59。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MINUTE(&#x27;98-02-03 10:05:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MINUTE(&#x27;98-02-03 10:05:03&#x27;)                             |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 5                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MONTH-date"><a href="#MONTH-date" class="headerlink" title="MONTH(date)"></a>MONTH(date)</h2><hr>
+<p>返回日期型值中的月份，范围为 0 到 12。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MONTH(&#x27;1998-02-03&#x27;)</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MONTH(&#x27;1998-02-03&#x27;)                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MONTHNAME-date"><a href="#MONTHNAME-date" class="headerlink" title="MONTHNAME(date)"></a>MONTHNAME(date)</h2><hr>
+<p>返回日期型值所处月份的全名。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT MONTHNAME(&#x27;1998-02-05&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| MONTHNAME(&#x27;1998-02-05&#x27;)                                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| February                                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="NOW"><a href="#NOW" class="headerlink" title="NOW()"></a>NOW()</h2><hr>
+<p>返回当前的日期和时间，结果的格式为 ‘YYYY-MM-DD HH:MM:SS’ 或者 YYYYMMDDHHMMSS，如果函数上下文环境为字符型，则返回前者，否则如果函数处于数值型的上下文环境，则返回后者。返回值的时区为系统当前时区。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT NOW();</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| NOW()                                                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-12-15 23:50:26                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="PERIOD-ADD-P-N"><a href="#PERIOD-ADD-P-N" class="headerlink" title="PERIOD_ADD(P,N)"></a>PERIOD_ADD(P,N)</h2><hr>
+<p>在时间 P（格式为 YYMM 或者 YYYYMM）上加上 N 个月，结果格式为 YYYYMM。注意，时间参数 P 并不是日期型值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT PERIOD_ADD(9801,2);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| PERIOD_ADD(9801,2)                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 199803                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="PERIOD-DIFF-P1-P2"><a href="#PERIOD-DIFF-P1-P2" class="headerlink" title="PERIOD_DIFF(P1,P2)"></a>PERIOD_DIFF(P1,P2)</h2><hr>
+<p>返回时间 P1 和 P2 之间相差的月份。 P1 和 P2 的格式应为 YYMM 或者 YYYYMM。注意I，P1 和 P2 不是日期型值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT PERIOD_DIFF(9802,199703);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| PERIOD_DIFF(9802,199703)                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 11                                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="QUARTER-date"><a href="#QUARTER-date" class="headerlink" title="QUARTER(date)"></a>QUARTER(date)</h2><hr>
+<p>返回日期型值 date 所处的季度值，范围为 1 到 4。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT QUARTER(&#x27;98-04-01&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| QUARTER(&#x27;98-04-01&#x27;)                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="SECOND-time"><a href="#SECOND-time" class="headerlink" title="SECOND(time)"></a>SECOND(time)</h2><hr>
+<p>返回时间型值中秒的部分，范围为 0 到 59。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT SECOND(&#x27;10:05:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| SECOND(&#x27;10:05:03&#x27;)                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 3                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="SEC-TO-TIME-seconds"><a href="#SEC-TO-TIME-seconds" class="headerlink" title="SEC_TO_TIME(seconds)"></a>SEC_TO_TIME(seconds)</h2><hr>
+<p>将参数中的秒数转换为时分秒的格式 ‘HH:MM:SS’ 或者 HHMMSS，如果函数所处的上下文为字符串型，则返回前者，否则如果上下文环境为数值型，则返回后者。</p>
+<h2 id="STR-TO-DATE-str-format"><a href="#STR-TO-DATE-str-format" class="headerlink" title="STR_TO_DATE(str,format)"></a>STR_TO_DATE(str,format)</h2><hr>
+<p>这是 DATE_FORMATE() 函数的逆函数，其参数为表示时间和日期的字符串 str 和一个格式字符串 format。如果格式字符串中既有日期又有时间，则 STR_TO_DATE() 返回 DATETIME() 型的值，否则返回日期型（DATE）或者时间型（TIME）的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT STR_TO_DATE(&#x27;04/31/2004&#x27;, &#x27;%m/%d/%Y&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| STR_TO_DATE(&#x27;04/31/2004&#x27;, &#x27;%m/%d/%Y&#x27;)                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2004-04-31                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="SUBDATE-date-INTERVAL-expr-unit-and-SUBDATE-expr-days"><a href="#SUBDATE-date-INTERVAL-expr-unit-and-SUBDATE-expr-days" class="headerlink" title="SUBDATE(date,INTERVAL expr unit) and SUBDATE(expr,days)"></a>SUBDATE(date,INTERVAL expr unit) and SUBDATE(expr,days)</h2><hr>
+<p>当第二个参数为 INTERVAL 形式时，SUBDATE() 就是 DATE_SUB() 的别名。INTERVAL 参数中单位的信息，请见有关 DATE_ADD() 的讨论。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_SUB(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| DATE_SUB(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY)                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-12-02                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT SUBDATE(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| SUBDATE(&#x27;1998-01-02&#x27;, INTERVAL 31 DAY)                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1997-12-02                                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="SUBTIME-expr1-expr2"><a href="#SUBTIME-expr1-expr2" class="headerlink" title="SUBTIME(expr1,expr2)"></a>SUBTIME(expr1,expr2)</h2><hr>
+<p>SUBTIME() 返回 expr1-expr2，结果的格式与 expr1 相同。expr1 是一个时间型（time）或者 datetime 型的表达式，expr2 是时间型值。</p>
+<h2 id="SYSDATE"><a href="#SYSDATE" class="headerlink" title="SYSDATE()"></a>SYSDATE()</h2><hr>
+<p>返回当前的日期和时间，格式为 ‘YYYY-MM-DD HH:MM:SS’ 或 YYYYMMDDHHMMSS，如果函数所处的上下文环境为字符串，则返回前者，否则如果上下文环境为数值型，则返回后者。</p>
+<p>sql</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT SYSDATE();</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| SYSDATE()                                               |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2006-04-12 13:47:44                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIME-expr"><a href="#TIME-expr" class="headerlink" title="TIME(expr)"></a>TIME(expr)</h2><hr>
+<p>提取时间型或者 datetime 型表达式 expr 中的时间部分，返回结果为字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIME(&#x27;2003-12-31 01:02:03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIME(&#x27;2003-12-31 01:02:03&#x27;)                             |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 01:02:03                                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIMEDIFF-expr1-expr2"><a href="#TIMEDIFF-expr1-expr2" class="headerlink" title="TIMEDIFF(expr1,expr2)"></a>TIMEDIFF(expr1,expr2)</h2><hr>
+<p>TIMEDIFF() 返回 expr1-expr2，结果为时间型值。expr1 和 expr2 可以为时间型或者 datetime 型表达式，不过二者必须为相同类型。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIMEDIFF(&#x27;1997-12-31 23:59:59.000001&#x27;,</span><br><span class="line">    -&gt; &#x27;1997-12-30 01:01:01.000002&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIMEDIFF(&#x27;1997-12-31 23:59:59.000001&#x27;.....              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|  46:58:57.999999                                        |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIMESTAMP-expr-TIMESTAMP-expr1-expr2"><a href="#TIMESTAMP-expr-TIMESTAMP-expr1-expr2" class="headerlink" title="TIMESTAMP(expr), TIMESTAMP(expr1,expr2)"></a>TIMESTAMP(expr), TIMESTAMP(expr1,expr2)</h2><hr>
+<p>只有一个参数的时候，该函数由日期型或者 datetime 型表达式返回一个 datetime 型值。有两个参数的时候，该函数将 expr2 加到日期型或 datetime 型值 expr1 上，并返回 datetime 型的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIMESTAMP(&#x27;2003-12-31&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIMESTAMP(&#x27;2003-12-31&#x27;)                                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2003-12-31 00:00:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIMESTAMPADD-unit-interval-datetime-expr"><a href="#TIMESTAMPADD-unit-interval-datetime-expr" class="headerlink" title="TIMESTAMPADD(unit,interval,datetime_expr)"></a>TIMESTAMPADD(unit,interval,datetime_expr)</h2><hr>
+<p>将整数型的表达式 interval 加到日期型或者 datetime 型表达式 datetime_expr 上。单位由 unit 参数给出，其取值应为以下几种中的一种：FRAC_SECOND、SECOND、MINUTE、HOUR、DAY、WEEK、MONTH、QUARTER 或者 YEAR。</p>
+<p>单位 unit 可以为上述关键字中的一个，也可以添加一个 SQL<em>TSI</em> 前缀，例如 DAY 和 SQL_TSI_DAY 都是合法的。</p>
+<p>sql</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIMESTAMPADD(MINUTE,1,&#x27;2003-01-02&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIMESTAMPADD(MINUTE,1,&#x27;2003-01-02&#x27;)                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2003-01-02 00:01:00                                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIMESTAMPDIFF-unit-datetime-expr1-datetime-expr2"><a href="#TIMESTAMPDIFF-unit-datetime-expr1-datetime-expr2" class="headerlink" title="TIMESTAMPDIFF(unit,datetime_expr1,datetime_expr2)"></a>TIMESTAMPDIFF(unit,datetime_expr1,datetime_expr2)</h2><hr>
+<p>返回日期型或者 datetime 型表达式 datetime_expr1 和 datetime_expr2 的差。结果的单位由 unit 参数给出，unit 的取值规定同 TIMESTAMPADD() 函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIMESTAMPDIFF(MONTH,&#x27;2003-02-01&#x27;,&#x27;2003-05-01&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIMESTAMPDIFF(MONTH,&#x27;2003-02-01&#x27;,&#x27;2003-05-01&#x27;)          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 3                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIME-FORMAT-time-format"><a href="#TIME-FORMAT-time-format" class="headerlink" title="TIME_FORMAT(time,format)"></a>TIME_FORMAT(time,format)</h2><hr>
+<p>该函数使用起来类似 DATE_FORMAT() 函数，但是格式字符串 format 中只能有与小时、分钟和秒有关的那些占位符。</p>
+<p>如果时间型值的小时部分大于 23，则 %H 和 %k 格式占位符将会产生一个大于通常的 0-23 的值，其他与小时有关的占位符则会返回小时值除以 12 后的余数（modulo 12）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIME_FORMAT(&#x27;100:00:00&#x27;, &#x27;%H %k %h %I %l&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIME_FORMAT(&#x27;100:00:00&#x27;, &#x27;%H %k %h %I %l&#x27;)              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 100 100 04 04 4                                         |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TIME-TO-SEC-time"><a href="#TIME-TO-SEC-time" class="headerlink" title="TIME_TO_SEC(time)"></a>TIME_TO_SEC(time)</h2><hr>
+<p>将时间型值转换为秒。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TIME_TO_SEC(&#x27;22:23:00&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TIME_TO_SEC(&#x27;22:23:00&#x27;)                                 |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 80580                                                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)、</span><br></pre></td></tr></table></figure>
+
+<h2 id="TO-DAYS-date"><a href="#TO-DAYS-date" class="headerlink" title="TO_DAYS(date)"></a>TO_DAYS(date)</h2><hr>
+<p>给定日期型值 date，返回天数（自公元 0 年以来的天数）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT TO_DAYS(950501);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| TO_DAYS(950501)                                         |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 728779                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="UNIX-TIMESTAMP-UNIX-TIMESTAMP-date"><a href="#UNIX-TIMESTAMP-UNIX-TIMESTAMP-date" class="headerlink" title="UNIX_TIMESTAMP(), UNIX_TIMESTAMP(date)"></a>UNIX_TIMESTAMP(), UNIX_TIMESTAMP(date)</h2><hr>
+<p>不带任何参数时，该函数返回一个 unsigned integer 型的 UNIX 时间戳（自 ‘1970-01-01 00:00:00’ UTC 以来的秒数）。如果有一个参数 date 的话，该函数返回自 ‘1970-01-01 00:00:00’ UTC 至 date 的秒数。date 可以是日期型的字符串、DATETIME 型的字符串、时间戳或者 YYMMDD 或 YYYYMMDD 格式的数字。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT UNIX_TIMESTAMP();</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| UNIX_TIMESTAMP()                                        |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 882226357                                               |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT UNIX_TIMESTAMP(&#x27;1997-10-04 22:23:00&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| UNIX_TIMESTAMP(&#x27;1997-10-04 22:23:00&#x27;)                   |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 875996580                                               |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="UTC-DATE-UTC-DATE"><a href="#UTC-DATE-UTC-DATE" class="headerlink" title="UTC_DATE, UTC_DATE()"></a>UTC_DATE, UTC_DATE()</h2><hr>
+<p>返回当前 UTC 日期，格式为 ‘YYYY-MM-DD’ 或者 YYYYMMDD，如果函数所处的上下文环境为字符串，则返回前者，否则如果上下文环境为数值型的，则返回后者。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT UTC_DATE(), UTC_DATE() + 0;</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| UTC_DATE(), UTC_DATE() + 0                              |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2003-08-14, 20030814                                    |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="UTC-TIME-UTC-TIME"><a href="#UTC-TIME-UTC-TIME" class="headerlink" title="UTC_TIME, UTC_TIME()"></a>UTC_TIME, UTC_TIME()</h2><hr>
+<p>返回当前 UTC 时间，格式为 ‘HH:MM:SS’ 或者 HHMMSS，如果函数所处的上下文环境为字符串，则返回前者，否则如果上下文环境为数值型的，则返回后者。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT UTC_TIMESTAMP(), UTC_TIMESTAMP() + 0;</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| UTC_TIMESTAMP(), UTC_TIMESTAMP() + 0                    |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 2003-08-14 18:08:04, 20030814180804                     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="WEEK-date-mode"><a href="#WEEK-date-mode" class="headerlink" title="WEEK(date[,mode])"></a>WEEK(date[,mode])</h2><hr>
+<p>该函数将返回 date 所在的周是当年的第几周。两个参数的 WEEK() 函数的使你能够指明一周起始于周日还是周一，以及返回值的范围应该是 0 到 53，还是 1 到 53。如果 mode 参数被忽略，则将使用 default_week_format 系统变量。</p>
+<p>|——|——–|——|————| | Mode | 一周的第一天 | 范围 | 周 1 是第一周 | | 0 | Sunday | 0-53 | 该年包括一个星期天 | | 1 | Monday | 0-53 | 该年包含超过 3 天 | | 2 | Sunday | 1-53 | 该年包括一个星期天 | | 3 | Monday | 1-53 | 该年包含超过 3 天 | | 4 | Sunday | 0-53 | 该年包含超过 3 天 | | 5 | Monday | 0-53 | 该年包括一个星期一 | | 6 | Sunday | 1-53 | 该年包含超过 3 天 | | 7 | Monday | 1-53 | 该年包括一个星期一 |</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT WEEK(&#x27;1998-02-20&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| WEEK(&#x27;1998-02-20&#x27;)                                      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 7                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="WEEKDAY-date"><a href="#WEEKDAY-date" class="headerlink" title="WEEKDAY(date)"></a>WEEKDAY(date)</h2><hr>
+<p>返回 date 是其所在星期的第几天 (0 &#x3D; Monday, 1 &#x3D; Tuesday, . 6 &#x3D; Sunday)。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT WEEKDAY(&#x27;1998-02-03 22:23:00&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| WEEKDAY(&#x27;1998-02-03 22:23:00&#x27;)                          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="WEEKOFYEAR-date"><a href="#WEEKOFYEAR-date" class="headerlink" title="WEEKOFYEAR(date)"></a>WEEKOFYEAR(date)</h2><hr>
+<p>返回 date 所在的周是当年的第几周，范围从 1 到 53. WEEKOFYEAR() 是一个兼容性函数，其功能同 WEEK(date, 3)相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT WEEKOFYEAR(&#x27;1998-02-20&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| WEEKOFYEAR(&#x27;1998-02-20&#x27;)                                |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 8                                                       |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="YEAR-date"><a href="#YEAR-date" class="headerlink" title="YEAR(date)"></a>YEAR(date)</h2><hr>
+<p>返回 date 的年份部分，范围为 1000 到 9999，对于日期 0 则返回 0。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT YEAR(&#x27;98-02-03&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| YEAR(&#x27;98-02-03&#x27;)                                        |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 1998                                                    |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="YEARWEEK-date-YEARWEEK-date-mode"><a href="#YEARWEEK-date-YEARWEEK-date-mode" class="headerlink" title="YEARWEEK(date), YEARWEEK(date,mode)"></a>YEARWEEK(date), YEARWEEK(date,mode)</h2><hr>
+<p>返回 date 所在的年份和周数。mode 参数意义与 WEEK() 函数的完全一样。对于一年中的第一周和最后一周来说，结果中的年份可能会和 date 参数中的年份不同。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT YEARWEEK(&#x27;1987-01-01&#x27;);</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| YEAR(&#x27;98-02-03&#x27;)YEARWEEK(&#x27;1987-01-01&#x27;)                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">| 198653                                                  |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>，这里的周数同 WEEK() 返回的不同，因为 WEEK() 函数的返回值在给定年份的的上下文环境中得出。</p>
+</blockquote>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/sql/function/sum.html">SQL SUM() 函数</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/function/field.html">SQL FIELD()函数</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-text">SQL 日期函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ADDDATE-date-INTERVAL-expr-unit-ADDDATE-expr-days"><span class="toc-text">ADDDATE(date, INTERVAL expr unit), ADDDATE(expr, days)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ADDTIME-expr1-expr2"><span class="toc-text">ADDTIME(expr1,expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CONVERT-TZ-dt-from-tz-to-tz"><span class="toc-text">CONVERT_TZ(dt,from_tz,to_tz)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CURDATE"><span class="toc-text">CURDATE()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CURRENT-DATE-and-CURRENT-DATE"><span class="toc-text">CURRENT_DATE and CURRENT_DATE()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CURTIME"><span class="toc-text">CURTIME()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CURRENT-TIME-and-CURRENT-TIME"><span class="toc-text">CURRENT_TIME and CURRENT_TIME()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CURRENT-TIMESTAMP-and-CURRENT-TIMESTAMP"><span class="toc-text">CURRENT_TIMESTAMP and CURRENT_TIMESTAMP()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATE-expr"><span class="toc-text">DATE(expr)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATEDIFF-expr1-expr2"><span class="toc-text">DATEDIFF(expr1,expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATE-ADD-date-INTERVAL-expr-unit-DATE-SUB-date-INTERVAL-expr-unit"><span class="toc-text">DATE_ADD(date,INTERVAL expr unit), DATE_SUB(date,INTERVAL expr unit)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATE-FORMAT-date-format"><span class="toc-text">DATE_FORMAT(date,format)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DATE-SUB-date-INTERVAL-expr-unit"><span class="toc-text">DATE_SUB(date,INTERVAL expr unit)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAY-date"><span class="toc-text">DAY(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAYNAME-date"><span class="toc-text">DAYNAME(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAYOFMONTH-date"><span class="toc-text">DAYOFMONTH(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAYOFWEEK-date"><span class="toc-text">DAYOFWEEK(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAYOFYEAR-date"><span class="toc-text">DAYOFYEAR(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EXTRACT-unit-FROM-date"><span class="toc-text">EXTRACT(unit FROM date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FROM-DAYS-N"><span class="toc-text">FROM_DAYS(N)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FROM-UNIXTIME-unix-timestamp-FROM-UNIXTIME-unix-timestamp-format"><span class="toc-text">FROM_UNIXTIME(unix_timestamp), FROM_UNIXTIME(unix_timestamp,format)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HOUR-time"><span class="toc-text">HOUR(time)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LAST-DAY-date"><span class="toc-text">LAST_DAY(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LOCALTIME-and-LOCALTIME"><span class="toc-text">LOCALTIME and LOCALTIME()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LOCALTIMESTAMP-and-LOCALTIMESTAMP"><span class="toc-text">LOCALTIMESTAMP and LOCALTIMESTAMP()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MAKEDATE-year-dayofyear"><span class="toc-text">MAKEDATE(year,dayofyear)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MAKETIME-hour-minute-second"><span class="toc-text">MAKETIME(hour,minute,second)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MICROSECOND-expr"><span class="toc-text">MICROSECOND(expr)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MINUTE-time"><span class="toc-text">MINUTE(time)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MONTH-date"><span class="toc-text">MONTH(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MONTHNAME-date"><span class="toc-text">MONTHNAME(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NOW"><span class="toc-text">NOW()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PERIOD-ADD-P-N"><span class="toc-text">PERIOD_ADD(P,N)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PERIOD-DIFF-P1-P2"><span class="toc-text">PERIOD_DIFF(P1,P2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QUARTER-date"><span class="toc-text">QUARTER(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SECOND-time"><span class="toc-text">SECOND(time)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEC-TO-TIME-seconds"><span class="toc-text">SEC_TO_TIME(seconds)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STR-TO-DATE-str-format"><span class="toc-text">STR_TO_DATE(str,format)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SUBDATE-date-INTERVAL-expr-unit-and-SUBDATE-expr-days"><span class="toc-text">SUBDATE(date,INTERVAL expr unit) and SUBDATE(expr,days)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SUBTIME-expr1-expr2"><span class="toc-text">SUBTIME(expr1,expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SYSDATE"><span class="toc-text">SYSDATE()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIME-expr"><span class="toc-text">TIME(expr)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIMEDIFF-expr1-expr2"><span class="toc-text">TIMEDIFF(expr1,expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIMESTAMP-expr-TIMESTAMP-expr1-expr2"><span class="toc-text">TIMESTAMP(expr), TIMESTAMP(expr1,expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIMESTAMPADD-unit-interval-datetime-expr"><span class="toc-text">TIMESTAMPADD(unit,interval,datetime_expr)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIMESTAMPDIFF-unit-datetime-expr1-datetime-expr2"><span class="toc-text">TIMESTAMPDIFF(unit,datetime_expr1,datetime_expr2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIME-FORMAT-time-format"><span class="toc-text">TIME_FORMAT(time,format)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIME-TO-SEC-time"><span class="toc-text">TIME_TO_SEC(time)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TO-DAYS-date"><span class="toc-text">TO_DAYS(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UNIX-TIMESTAMP-UNIX-TIMESTAMP-date"><span class="toc-text">UNIX_TIMESTAMP(), UNIX_TIMESTAMP(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UTC-DATE-UTC-DATE"><span class="toc-text">UTC_DATE, UTC_DATE()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UTC-TIME-UTC-TIME"><span class="toc-text">UTC_TIME, UTC_TIME()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEEK-date-mode"><span class="toc-text">WEEK(date[,mode])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEEKDAY-date"><span class="toc-text">WEEKDAY(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEEKOFYEAR-date"><span class="toc-text">WEEKOFYEAR(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YEAR-date"><span class="toc-text">YEAR(date)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YEARWEEK-date-YEARWEEK-date-mode"><span class="toc-text">YEARWEEK(date), YEARWEEK(date,mode)</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/09/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
