@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Redis：Redis 简介 - 烟火075的博客</title>
+  <title>Redis：Redis 键 - 烟火075的博客</title>
 
   
-    <meta name="description" content="Redis 简介Redis（全称为Remote Dictionary Server）是一个开源的高性能键值对存储系统，具有快速、灵活和可扩展的特性。它是一个基于内存的数据结构存储系统，可以用作数据库、缓存和消息代理。 Redis 的一些主要特点和用途： 高性能：Redis 数据存储在内存中，因此能够提供极快的读写操作。它采用单线程模型和异步 I&#x2F;O，避免了多线程的竞争和阻塞，从而达到了非">
+    <meta name="description" content="Redis 集合 ( Sets )Redis 的 Set 是 string 类型的无序集合。 集合成员是唯一的，这就意味着集合中没有重复的数据。 在 Redis 中，添加、删除和查找的时间复杂都是 O(1)（不管 Set 中包含多少元素）。 集合中最大的成员数为 232 – 1 (4294967295), 每个集合可存储 40 多亿个成员。 例通过 SADD 命令向名为 rediscomcn 的集">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Redis 简介">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/redis/redis-intro.html">
+<meta property="og:title" content="Redis 键">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/redis/sets.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="Redis 简介Redis（全称为Remote Dictionary Server）是一个开源的高性能键值对存储系统，具有快速、灵活和可扩展的特性。它是一个基于内存的数据结构存储系统，可以用作数据库、缓存和消息代理。 Redis 的一些主要特点和用途： 高性能：Redis 数据存储在内存中，因此能够提供极快的读写操作。它采用单线程模型和异步 I&#x2F;O，避免了多线程的竞争和阻塞，从而达到了非">
+<meta property="og:description" content="Redis 集合 ( Sets )Redis 的 Set 是 string 类型的无序集合。 集合成员是唯一的，这就意味着集合中没有重复的数据。 在 Redis 中，添加、删除和查找的时间复杂都是 O(1)（不管 Set 中包含多少元素）。 集合中最大的成员数为 232 – 1 (4294967295), 每个集合可存储 40 多亿个成员。 例通过 SADD 命令向名为 rediscomcn 的集">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-11T09:37:56.904Z">
-<meta property="article:modified_time" content="2025-06-11T09:37:56.900Z">
+<meta property="article:published_time" content="2025-06-11T10:06:30.348Z">
+<meta property="article:modified_time" content="2025-06-11T10:06:30.344Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -50,12 +50,12 @@
 </head>
 <body>
 
-<div class="l_cover wiki"><article class="cover-wrap md-text"><div class="preview cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Redis.svg"/></div><div class="cover-title"><span>Redis数据库教程</span></div><div class="description">Redis（全称为Remote Dictionary Server）是一个开源的高性能键值对存储系统。</div><div class="start-wrap"><a class="button start gradient" href="#start">开始使用</a></div></article></div><hr>
+
 
 <div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Redis.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/redis/redis-intro.html"><div class="main" ff="title">Redis</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Redis.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/redis/intro.html"><div class="main" ff="title">Redis</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
 
 <div class="nav-area">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/redis/" placeholder="在Redis文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">目录</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/redis/redis-intro.html#start"><span class="toc-text">Redis 简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/redis/install.html"><span class="toc-text">Redis 安装</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/redis/intro.html#start"><span class="toc-text">Redis 简介</span></a><a class="link" href="/wiki/redis/install.html"><span class="toc-text">Redis 安装</span></a><a class="link" href="/wiki/redis/config.html"><span class="toc-text">Redis 配置文件详解</span></a><a class="link" href="/wiki/redis/data-types.html"><span class="toc-text">Redis 数据类型</span></a><a class="link" href="/wiki/redis/commands.html"><span class="toc-text">Redis 命令</span></a><a class="link" href="/wiki/redis/keys.html"><span class="toc-text">Redis 键</span></a><a class="link" href="/wiki/redis/strings.html"><span class="toc-text">Redis 字符串</span></a><a class="link" href="/wiki/redis/hashes.html"><span class="toc-text">Redis 哈希</span></a><a class="link" href="/wiki/redis/lists.html"><span class="toc-text">Redis 列表</span></a><a class="link active" href="/wiki/redis/sets.html"><span class="toc-text">Redis 键</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：数据库</span></div><div class="widget-body"><a class="item wiki" href="/wiki/sql/index.html"><span class="title">数据库SQL语法大全</span><span class="excerpt">SQL 是用于访问和处理数据库的标准的计算机语言。</span></a></div></widget>
 </div>
@@ -79,43 +79,100 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/redis/redis-intro.html">Redis</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T09:37:56.900Z">2025-06-11</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/redis/intro.html">Redis</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T10:06:30.344Z">2025-06-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>Redis 简介</span></h1>
+        <h1 class="text title"><span>Redis 键</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="Redis-简介"><a href="#Redis-简介" class="headerlink" title="Redis 简介"></a>Redis 简介</h1><p>Redis（全称为Remote Dictionary Server）是一个开源的高性能键值对存储系统，具有快速、灵活和可扩展的特性。它是一个基于内存的数据结构存储系统，可以用作数据库、缓存和消息代理。</p>
-<h2 id="Redis-的一些主要特点和用途："><a href="#Redis-的一些主要特点和用途：" class="headerlink" title="Redis 的一些主要特点和用途："></a>Redis 的一些主要特点和用途：</h2><ul>
-<li>高性能：Redis 数据存储在内存中，因此能够提供极快的读写操作。它采用单线程模型和异步 I&#x2F;O，避免了多线程的竞争和阻塞，从而达到了非常高的性能。</li>
-<li>数据结构多样：Redis 支持多种数据结构，包括字符串（String）、哈希（Hash）、列表（List）、集合（Set）和有序集合（Sorted Set）。这些数据结构提供了丰富的操作命令，使得开发者可以方便地处理各种数据需求。</li>
-<li>持久化支持：Redis 提供了两种持久化方式，即快照（Snapshotting）和日志追加（Append-only file，AOF）。快照方式将 Redis 内存数据以二进制格式写入磁盘，而 AOF 则通过追加记录 Redis 的操作命令来实现持久化。</li>
-<li>发布&#x2F;订阅：Redis 支持发布&#x2F;订阅模式，可以用作消息代理。发布者将消息发送到指定的频道，订阅者则可以接收和处理这些消息。这种模式在构建实时通信、事件驱动系统和消息队列等场景中非常有用。</li>
-<li>分布式缓存：Redis可以通过主从复制和分片来实现数据的分布式存储和高可用性。主从复制可以将数据复制到多个从节点，实现读写分离和数据备份。而分片则可以将数据分布在多个Redis节点上，实现横向扩展和负载均衡。</li>
-<li>事务支持：Redis 支持事务，开发者可以将多个操作组合成一个原子性的操作序列，保证这些操作要么全部执行成功，要么全部不执行。</li>
-<li>功能丰富：Redis不仅仅是一个简单的缓存，它还提供了许多其他功能，如事务支持、Lua脚本执行、定时任务、原子操作等。这使得开发者可以在Redis中实现更复杂的应用逻辑。</li>
-</ul>
-<p>Redis 是一个功能丰富的存储系统，适用于多种场景，包括缓存、会话存储、排行榜、实时分析等。它有广泛的应用，并且拥有活跃的社区支持。</p>
-<h2 id="Redis-与其他-key-value-存储有什么不同？"><a href="#Redis-与其他-key-value-存储有什么不同？" class="headerlink" title="Redis 与其他 key-value 存储有什么不同？"></a>Redis 与其他 key-value 存储有什么不同？</h2><ul>
-<li>Redis 比起其它键值类数据库，值可以包含更复杂的数据类型，并且在数据类型上定义原子操作。Redis 数据类型与基本数据结构密切相关，并直接向程序员公开，无需额外的抽象层。</li>
-<li>Redis 运行在内存中但是可以持久化到磁盘，因此它代表了一种不同的权衡，即在数据集不能大于内存的限制下实现非常高的写入和读取速度。内存数据库的另一个优点是，与磁盘上的相同数据结构相比，复杂数据结构的内存表示更易于操作，因此 Redis 可以做很多事情而内部复杂性很小。同时，因 RDB 和 AOF 两种磁盘持久化方式是不适合随机访问，因为它们是顺序写入的。</li>
-</ul>
-<h2 id="Redis-架构"><a href="#Redis-架构" class="headerlink" title="Redis 架构"></a>Redis 架构</h2><p>Redis 主要由有两个程序组成：</p>
-<ul>
-<li>Redis 客户端 redis-cli</li>
-<li>Redis 服务器 redis-server</li>
-</ul>
-<p>客户端、服务器可以位于同一台计算机或两台不同的计算机中。</p>
+  </div><article class="md-text content"><h1 id="Redis-集合-Sets"><a href="#Redis-集合-Sets" class="headerlink" title="Redis 集合 ( Sets )"></a>Redis 集合 ( Sets )</h1><p>Redis 的 Set 是 string 类型的无序集合。</p>
+<p>集合成员是唯一的，这就意味着集合中没有重复的数据。</p>
+<p>在 Redis 中，添加、删除和查找的时间复杂都是 O(1)（不管 Set 中包含多少元素）。</p>
+<p>集合中最大的成员数为 232 – 1 (4294967295), 每个集合可存储 40 多亿个成员。</p>
+<h2 id="例"><a href="#例" class="headerlink" title="例"></a>例</h2><p>通过 SADD 命令向名为 rediscomcn 的集合插入的三个元素:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; SADD rediscomcn db2  </span><br><span class="line">(integer) 1  </span><br><span class="line">redis 127.0.0.1:6379&gt; SADD rediscomcn mongodb  </span><br><span class="line">(integer) 1  </span><br><span class="line">redis 127.0.0.1:6379&gt; SADD rediscomcn db2  </span><br><span class="line">(integer) 0  </span><br><span class="line">redis 127.0.0.1:6379&gt; SADD rediscomcn cassandra  </span><br><span class="line">(integer) 1  </span><br><span class="line">redis 127.0.0.1:6379&gt; SMEMBERS rediscomcn  </span><br><span class="line">1) &quot;cassandra&quot;  </span><br><span class="line">2) &quot;db2&quot;  </span><br><span class="line">3) &quot;mongodb&quot;  </span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，我们使用 SADD 命令在集合中添加了 4 个元素。但是，使用 SMEMBERS 命令只检索了 3 个元素，因为有一个元素是重复的，Redis 只集合只含唯一元素。</p>
+<hr>
+<h2 id="Redis-集合命令"><a href="#Redis-集合命令" class="headerlink" title="Redis 集合命令"></a>Redis 集合命令</h2><p>下表列出了 Redis 集合相关命令：</p>
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sadd.html">SADD</a></td>
+<td align="left">向集合添加一个或多个成员</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/scard.html">SCARD</a></td>
+<td align="left">获取集合的成员数</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sdiff.html">SDIFF</a></td>
+<td align="left">返回给定所有集合的差集</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sdiffstore.html">SDIFFSTORE</a></td>
+<td align="left">返回给定所有集合的差集并存储在 destination 中</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sinter.html">SINTER</a></td>
+<td align="left">返回给定所有集合的交集</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sinterstore.html">SINTERSTORE</a></td>
+<td align="left">返回给定所有集合的交集并存储在 destination 中</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sismember.html">SISMEMBER</a></td>
+<td align="left">判断 member 元素是否是集合 key 的成员</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/smembers.html">SMEMBERS</a></td>
+<td align="left">返回集合中的所有成员</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/smove.html">SMOVE</a></td>
+<td align="left">将 member 元素从 source 集合移动到 destination 集合</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/spop.html">SPOP</a></td>
+<td align="left">移除并返回集合中的一个随机元素</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/srandmember.html">SRANDMEMBER</a></td>
+<td align="left">返回集合中一个或多个随机数</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/srem.html">SREM</a></td>
+<td align="left">移除集合中一个或多个成员</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sunion.html">SUNION</a></td>
+<td align="left">返回所有给定集合的并集</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sunionstore.html">SUNIONSTORE</a></td>
+<td align="left">所有给定集合的并集存储在 destination 集合中</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sscan.html">SSCAN</a></td>
+<td align="left">迭代集合中的元素</td>
+</tr>
+</tbody></table>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/redis/install.html">Redis 安装</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/redis/lists.html">Redis 列表</a></div><div class="item" id="next"></div></section></div>
 
 
 
@@ -127,7 +184,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E7%AE%80%E4%BB%8B"><span class="toc-text">Redis 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9%E5%92%8C%E7%94%A8%E9%80%94%EF%BC%9A"><span class="toc-text">Redis 的一些主要特点和用途：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E4%B8%8E%E5%85%B6%E4%BB%96-key-value-%E5%AD%98%E5%82%A8%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="toc-text">Redis 与其他 key-value 存储有什么不同？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E6%9E%B6%E6%9E%84"><span class="toc-text">Redis 架构</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E9%9B%86%E5%90%88-Sets"><span class="toc-text">Redis 集合 ( Sets )</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B"><span class="toc-text">例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E9%9B%86%E5%90%88%E5%91%BD%E4%BB%A4"><span class="toc-text">Redis 集合命令</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

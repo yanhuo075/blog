@@ -17,5 +17,13 @@ leftbar:
 base_dir: /wiki/redis/
 tree:
   '目录':
-    - redis-intro
+    - intro
     - install
+    - config
+    - data-types
+    - commands
+    - keys
+    - strings
+    - hashes
+    - lists
+    - sets
