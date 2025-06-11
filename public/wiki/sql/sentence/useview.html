@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>sql：SQL 概述 - 烟火075的博客</title>
+  <title>sql：SQL 使用视图 - 烟火075的博客</title>
 
   
-    <meta name="description" content="SQL 是用于访问和处理数据库的标准的计算机语言。　在本教程中，您将学到如何使用 SQL 访问和处理数据系统中的数据，这类数据库包括：MySQL、SQL Server、Access、Oracle、Sybase、DB2和其他数据库系统。 每一章实例 每章节都提供了简单的 SQL 简单实例。 实例SELECT * FROM Customers;  SQL查询从用户表中选择所有记录： sql  SELE">
+    <meta name="description" content="SQL 使用视图 视图无非就是存储在数据库中并具有名字的 SQL 语句，或者说是以预定义的 SQL 查询的形式存在的数据表的成分。 视图可以包含表中的所有列，或者仅包含选定的列。视图可以创建自一个或者多个表，这取决于创建该视图的 SQL 语句的写法。 视图，一种虚拟的表，允许用户执行以下操作：  以用户或者某些类型的用户感觉自然或者直观的方式来组织数据； 限制对数据的访问，从而使得用户仅能够看到或">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SQL 概述">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/index.html">
+<meta property="og:title" content="SQL 使用视图">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/sql/sentence/useview.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="SQL 是用于访问和处理数据库的标准的计算机语言。　在本教程中，您将学到如何使用 SQL 访问和处理数据系统中的数据，这类数据库包括：MySQL、SQL Server、Access、Oracle、Sybase、DB2和其他数据库系统。 每一章实例 每章节都提供了简单的 SQL 简单实例。 实例SELECT * FROM Customers;  SQL查询从用户表中选择所有记录： sql  SELE">
+<meta property="og:description" content="SQL 使用视图 视图无非就是存储在数据库中并具有名字的 SQL 语句，或者说是以预定义的 SQL 查询的形式存在的数据表的成分。 视图可以包含表中的所有列，或者仅包含选定的列。视图可以创建自一个或者多个表，这取决于创建该视图的 SQL 语句的写法。 视图，一种虚拟的表，允许用户执行以下操作：  以用户或者某些类型的用户感觉自然或者直观的方式来组织数据； 限制对数据的访问，从而使得用户仅能够看到或">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-11T03:45:30.862Z">
-<meta property="article:modified_time" content="2025-06-11T03:45:30.862Z">
+<meta property="article:published_time" content="2025-06-11T03:39:55.331Z">
+<meta property="article:modified_time" content="2025-06-11T02:47:04.705Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第一章 前言</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 概述</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">第二章 SQL语句</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/sentence/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link" href="/wiki/sql/sentence/rdbms.html"><span class="toc-text">SQL RBDMS概念</span></a><a class="link" href="/wiki/sql/sentence/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/sentence/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/sentence/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/sentence/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/sentence/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link" href="/wiki/sql/sentence/order.html"><span class="toc-text">SQL 按关键字排序</span></a><a class="link" href="/wiki/sql/sentence/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/sentence/null.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/sentence/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/sentence/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/sentence/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/sentence/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/sentence/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/sentence/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/sentence/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/sentence/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/sentence/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/sentence/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a><a class="link" href="/wiki/sql/sentence/datatype.html"><span class="toc-text">SQL 通用数据类型</span></a><a class="link" href="/wiki/sql/sentence/refer.html"><span class="toc-text">SQL 语句快速参考</span></a><a class="link" href="/wiki/sql/sentence/join.html"><span class="toc-text">SQL Join连接</span></a><a class="link" href="/wiki/sql/sentence/inner.html"><span class="toc-text">SQL 内部连接</span></a><a class="link" href="/wiki/sql/sentence/left.html"><span class="toc-text">SQL 左连接</span></a><a class="link" href="/wiki/sql/sentence/right.html"><span class="toc-text">SQL 右连接</span></a><a class="link" href="/wiki/sql/sentence/outer.html"><span class="toc-text">SQL 完整外部连接</span></a><a class="link" href="/wiki/sql/sentence/self.html"><span class="toc-text">SQL 自连接</span></a><a class="link" href="/wiki/sql/sentence/union.html"><span class="toc-text">SQL UNION运算符</span></a><a class="link" href="/wiki/sql/sentence/selectinto.html"><span class="toc-text">SQL SELECT INTO语句</span></a><a class="link" href="/wiki/sql/sentence/instosel.html"><span class="toc-text">SQL INSECT INTO SELECT语句</span></a><a class="link" href="/wiki/sql/sentence/drop.html"><span class="toc-text">SQL 撤销索引/表/数据库</span></a><a class="link" href="/wiki/sql/sentence/createdb.html"><span class="toc-text">SQL CREATE DATABASE语句</span></a><a class="link" href="/wiki/sql/sentence/createtable.html"><span class="toc-text">SQL CREATE TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/alter.html"><span class="toc-text">SQL ALTER TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/autoincrement.html"><span class="toc-text">SQL AUTO INCREMENT语句</span></a><a class="link" href="/wiki/sql/sentence/view.html"><span class="toc-text">SQL VIEW语句</span></a><a class="link" href="/wiki/sql/sentence/date.html"><span class="toc-text">SQL Date函数</span></a><a class="link" href="/wiki/sql/sentence/valuenull.html"><span class="toc-text">SQL NULL值处理</span></a><a class="link" href="/wiki/sql/sentence/aliases.html"><span class="toc-text">SQL Aliases别名</span></a><a class="link" href="/wiki/sql/sentence/constraint.html"><span class="toc-text">SQL Constraint约束</span></a><a class="link" href="/wiki/sql/sentence/unionziju.html"><span class="toc-text">SQL UNION子句</span></a><a class="link" href="/wiki/sql/sentence/clonedb.html"><span class="toc-text">SQL 克隆数据库</span></a><a class="link" href="/wiki/sql/sentence/dbindex.html"><span class="toc-text">SQL 索引</span></a><a class="link" href="/wiki/sql/sentence/subquery.html"><span class="toc-text">SQL 子查询</span></a><a class="link" href="/wiki/sql/sentence/alteryufa.html"><span class="toc-text">SQL ALTER TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/truncate.html"><span class="toc-text">SQL TRUNCATE TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/repeat.html"><span class="toc-text">SQL 处理重复数据</span></a><a class="link" href="/wiki/sql/sentence/useview.html"><span class="toc-text">SQL 使用视图</span></a><a class="link" href="/wiki/sql/sentence/input.html"><span class="toc-text">SQL 注入</span></a><a class="link" href="/wiki/sql/sentence/having.html"><span class="toc-text">SQL HAVING 子句</span></a><a class="link" href="/wiki/sql/sentence/affairs.html"><span class="toc-text">SQL 事务</span></a><a class="link" href="/wiki/sql/sentence/sequence.html"><span class="toc-text">SQL 使用序列</span></a><a class="link" href="/wiki/sql/sentence/wild.html"><span class="toc-text">SQL 通配符</span></a><a class="link" href="/wiki/sql/sentence/temp.html"><span class="toc-text">SQL 临时表</span></a><a class="link" href="/wiki/sql/sentence/summary.html"><span class="toc-text">SQL 各种数据库的数据类型</span></a></div><div class="widget-header dis-select"><span class="name">第三章 SQL函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/function/function.html"><span class="toc-text">SQL 函数</span></a><a class="link" href="/wiki/sql/function/max.html"><span class="toc-text">SQL MAX() 函数</span></a><a class="link" href="/wiki/sql/function/min.html"><span class="toc-text">SQL MIN() 函数</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第一章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/index.html#start"><span class="toc-text">SQL 概述</span></a></div><div class="widget-header dis-select"><span class="name">第二章 SQL语句</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/sentence/brief.html"><span class="toc-text">SQL 简介</span></a><a class="link" href="/wiki/sql/sentence/rdbms.html"><span class="toc-text">SQL RBDMS概念</span></a><a class="link" href="/wiki/sql/sentence/yufa.html"><span class="toc-text">SQL 语法</span></a><a class="link" href="/wiki/sql/sentence/xuanze.html"><span class="toc-text">SQL 选择</span></a><a class="link" href="/wiki/sql/sentence/distinct.html"><span class="toc-text">SQL 选择不同</span></a><a class="link" href="/wiki/sql/sentence/ziju.html"><span class="toc-text">SQL 查询子句</span></a><a class="link" href="/wiki/sql/sentence/andor.html"><span class="toc-text">SQL 与/或运算符</span></a><a class="link" href="/wiki/sql/sentence/order.html"><span class="toc-text">SQL 按关键字排序</span></a><a class="link" href="/wiki/sql/sentence/insert.html"><span class="toc-text">SQL 在表中插入</span></a><a class="link" href="/wiki/sql/sentence/null.html"><span class="toc-text">SQL 空值</span></a><a class="link" href="/wiki/sql/sentence/update.html"><span class="toc-text">SQL 更新</span></a><a class="link" href="/wiki/sql/sentence/delete.html"><span class="toc-text">SQL 删除</span></a><a class="link" href="/wiki/sql/sentence/yunsf.html"><span class="toc-text">SQL 运算符</span></a><a class="link" href="/wiki/sql/sentence/express.html"><span class="toc-text">SQL 表达式</span></a><a class="link" href="/wiki/sql/sentence/use.html"><span class="toc-text">SQL USE语句</span></a><a class="link" href="/wiki/sql/sentence/limit.html"><span class="toc-text">SQL TOP/LIMIT语句</span></a><a class="link" href="/wiki/sql/sentence/like.html"><span class="toc-text">SQL LIKE运算符</span></a><a class="link" href="/wiki/sql/sentence/wildcards.html"><span class="toc-text">SQL Wildcards通配符</span></a><a class="link" href="/wiki/sql/sentence/in.html"><span class="toc-text">SQL IN运算符</span></a><a class="link" href="/wiki/sql/sentence/between.html"><span class="toc-text">SQL BETWEEN运算符</span></a><a class="link" href="/wiki/sql/sentence/datatype.html"><span class="toc-text">SQL 通用数据类型</span></a><a class="link" href="/wiki/sql/sentence/refer.html"><span class="toc-text">SQL 语句快速参考</span></a><a class="link" href="/wiki/sql/sentence/join.html"><span class="toc-text">SQL Join连接</span></a><a class="link" href="/wiki/sql/sentence/inner.html"><span class="toc-text">SQL 内部连接</span></a><a class="link" href="/wiki/sql/sentence/left.html"><span class="toc-text">SQL 左连接</span></a><a class="link" href="/wiki/sql/sentence/right.html"><span class="toc-text">SQL 右连接</span></a><a class="link" href="/wiki/sql/sentence/outer.html"><span class="toc-text">SQL 完整外部连接</span></a><a class="link" href="/wiki/sql/sentence/self.html"><span class="toc-text">SQL 自连接</span></a><a class="link" href="/wiki/sql/sentence/union.html"><span class="toc-text">SQL UNION运算符</span></a><a class="link" href="/wiki/sql/sentence/selectinto.html"><span class="toc-text">SQL SELECT INTO语句</span></a><a class="link" href="/wiki/sql/sentence/instosel.html"><span class="toc-text">SQL INSECT INTO SELECT语句</span></a><a class="link" href="/wiki/sql/sentence/drop.html"><span class="toc-text">SQL 撤销索引/表/数据库</span></a><a class="link" href="/wiki/sql/sentence/createdb.html"><span class="toc-text">SQL CREATE DATABASE语句</span></a><a class="link" href="/wiki/sql/sentence/createtable.html"><span class="toc-text">SQL CREATE TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/alter.html"><span class="toc-text">SQL ALTER TABLE语句</span></a><a class="link" href="/wiki/sql/sentence/autoincrement.html"><span class="toc-text">SQL AUTO INCREMENT语句</span></a><a class="link" href="/wiki/sql/sentence/view.html"><span class="toc-text">SQL VIEW语句</span></a><a class="link" href="/wiki/sql/sentence/date.html"><span class="toc-text">SQL Date函数</span></a><a class="link" href="/wiki/sql/sentence/valuenull.html"><span class="toc-text">SQL NULL值处理</span></a><a class="link" href="/wiki/sql/sentence/aliases.html"><span class="toc-text">SQL Aliases别名</span></a><a class="link" href="/wiki/sql/sentence/constraint.html"><span class="toc-text">SQL Constraint约束</span></a><a class="link" href="/wiki/sql/sentence/unionziju.html"><span class="toc-text">SQL UNION子句</span></a><a class="link" href="/wiki/sql/sentence/clonedb.html"><span class="toc-text">SQL 克隆数据库</span></a><a class="link" href="/wiki/sql/sentence/dbindex.html"><span class="toc-text">SQL 索引</span></a><a class="link" href="/wiki/sql/sentence/subquery.html"><span class="toc-text">SQL 子查询</span></a><a class="link" href="/wiki/sql/sentence/alteryufa.html"><span class="toc-text">SQL ALTER TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/truncate.html"><span class="toc-text">SQL TRUNCATE TABLE 命令</span></a><a class="link" href="/wiki/sql/sentence/repeat.html"><span class="toc-text">SQL 处理重复数据</span></a><a class="link active" href="/wiki/sql/sentence/useview.html"><span class="toc-text">SQL 使用视图</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/sql/sentence/input.html"><span class="toc-text">SQL 注入</span></a><a class="link" href="/wiki/sql/sentence/having.html"><span class="toc-text">SQL HAVING 子句</span></a><a class="link" href="/wiki/sql/sentence/affairs.html"><span class="toc-text">SQL 事务</span></a><a class="link" href="/wiki/sql/sentence/sequence.html"><span class="toc-text">SQL 使用序列</span></a><a class="link" href="/wiki/sql/sentence/wild.html"><span class="toc-text">SQL 通配符</span></a><a class="link" href="/wiki/sql/sentence/temp.html"><span class="toc-text">SQL 临时表</span></a><a class="link" href="/wiki/sql/sentence/summary.html"><span class="toc-text">SQL 各种数据库的数据类型</span></a></div><div class="widget-header dis-select"><span class="name">第三章 SQL函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/sql/function/function.html"><span class="toc-text">SQL 函数</span></a><a class="link" href="/wiki/sql/function/max.html"><span class="toc-text">SQL MAX() 函数</span></a><a class="link" href="/wiki/sql/function/min.html"><span class="toc-text">SQL MIN() 函数</span></a></div></widget>
 
 
 </div>
@@ -80,53 +80,116 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/sql/index.html">sql</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T03:45:30.862Z">2025-06-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T02:47:04.705Z">2025-06-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>SQL 概述</span></h1>
+        <h1 class="text title"><span>SQL 使用视图</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>SQL 是用于访问和处理数据库的标准的计算机语言。<br>　在本教程中，您将学到如何使用 SQL 访问和处理数据系统中的数据，这类数据库包括：MySQL、SQL Server、Access、Oracle、Sybase、DB2和其他数据库系统。</p>
-<h2 id="每一章实例"><a href="#每一章实例" class="headerlink" title="每一章实例"></a>每一章实例</h2><hr>
-<p>每章节都提供了简单的 SQL 简单实例。</p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM Customers;</span><br></pre></td></tr></table></figure>
-
-<p>SQL查询从用户表中选择所有记录：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sql  SELECT * FROM users;</span><br></pre></td></tr></table></figure>
-
-<p>SQL查询通过使用where子句从用户表中删除单个记录：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sql DELETE FROM users WHERE user_id=299;</span><br></pre></td></tr></table></figure>
-
-<h2 id="适用人群"><a href="#适用人群" class="headerlink" title="适用人群"></a>适用人群</h2><hr>
-<p>本参考的目的在于帮助初学者深入浅出地学习 SQL 语言。</p>
-<h2 id="SQL测验测试"><a href="#SQL测验测试" class="headerlink" title="SQL测验测试"></a>SQL测验测试</h2><hr>
-<p>在ngrok测试你的SQL技能！</p>
-<h2 id="SQL快速参考"><a href="#SQL快速参考" class="headerlink" title="SQL快速参考"></a>SQL快速参考</h2><hr>
-<p>一个SQL快速参考。打印并放在口袋里。</p>
-<h2 id="SQL数据类型"><a href="#SQL数据类型" class="headerlink" title="SQL数据类型"></a>SQL数据类型</h2><hr>
-<p>Microsoft Access，MySQL和SQL Server的数据类型和范围。</p>
-<h2 id="ngrok实战认证"><a href="#ngrok实战认证" class="headerlink" title="ngrok实战认证"></a>ngrok实战认证</h2><hr>
-<p>实践出真知，通过获得证书是编程实例最好的证明</p>
+  </div><article class="md-text content"><h2 id="SQL-使用视图"><a href="#SQL-使用视图" class="headerlink" title="SQL 使用视图"></a>SQL 使用视图</h2><hr>
+<p>视图无非就是存储在数据库中并具有名字的 SQL 语句，或者说是以预定义的 SQL 查询的形式存在的数据表的成分。</p>
+<p>视图可以包含表中的所有列，或者仅包含选定的列。视图可以创建自一个或者多个表，这取决于创建该视图的 SQL 语句的写法。</p>
+<p>视图，一种虚拟的表，允许用户执行以下操作：</p>
 <ul>
-<li>该记录了你的HTML5&amp;CSS知识。</li>
-<li>该记录了您的高级JavaScript知识。</li>
-<li>在记录了你的Bootstrap的知识。</li>
-<li>在记录了您的jQuery的知识。</li>
-<li>在记录了你的视觉设计应用的知识。</li>
-<li>该记录了你的初级脚本算法的知识。</li>
-<li>该记录了你正则表达式的知识。</li>
+<li>以用户或者某些类型的用户感觉自然或者直观的方式来组织数据；</li>
+<li>限制对数据的访问，从而使得用户仅能够看到或者修改（某些情况下）他们需要的数据；</li>
+<li>从多个表中汇总数据，以产生报表。</li>
 </ul>
-<h2 id="学习前提"><a href="#学习前提" class="headerlink" title="学习前提"></a>学习前提</h2><hr>
-<p>本参考准备了各种各样的示例，在正式开始练习之前，我假定你对什么是数据库——尤其是关系型数据库管理系统（RDBMS）——已经有所了解，同时也知道什么是计算机编程语言。</p>
+<h2 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h2><hr>
+<p>在 SQL 中，视图是基于 SQL 语句的结果集的可视化表。</p>
+<p>数据库视图由 <strong>CREATE VIEW</strong> 语句创建。视图可以创建自单个表、多个表或者其他视图。</p>
+<p>视图中的字段是一个或多个数据库中真实表中的字段。</p>
+<p>在使用时视图可以被视为一个”虚拟表”。</p>
+<p>要创建视图的话，用户必须有适当的系统权限。具体需要何种权限随数据库系统实现的不同而不同。</p>
+<p>CREATE VIEW 语句的基本语法如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE VIEW view_name AS</span><br><span class="line">SELECT column1, column2.....</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE [condition];</span><br></pre></td></tr></table></figure>
+
+<p>和普通的 SQL SELECT 查询一样，你可以在上面的 SELECT 语句中包含多个数据表。</p>
+<blockquote>
+<p>注释：视图总是显示最新数据！每当用户查询视图时，数据库引擎就使用视图的 SQL 语句重新构建数据。</p>
+</blockquote>
+<h2 id="SQL-CREATE-VIEW-示例"><a href="#SQL-CREATE-VIEW-示例" class="headerlink" title="SQL CREATE VIEW 示例"></a>SQL CREATE VIEW 示例</h2><hr>
+<h3 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h3><p>考虑 CUSTOMERS 表，表中的记录如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">| ID | NAME     | AGE | ADDRESS   | SALARY   |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |</span><br><span class="line">|  2 | Khilan   |  25 | Delhi     |  1500.00 |</span><br><span class="line">|  3 | kaushik  |  23 | Kota      |  2000.00 |</span><br><span class="line">|  4 | Chaitali |  25 | Mumbai    |  6500.00 |</span><br><span class="line">|  5 | Hardik   |  27 | Bhopal    |  8500.00 |</span><br><span class="line">|  6 | Komal    |  22 | MP        |  4500.00 |</span><br><span class="line">|  7 | Muffy    |  24 | Indore    | 10000.00 |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br></pre></td></tr></table></figure>
+
+<p>下面是由 CUSTOMERS 表创建视图的例子。该视图包含来自 CUSTOMERS 表的顾客的名字（name）和年龄（age）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; CREATE VIEW CUSTOMERS_VIEW AS</span><br><span class="line">SELECT name, age</span><br><span class="line">FROM  CUSTOMERS;</span><br></pre></td></tr></table></figure>
+
+<p>现在，你就可以像查询普通的数据表一样查询 CUSTOMERS_VIEW 了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; SELECT * FROM CUSTOMERS_VIEW;</span><br></pre></td></tr></table></figure>
+
+<p>上述语句将会产生如下运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----------+-----+</span><br><span class="line">| name     | age |</span><br><span class="line">+----------+-----+</span><br><span class="line">| Ramesh   |  32 |</span><br><span class="line">| Khilan   |  25 |</span><br><span class="line">| kaushik  |  23 |</span><br><span class="line">| Chaitali |  25 |</span><br><span class="line">| Hardik   |  27 |</span><br><span class="line">| Komal    |  22 |</span><br><span class="line">| Muffy    |  24 |</span><br><span class="line">+----------+-----+</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例２"><a href="#示例２" class="headerlink" title="示例２"></a>示例２</h3><p>下面是由 CUSTOMERS 表创建视图的例子。该视图包含来自 CUSTOMERS 表中年龄（age）为25的顾客的ADDRESS信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; CREATE VIEW CUSTOMERS_ADDRESS AS</span><br><span class="line">SELECT ADDRESS</span><br><span class="line">FROM  CUSTOMERS;</span><br><span class="line">WHERE AGE=25;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以像这样查询上面这个 CUSTOMERS_ADDRESS 视图：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; SELECT * FROM CUSTOMERS_ADDRESS;</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以向查询添加条件。现在，我们仅仅需要查看 “Delhi” 的数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM CUSTOMERS_ADDRESS</span><br><span class="line">WHERE ADDRESS=&#x27;Delhi&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="WITH-CHECK-OPTION"><a href="#WITH-CHECK-OPTION" class="headerlink" title="WITH CHECK OPTION"></a>WITH CHECK OPTION</h2><hr>
+<p>WITH CHECK OPTION 是 CREATE VIEW 语句的一个可选项。</p>
+<p>WITH CHECK OPTION 用于保证所有的 UPDATE 和 INSERT 语句都满足视图定义中的条件。</p>
+<p>如果不能满足这些条件，UPDATE 或 INSERT 就会返回错误。</p>
+<p>下面的例子创建的也是 CUSTOMERS_VIEW 视图，不过这次 WITH CHECK OPTION 是打开的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE VIEW CUSTOMERS_VIEW AS</span><br><span class="line">SELECT name, age</span><br><span class="line">FROM  CUSTOMERS</span><br><span class="line">WHERE age IS NOT NULL</span><br><span class="line">WITH CHECK OPTION;</span><br></pre></td></tr></table></figure>
+
+<p>这里 WITH CHECK OPTION 使得视图拒绝任何 AGE 字段为 NULL 的条目，因为视图的定义中，AGE 字段不能为空。</p>
+<h2 id="更新视图"><a href="#更新视图" class="headerlink" title="更新视图"></a>更新视图</h2><hr>
+<p>在SQL视图上也可以使用修改数据的DML语句，如 INSERT、UPDATE和DELETE。</p>
+<p>视图可以在特定的情况下更新：</p>
+<ul>
+<li>SELECT 子句不能包含 DISTINCT 关键字</li>
+<li>SELECT 子句不能包含任何汇总函数（summary functions）</li>
+<li>SELECT 子句不能包含任何集合函数（set functions）</li>
+<li>SELECT 子句不能包含任何集合运算符（set operators）</li>
+<li>SELECT 子句不能包含 ORDER BY 子句</li>
+<li>视图不能包含连接操作符</li>
+<li>视图不能包含伪列或表达式</li>
+<li>FROM 子句中不能有多个数据表</li>
+<li>WHERE 子句不能包含子查询（subquery）</li>
+<li>查询语句中不能有 GROUP BY 或者 HAVING</li>
+<li>计算得出的列不能更新</li>
+<li>视图必须包含原始数据表中所有的 NOT NULL 列，从而使 INSERT 查询生效。</li>
+</ul>
+<p>如果视图满足以上所有的条件，该视图就可以被更新。下面的例子中，Ramesh 的年龄被更新了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; UPDATE CUSTOMERS_VIEW</span><br><span class="line">      SET AGE = 35</span><br><span class="line">      WHERE name=&#x27;Ramesh&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>最终更新的还是原始数据表，只是其结果反应在了视图上。现在查询原始数据表，SELECT 语句将会产生以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">| ID | NAME     | AGE | ADDRESS   | SALARY   |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">|  1 | Ramesh   |  35 | Ahmedabad |  2000.00 |</span><br><span class="line">|  2 | Khilan   |  25 | Delhi     |  1500.00 |</span><br><span class="line">|  3 | kaushik  |  23 | Kota      |  2000.00 |</span><br><span class="line">|  4 | Chaitali |  25 | Mumbai    |  6500.00 |</span><br><span class="line">|  5 | Hardik   |  27 | Bhopal    |  8500.00 |</span><br><span class="line">|  6 | Komal    |  22 | MP        |  4500.00 |</span><br><span class="line">|  7 | Muffy    |  24 | Indore    | 10000.00 |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="向视图中插入新行"><a href="#向视图中插入新行" class="headerlink" title="向视图中插入新行"></a>向视图中插入新行</h2><hr>
+<p>可以向视图中插入新行，其规则同（使用 UPDATE 命令）更新视图所遵循的规则相同。</p>
+<p>这里我们不能向 CUSTOMERS_VIEW 视图中添加新行，因为该视图没有包含原始数据表中所有 NOT NULL 的列。否则的话，你就可以像在数据表中插入新行一样，向视图中插入新行。</p>
+<p>句法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INSERT INTO view_name</span><br><span class="line">VALUES (value1, value2, value3, ...);</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除视图中的行"><a href="#删除视图中的行" class="headerlink" title="删除视图中的行"></a>删除视图中的行</h2><hr>
+<p>视图中的数据行可以被删除。删除数据行与更新视图和向视图中插入新行遵循相同的规则。</p>
+<p>下面的例子将删除 CUSTOMERS_VIEW 视图中 AGE&#x3D;22 的数据行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL &gt; DELETE FROM CUSTOMERS_VIEW</span><br><span class="line">      WHERE age = 22;</span><br></pre></td></tr></table></figure>
+
+<p>该语句最终会将原始数据表中对应的数据行删除，只不过其结果反应在了视图上。现在查询原始数据表，SELECT 语句将会产生以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">| ID | NAME     | AGE | ADDRESS   | SALARY   |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br><span class="line">|  1 | Ramesh   |  35 | Ahmedabad |  2000.00 |</span><br><span class="line">|  2 | Khilan   |  25 | Delhi     |  1500.00 |</span><br><span class="line">|  3 | kaushik  |  23 | Kota      |  2000.00 |</span><br><span class="line">|  4 | Chaitali |  25 | Mumbai    |  6500.00 |</span><br><span class="line">|  5 | Hardik   |  27 | Bhopal    |  8500.00 |</span><br><span class="line">|  7 | Muffy    |  24 | Indore    | 10000.00 |</span><br><span class="line">+----+----------+-----+-----------+----------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h2><hr>
+<p>很明显，当我们不再需要某个视图的时候，需要有一种方式可以让我们将其删除。删除视图的语法非常简单，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP VIEW view_name;</span><br></pre></td></tr></table></figure>
+
+<p>下面的例子展示了如何从 CUSTOMERS 表中删除 CUSTOMERS_VIEW 视图：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP VIEW CUSTOMERS_VIEW;</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/sentence/brief.html">SQL 简介</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/sql/sentence/repeat.html">SQL 处理重复数据</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/sql/sentence/input.html">SQL 注入</a></div></section></div>
 
 
 
@@ -138,7 +201,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%8F%E4%B8%80%E7%AB%A0%E5%AE%9E%E4%BE%8B"><span class="toc-text">每一章实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E4%BA%BA%E7%BE%A4"><span class="toc-text">适用人群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B5%8B%E9%AA%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">SQL测验测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83"><span class="toc-text">SQL快速参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">SQL数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngrok%E5%AE%9E%E6%88%98%E8%AE%A4%E8%AF%81"><span class="toc-text">ngrok实战认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%89%8D%E6%8F%90"><span class="toc-text">学习前提</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E4%BD%BF%E7%94%A8%E8%A7%86%E5%9B%BE"><span class="toc-text">SQL 使用视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="toc-text">创建视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-CREATE-VIEW-%E7%A4%BA%E4%BE%8B"><span class="toc-text">SQL CREATE VIEW 示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%B8%80"><span class="toc-text">示例一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%92"><span class="toc-text">示例２</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WITH-CHECK-OPTION"><span class="toc-text">WITH CHECK OPTION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="toc-text">更新视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E8%A7%86%E5%9B%BE%E4%B8%AD%E6%8F%92%E5%85%A5%E6%96%B0%E8%A1%8C"><span class="toc-text">向视图中插入新行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE%E4%B8%AD%E7%9A%84%E8%A1%8C"><span class="toc-text">删除视图中的行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="toc-text">删除视图</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: sql # 这是项目id，对应 /_data/wiki/sql.yml
-title: SQL 教程
+title: SQL 概述
 order: 0
 ---
 
