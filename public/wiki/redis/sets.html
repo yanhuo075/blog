@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="烟火075的博客">
 <meta property="og:description" content="Redis 集合 ( Sets )Redis 的 Set 是 string 类型的无序集合。 集合成员是唯一的，这就意味着集合中没有重复的数据。 在 Redis 中，添加、删除和查找的时间复杂都是 O(1)（不管 Set 中包含多少元素）。 集合中最大的成员数为 232 – 1 (4294967295), 每个集合可存储 40 多亿个成员。 例通过 SADD 命令向名为 rediscomcn 的集">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-11T10:06:30.348Z">
-<meta property="article:modified_time" content="2025-06-11T10:06:30.344Z">
+<meta property="article:published_time" content="2025-06-11T10:13:49.516Z">
+<meta property="article:modified_time" content="2025-06-11T10:13:44.808Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -80,7 +80,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/redis/intro.html">Redis</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T10:06:30.344Z">2025-06-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T10:13:44.808Z">2025-06-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -101,7 +101,8 @@
 <p>在上面的示例中，我们使用 SADD 命令在集合中添加了 4 个元素。但是，使用 SMEMBERS 命令只检索了 3 个元素，因为有一个元素是重复的，Redis 只集合只含唯一元素。</p>
 <hr>
 <h2 id="Redis-集合命令"><a href="#Redis-集合命令" class="headerlink" title="Redis 集合命令"></a>Redis 集合命令</h2><p>下表列出了 Redis 集合相关命令：</p>
-<table>
+<ul>
+<li><input disabled="" type="checkbox"> <table>
 <thead>
 <tr>
 <th align="left">命令</th>
@@ -109,66 +110,68 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sadd.html">SADD</a></td>
+<td align="left">SADD</td>
 <td align="left">向集合添加一个或多个成员</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/scard.html">SCARD</a></td>
+<td align="left">SCARD</td>
 <td align="left">获取集合的成员数</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sdiff.html">SDIFF</a></td>
+<td align="left">SDIFF</td>
 <td align="left">返回给定所有集合的差集</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sdiffstore.html">SDIFFSTORE</a></td>
+<td align="left">SDIFFSTORE</td>
 <td align="left">返回给定所有集合的差集并存储在 destination 中</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sinter.html">SINTER</a></td>
+<td align="left">SINTER</td>
 <td align="left">返回给定所有集合的交集</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sinterstore.html">SINTERSTORE</a></td>
+<td align="left">SINTERSTORE</td>
 <td align="left">返回给定所有集合的交集并存储在 destination 中</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sismember.html">SISMEMBER</a></td>
+<td align="left">SISMEMBER</td>
 <td align="left">判断 member 元素是否是集合 key 的成员</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/smembers.html">SMEMBERS</a></td>
+<td align="left">SMEMBERS</td>
 <td align="left">返回集合中的所有成员</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/smove.html">SMOVE</a></td>
+<td align="left">SMOVE</td>
 <td align="left">将 member 元素从 source 集合移动到 destination 集合</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/spop.html">SPOP</a></td>
+<td align="left">SPOP</td>
 <td align="left">移除并返回集合中的一个随机元素</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/srandmember.html">SRANDMEMBER</a></td>
+<td align="left">SRANDMEMBER</td>
 <td align="left">返回集合中一个或多个随机数</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/srem.html">SREM</a></td>
+<td align="left">SREM</td>
 <td align="left">移除集合中一个或多个成员</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sunion.html">SUNION</a></td>
+<td align="left">SUNION</td>
 <td align="left">返回所有给定集合的并集</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sunionstore.html">SUNIONSTORE</a></td>
+<td align="left">SUNIONSTORE</td>
 <td align="left">所有给定集合的并集存储在 destination 集合中</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/sscan.html">SSCAN</a></td>
+<td align="left">SSCAN</td>
 <td align="left">迭代集合中的元素</td>
 </tr>
 </tbody></table>
+</li>
+</ul>
 
 <div class="article-footer fs14"></div>
 </article>

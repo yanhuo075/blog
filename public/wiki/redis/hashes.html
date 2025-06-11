@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="烟火075的博客">
 <meta property="og:description" content="Redis 哈希 ( Hashes )Redis hash 是一个 string 类型的 field 和 value 的映射表，hash 特别适合用于存储对象。 每个哈希键中可以存储多达 40 亿个字段值对。 例127.0.0.1:6379&gt; HMSET mysite name &quot;redis&quot; url &quot;https:&#x2F;&#x2F;redis.com.cn&quot; ra">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-11T10:03:05.530Z">
-<meta property="article:modified_time" content="2025-06-11T10:03:05.530Z">
+<meta property="article:published_time" content="2025-06-11T10:15:59.201Z">
+<meta property="article:modified_time" content="2025-06-11T10:15:46.621Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -80,7 +80,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/redis/intro.html">Redis</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T10:03:05.530Z">2025-06-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-11T10:15:46.621Z">2025-06-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -95,7 +95,7 @@
 <p>每个哈希键中可以存储多达 40 亿个字段值对。</p>
 <h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HMSET mysite name &quot;redis&quot; url &quot;https://redis.com.cn&quot; rank 1 visitors 240000000</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; HGETALL mysite </span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;mysite&quot;</span><br><span class="line">3) &quot;url&quot;</span><br><span class="line">4) &quot;https://redis.com.cn&quot;</span><br><span class="line">5) &quot;rank&quot;</span><br><span class="line">6) &quot;1&quot;</span><br><span class="line">7) &quot;visitors&quot;</span><br><span class="line">8) &quot;230000000&quot;</span><br></pre></td></tr></table></figure>
 
-<p>在上面的例子中，<code>mysite</code> 是 Redis 哈希列表，它包含详细信息（name，url，rank，visitors）属性。</p>
+<p>在上面的例子中，mysite 是 Redis 哈希列表，它包含详细信息（name，url，rank，visitors）属性。</p>
 <hr>
 <h2 id="Redis哈希命令"><a href="#Redis哈希命令" class="headerlink" title="Redis哈希命令"></a>Redis哈希命令</h2><table>
 <thead>
@@ -105,63 +105,63 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hdel.html">HDEL</a></td>
+<td align="left">HDEL</td>
 <td align="left">删除一个或多个哈希表字段</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hexists.html">HEXISTS</a></td>
+<td align="left">HEXISTS</td>
 <td align="left">查看哈希表 key 中，指定的字段是否存在</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hget.html">HGET</a></td>
+<td align="left">HGET</td>
 <td align="left">获取存储在哈希表中指定字段的值</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hgetall.html">HGETALL</a></td>
+<td align="left">HGETALL</td>
 <td align="left">获取在哈希表中指定 key 的所有字段和值</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hincrby.html">HINCRBY</a></td>
+<td align="left">HINCRBY</td>
 <td align="left">为哈希表 key 中的指定字段的整数值加上增量 increment</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hincrbyfloat.html">HINCRBYFLOAT</a></td>
+<td align="left">HINCRBYFLOAT</td>
 <td align="left">为哈希表 key 中的指定字段的浮点数值加上增量 increment</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hkeys.html">HKEYS</a></td>
+<td align="left">HKEYS</td>
 <td align="left">获取所有哈希表中的字段</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hlen.html">HLEN</a></td>
+<td align="left">HLEN</td>
 <td align="left">获取哈希表中字段的数量</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hmget.html">HMGET</a></td>
+<td align="left">HMGET</td>
 <td align="left">获取所有给定字段的值</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hmset.html">HMSET</a></td>
+<td align="left">HMSET</td>
 <td align="left">同时将多个 field-value (域-值)对设置到哈希表 key 中</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hset.html">HSET</a></td>
+<td align="left">HSET</td>
 <td align="left">将哈希表 key 中的字段 field 的值设为 value</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hsetnx.html">HSETNX</a></td>
+<td align="left">HSETNX</td>
 <td align="left">只有在字段 field 不存在时，设置哈希表字段的值</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hvals.html">HVALS</a></td>
+<td align="left">HVALS</td>
 <td align="left">获取哈希表中所有值</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hscan.html">HSCAN</a></td>
+<td align="left">HSCAN</td>
 <td align="left">迭代哈希表中的键值对</td>
 </tr>
 <tr>
-<td align="left"><a target="_blank" rel="noopener" href="https://redis.com.cn/commands/hstrlen.html">HSTRLEN</a></td>
+<td align="left">HSTRLEN</td>
 <td align="left">返回哈希表 key 中， 与给定域 field 相关联的值的字符串长度</td>
 </tr>
 </tbody></table>
