@@ -1,0 +1,941 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Docker：8. Docker run 运行容器 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="8. docker run 运行容器Docker run 作为运行容器的直接入口，命令参数相当丰富，使用它可以启动容器，使容器拥有自己的文件系统、网络以及关系进程树。 Docker run 命令基本结构： $ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]  docker run 命令示例以下是一个比较常见的 Docker r">
+<meta property="og:type" content="website">
+<meta property="og:title" content="8. Docker run 运行容器">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/docker/running.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="8. docker run 运行容器Docker run 作为运行容器的直接入口，命令参数相当丰富，使用它可以启动容器，使容器拥有自己的文件系统、网络以及关系进程树。 Docker run 命令基本结构： $ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]  docker run 命令示例以下是一个比较常见的 Docker r">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-13T15:56:19.470Z">
+<meta property="article:modified_time" content="2025-06-13T15:53:55.192Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/docker/introduction.html"><div class="main" ff="title">Docker</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/docker/" placeholder="在Docker文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/docker/introduction.html#start"><span class="toc-text">1. Docker 简介</span></a><a class="link" href="/wiki/docker/coretech.html"><span class="toc-text">2. Docker 核心技术</span></a><a class="link" href="/wiki/docker/install.html"><span class="toc-text">3. Docker 服务安装</span></a><a class="link" href="/wiki/docker/images.html"><span class="toc-text">4. Docker 镜像管理</span></a><a class="link" href="/wiki/docker/container.html"><span class="toc-text">5. Docker 容器使用</span></a><a class="link" href="/wiki/docker/referdesc.html"><span class="toc-text">6. Docker 基本参数说明</span></a><a class="link" href="/wiki/docker/referuse.html"><span class="toc-text">7. Docker 参数用法详解</span></a><a class="link active" href="/wiki/docker/running.html"><span class="toc-text">8. Docker run 运行容器</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/docker/network.html"><span class="toc-text">9. Docker 高级网络配置</span></a><a class="link" href="/wiki/docker/registry.html"><span class="toc-text">10. Docker 私有仓库</span></a><a class="link" href="/wiki/docker/hubproxy.html"><span class="toc-text">11. DockerHub 国内加速</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/docker/introduction.html">Docker</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-13T15:53:55.192Z">2025-06-13</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>8. Docker run 运行容器</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="8-docker-run-运行容器"><a href="#8-docker-run-运行容器" class="headerlink" title="8. docker run 运行容器"></a>8. docker run 运行容器</h1><p>Docker run 作为运行容器的直接入口，命令参数相当丰富，使用它可以启动容器，使容器拥有自己的文件系统、网络以及关系进程树。</p>
+<p>Docker run 命令基本结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]</span><br></pre></td></tr></table></figure>
+
+<h2 id="docker-run-命令示例"><a href="#docker-run-命令示例" class="headerlink" title="docker run 命令示例"></a>docker run 命令示例</h2><p>以下是一个比较常见的 Docker run 命令示例，用于创建一个 NGINX 容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name my_nginx \</span><br><span class="line">  --restart=always \</span><br><span class="line">  -p 80:80 \</span><br><span class="line">  -v /path/to/nginx/conf:/etc/nginx/conf.d \</span><br><span class="line">  -v /path/to/nginx/html:/usr/share/nginx/html \</span><br><span class="line">  nginx:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>-d</code>: 在后台以守护进程模式运行容器。</p>
+</li>
+<li><p><code>--name my_nginx</code>: 为容器指定一个名称（可以根据需要更改为您喜欢的名称）。</p>
+</li>
+<li><p><code>--restart=always</code>：指定容器在退出时的重启策略。</p>
+</li>
+<li><p><code>-p 80:80</code>: 将主机的端口 80 映射到容器的端口 <code>80</code>。这样，您可以通过访问 <code>http://localhost</code> 来访问 NGINX 容器中的网站。</p>
+</li>
+<li><p><code>-v /path/to/nginx/conf:/etc/nginx/conf.d</code>: 将主机上的 NGINX 配置文件目录挂载到容器中的 <code>/etc/nginx/conf.d</code> 目录，以便使用自定义的 NGINX 配置。</p>
+</li>
+<li><p><code>-v /path/to/nginx/html:/usr/share/nginx/html</code>: 将主机上的 HTML 文件目录挂载到容器中的 <code>/usr/share/nginx/html</code> 目录，以便在容器中提供自定义的静态网页内容。</p>
+</li>
+<li><p><code>nginx:latest</code>: 指定要使用的 NGINX 镜像及其标签（可以根据实际情况替换为您自己的镜像名称和标签）。</p>
+</li>
+</ul>
+<p><code>Docker run</code> 命令是在 <code>Docker</code> 中创建和运行容器的主要命令之一。它允许您根据需要配置容器的各种属性。以下是 <code>Docker run</code> 命令的30个常用参数的详细解释和示例用法，帮助您更好地理解和使用这些参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">`-d` 或 `--detach`：以后台模式运行容器，将容器放置在后台运行，作为守护进程。</span><br><span class="line">示例：`docker run -d image_name`</span><br><span class="line"></span><br><span class="line">`-it`：以交互模式运行容器，允许与容器进行交互。</span><br><span class="line">示例：docker run -it image_name</span><br><span class="line">   </span><br><span class="line">--name`：为容器指定一个名称。</span><br><span class="line">示例：docker run --name container_name image_name</span><br><span class="line"> </span><br><span class="line">`-p`：将容器的端口映射到主机上的一个端口。</span><br><span class="line">示例：docker run -p host_port:container_port image_name</span><br><span class="line"></span><br><span class="line">`-v`：挂载主机上的文件或目录到容器内部。</span><br><span class="line">示例：docker run -v host_path:container_path image_name</span><br><span class="line"></span><br><span class="line">`-e`：设置容器的环境变量。</span><br><span class="line">示例：docker run -e ENV_VARIABLE=value image_name</span><br><span class="line"></span><br><span class="line">`--restart`：指定容器在退出时的重启策略。</span><br><span class="line">示例：docker run --restart=always image_name</span><br><span class="line">   </span><br><span class="line">`--link`：将容器连接到另一个容器，在两个容器之间建立网络连接。</span><br><span class="line">示例：docker run --link container_name:image_alias image_name</span><br><span class="line"></span><br><span class="line">`--dns`：指定容器使用的自定义 DNS 服务器。</span><br><span class="line">示例：docker run --dns 8.8.8.8 image_name</span><br><span class="line"></span><br><span class="line">`--dns-search`：指定容器的 DNS 搜索域。</span><br><span class="line">示例：docker run --dns-search example.com image_name</span><br><span class="line"></span><br><span class="line">`--cap-add` 和 `--cap-drop`：增加或删除容器的 `Linux` 能力，用于控制容器的权限。</span><br><span class="line">示例：docker run --cap-add=SYS_ADMIN image_name</span><br><span class="line"> </span><br><span class="line">`--privileged`：给容器赋予特权，可以访问主机的设备。</span><br><span class="line">示例：docker run --privileged image_name</span><br><span class="line"> </span><br><span class="line">`--tmpfs`：在容器内创建临时文件系统，用于存储临时数据。</span><br><span class="line">示例：docker run --tmpfs /tmp image_name</span><br><span class="line"> </span><br><span class="line">`--ulimit`：设置容器的资源限制，如最大打开文件数、最大进程数等。</span><br><span class="line">示例：docker run --ulimit nofile=1024:1024 image_name</span><br><span class="line"> </span><br><span class="line">`--security-opt`：设置容器的安全选项，如 `AppArmor` 配置、`Seccomp` 配置等。</span><br><span class="line">示例：docker run --security-opt seccomp:unconfined image_name</span><br><span class="line"> </span><br><span class="line">`--cpu-shares`：设置容器的 CPU 份额，用于控制 CPU 资源的分配。</span><br><span class="line">示例：docker run --cpu-shares 512 image_name</span><br><span class="line"></span><br><span class="line">`--memory`：设置容器可使用的内存限制。</span><br><span class="line">示例：docker run --memory 1g image_name</span><br><span class="line"></span><br><span class="line">`--network`：指定容器使用的网络模式。</span><br><span class="line">示例：`docker run --network bridge image_name`</span><br><span class="line"></span><br><span class="line">`--hostname`：设置容器的主机名。</span><br><span class="line">示例：docker run --hostname my_container image_name</span><br><span class="line"></span><br><span class="line">`--user`：指定容器运行时的用户名或 UID。</span><br><span class="line">示例：docker run --user username image_name</span><br><span class="line"></span><br><span class="line">`--volume-driver`：指定容器使用的卷驱动程序。</span><br><span class="line">示例：docker run --volume-driver my_driver image_name</span><br><span class="line"></span><br><span class="line">`--shm-size`：设置容器的共享内存大小。</span><br><span class="line">示例：docker run --shm-size 2g image_name</span><br><span class="line"></span><br><span class="line">`--add-host`：向容器的 `/etc/hosts` 文件添加自定义主机名和 IP 映射。</span><br><span class="line">示例：docker run --add-host myhost:192.168.0.100 image_name</span><br><span class="line"></span><br><span class="line">`--read-only`：将容器的文件系统设置为只读模式。</span><br><span class="line">示例：docker run --read-only image_name</span><br><span class="line"></span><br><span class="line">`–cpu-quota`：设置容器的 CPU 配额，以微秒为单位。</span><br><span class="line">示例：docker run --cpu-quota=50000 image_name</span><br><span class="line"></span><br><span class="line">`--cpu-period`：设置容器的 CPU 周期，以微秒为单位。</span><br><span class="line">示例：docker run --cpu-period=100000 image_name</span><br><span class="line"></span><br><span class="line">`--dns-option`：为容器的 DNS 配置添加自定义选项。</span><br><span class="line">示例：docker run --dns-option=timeout:5 image_name</span><br><span class="line"></span><br><span class="line">`--sysctl`：设置容器的内核参数。</span><br><span class="line">示例：docker run --sysctl net.ipv4.ip_forward=1 image_name</span><br><span class="line"></span><br><span class="line">`--label`：为容器添加标签，用于识别和组织容器。</span><br><span class="line">示例：docker run --label env=production image_name</span><br><span class="line"></span><br><span class="line">`--workdir`：设置容器的工作目录。</span><br><span class="line">示例：docker run --workdir /app image_name</span><br></pre></td></tr></table></figure>
+
+<p>为了更好理解，我们将参数分为以下几类：</p>
+<ol>
+<li>容器管理：<ul>
+<li>后台程序和前台交互程序</li>
+<li>器的定义</li>
+</ul>
+</li>
+<li>网络设置</li>
+<li>CPU和内存的runtime</li>
+<li>权限和LXC配置</li>
+</ol>
+<h2 id="8-1-容器管理"><a href="#8-1-容器管理" class="headerlink" title="8.1 容器管理"></a>8.1 容器管理</h2><h3 id="8-1-1-守护态运行-Detached"><a href="#8-1-1-守护态运行-Detached" class="headerlink" title="8.1.1 守护态运行 Detached"></a>8.1.1 守护态运行 Detached</h3><p>当我们启动一个container时，首先需要确定这个container是运行在前台模式还是运行在后台模式。</p>
+<p>如果在docker run 后面追加-d&#x3D;true或者-d，则containter将会运行在后台模式(Detached mode)。此时所有I&#x2F;O数据只能通过网络资源或者共享卷组来进行交互。因为container不再监听你执行docker run的这个终端命令行窗口。正如之前的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;</span><br><span class="line">61f37c1940c8ec9f08b107e99655b8a5181ded340415e3c15cf413069d556b73</span><br><span class="line">$...</span><br></pre></td></tr></table></figure>
+
+<p>但你可以通过执行docker attach 来重新挂载这个container里面。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES</span><br><span class="line">0409679f511a        ubuntu              &quot;/bin/sh -c &#x27;while t   5 seconds ago       Up 3 seconds                            thirsty_perlman</span><br><span class="line">$ sudo docker attach 0409679f511a</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+
+<p><em>需要注意的是，如果你选择执行-d使container进入后台模式，那么将无法配合”–rm”参数。</em></p>
+<h3 id="8-1-2-带控制窗口运行"><a href="#8-1-2-带控制窗口运行" class="headerlink" title="8.1.2 带控制窗口运行"></a>8.1.2 带控制窗口运行</h3><p>与Detached（－d）对应的是Foregroud</p>
+<p>如果在docker run后面没有追加-d参数，则container将默认进入前台模式(Foregroud mode)。Docker会启动这个container，同时将当前的命令行窗口挂载到container的标准输入，标准输出和标准错误中。也就是container中所有的输出，你都可以再当前窗口中查看到。甚至docker可以虚拟出一个TTY窗口，来执行信号中断。这一切都是可以配置的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-a=[]               : Attach to `STDIN`, `STDOUT` and/or `STDERR`</span><br><span class="line">-t=false            : Allocate a pseudo-tty</span><br><span class="line">--sig-proxy=true    : Proxify all received signal to the process (non-TTY mode only)</span><br><span class="line">-i=false            : Keep STDIN open even if not attached</span><br></pre></td></tr></table></figure>
+
+<p>如果在执行run命令时没有指定-a，那么docker默认会挂载所有标准数据流，包括输入输出和错误。你可以特别指定挂载哪个标准流。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -a stdin -a stdout -i -t ubuntu /bin/bash (只挂载标准输入输出)</span><br></pre></td></tr></table></figure>
+
+<p>对于执行容器内的交互式操作，例如shell脚本。我们必须使用 -i -t来申请一个控制台同容器进行数据交互。但是当通过管道与容器进行交互时，就不能使用-t. 例如下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ echo test | docker run -i busybox cat</span><br></pre></td></tr></table></figure>
+
+<p>若强行加上-t 就会报出cannot enable tty mode on non tty input错误。</p>
+<h3 id="8-1-3-给容器命名"><a href="#8-1-3-给容器命名" class="headerlink" title="8.1.3 给容器命名"></a>8.1.3 给容器命名</h3><p>给container 命名有三种方式：</p>
+<ol>
+<li><p>使用UUID长命 (“f78375b1c487e03c9438c729345e54db9d20cfa2ac1fc3494b6eb60872e74778”)，在创建容器时返回的id就是这个。</p>
+</li>
+<li><p>使用UUID短命令(“f78375b1c487”)，当执行查询时，查到的dockerID就是这个。</p>
+</li>
+<li><p>使用–name&#x3D;evil_ptolemy”,若不加此指令，docker会自动给新创建出来的容器分配一个唯一的name</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d --name=test_name registry.liugang/centos:latest</span><br><span class="line">f78375b1c487e03c9438c729345e54db9d20cfa2ac1fc3494b6eb60872e74778</span><br><span class="line">$ sudo docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                            COMMAND       CREATED             STATUS                      PORTS       NAMES</span><br><span class="line">f78375b1c487        registry.liugang/centos:latest   &quot;/bin/bash&quot;   17 seconds ago      Exited (0) 17 seconds ago               test_name</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="8-1-4-清除容器"><a href="#8-1-4-清除容器" class="headerlink" title="8.1.4 清除容器"></a>8.1.4 清除容器</h3><p>Clean up (–rm) 指在容器运行完之后自动清除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--rm=false: Automatically remove the container when it exits (incompatible with -d)</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，每个container在退出时，它的文件系统也会保存下来。这样一方面调试会方便些，因为你可以通过查看日志等方式来确定最终状态。另外一方面，你也可以保存container所产生的数据。但是当你仅仅需要短期的运行一个前台container，这些数据同时不需要保留时。你可能就希望docker能在container结束时自动清理其所产生的数据。 这个时候你就需要–rm这个参数了。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --rm centos:latest</span><br><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID       IMAGE       COMMAND    CREATED     STATUS       PORTS       NAMES</span><br><span class="line">(无)</span><br></pre></td></tr></table></figure>
+
+<p><em>注意：–rm 和 -d不能共用！</em></p>
+<h2 id="8-2-数据管理"><a href="#8-2-数据管理" class="headerlink" title="8.2 数据管理"></a>8.2 数据管理</h2><h3 id="8-2-1-数据卷"><a href="#8-2-1-数据卷" class="headerlink" title="8.2.1 数据卷"></a>8.2.1 数据卷</h3><p>参数的作用就是挂载一个文件目录到指定容器中去，实现容器中数据持久化。</p>
+<ul>
+<li>数据卷是一个可以供一个或多个使用的特殊目录，它绕过UFS，可以提供很多有用的特性<ul>
+<li>数据卷可以在容器之间共享和重用</li>
+<li>对数据卷的修改会立马生效</li>
+<li>对数据卷的更新，不会影响镜像</li>
+<li>卷会一直存在，直到没有容器使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-2-2-挂载目录"><a href="#8-2-2-挂载目录" class="headerlink" title="8.2.2 挂载目录"></a>8.2.2 挂载目录</h3><p>在使用docker run时，加上-v参数可以创建一个数据卷挂载到目标容器中去，也可以多次使用该参数挂载多个数据卷。下面创建一个容器，挂载一个数据卷。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --name=test -it -v /home/test_volume/:/home/test centos</span><br><span class="line">[root@6a7818f6290b /]# cd /home/</span><br><span class="line">[root@6a7818f6290b home]# ls</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+<p>发现容器中已经成功挂载数据卷，但是如果你对系统是CentoOS7系统，你会发现，无法访问test，说明权限不够，是因为CentOS7中的安全模块selinux把权限禁掉了，所以要在运行的时候加上特权：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --name=test -it --privileged=true -v /home/test_volume/:/home/test centos</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就有了对容器的读写权利。（解决方法还有好多种，在后面问题总结中有所介绍。）</p>
+<p>Docker 挂载数据卷的默认权限是读写，用户也可以通过 :ro 指定为只读。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d -P --name web -v /src/webapp:/opt/webapp:ro</span><br><span class="line">training/webapp python app.py</span><br></pre></td></tr></table></figure>
+
+<p><em>注意：也可以在 Dockerfile 中使用 VOLUME 来添加一个或者多个新的卷到由该镜像创建的任意容器。这将在仓库服务中详细讲解。</em></p>
+<h3 id="8-2-3-挂载文件"><a href="#8-2-3-挂载文件" class="headerlink" title="8.2.3 挂载文件"></a>8.2.3 挂载文件</h3><p>-v 标记也可以从主机挂载单个文件到容器中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --rm -it -v ~/.bash_history:/.bash_history ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以记录在容器输入过的命令了。</p>
+<p><em>注意：如果直接挂载一个文件，很多文件编辑工具，包括 vi 或者 sed –in-place，可能会造成文件 inode 的改变，从 Docker 1.1 .0起，这会导致报错误信息。所以最简单的办法就直接挂载文件的父目录。</em></p>
+<h2 id="8-3-资源配置"><a href="#8-3-资源配置" class="headerlink" title="8.3 资源配置"></a>8.3 资源配置</h2><h3 id="8-3-1-内存资源设置"><a href="#8-3-1-内存资源设置" class="headerlink" title="8.3.1 内存资源设置"></a>8.3.1 内存资源设置</h3><p>设置内存我们可以有四种方式：</p>
+<ul>
+<li><p><strong>memory&#x3D;inf, memory-swap&#x3D;inf (default)</strong></p>
+<p><em>默认的方式设置最低值，容器可以使用大于此最低值的内存数</em></p>
+</li>
+<li><p><strong>memory&#x3D;L&lt;inf, memory-swap&#x3D;inf</strong></p>
+<p><em>设置memory不能使用超过L的值。</em></p>
+</li>
+<li><p><strong>memory&#x3D;L&lt;inf, memory-swap&#x3D;2*L</strong></p>
+</li>
+<li><p><strong>memory&#x3D;L&lt;inf, memory-swap&#x3D;S&lt;inf, L&lt;&#x3D;S</strong></p>
+<p><em>memory不能超过L，swap＋memory总使用量不能超过S</em></p>
+</li>
+</ul>
+<p>例子： $ sudo docker run -ti centos &#x2F;bin&#x2F;bash</p>
+<p>默认不设置任何限制。(第一种情况)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti -m 300M --memory-swap -1 centos  /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>memory最多使用300M，swap没有限制</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run -ti -m 300M centos  /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>我们只设置了memory限制时300M，swap没有指定，默认被设置为与memory一样的值。memory＋swap一共是600M</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run -ti -m 300M --memory-swap 1G centos  /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>这里我们同时设置了memory和swap ，对应第四种情况</p>
+<p>如果发生内存溢出错误，内核讲kill掉容器中的进程。如果你想控制，可以配合使用- -oom-kill-disable参数。如果没有制定-m参数，可能导致当内存溢出时内核会杀死主机进程。 例子： 设置容器内存限制100M，并且阻止 OOM killer</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run -ti -m 100M --oom-kill-disable centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>如果不使用-m参数制定限制，官方说很危险！</p>
+<h3 id="8-3-2-CPU资源设置"><a href="#8-3-2-CPU资源设置" class="headerlink" title="8.3.2 CPU资源设置"></a>8.3.2 CPU资源设置</h3><p>默认情况下，所有容器获得CPU周期的比例相同。可以通过改变容器的CPU加权占有率相对于其他正在运行容器的加权占有率的比例来调整。</p>
+<p>修改1024的比例，使用-c或–cpu-sharesflag的权重设置为2或更高。 该比例只适用在CPU密集型进程运行时。当在一个容器中的任务处于空闲状态，其他容器可以使用剩余空闲CPU时间。实际CPU时间将根据在系统上运行的容器的数目而变化。</p>
+<p>例如，考虑三个容器的情况，一个拥有cpu的1024和另外两个有512 CPU共享时间，三个容器进程都尝试使用100％的CPU，第一个容器将获得的50％总的CPU时间。如果您添加CPU值为1024的第四个容器中，第一个容器只得到了CPU的33％。剩余的容器将分别占用CPU的16.5％，16.5％和33％。</p>
+<p>在多核心系统中，CPU时间的份额分布在所有CPU核心。即使容器被限制为CPU时间小于100％时，它可以使用每个单独的CPU核心的100％。例如，在一个拥有超过三个核心的系统中，</p>
+<p>如果启动一个容器设置-c＝512跑一个进程，另外一个设置-c&#x3D;1024,跑2个进程，内存分配将会如下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PID    container    CPU CPU share</span><br><span class="line">100    &#123;C0&#125;     0   100% of CPU0</span><br><span class="line">101    &#123;C1&#125;     1   100% of CPU1</span><br><span class="line">102    &#123;C1&#125;     2   100% of CPU2</span><br></pre></td></tr></table></figure>
+
+<p><strong>–cpu-period参数</strong></p>
+<p>默认设置为100ms，当然我们也可以自己设置cpu周期，限制容器CPU用量。通常该参数伴随–cpu-quota参数使用。</p>
+<p><strong>–cpu-quota参数</strong></p>
+<p>限制CPU用量。默认值0，意味着允许容器获得1个CPU的100%的资源量。设置50000限制CPU资源的50%。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti --cpu-period=50000 --cpu-quota=25000 centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>如果是单核心系统，将意味着容器将每50ms获得50%运行周期。</p>
+<p><strong>–cpuset参数</strong></p>
+<p><em>设置容器允许运行的cpu号（在多核心系统中）：</em></p>
+<p>设置容器在CPU1和CPU3上运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti --cpuset-cpus=&quot;1,3&quot; centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>设置容器在CPU0、CPU1、CPU2上运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti --cpuset-cpus=&quot;0-2&quot; centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><em>设置容器在指定mems上执行（只在NUMA系统中有效）：</em></p>
+<p>容器只能在memory nodes 1和2上运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti --cpuset-mems=&quot;1,3&quot; centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><strong>–bkio-weight参数</strong></p>
+<p>默认情况下，所有容器获得相同比例的blokIO带宽，这个比例值是500。要修改此比例，使用–blkio-weight设置容器的blkio相对于其他运行容器权重。它的取值范围是10～1000。 下面的例子中，设置了两个不同blkio:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -ti --name c1 --blkio-weight 300 centos /bin/bash</span><br><span class="line">$ sudo docker run -ti --name c2 --blkio-weight 600 centos /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>如果同时设置两个容器blockIO，利用如下指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ time dd if=/mnt/zerofile of=test.out bs=1M count=1024 oflag=direct</span><br></pre></td></tr></table></figure>
+
+<p>You’ll find that the proportion of time is the same as the proportion of blkio weights of the two containers.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Note: The blkio weight setting is only available for direct IO. Buffered IO is not currently supported.</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-4-访问互联"><a href="#8-4-访问互联" class="headerlink" title="8.4 访问互联"></a>8.4 访问互联</h2><h3 id="8-4-1-外部访问容器"><a href="#8-4-1-外部访问容器" class="headerlink" title="8.4.1 外部访问容器"></a>8.4.1 外部访问容器</h3><p>有时候，容器要运行一些网络应用，需要外部能访问到这些应用，就需要使用-p&#x2F;P 参数指定一个主机端口，映射到容器端口中。其中使用P系统会分配一个随机的端口到内部容器开放的网络端口。</p>
+<p>就拿仓库服务镜像来做例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d -P registry</span><br><span class="line">b89fc89e061dee24ac532af1890cd26e6e016545e0978b01d3d4eadca67119aa</span><br><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                     NAMES</span><br><span class="line">b89fc89e061d        registry:latest     &quot;docker-registry&quot;   5 seconds ago       Up 4 seconds        0.0.0.0:32768-&gt;5000/tcp   focused_brown</span><br><span class="line">$ curl 192.168.4.100:32768/v1/search</span><br><span class="line">&#123;&quot;num_results&quot;: 0, &quot;query&quot;: &quot;&quot;, &quot;results&quot;: []&#125;[root@registry liugang]#</span><br><span class="line">$ sudo docker logs b89fc89e061d</span><br><span class="line">[2015-08-18 00:11:41 +0000] [1] [INFO] Starting gunicorn 19.1.1</span><br><span class="line">[2015-08-18 00:11:41 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到，当我们加上-P时，docker会任意指定一个一个端口指定到容器的开放端口5000上。从容器到运行日志也是可以看出，在容器的5000端口会有一个监听。当我们通过外网的，也就是宿主机的IP 和端口就可以访问到该容器内提供的服务，这里是仓库服务。</p>
+<p>-p（小写的）则可以指定要映射的端口，并且，在一个指定端口上只可以绑定一个容器。支持的格式有</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort。</span><br></pre></td></tr></table></figure>
+
+<h3 id="映射所有接口地址"><a href="#映射所有接口地址" class="headerlink" title="映射所有接口地址"></a>映射所有接口地址</h3><p>我们用到的是 hostPort:containerPort，也就是将制定端口映射到主机地址的任意地址的指定端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d -p 80:5000 registry</span><br><span class="line">a7abe89606427e3cb90698a6d302e8</span><br><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">a7abe8960642        registry:latest     &quot;docker-registry&quot;   4 seconds ago       Up 3 seconds        0.0.0.0:80-&gt;5000/tcp   ecstatic_wright</span><br><span class="line">2abb0f04066999adff36b13be2e380c3de</span><br></pre></td></tr></table></figure>
+
+<p>我们将主机80端口映射到容器，这样我们直接用主机地址就可以访问到容器了。</p>
+<h3 id="映射到指定地址的指定端口"><a href="#映射到指定地址的指定端口" class="headerlink" title="映射到指定地址的指定端口"></a>映射到指定地址的指定端口</h3><p>可以使用 ip:hostPort:containerPort 格式指定映射使用一个特定地址，比如 localhost 地址 127.0.0.1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d -p 127.0.0.1:5000:5000 registry</span><br><span class="line">9f11390c1e9d048f7d82ff6bfb7e65f5531865343a5a2e6b660c0634e90eda26</span><br><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                      NAMES</span><br><span class="line">9f11390c1e9d        registry:latest     &quot;docker-registry&quot;   6 seconds ago       Up 5 seconds        127.0.0.1:5000-&gt;5000/tcp   romantic_carson</span><br></pre></td></tr></table></figure>
+
+<h3 id="映射到指定地址的任意端口"><a href="#映射到指定地址的任意端口" class="headerlink" title="映射到指定地址的任意端口"></a>映射到指定地址的任意端口</h3><p>使用 ip::containerPort 绑定 localhost 的任意端口到容器的 5000 端口，本地主机会自动分配一个端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo sudo docker run -d -p 127.0.0.1::5000 registry</span><br><span class="line">d8cd77ecc45f434ab9edc0a7e83514ef7cb019fabc9bdbc0b522bb916b309789</span><br><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                       NAMES</span><br><span class="line">d8cd77ecc45f        registry:latest     &quot;docker-registry&quot;   4 seconds ago       Up 3 seconds        127.0.0.1:32768-&gt;5000/tcp   grave_carson</span><br></pre></td></tr></table></figure>
+
+<p>从上面看出，此时docker默认的传输协议是tcp方式，我们也可以改为其他方式标记：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --name=test_port -d -p 127.0.0.1:5000:5000/udp registry</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-docker-port-查看端口信息"><a href="#使用-docker-port-查看端口信息" class="headerlink" title="使用 docker port 查看端口信息"></a>使用 docker port 查看端口信息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker port test_port</span><br><span class="line">5000/udp -&gt; 127.0.0.1:5000</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p><em>容器有自己的内部网络和 ip 地址（使用 docker inspect 可以获取所有的变量，Docker 还可以有一个可变的网络配置。）</em></p>
+<p><em>-p 标记可以多次使用来绑定多个端口</em></p>
+<h3 id="8-4-2-容器间通信"><a href="#8-4-2-容器间通信" class="headerlink" title="8.4.2 容器间通信"></a>8.4.2 容器间通信</h3><p>容器在使用Docker的时候我们会常常碰到这么一种应用，就是我需要两个或多个容器，其中某些容器需要使用另外一些容器提供的服务。所以，我们要考虑的问题时如何建立两个容器间通信。</p>
+<p><strong>容器的连接（linking）</strong></p>
+<p>系统是除了端口映射外，另一种跟容器中应用交互的方式。 该系统会在源和接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息。</p>
+<p>首先我们先创建一个容器(这里我只是用作示范,没有使用官方示例的镜像，所谓但数据容器内并没有提供数据服务，官方例子我举出来也没啥意思)</p>
+<p>创建数据访问容器db：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -idt --name=db centos</span><br><span class="line">600886c7c69dc4979bdfee19d82331879d71835f794db110eb3b5ea3c164bd30</span><br></pre></td></tr></table></figure>
+
+<p>使用–link&#x3D;name:alias name就是要访问的目标机器，alias就是自定的别名</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -it --name=web --link=db:test_link centos</span><br><span class="line">[root@8d92293a65e9 /]# cat /etc/hosts</span><br><span class="line">172.17.0.12    8d92293a65e9</span><br><span class="line">127.0.0.1    localhost</span><br><span class="line">::1    localhost ip6-localhost ip6-loopback</span><br><span class="line">fe00::0    ip6-localnet</span><br><span class="line">ff00::0    ip6-mcastprefix</span><br><span class="line">ff02::1    ip6-allnodes</span><br><span class="line">ff02::2    ip6-allrouters</span><br><span class="line">172.17.0.11    test_link 600886c7c69d db</span><br></pre></td></tr></table></figure>
+
+<p>我们看到容器内的hosts 内多了一条信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">172.17.0.11    test_link 600886c7c69d db</span><br></pre></td></tr></table></figure>
+
+<p>这就意味着我们可以访问到db容器进行通信。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/docker/referuse.html">7. Docker 参数用法详解</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/docker/network.html">9. Docker 高级网络配置</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#8-docker-run-%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="toc-text">8. docker run 运行容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-run-%E5%91%BD%E4%BB%A4%E7%A4%BA%E4%BE%8B"><span class="toc-text">docker run 命令示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86"><span class="toc-text">8.1 容器管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-1-%E5%AE%88%E6%8A%A4%E6%80%81%E8%BF%90%E8%A1%8C-Detached"><span class="toc-text">8.1.1 守护态运行 Detached</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-2-%E5%B8%A6%E6%8E%A7%E5%88%B6%E7%AA%97%E5%8F%A3%E8%BF%90%E8%A1%8C"><span class="toc-text">8.1.2 带控制窗口运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-3-%E7%BB%99%E5%AE%B9%E5%99%A8%E5%91%BD%E5%90%8D"><span class="toc-text">8.1.3 给容器命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-4-%E6%B8%85%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="toc-text">8.1.4 清除容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2-%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86"><span class="toc-text">8.2 数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-1-%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">8.2.1 数据卷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-2-%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95"><span class="toc-text">8.2.2 挂载目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-3-%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="toc-text">8.2.3 挂载文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-3-%E8%B5%84%E6%BA%90%E9%85%8D%E7%BD%AE"><span class="toc-text">8.3 资源配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-1-%E5%86%85%E5%AD%98%E8%B5%84%E6%BA%90%E8%AE%BE%E7%BD%AE"><span class="toc-text">8.3.1 内存资源设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-2-CPU%E8%B5%84%E6%BA%90%E8%AE%BE%E7%BD%AE"><span class="toc-text">8.3.2 CPU资源设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-%E8%AE%BF%E9%97%AE%E4%BA%92%E8%81%94"><span class="toc-text">8.4 访问互联</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-1-%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">8.4.1 外部访问容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E6%89%80%E6%9C%89%E6%8E%A5%E5%8F%A3%E5%9C%B0%E5%9D%80"><span class="toc-text">映射所有接口地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E5%88%B0%E6%8C%87%E5%AE%9A%E5%9C%B0%E5%9D%80%E7%9A%84%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3"><span class="toc-text">映射到指定地址的指定端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E5%88%B0%E6%8C%87%E5%AE%9A%E5%9C%B0%E5%9D%80%E7%9A%84%E4%BB%BB%E6%84%8F%E7%AB%AF%E5%8F%A3"><span class="toc-text">映射到指定地址的任意端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-docker-port-%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-text">使用 docker port 查看端口信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-2-%E5%AE%B9%E5%99%A8%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-text">8.4.2 容器间通信</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/13/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

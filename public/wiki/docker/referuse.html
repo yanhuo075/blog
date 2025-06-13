@@ -1,0 +1,1555 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Docker：7. Docker 参数用法详解 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="7. Docker 参数用法详解7.1 deamon 参数Docker对使用者来讲是一个C&#x2F;S模式的架构，而Docker的后端是一个非常松耦合的架构，模块各司其职，并有机组合，支撑Docker的运行,如下图所示：  不难看出，用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。 而Docker Daemon作为Docker架构中的主体部分，首先提供Serve">
+<meta property="og:type" content="website">
+<meta property="og:title" content="7. Docker 参数用法详解">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/docker/referuse.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="7. Docker 参数用法详解7.1 deamon 参数Docker对使用者来讲是一个C&#x2F;S模式的架构，而Docker的后端是一个非常松耦合的架构，模块各司其职，并有机组合，支撑Docker的运行,如下图所示：  不难看出，用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。 而Docker Daemon作为Docker架构中的主体部分，首先提供Serve">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/docker_struct.jpg">
+<meta property="article:published_time" content="2025-06-13T11:15:48.249Z">
+<meta property="article:modified_time" content="2025-06-13T11:15:48.245Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/docker_struct.jpg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/docker/introduction.html"><div class="main" ff="title">Docker</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/docker/" placeholder="在Docker文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/docker/introduction.html#start"><span class="toc-text">1. Docker 简介</span></a><a class="link" href="/wiki/docker/coretech.html"><span class="toc-text">2. Docker 核心技术</span></a><a class="link" href="/wiki/docker/install.html"><span class="toc-text">3. Docker 服务安装</span></a><a class="link" href="/wiki/docker/images.html"><span class="toc-text">4. Docker 镜像管理</span></a><a class="link" href="/wiki/docker/container.html"><span class="toc-text">5. Docker 容器使用</span></a><a class="link" href="/wiki/docker/referdesc.html"><span class="toc-text">6. Docker 基本参数说明</span></a><a class="link active" href="/wiki/docker/referuse.html"><span class="toc-text">7. Docker 参数用法详解</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/docker/running.html"><span class="toc-text">8. Docker run 运行容器</span></a><a class="link" href="/wiki/docker/network.html"><span class="toc-text">9. Docker 高级网络配置</span></a><a class="link" href="/wiki/docker/registry.html"><span class="toc-text">10. Docker 私有仓库</span></a><a class="link" href="/wiki/docker/hubproxy.html"><span class="toc-text">11. DockerHub 国内加速</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/docker/introduction.html">Docker</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-13T11:15:48.245Z">2025-06-13</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>7. Docker 参数用法详解</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="7-Docker-参数用法详解"><a href="#7-Docker-参数用法详解" class="headerlink" title="7. Docker 参数用法详解"></a>7. Docker 参数用法详解</h1><h2 id="7-1-deamon-参数"><a href="#7-1-deamon-参数" class="headerlink" title="7.1 deamon 参数"></a>7.1 deamon 参数</h2><p>Docker对使用者来讲是一个<code>C/S</code>模式的架构，而Docker的后端是一个非常松耦合的架构，模块各司其职，并有机组合，支撑Docker的运行,如下图所示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/docker_struct.jpg" alt="image"></p>
+<p>不难看出，用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。 而Docker Daemon作为Docker架构中的主体部分，首先提供Server的功能使其可以接受Docker Client的请求；而后Engine执行Docker内部的一系列工作，每一项工作都是以一个Job的形式的存在。</p>
+<p>Job的运行过程中，当需要容器镜像时，则从Docker Registry中下载镜像，并通过镜像管理驱动graphdriver将下载镜像以Graph的形式存储；当需要为Docker创建网络环境时，通过网络管理驱动networkdriver创建并配置Docker容器网络环境；当需要限制Docker容器运行资源或执行用户指令等操作时，则通过execdriver来完成。</p>
+<p>而libcontainer是一项独立的容器管理包，networkdriver以及execdriver都是通过libcontainer来实现具体对容器进行的操作。</p>
+<p>当执行完运行容器的命令后，一个实际的Docker容器就处于运行状态，该容器拥有独立的文件系统，独立并且安全的运行环境等。</p>
+<h4 id="Docker-Client"><a href="#Docker-Client" class="headerlink" title="Docker Client"></a>Docker Client</h4><p>Docker Client是Docker架构中用户用来和Docker Daemon建立通信的客户端。用户使用的可执行文件为docker，通过docker命令行工具可以发起众多管理container的请求。</p>
+<p>Docker Client可以通过以下三种方式和Docker Daemon建立通信：tcp:&#x2F;&#x2F;host:port，unix:&#x2F;&#x2F;path_to_socket和fd:&#x2F;&#x2F;socketfd。为了简单起见，本文一律使用第一种方式作为讲述两者通信的原型。与此同时，与Docker Daemon建立连接并传输请求的时候，Docker Client可以通过设置命令行flag参数的形式设置安全传输层协议(TLS)的有关参数，保证传输的安全性。</p>
+<p>Docker Client发送容器管理请求后，由Docker Daemon接受并处理请求，当Docker Client接收到返回的请求相应并简单处理后，Docker Client一次完整的生命周期就结束了。当需要继续发送容器管理请求时，用户必须再次通过docker可执行文件创建Docker Client。</p>
+<h4 id="Docker-Daemon"><a href="#Docker-Daemon" class="headerlink" title="Docker Daemon"></a>Docker Daemon</h4><p>Docker Daemon是Docker架构中一个常驻在后台的系统进程，功能是：接受并处理Docker Client发送的请求。该守护进程在后台启动了一个Server，Server负责接受Docker Client发送的请求；接受请求后，Server通过路由与分发调度，找到相应的Handler来执行请求。</p>
+<p>Docker Daemon启动所使用的可执行文件也为docker，与Docker Client启动所使用的可执行文件docker相同。在docker命令执行时，通过传入的参数来判别Docker Daemon与Docker Client。</p>
+<p>deamon的参数选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker daemon [OPTIONS]</span><br><span class="line">A self-sufficient runtime for linux containers.</span><br><span class="line">Options:</span><br><span class="line">  --api-cors-header=&quot;&quot;                   Set CORS headers in the remote API</span><br><span class="line">  -b, --bridge=&quot;&quot;                        Attach containers to a network bridge</span><br><span class="line">  --bip=&quot;&quot;                               Specify network bridge IP</span><br><span class="line">  -D, --debug=false                      Enable debug mode</span><br><span class="line">  --default-gateway=&quot;&quot;                   Container default gateway IPv4 address</span><br><span class="line">  --default-gateway-v6=&quot;&quot;                Container default gateway IPv6 address</span><br><span class="line">  --dns=[]                               DNS server to use</span><br><span class="line">  --dns-search=[]                        DNS search domains to use</span><br><span class="line">  --default-ulimit=[]                    Set default ulimit settings for containers</span><br><span class="line">  -e, --exec-driver=&quot;native&quot;             Exec driver to use</span><br><span class="line">  --exec-opt=[]                          Set exec driver options</span><br><span class="line">  --exec-root=&quot;/var/run/docker&quot;          Root of the Docker execdriver</span><br><span class="line">  --fixed-cidr=&quot;&quot;                        IPv4 subnet for fixed IPs</span><br><span class="line">  --fixed-cidr-v6=&quot;&quot;                     IPv6 subnet for fixed IPs</span><br><span class="line">  -G, --group=&quot;docker&quot;                   Group for the unix socket</span><br><span class="line">  -g, --graph=&quot;/var/lib/docker&quot;          Root of the Docker runtime</span><br><span class="line">  -H, --host=[]                          Daemon socket(s) to connect to</span><br><span class="line">  -h, --help=false                       Print usage</span><br><span class="line">  --icc=true                             Enable inter-container communication</span><br><span class="line">  --insecure-registry=[]                 Enable insecure registry communication</span><br><span class="line">  --ip=0.0.0.0                           Default IP when binding container ports</span><br><span class="line">  --ip-forward=true                      Enable net.ipv4.ip_forward</span><br><span class="line">  --ip-masq=true                         Enable IP masquerading</span><br><span class="line">  --iptables=true                        Enable addition of iptables rules</span><br><span class="line">  --ipv6=false                           Enable IPv6 networking</span><br><span class="line">  -l, --log-level=&quot;info&quot;                 Set the logging level</span><br><span class="line">  --label=[]                             Set key=value labels to the daemon</span><br><span class="line">  --log-driver=&quot;json-file&quot;               Default driver for container logs</span><br><span class="line">  --log-opt=[]                           Log driver specific options</span><br><span class="line">  --mtu=0                                Set the containers network MTU</span><br><span class="line">  -p, --pidfile=&quot;/var/run/docker.pid&quot;    Path to use for daemon PID file</span><br><span class="line">  --registry-mirror=[]                   Preferred Docker registry mirror</span><br><span class="line">  -s, --storage-driver=&quot;&quot;                Storage driver to use</span><br><span class="line">  --selinux-enabled=false                Enable selinux support</span><br><span class="line">  --storage-opt=[]                       Set storage driver options</span><br><span class="line">  --tls=false                            Use TLS; implied by --tlsverify</span><br><span class="line">  --tlscacert=&quot;~/.docker/ca.pem&quot;         Trust certs signed only by this CA</span><br><span class="line">  --tlscert=&quot;~/.docker/cert.pem&quot;         Path to TLS certificate file</span><br><span class="line">  --tlskey=&quot;~/.docker/key.pem&quot;           Path to TLS key file</span><br><span class="line">  --tlsverify=false                      Use TLS and verify the remote</span><br><span class="line">  --userland-proxy=true                  Use userland proxy for loopback traffic</span><br></pre></td></tr></table></figure>
+
+<p>如果你想要运行守护态进程，你可以输入 <code>docker -d</code>（之前版本是 <code>docker deamon</code>）。如果想加入Debug模式，输入<code>docker -d -D</code>即可。</p>
+<ul>
+<li>Deamon socket 选项</li>
+</ul>
+<p>Docker deamon 通过三种不同的socket方式监听<code>docker remote API</code>请求，分别是：<code>unix、tcp、以及fd。</code></p>
+<p>默认情况下，通过创建在<code>/var/run/docer.sock</code>文件内的<code>unix domain socket</code>（或者 IPC socket）来接收root或者docker用户组的请求。如果你想远程通信你需要打开tcpSocket。</p>
+<p>要注意的是，默认的方式提供了一个未加密未验证直接连接deamon。应该使用内置的HTTPS加密的socket或者在前面使用一个安全的web代理。使用-H <code>tcp://0.0.0.0:2375</code>来监听所有ip地址接口的2375端口，或者指定一个主机IP监听<code>-H 192.168.2.160:2375</code>。通常情况下2375端口是 未加密的，而2376用于与deamon通信的加密端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">注意：如果你使用HTTPS加密socket ，目前支持TLS1.0或更高级的协议，不支持Protocols SSLv3或者低于此版本的协议。</span><br></pre></td></tr></table></figure>
+
+<p>在Systemd基础的系统中，使用<code>docker -d -H fd://</code>,通过Systemd socket activation与deamon通信。对于大多数设置，使用fd:&#x2F;&#x2F;将很好的运作，你也可以指定单个socket：<code>docker -d -H fd://3</code>。如果没有找到指定的激活的文件，Docker 将会退出进程。</p>
+<ol>
+<li><p><strong>Server端</strong></p>
+<p>-H参数可以多次指定监听不同的端口：</p>
+<p>例如指定监听主机默认的unix socket以及指定的IP地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker -d -H unix:///var/run/docker.sock  -H tcp://192.168.2.160:2375</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Client端</strong></p>
+<p>为客户端设置-H参数，将使客户端监听<code>DOCKER_HOST</code>环境变量指定的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -H tcp://0.0.0.0:2375 ps</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ export DOCKER_HOST=&quot;tcp://0.0.0.0:2375&quot;</span><br><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>
+
+<p>设置 <code>DOCKER_TLS_VERIFY</code>环境变量相当于设置<code>--tlsverify</code>参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker --tlsverify ps</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ export DOCKER_TLS_VERIFY=1</span><br><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>
+
+<p>以上设置是等效的</p>
+<p>Docker客户端会遵守<code>HTTP_PROXY,HTTPS_PROXY以及NO_PROXY</code>这三个环境变量运行。其中<code>HTTPS_PROXY</code>优先权大于<code>HTTP_PROXY</code></p>
+</li>
+</ol>
+<ul>
+<li><p>storage-driver 选项</p>
+<p>Docker deamon 支持许多不同的镜像层存储驱动：aufs、devicemapper、btrfs、zfs以及overlay。</p>
+<ol>
+<li><p>aufs是最老的，但是由于它是基于linux 内核patch-set,不太可能被合并到主内核中。这也会导致一些严重的系统崩溃。但是，aufs也是唯一允许容器共享可执行文件以及共享类库内存的存储驱动，所以对于那些需要运行数以千计运行相同程序或类库的容器会非常有用。</p>
+</li>
+<li><p>devicemapper使用自动精简配置以及Copy on Write(COW)快照。对于每一个graph位置通常是在&#x2F;var&#x2F;lib&#x2F;docker&#x2F;devicemapper中，通常被分为两块设备，一块给数据，一块给metadata。默认的，这些块设备是通过使用自动创建的零散文件回送挂载来自动创建的。Refer to Storage driver options below for a way how to customize this setup.~jpetazzo&#x2F;Resizing Docker containers with the Device Mapper plugin article explains how to tune your existing setup without the use of options.</p>
+</li>
+<li><p>Btrfs 对于docker build构建镜像时会非常快，但是和devicemapper一样不会共享可执行文件以及类库的内存。使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker -d -s btrfs -g /mnt/btrfs_partition</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Zfs 没有btrfs那么快，但是对相对较长记录有更稳定地支持。由于克隆之间的单一副本ARC共享块将被一次缓存，使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker -d -s zfs</span><br></pre></td></tr></table></figure>
+
+<p>Use docker daemon -s zfs. To select a different zfs filesystem set zfs.fsname option as described in Storage driver options.</p>
+</li>
+<li><p>Overlay 是一个非常快的联合文件系统，它现在被并入了3.18.0的Linux内核中，使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker -d -s overlay</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>storage-opt选项</p>
+<p>***<code>dm.thinpooldev</code>***,指定块存储设备所使用的thin pool。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker -d --storage-opt dm.thinpooldev=/dev/mapper/thin-pool</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.basesize</code>*** 指定基础存储大小，同时限制镜像以及容器。默认值时100G。 修改此值需要执行以下操作才生效：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo service docker stop</span><br><span class="line">$ sudo rm -rf /var/lib/docker</span><br><span class="line">$ sudo service docker start</span><br></pre></td></tr></table></figure>
+
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.basesize=20G</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.loopdatasize</code>*** 这个选项配置devicemapper looback，这不应该在生产中使用。默认值是100G，用于设定thin pool为数据产生的回送的零散文件存储大小，通常不会占用那么多空间。</p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.loopdatasize=200G</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.loopmetadatasize</code>*** 与上面类似，只是设定元数据存储大小。</p>
+<p>使用方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.loopmetadatasize=4G</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.fs</code>*** 设定文件系统基础设备类型，支持的类型是ext4和xfs，默认是ext4</p>
+<p>使用方法：</p>
+<p>$ docker -d –storage-opt dm.fs&#x3D;xfs</p>
+<p>***<code>dm.mkfsarg</code>*** 设定在创建基础设备时mkfs所用到的参数</p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt &quot;dm.mkfsarg=-O ^has_journal&quot;</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.mountopt</code>*** 挂载设备时设置挂载选项。</p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.mountopt=nodiscard</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.blocksize</code>*** 为thin pool 设置块大小。默认是64K</p>
+<p>使用方法：</p>
+<p>$ docker -d –storage-opt dm.blocksize&#x3D;512K</p>
+<p>***<code>dm.blkdiscard</code>*** 当删除devicemapper设备时允许或禁止使用blkdiscard 默认是允许（enable）。如果禁止，将会时删除容器更加快速，但是不会返回其中文件的使用空间。</p>
+<p>使用说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.blkdiscard=false</span><br></pre></td></tr></table></figure>
+
+<p>***<code>dm.override_udev_sync_check</code>*** 设置该参数为true，可以协调devicemapper 与 udev的资源利用。当其设置为false时，将会在devicemapper与udev产生竞争，有可能导致错误或者失败。</p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker -d --storage-opt dm.override_udev_sync_check=true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Docker execdriver选项</p>
+<p>目前zfs支持的选项<code>zfs.fsname</code></p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker daemon -s zfs --storage-opt zfs.fsname=zroot/docker</span><br></pre></td></tr></table></figure>
+
+<p>另外，可以使用 <code>-e lxc</code> 来启用<code>lxcexecution</code> 设备</p>
+</li>
+<li><p>Daemon DNS选项</p>
+<p>设置dns 服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$  docker -d --dns 8.8.8.8</span><br><span class="line">$  docker -d --dns-search example.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不安全仓库登记</p>
+<p>一个安全的私有仓库通过使用TLS和CA证书的副本来替换<code>/etc/docker/certs.d/myregistry:5000/ca.crt</code>文件。不使用TLS，或者使用未知CA证书的TLS都将是不安全的。如果CA证书验证实效或者在<code>/etc/docker/certs.d/myregistry:5000/</code>找不到证书将会报错。使用<code>--insecure-registry</code>参数可以标记一个不安全的仓库：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--insecure-registry myregistry:5000</span><br></pre></td></tr></table></figure>
+
+<p>将告诉 deamon 这个<code>myregistry:5000</code>仓库应该标记为不安全状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--insecure-registry 10.1.0.0/16</span><br></pre></td></tr></table></figure>
+
+<p>告诉deamon通过CIDR语法解析出来的IP地址是<code>10.1.0.0/16</code>的仓库标记为不安全。</p>
+<p>如果没有使用参数<code>--insecure-registry</code>标记，那么<code>docker pull 、docker push、docker search</code> 从指定仓库执行时将会报错。</p>
+<h2 id="7-2-atttach-参数"><a href="#7-2-atttach-参数" class="headerlink" title="7.2 atttach 参数"></a>7.2 atttach 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker attach [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Attach to a running container</span><br><span class="line"></span><br><span class="line">  --help=false        Print usage</span><br><span class="line">  --no-stdin=false    Do not attach STDIN</span><br><span class="line">  --sig-proxy=true    Proxy all received signals to the proces</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>在使用-d参数时，容器启动后会进入后台。 某些时候需要进入容器进行操作，有很多种方法，包括使用 docker attach命令或 nsenter 工具等。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$  sudo docker run -i -t -d centos</span><br><span class="line">911207826f4da78cb8b8a233dea6120a7d2939eea389a94eef2c0b1320572628</span><br><span class="line">$  sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES</span><br><span class="line">911207826f4d        centos:latest       &quot;/bin/bash&quot;         46 seconds ago       Up 45 seconds                           silly_poitras</span><br><span class="line">$ sudo docker attach 911207826f4d</span><br><span class="line">[root@911207826f4d /]#</span><br><span class="line">[root@911207826f4d /]#</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们以及进入一个正在运行的容器中去执行命令。</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>使用 attach 命令有时候并不方便。当多个窗口同时 attach 到同一个容器的时候，所有窗口都会同步显示。当某个窗口因命令阻塞时,其他窗口也无法执行操作了。</p>
+<h3 id="扩展工具-nsenter"><a href="#扩展工具-nsenter" class="headerlink" title="扩展工具 nsenter"></a>扩展工具 nsenter</h3><ul>
+<li>说明</li>
+</ul>
+<p>nsenter可以访问一个进程大名字空间。 指令时包含在untli-linux（2.23版本之后才会包含）软件包里。这里需要安装一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo yum -y install util-linux</span><br></pre></td></tr></table></figure>
+
+<p>完成后检验：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ nsenter -V</span><br><span class="line">nsenter from util-linux 2.23.2</span><br></pre></td></tr></table></figure>
+
+<p>如果要进入容器内需要知道进程的pid。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo  docker run -idt --name=test1 centos f629fa879a34af902a259e831de1cbc298db2b0f469aa49f80b80a0f81869943</span><br><span class="line">$ sudo docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">f629fa879a34        centos              &quot;/bin/bash&quot;         6 seconds ago       Up 5 seconds                            test1</span><br><span class="line">$ sudo PID=$(docker inspect --format &quot;&#123;&#123; .State.Pid &#125;&#125;&quot; f629fa879a34)</span><br><span class="line">$ sudo  echo $PID</span><br><span class="line">22109</span><br><span class="line">$ sudo nsenter --target 22109 --mount --uts --ipc --net --pid</span><br><span class="line">[root@f629fa879a34 /]#</span><br><span class="line">[root@f629fa879a34 /]#</span><br><span class="line">[root@f629fa879a34 /]#</span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了进入容器内访问的目的。</p>
+<p>此外，为了方便进入容器，牛人已经为我们封装好指令，我们只需利用简单的两行代码就可完成操作。 下载这个脚本.bashrc_docker，并将内容放到 .bashrc 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo wget -P ~ https://github.com/yeasy/docker_practice/raw/master/_local/.bashrc_docker;</span><br><span class="line">$ sudo echo &quot;[ -f ~/.bashrc_docker ] &amp;&amp; . ~/.bashrc_docker&quot; &gt;&gt; ~/.bashrc; source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>执行完后我们只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo echo $(docker-pid f629fa879a34)</span><br><span class="line">22109</span><br><span class="line">$ sudo docker-enter f629fa879a34</span><br><span class="line">[root@f629fa879a34 ~]#</span><br><span class="line">实际上也是使用nsenter进入容器，只不过更简洁罢了。</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="7-3-build-参数"><a href="#7-3-build-参数" class="headerlink" title="7.3 build 参数"></a>7.3 build 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker build [OPTIONS] PATH | URL | -</span><br><span class="line"></span><br><span class="line">Build a new image from the source code at PATH</span><br><span class="line"></span><br><span class="line"> -f, --file=&quot;&quot;            Name of the Dockerfile (Default is &#x27;PATH/Dockerfile&#x27;)</span><br><span class="line"> --force-rm=false         Always remove intermediate containers</span><br><span class="line"> --no-cache=false         Do not use cache when building the image</span><br><span class="line"> --pull=false             Always attempt to pull a newer version of the image</span><br><span class="line"> -q, --quiet=false        Suppress the verbose output generated by the containers</span><br><span class="line"> --rm=true                Remove intermediate containers after a successful build</span><br><span class="line"> -t, --tag=&quot;&quot;             Repository name (and optionally a tag) for the image</span><br><span class="line"> -m, --memory=&quot;&quot;          Memory limit for all build containers</span><br><span class="line"> --memory-swap=&quot;&quot;         Total memory (memory + swap), `-1` to disable swap</span><br><span class="line"> -c, --cpu-shares         CPU Shares (relative weight)</span><br><span class="line"> --cpuset-mems=&quot;&quot;         MEMs in which to allow execution, e.g. `0-3`, `0,1`</span><br><span class="line"> --cpuset-cpus=&quot;&quot;         CPUs in which to allow execution, e.g. `0-3`, `0,1`</span><br><span class="line"> --cgroup-parent=&quot;&quot;       Optional parent cgroup for the container</span><br><span class="line"> --ulimit=[]              Ulimit options</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>使用该命令，将会从参数指定的路径中的 Dockerfile的文件执行构建镜像，文件的指向可以是一个本地文件PATH或者是一个URL。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker build https://github.com/docker/rootfs.git#container:docker</span><br></pre></td></tr></table></figure>
+
+<p>或者用标准输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker build - &lt; Dockerfile</span><br></pre></td></tr></table></figure>
+
+<p>如果你采用以上两种方式构建镜像，-f 或者－file参数将失效。</p>
+<p>默认情况下，docker build 指令将会在指定根目录下查找Dockerfile文件，如果指定-f&#x2F;-file参数，将指定该构建目录文件，这样的好处是可以多次构建。需要注意的是，路径必须包含构建信息的文件。</p>
+<p>在多数情况下，最好保证构建目录为空。然后添加所需要的软件包到该文件夹。为了提高构建效率，可以加入 .dockerignore 文件排除一些不需要的文件。</p>
+<p>返回值</p>
+<p>如果构建成功，将会返回0，当失败时，将会返回相应错误返回值：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build -t fail .</span><br><span class="line">Sending build context to Docker daemon 2.048 kB</span><br><span class="line">Sending build context to Docker daemon</span><br><span class="line">Step 0 : FROM busybox</span><br><span class="line"> ---&gt; 4986bf8c1536</span><br><span class="line">Step 1 : RUN exit 13</span><br><span class="line"> ---&gt; Running in e26670ec7a0a</span><br><span class="line">INFO[0000] The command [/bin/sh -c exit 13] returned a non-zero code: 13</span><br><span class="line">$ echo $?</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>一般例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build .</span><br><span class="line">Uploading context 10240 bytes</span><br><span class="line">Step 1 : FROM busybox</span><br><span class="line">Pulling repository busybox</span><br><span class="line"> ---&gt; e9aa60c60128MB/2.284 MB (100%) endpoint: https://cdn-registry-1.docker.io/v1/</span><br><span class="line">Step 2 : RUN ls -lh /</span><br><span class="line"> ---&gt; Running in 9c9e81692ae9</span><br><span class="line">total 24</span><br><span class="line">drwxr-xr-x    2 root     root        4.0K Mar 12  2013 bin</span><br><span class="line">drwxr-xr-x    5 root     root        4.0K Oct 19 00:19 dev</span><br><span class="line">drwxr-xr-x    2 root     root        4.0K Oct 19 00:19 etc</span><br><span class="line">drwxr-xr-x    2 root     root        4.0K Nov 15 23:34 lib</span><br><span class="line">lrwxrwxrwx    1 root     root           3 Mar 12  2013 lib64 -&gt; lib</span><br><span class="line">dr-xr-xr-x  116 root     root           0 Nov 15 23:34 proc</span><br><span class="line">lrwxrwxrwx    1 root     root           3 Mar 12  2013 sbin -&gt; bin</span><br><span class="line">dr-xr-xr-x   13 root     root           0 Nov 15 23:34 sys</span><br><span class="line">drwxr-xr-x    2 root     root        4.0K Mar 12  2013 tmp</span><br><span class="line">drwxr-xr-x    2 root     root        4.0K Nov 15 23:34 usr</span><br><span class="line"> ---&gt; b35f4035db3f</span><br><span class="line">Step 3 : CMD echo Hello world</span><br><span class="line"> ---&gt; Running in 02071fceb21b</span><br><span class="line"> ---&gt; f52f38b7823e</span><br><span class="line">Successfully built f52f38b7823e</span><br><span class="line">Removing intermediate container 9c9e81692ae9</span><br><span class="line">Removing intermediate container 02071fceb21b</span><br></pre></td></tr></table></figure>
+
+<p>上面例子中，指定路径是 .,这个路径告诉docker构建的目录为当前目录，里面包含构建文件的信息，以及所要添加的文件。如果想保留构建过程中的容器，可以使用–rm&#x3D;false ，这样操作不会影响构建缓存。</p>
+<p>下面这个例子使用了.dockerignore文件来排除.git文件的使用方法，将会影响上下文文件大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build .</span><br><span class="line">Uploading context 18.829 MB</span><br><span class="line">Uploading context</span><br><span class="line">Step 0 : FROM busybox</span><br><span class="line"> ---&gt; 769b9341d937</span><br><span class="line">Step 1 : CMD echo Hello world</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 99cc1ad10469</span><br><span class="line">Successfully built 99cc1ad10469</span><br><span class="line">    $ echo &quot;.git&quot; &gt; .dockerignore</span><br><span class="line">$ docker build .</span><br><span class="line">Uploading context  6.76 MB</span><br><span class="line">Uploading context</span><br><span class="line">Step 0 : FROM busybox</span><br><span class="line"> ---&gt; 769b9341d937</span><br><span class="line">Step 1 : CMD echo Hello world</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 99cc1ad10469</span><br><span class="line">Successfully built 99cc1ad10469</span><br></pre></td></tr></table></figure>
+
+<p>使用-t参数指定name以及tag：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build -t vieux/apache:2.0 .</span><br></pre></td></tr></table></figure>
+
+<p>从标准输入读取Dockerfile：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build - &lt; Dockerfile</span><br></pre></td></tr></table></figure>
+
+<p>使用压缩文件，目前支持的格式是bzip2, gzip and xz</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build - &lt; context.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>从克隆的GitHub仓库作为上下文构建镜像，在仓库根目录下的Dockerfile文件将作为构建文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build github.com/creack/docker-firefox</span><br></pre></td></tr></table></figure>
+
+<p>注意，若要加前缀必须是 git:&#x2F;&#x2F; 或者 git@ 。</p>
+<p>使用-f参数指定文件构建</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build -f Dockerfile.debug .</span><br></pre></td></tr></table></figure>
+
+<p>在.目录下从不同文件构建镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker build -f dockerfiles/Dockerfile.debug -t myapp_debug .</span><br><span class="line">$ docker build -f dockerfiles/Dockerfile.prod  -t myapp_prod .</span><br></pre></td></tr></table></figure>
+
+<p>我们在观察下面例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/me/myapp/some/dir/really/deep</span><br><span class="line">$ docker build -f /home/me/myapp/dockerfiles/debug /home/me/myapp</span><br><span class="line">$ docker build -f ../../../../dockerfiles/debug /home/me/myapp</span><br></pre></td></tr></table></figure>
+
+<p>这个例子执行的两次构建操作所做事情是一模一样的，都会寻找debug文件作为Dockerfile来构建镜像。</p>
+<h2 id="7-4-commit-参数"><a href="#7-4-commit-参数" class="headerlink" title="7.4 commit 参数"></a>7.4 commit 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">Create a new image from a container&#x27;s changes</span><br><span class="line"></span><br><span class="line">-a, --author=       Author (e.g., &quot;John Hannibal Smith &lt;[email protected]&gt;&quot;)</span><br><span class="line">-c, --change=[]     Apply Dockerfile instruction to the created image</span><br><span class="line">--help=false        Print usage</span><br><span class="line">-m, --message=      Commit message</span><br><span class="line">-p, --pause=true    Pause container during commit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps</span><br><span class="line">ID                  IMAGE               COMMAND             CREATED             STATUS              PORTS</span><br><span class="line">c3f279d17e0a        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours</span><br><span class="line">197387f1b436        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours</span><br><span class="line">$ sudo docker commit c3f279d17e0a  SvenDowideit/testimage:version3</span><br><span class="line">f5283438590d</span><br><span class="line">$ sudo docker images | head</span><br><span class="line">REPOSITORY                        TAG                 ID                  CREATED             VIRTUAL SIZE</span><br><span class="line">SvenDowideit/testimage            version3            f5283438590d        16 seconds ago      335.7 M</span><br></pre></td></tr></table></figure>
+
+<p>提交一个重新配置过的容器到镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps</span><br><span class="line">ID                  IMAGE               COMMAND             CREATED             STATUS              PORTS</span><br><span class="line">c3f279d17e0a        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours</span><br><span class="line">197387f1b436        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours</span><br><span class="line">$ sudo docker inspect -f &quot;&#123;&#123; .Config.Env &#125;&#125;&quot; c3f279d17e0a</span><br><span class="line">[HOME=/ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin]</span><br><span class="line">$ sudo docker commit --change &quot;ENV DEBUG true&quot; c3f279d17e0a SvenDowideit/testimage:version3</span><br><span class="line">f5283438590d</span><br><span class="line">$ sudo docker inspect -f &quot;&#123;&#123; .Config.Env &#125;&#125;&quot; f5283438590d</span><br><span class="line">[HOME=/ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin DEBUG=true]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>这个命令的用处在于把有修改的container提交成新的Image，然后导出此Imange分发给其他场景中调试使用。Docker官方的建议是，当你在调试完Image的问题后，应该写一个新的Dockerfile文件来维护此Image。commit命令仅是一个临时创建Imange的辅助命令。</p>
+<h2 id="7-5-cp-参数"><a href="#7-5-cp-参数" class="headerlink" title="7.5 cp 参数"></a>7.5 cp 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker cp [OPTIONS] CONTAINER:PATH HOSTDIR|-</span><br><span class="line"></span><br><span class="line">Copy files/folders from a PATH on the container to a HOSTDIR on the host running the command. Use &#x27;-&#x27; to write the data as a tar file to STDOUT.</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker cp hopeful_feynman:/etc /home</span><br></pre></td></tr></table></figure>
+
+<p>这将会在主机的&#x2F;home目录下多一个etc文件夹，该文件夹就是从容器中复制出来的。</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>使用cp可以把容器內的文件复制到Host主机上。这个命令在开发者开发应用的场景下，会需要把运行程序产生的结果复制出来的需求，在这个情况下就可以使用这个cp命令。</p>
+<h2 id="7-6-diff-参数"><a href="#7-6-diff-参数" class="headerlink" title="7.6 diff 参数"></a>7.6 diff 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker diff [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Inspect changes on a container&#x27;s filesystem</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker diff b448f729a0b0</span><br><span class="line">C /run</span><br><span class="line">A /run/secrets</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>diff会列出3种容器内文件状态变化（A - Add, D - Delete, C - Change ）的列表清单。构建Image的过程中需要的调试指令。</p>
+<h2 id="7-7-events-参数"><a href="#7-7-events-参数" class="headerlink" title="7.7 events 参数"></a>7.7 events 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker events [OPTIONS]</span><br><span class="line"></span><br><span class="line">Get real time events from the server</span><br><span class="line"></span><br><span class="line">-f, --filter=[]    Filter output based on conditions provided</span><br><span class="line">--help=false       Print usage</span><br><span class="line">--since=           Show all events created since timestamp</span><br><span class="line">--until=           Stream events until this timestamp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>第一个窗口用来监听事件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker events</span><br></pre></td></tr></table></figure>
+
+<p>第二个窗口 起停容器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker start 4386fb97867d</span><br><span class="line">$ docker stop 4386fb97867d</span><br><span class="line">$ docker stop 7805c1d35632</span><br></pre></td></tr></table></figure>
+
+<p>执行完后，shell窗口会同步打印如下信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) start</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br></pre></td></tr></table></figure>
+
+<p>使用since参数按时间筛选</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker events --since 1378216169</span><br><span class="line">2014-03-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-03-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ sudo docker events --since &#x27;2013-09-03&#x27;</span><br><span class="line">2014-09-03T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) start</span><br><span class="line">2014-09-03T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-09-03T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ sudo docker events --since &#x27;2013-09-03T15:49:29&#x27;</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br></pre></td></tr></table></figure>
+
+<p>只保留三分钟内的事件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker events --since &#x27;3m&#x27;</span><br><span class="line">2015-05-12T11:51:30.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2015-05-12T15:52:12.999999999Z07:00 4 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2015-05-12T15:53:45.999999999Z07:00  7805c1d35632: (from redis:2.8) die</span><br><span class="line">2015-05-12T15:54:03.999999999Z07:00  7805c1d35632: (from redis:2.8) stop</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用过滤器筛选</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker events --filter &#x27;event=stop&#x27;</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-09-03T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ docker events --filter &#x27;image=ubuntu-1:14.04&#x27;</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) start</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">$ docker events --filter &#x27;container=7805c1d35632&#x27;</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ docker events --filter &#x27;container=7805c1d35632&#x27; --filter &#x27;container=4386fb97867d&#x27;</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ docker events --filter &#x27;container=7805c1d35632&#x27; --filter &#x27;event=stop&#x27;</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br><span class="line">$ docker events --filter &#x27;container=container_1&#x27; --filter &#x27;container=container_2&#x27;</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) die</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 4386fb97867d: (from ubuntu-1:14.04) stop</span><br><span class="line">2014-05-10T17:42:14.999999999Z07:00 7805c1d35632: (from redis:2.8) die</span><br><span class="line">2014-09-03T15:49:29.999999999Z07:00 7805c1d35632: (from redis:2.8) stop</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>总结</p>
+<p>打印容器实时的系统事件。</p>
+</li>
+</ul>
+<h2 id="7-8-export-参数"><a href="#7-8-export-参数" class="headerlink" title="7.8 export 参数"></a>7.8 export 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker export [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Export a filesystem as a tar archive (streamed to STDOUT by default)</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br><span class="line">  -o, --output=      Write to a file, instead of STDOUT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker export b448f729a0b0 &gt; centos.tar</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>把容器系统文件打包并导出来，方便分发给其他场景使用。</p>
+<h2 id="7-9-import-参数"><a href="#7-9-import-参数" class="headerlink" title="7.9 import 参数"></a>7.9 import 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker import [OPTIONS] URL|- [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">Create an empty filesystem image and import the contents of the</span><br><span class="line">tarball (.tar, .tar.gz, .tgz, .bzip, .tar.xz, .txz) into it, then</span><br><span class="line">optionally tag it.</span><br><span class="line"></span><br><span class="line"> -c, --change=[]    Apply Dockerfile instruction to the created image</span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>从网络上导入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker import http://example.com/exampleimage.tgz</span><br></pre></td></tr></table></figure>
+
+<p>从本地文件导入:</p>
+<p>通过标准输入和pipe导入到docker.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cat exampleimage.tgz | sudo docker import - exampleimagelocal:new</span><br></pre></td></tr></table></figure>
+
+<p>从本地目录导入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo tar -c . | docker import - exampleimagedir</span><br></pre></td></tr></table></figure>
+
+<p>带配置信息从本地目录导入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo tar -c . | docker import --change &quot;ENV DEBUG true&quot; - exampleimagedir</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-10-history-参数"><a href="#7-10-history-参数" class="headerlink" title="7.10 history 参数"></a>7.10 history 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker history [OPTIONS] IMAGE</span><br><span class="line"></span><br><span class="line">Show the history of an image</span><br><span class="line"></span><br><span class="line">-H, --human=true     Print sizes and dates in human readable format</span><br><span class="line">--help=false         Print usage</span><br><span class="line">--no-trunc=false     Don&#x27;t truncate output</span><br><span class="line">-q, --quiet=false    Only show numeric IDs</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker history postgres</span><br><span class="line">IMAGE               CREATED             CREATED BY                                      SIZE                 COMMENT</span><br><span class="line">730d1d72bda2        4 weeks ago         /bin/sh -c #(nop) CMD [&quot;postgres&quot;]              0 B</span><br><span class="line">3e840dbb5474        4 weeks ago         /bin/sh -c #(nop) EXPOSE 5432/tcp               0 B</span><br><span class="line">4df8a54cf33a        4 weeks ago         /bin/sh -c #(nop) ENTRYPOINT &amp;&#123;[&quot;/docker-entr   0 B</span><br><span class="line">09e02a9f8afe        4 weeks ago         /bin/sh -c #(nop) COPY file:090d83d34addb45c3   2.761 kB</span><br><span class="line">39172f8b90f2        4 weeks ago         /bin/sh -c #(nop) VOLUME [/var/lib/postgresql   0 B</span><br><span class="line">3fa84fbfdec9        4 weeks ago         /bin/sh -c #(nop) ENV PGDATA=/var/lib/postgre   0 B</span><br><span class="line">c5d75e7f9094        4 weeks ago         /bin/sh -c #(nop) ENV PATH=/usr/lib/postgresq   0 B</span><br><span class="line">a95070c23e86        4 weeks ago         /bin/sh -c mkdir -p /var/run/postgresql &amp;&amp; ch   0 B</span><br><span class="line">64957633c267        4 weeks ago         /bin/sh -c apt-get update &amp;&amp;  apt-get install   116.4 MB</span><br><span class="line">a814508841fa        4 weeks ago         /bin/sh -c echo &#x27;deb http://apt.postgresql.or   66 B</span><br><span class="line">49915906faae        4 weeks ago         /bin/sh -c #(nop) ENV PG_VERSION=9.4.4-1.pgdg   0 B</span><br><span class="line">b41b53da5fba        4 weeks ago         /bin/sh -c #(nop) ENV PG_MAJOR=9.4              0 B</span><br><span class="line">02fa71f1fa38        4 weeks ago         /bin/sh -c apt-key adv --keyserver ha.pool.sk   3.212 kB</span><br><span class="line">0b82f508e063        4 weeks ago         /bin/sh -c mkdir /docker-entrypoint-initdb.d    0 B</span><br><span class="line">e07b5a739ed9        4 weeks ago         /bin/sh -c #(nop) ENV LANG=en_US.utf8           0 B</span><br><span class="line">c783ebe7a1d4        4 weeks ago         /bin/sh -c apt-get update &amp;&amp; apt-get install    19.54 MB</span><br><span class="line">8b6b2a3b7f9c        4 weeks ago         /bin/sh -c apt-get update &amp;&amp; apt-get install    3.758 MB</span><br><span class="line">22ed955cce18        5 weeks ago         /bin/sh -c gpg --keyserver pool.sks-keyserver   98.87 kB</span><br><span class="line">26a84c436db4        5 weeks ago         /bin/sh -c groupadd -r postgres &amp;&amp; useradd -r   330.4 kB</span><br><span class="line">9a61b6b1315e        5 weeks ago         /bin/sh -c #(nop) CMD [&quot;/bin/bash&quot;]             0 B</span><br><span class="line">902b87aaaec9        5 weeks ago         /bin/sh -c #(nop) ADD file:e1dd18493a216ecd0c   125.2 MB</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>打印指定Image中每一层Image命令行的历史记录。</p>
+<h2 id="7-11-images-参数"><a href="#7-11-images-参数" class="headerlink" title="7.11 images 参数"></a>7.11 images 参数</h2><ul>
+<li>使用方法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker images [OPTIONS] [REPOSITORY]</span><br><span class="line"></span><br><span class="line">List images</span><br><span class="line"></span><br><span class="line"> -a, --all=false      Show all images (default hides intermediate images)</span><br><span class="line">  --digests=false      Show digests</span><br><span class="line">  -f, --filter=[]      Filter output based on conditions provided</span><br><span class="line">  --help=false         Print usage</span><br><span class="line">  --no-trunc=false     Don&#x27;t truncate output</span><br><span class="line">  -q, --quiet=false    Only show numeric IDs</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子：</li>
+</ul>
+<p>查询本里存储的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker imgaes</span><br><span class="line">REPOSITORY           TAG       IMAGE ID        CREATED      VIRTUAL SIZE</span><br><span class="line">docker.io/ubuntu     latest    63e3c10217b8    7 days ago    188.3 MB</span><br><span class="line">docker.google/etcd   2.1.1     2c319269dd15    8 days ago    23.32 MB</span><br><span class="line">docker.io/postgres   latest    730d1d72bda2    2 weeks ago   265.3 MB</span><br><span class="line">centos               latest    770327a1e9e7    2 weeks ago   418.9 MB</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+
+<p>将ID完整展现</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker images --no-trunc</span><br><span class="line">REPOSITORY                  TAG                 IMAGE ID                                                           CREATED             VIRTUAL SIZE</span><br><span class="line">scratch1                    latest              dc869bfd3085af05a1a070c7409193e8be88de00ff4560e2e9af80ffa9d2041d   58 minutes ago      0 B</span><br><span class="line">registry.liugang/centos     latest              770327a1e9e746cf8d4449a7134e87917982b33c7f5cea584d941350f5ead7ac   4 weeks ago         418.9 MB</span><br><span class="line">registry.liugang/busybox    latest              8c2e06607696bd4afb3d03b687e361cc43cf8ec1a4a725bc96e39f05ba97dd55   4 months ago        2.43 MB</span><br><span class="line">docker.io/scratch           latest              511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158   2 years ago         0 B</span><br></pre></td></tr></table></figure>
+
+<p>使用该命令将展现没有tag的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker images --filter &quot;dangling=true&quot;</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</span><br><span class="line">&lt;none&gt;              &lt;none&gt;              b133995b6291        About an hour ago   0 B</span><br><span class="line">&lt;none&gt;              &lt;none&gt;              6fae83243a01        About an hour ago   0 B</span><br><span class="line">&lt;none&gt;              &lt;none&gt;              4c6412305cfa        About an hour ago   0 B</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>其中第一字段是image镜像的名称；TAG一般表示为版本号，也可以自己定义 ；IMAGE ID 表示镜像的唯一ID ，这也是判断两个镜像文件是否为同一个的判断标准。</p>
+<h2 id="7-12-info-参数"><a href="#7-12-info-参数" class="headerlink" title="7.12 info 参数"></a>7.12 info 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker info [OPTIONS]</span><br><span class="line"></span><br><span class="line">Display system-wide information</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker -D info</span><br><span class="line">Containers: 6</span><br><span class="line">Images: 30</span><br><span class="line">Storage Driver: devicemapper</span><br><span class="line"> Pool Name: docker-8:3-28326-pool</span><br><span class="line"> Pool Blocksize: 65.54 kB</span><br><span class="line"> Backing Filesystem: xfs</span><br><span class="line"> Data file: /dev/loop0</span><br><span class="line"> Metadata file: /dev/loop1</span><br><span class="line"> Data Space Used: 1.37 GB</span><br><span class="line"> Data Space Total: 107.4 GB</span><br><span class="line"> Data Space Available: 44.49 GB</span><br><span class="line"> Metadata Space Used: 2.245 MB</span><br><span class="line"> Metadata Space Total: 2.147 GB</span><br><span class="line"> Metadata Space Available: 2.145 GB</span><br><span class="line"> Udev Sync Supported: true</span><br><span class="line"> Deferred Removal Enabled: false</span><br><span class="line"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</span><br><span class="line"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</span><br><span class="line"> Library Version: 1.02.93-RHEL7 (2015-01-28)</span><br><span class="line">Execution Driver: native-0.2</span><br><span class="line">Logging Driver: json-file</span><br><span class="line">Kernel Version: 3.10.0-229.el7.x86_64</span><br><span class="line">Operating System: CentOS Linux 7 (Core)</span><br><span class="line">CPUs: 1</span><br><span class="line">Total Memory: 979.7 MiB</span><br><span class="line">Name: localhost.localdomain</span><br><span class="line">ID: PRVB:3SDE:YL4E:JT5P:5BIR:BUC5:PHXI:HG4B:P753:Y2BI:U7OU:YPGC</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>这个命令在开发者报告Bug时会非常有用，结合docker vesion一起，可以随时使用这个命令把本地的配置信息提供出来，方便Docker的开发者快速定位问题。</p>
+<h2 id="7-13-inspect-参数"><a href="#7-13-inspect-参数" class="headerlink" title="7.13 inspect 参数"></a>7.13 inspect 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker inspect [OPTIONS] CONTAINER|IMAGE [CONTAINER|IMAGE...]</span><br><span class="line"></span><br><span class="line">Return low-level information on a container or image</span><br><span class="line"></span><br><span class="line">-f, --format=         Format the output using the given go template</span><br><span class="line">--help=false          Print usage</span><br><span class="line">-r, --remote=false    Inspect remote images</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker inspect centos</span><br><span class="line">[</span><br><span class="line">&#123;</span><br><span class="line">    &quot;Id&quot;: &quot;770327a1e9e746cf8d4449a7134e87917982b33c7f5cea584d941350f5ead7ac&quot;,</span><br><span class="line">    &quot;Parent&quot;: &quot;67c02c69a0fc420e781b9a1c676f19306e999aac2cf3ba24dfa4e0b9a5e34b5e&quot;,</span><br><span class="line">    &quot;Comment&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Created&quot;: &quot;2015-07-24T01:06:38.020790544Z&quot;,</span><br><span class="line">    &quot;Container&quot;: &quot;9163378b9f7fe2887bce56cb726c3845ce9af8ebc9cbef30d3af6315429a27ad&quot;,</span><br><span class="line">&quot;ContainerConfig&quot;: &#123;</span><br><span class="line">    &quot;Hostname&quot;: &quot;9163378b9f7f&quot;,</span><br><span class="line">    &quot;Domainname&quot;: &quot;&quot;,</span><br><span class="line">    &quot;User&quot;: &quot;&quot;,</span><br><span class="line">    &quot;AttachStdin&quot;: true,</span><br><span class="line">     ...</span><br><span class="line">     ...</span><br><span class="line">     ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>取出某一个值：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker inspect --format=&quot;&#123;&#123;.Id&#125;&#125;&quot; centos</span><br><span class="line">770327a1e9e746cf8d4449a7134e87917982b33c7f5cea584d941350f5ead7ac</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>查看容器运行时详细信息的命令。了解一个Image或者Container的完整构建信息就可以通过这个命令实现。</p>
+<h2 id="7-14-login-参数"><a href="#7-14-login-参数" class="headerlink" title="7.14 login 参数"></a>7.14 login 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker login [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Register or log in to a Docker registry server, if no server is</span><br><span class="line">specified &quot;https://index.docker.io/v1/&quot; is the default.</span><br><span class="line"></span><br><span class="line">-e, --email=       Email</span><br><span class="line">--help=false       Print usage</span><br><span class="line">-p, --password=    Password</span><br><span class="line">-u, --username=    Username</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@liugang:~# docker login</span><br><span class="line">Username: username</span><br><span class="line">Password: ****</span><br><span class="line">Email: [email protected]</span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<p>如果你有一个自己的仓库，你也可以连接到指定主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker login localhost:8080</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-15-logout-参数"><a href="#7-15-logout-参数" class="headerlink" title="7.15 logout 参数"></a>7.15 logout 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker logout [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Log out from a Docker registry, if no server is</span><br><span class="line">specified &quot;https://index.docker.io/v1/&quot; is the default.</span><br><span class="line"></span><br><span class="line">--help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker logout localhost:8080</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-16-logs-参数"><a href="#7-16-logs-参数" class="headerlink" title="7.16 logs 参数"></a>7.16 logs 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker logs [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Fetch the logs of a container</span><br><span class="line"></span><br><span class="line">-f, --follow=false        Follow log output</span><br><span class="line">--help=false              Print usage</span><br><span class="line">--since=                  Show logs since timestamp</span><br><span class="line">-t, --timestamps=false    Show timestamps</span><br><span class="line">--tail=all                Number of lines to show from the end of the logs</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子：打印某个容器日志</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker logs 60095325e584</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子：实时监控容器某个容器日志输出</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker logs -f 60095325e584</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>批量打印出容器中进程的运行日志。</p>
+<h2 id="7-17-network-参数"><a href="#7-17-network-参数" class="headerlink" title="7.17 network 参数"></a>7.17 network 参数</h2><h3 id="network-connect"><a href="#network-connect" class="headerlink" title="network connect"></a>network connect</h3><p>你可以使用容器名称或者ID，将一个正在运行的容器介入网络。连接成功后容器酒可以与处于同一个网络中的容器通信。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network connect multi-host-network coantainer1</span><br></pre></td></tr></table></figure>
+
+<p>你也可以使用 docker run –net&#x3D; 选项来启动一个容器直接连接到一个已知网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -idt --net=multi-host-network busybox</span><br></pre></td></tr></table></figure>
+
+<p>你可以暂停，重启甚至终止已连接网络的容器。暂停容器将保持网络连接以及网络发现（ by a network inspect）。终止容器，将使容器在该网络上消失，直到重启才可以被发现。当容器重启以后，容器重新加入该网络将不保证IP地址保持与原来一致。</p>
+<p>使用 docker network inspect 命令来验证容器的网络是否已连接，而使用 docker network disconnect 来从网络上断开与容器的连接、</p>
+<p>当容器连接到网络时，容器职能使用容器IP地址或者容器name来通信。对于overlay网络或者其它通过插件配置的跨主机环境的网络，然可以使用这种方式运行。</p>
+<p>你可以使容器连接一个活多个网络，这些网络不要是相同类型的。例如：你可以连接一个容器网桥和overlay网络。</p>
+<h3 id="network-create"><a href="#network-create" class="headerlink" title="network create"></a>network create</h3><p>该命令用于创建一个网络。使用 -d参数允许使用bridge或者overlay类型的网络构建与网络驱动中。如果你有第三种网络结构或者其它通用网络驱动，你也可以使用该参数特别说明。</p>
+<p>如果不指定 –driver 参数，该命令将自动为你创建一个bridge类型的网络。该网络对应与传统的docker0网桥。当使用 docker run 启动一个容器时，它将自动连接到这个bridge网络。你不能删除这个默认的网络但是可以使用docker network create 命令创建一个新的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network create -d bridge my-bridge-network</span><br></pre></td></tr></table></figure>
+
+<p>birdge网络是单docker引擎的隔离网络（Bridge networks are isolated networks on a single Engine installation）。如果你想创建一个跨越多个docker主机引擎的网络，你必须创建一个overlay类型的网络。与birdge网络不同，overlay网络创建需要提前准备一些配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、需要连接一个 key－value 存储，目前支持Consul，Etcd以及Zookeeper（分布式存储）key－value 存储。</span><br><span class="line"></span><br><span class="line">2、一个连接到 key－value 存储的云主机</span><br><span class="line"></span><br><span class="line">3、每一台机器上的 docker deamon 都要配置相同参数</span><br></pre></td></tr></table></figure>
+
+<p>docker deamon 支持overlay选项的参数有：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--cluster-store</span><br><span class="line">--cluster-store-opt</span><br><span class="line">--cluster-advertise</span><br></pre></td></tr></table></figure>
+
+<p>想要了解更多有关配置以上参数的信息，请阅读 “Get started with multi-host network“</p>
+<p>你可以安装 docker swarm 来管理集群建立自己的网络，这是一个不错的想法，但不是必须的。 Swarm提供先进的服务发现以及节点管理来帮助你实现。</p>
+<p>当你准备好你的overlay网络时，你只需选择集群中的一个docker主机并执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network create -d overlay my-multihost-network</span><br></pre></td></tr></table></figure>
+
+<p>网络名称必须是唯一的，docker deamon 会尝试验证命名冲突，但并不保证（我就呵呵了）。用户有责任去避免命名冲突（呵呵呵。。。）。</p>
+<h3 id="connect-containers"><a href="#connect-containers" class="headerlink" title="connect containers"></a>connect containers</h3><p>当你使用 –net 参数连接到一个网络时，这将会使目标容器连接到自定义网络中去：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -idt --net=mynet busybox</span><br></pre></td></tr></table></figure>
+
+<p>如果你想在一个容器运行之后添加到一个网络中去，可以使用 docker network connect 命令。</p>
+<p>你可以将多个容器连接到相同的网络中去。一旦连接，容器将只能通过IP或者容器名称进行通信。对于overlay网络或者其它通过插件配置的跨主机环境的网络，然可以使用这种方式运行。</p>
+<p>使用 docker network disconnect 可以断开容器与网络的连接</p>
+<h3 id="Specifying-advanced-options"><a href="#Specifying-advanced-options" class="headerlink" title="Specifying advanced options"></a>Specifying advanced options</h3><p>当创建一个网络时，docker Engine 会默认为该网络创建一个非重叠子网。这个子网并不是已存在子网的划分，它纯粹为了IP寻址（It is purely for ip-addressing purposes）。你可以覆盖这个默认的，然后使用 –subnet 选项来特别定义。在bridge网络上你可以这样定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network create -d --subnet=192.168.0.0/16</span><br></pre></td></tr></table></figure>
+
+<p>此外，你还可以指定 –gateway –ip-range 以及 –aux-addressoptions。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network create --driver=bridge  --subnet=172.28.0.0/16  --ip-range=172.28.5.0 --gateway=172.28.5.154</span><br></pre></td></tr></table></figure>
+
+<p>如果你省略了 –gateway 选项，docker Engine 将会从内置的 preferred pool 为你选择一个。</p>
+<p>对于overlay网络，你可以创建多个子网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network create -d overlay</span><br><span class="line">--subnet=192.168.0.0/16 --subnet=192.170.0.0/16</span><br><span class="line">--gateway=192.168.0.100 --gateway=192.170.0.100</span><br><span class="line">--ip-range=192.168.1.0/24</span><br><span class="line">--aux-address a=192.168.1.5 --aux-address b=192.168.1.6</span><br><span class="line">--aux-address a=192.170.1.5 --aux-address b=192.170.1.6</span><br><span class="line">my-multihost-newtork</span><br></pre></td></tr></table></figure>
+
+<p>但是确保你的子网不要重叠，否则，创建网络就会失败，Engine 将会反悔错误。</p>
+<h3 id="network-disconnect"><a href="#network-disconnect" class="headerlink" title="network disconnect"></a>network disconnect</h3><p>断开容器与网络的连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network disconnect multi-host-network container1</span><br></pre></td></tr></table></figure>
+
+<h3 id="network-ls"><a href="#network-ls" class="headerlink" title="network ls"></a>network ls</h3><p>列出deamon知道的所有的网络，包括跨多主机的集群网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> sudo docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER</span><br><span class="line">7fca4eb8c647        bridge                 bridge</span><br><span class="line">9f904ee27bf5        none                    null</span><br><span class="line">cf03ee007fb4        host                      host</span><br><span class="line">78b03ee04fc4        multi-host          overlay</span><br></pre></td></tr></table></figure>
+
+<p>使用 –no-trunc 选项来显示整个网络的ID</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network ls --no-trunc</span><br><span class="line">NETWORK ID                                                         NAME                DRIVER</span><br><span class="line">18a2866682b85619a026c81b98a5e375bd33e1b0936a26cc497c283d27bae9b3   none                null                </span><br><span class="line">c288470c46f6c8949c5f7e5099b5b7947b07eabe8d9a27d79a9cbf111adcbf47   host                host                </span><br><span class="line">7b369448dccbf865d397c8d2be0cda7cf7edc6b0945f77d2529912ae917a0185   bridge              bridge              </span><br><span class="line">95e74588f40db048e86320c6526440c504650a1ff3e9f7d60a497c4d2163e5bd   foo                 bridge    </span><br></pre></td></tr></table></figure>
+
+<h3 id="network-rm"><a href="#network-rm" class="headerlink" title="network rm"></a>network rm</h3><p>删除一个网络，在删除该网络之前，必须断开与该网络连接的任何容器。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker network rm my-network</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-18-search-参数"><a href="#7-18-search-参数" class="headerlink" title="7.18 search 参数"></a>7.18 search 参数</h2><p>说明：搜索镜像仓库</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker search [OPTIONS] TERM</span><br><span class="line"></span><br><span class="line">Search the Docker Hub for images</span><br><span class="line"></span><br><span class="line">  --automated=false    Only show automated builds</span><br><span class="line">  --help=false         Print usage</span><br><span class="line">  --no-index=false     Don&#x27;t prepend index to output</span><br><span class="line">  --no-trunc=false     Don&#x27;t truncate output</span><br><span class="line">  -s, --stars=0        Only displays with at least x stars</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker search ubuntu</span><br></pre></td></tr></table></figure>
+
+<p>从官方仓库中搜索出含有关键字ubuntu的镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INDEX       NAM                                       DESCRIPTION                                       STARS         OFFICIAL            AUTOMATED</span><br><span class="line">docker.io   docker.io/ubuntu                          Ubuntu is a Debian-based Linux operating s...     2046           [OK]</span><br><span class="line">docker.io   docker.io/ubuntu-upstart                  Upstart is an event-based replacement for ...     30             [OK]</span><br><span class="line">docker.io   docker.io/torusware/speedus-ubuntu        Always updated official Ubuntu docker imag...     25                                       [OK]</span><br><span class="line">docker.io   docker.io/dorowu/ubuntu-desktop-lxde-vnc  Ubuntu with openssh-server and NoVNC on po...     20                                       [OK]</span><br><span class="line">docker.io   docker.io/sequenceiq/hadoop-ubuntu        An easy way to try Hadoop on Ubuntu               19                                       [OK]</span><br><span class="line">docker.io   docker.io/tleyden5iwx/ubuntu-cuda         Ubuntu 14.04 with CUDA drivers pre-installed      16                                       [OK]</span><br><span class="line">docker.io   docker.io/ubuntu-debootstrap              debootstrap --variant=minbase --components...     12             [OK]</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>在使用docker创建容器时，必然要用到镜像文件。这时我们就得从仓库中拉取我们所需要的image文件。</p>
+<h2 id="7-19-pull-参数"><a href="#7-19-pull-参数" class="headerlink" title="7.19 pull 参数"></a>7.19 pull 参数</h2><p>说明：拉取镜像仓库</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker pull [OPTIONS] NAME[:TAG|@DIGEST]</span><br><span class="line"></span><br><span class="line">Pull an image or a repository from the registry</span><br><span class="line"></span><br><span class="line">-a, --all-tags=false    Download all tagged images in the repository</span><br><span class="line">--help=false            Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>找到所需要的镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker pull docker.io/ubuntu:12.04</span><br></pre></td></tr></table></figure>
+
+<p>这里是从官方仓库中拉取下来版本号(TAG)为12.04的镜像，其中“docker.io” 可以不写，默认是从官方仓库下载。版本号(TAG)不写的话默认会拉取一个版本号为latest的镜像文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Trying to pull repository docker.io/ubuntu ...</span><br><span class="line">d0e008c6cf02: Download complete</span><br><span class="line">a69483e55b68: Download complete</span><br><span class="line">bc99d1f906ec: Download complete</span><br><span class="line">3c8e79a3b1eb: Download complete</span><br><span class="line">Status: Downloaded newer image for docker.io/ubuntu:12.04</span><br></pre></td></tr></table></figure>
+
+<p>见到如上类似结果说明镜像拉取成功。现在看一下自己的仓库，多了一个12.04的镜像。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker images</span><br><span class="line">REPOSITORY         TAG      IMAGE ID       CREATED      VIRTUAL SIZE</span><br><span class="line">docker.io/ubuntu   latest   63e3c10217b8   7 days ago   188.3 MB</span><br><span class="line">docker.io/ubuntu   12.04    d0e008c6cf02   7 days ago   134.7 MB</span><br><span class="line">docker.google/etcd 2.1.1    2c319269dd15   8 days ago   23.32 MB</span><br><span class="line">docker.io/postgres latest   730d1d72bda2   2 weeks ago  265.3 MB</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-20-push-参考"><a href="#7-20-push-参考" class="headerlink" title="7.20 push 参考"></a>7.20 push 参考</h2><p>说明：将镜像上传到仓库</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker push [OPTIONS] NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Push an image or a repository to the registry</span><br><span class="line"></span><br><span class="line">  -f, --force=false    Push to public registry without confirmation</span><br><span class="line">  --help=false         Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker push docker.io/ubuntu:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>镜像的上传，push 默认是向官方仓库上传，由于服务器在国外，传输速度非常慢，就没试验成功过。注意的是，需要在docker hub上注册过后才可以上传镜像哦。关于私有仓库的上传将在后面章节详细讲解。</p>
+<h2 id="7-21-ps-参数"><a href="#7-21-ps-参数" class="headerlink" title="7.21 ps 参数"></a>7.21 ps 参数</h2><ul>
+<li><p>用法</p>
+<p>Usage: docker ps [OPTIONS]</p>
+<p>List containers</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-a, --all=false       Show all containers (default shows just running)</span><br><span class="line">--before=             Show only container created before Id or Name</span><br><span class="line">-f, --filter=[]       Filter output based on conditions provided</span><br><span class="line">--help=false          Print usage</span><br><span class="line">-l, --latest=false    Show the latest created container, include non-running</span><br><span class="line">-n=-1                 Show n last created containers, include non-running</span><br><span class="line">--no-trunc=false      Don&#x27;t truncate output</span><br><span class="line">-q, --quiet=false     Only display numeric IDs</span><br><span class="line">-s, --size=false      Display total file sizes</span><br><span class="line">--since=              Show created since Id or Name, include non-running</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例子</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br><span class="line">CONTAINER ID  IMAGE    COMMAND       CREATED       STATUS                      PORTS    NAMES</span><br><span class="line">b448f729a0b0  centos   &quot;/bin/bash&quot;   4 days ago    Exited (137) 4 days ago              pensive_wilson</span><br><span class="line">54c7b6d6632e  centos   &quot;/bin/bash&quot;   4 days ago    Exited (0) 3 days ago                adoring_wozniak</span><br></pre></td></tr></table></figure>
+
+<p>利用筛选器筛选出exied状态时0的容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps -a --filter &#x27;exited=0&#x27;</span><br><span class="line">CONTAINER ID        IMAGE                     COMMAND             CREATED             STATUS                  PORTS               NAMES</span><br><span class="line">8d92293a65e9        registry.liugang/centos   &quot;/bin/bash&quot;         7 days ago          Exited (0) 5 days ago                       web</span><br><span class="line">8410f389ea65        registry.liugang/centos   &quot;/bin/bash&quot;         7 days ago          Exited (0) 7 days ago                       test_link</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>-a参数列出所有状态的容器， -l列出最新创建的容器，包括停止运行状态的容器。</p>
+<h2 id="7-22-kill-参数"><a href="#7-22-kill-参数" class="headerlink" title="7.22 kill 参数"></a>7.22 kill 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker kill [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Kill a running container using SIGKILL or a specified signal</span><br><span class="line"></span><br><span class="line">  --help=false         Print usage</span><br><span class="line">  -s, --signal=KILL    Signal to send to the container</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker kill pensive_wilson</span><br><span class="line">pensive_wilson</span><br></pre></td></tr></table></figure>
+
+<p>这将停止该容器</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>结合ps命令，可以做到kill所有正在运行的容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker kill $(sudo docker ps -a -q)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-23-rm-参数"><a href="#7-23-rm-参数" class="headerlink" title="7.23 rm 参数"></a>7.23 rm 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker rm [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Remove one or more containers</span><br><span class="line"></span><br><span class="line">  -f, --force=false      Force the removal of a running container (uses SIGKILL)</span><br><span class="line">  --help=false           Print usage</span><br><span class="line">  -l, --link=false       Remove the specified link</span><br><span class="line">  -v, --volumes=false    Remove the volumes associated with the container</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker rm pensive_wilson</span><br><span class="line">pensive_wilson</span><br></pre></td></tr></table></figure>
+
+<p>这将删除一个已经停止运行的容器，若容器正在运行，则将会使docker报错，停止容器再删除，或者加上-f参数强制删除（不建议）。</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>类似的我们也结合ps删除所有容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker kill $(sudo docker ps -a -q)</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">$ sudo docker rm $(sudo docker ps -a -q)</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>要清空容器，首先要保证没有容器在运行。</p>
+<h2 id="7-24-rmi-参数"><a href="#7-24-rmi-参数" class="headerlink" title="7.24 rmi 参数"></a>7.24 rmi 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker rmi [OPTIONS] IMAGE [IMAGE...]</span><br><span class="line"></span><br><span class="line">Remove one or more images</span><br><span class="line"></span><br><span class="line">  -f, --force=false    Force removal of the image</span><br><span class="line">  --help=false         Print usage</span><br><span class="line">  --no-prune=false     Do not delete untagged parents</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker rmi centos:6.5</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>要区分rm于rmi多用法。 与docker images命令配合来清空镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker rmi $(sudo docker images -a -q)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-25-port-参数"><a href="#7-25-port-参数" class="headerlink" title="7.25 port 参数"></a>7.25 port 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker port [OPTIONS] CONTAINER [PRIVATE_PORT[/PROTO]]</span><br><span class="line"></span><br><span class="line">List port mappings for the CONTAINER, or lookup the public-facing port that</span><br><span class="line">is NAT-ed to the PRIVATE_PORT</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker port 60095325e584</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>打印出Host主机端口与容器暴露出的端口的NAT映射关系</p>
+<h2 id="7-26-pause-参数"><a href="#7-26-pause-参数" class="headerlink" title="7.26 pause 参数"></a>7.26 pause 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker pause [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Pause all processes within a container</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker pauese hopeful_feynman</span><br><span class="line">hopeful_feynman</span><br><span class="line">CONTAINER ID    IMAGE     COMMAND      CREATED         STATUS                 PORTS       NAMES</span><br><span class="line">c9a12157fed7    centos    &quot;/bin/bash&quot;  9 minutes ago   Up 9 minutes (Paused)              hopeful_feynman</span><br></pre></td></tr></table></figure>
+
+<p>使容器内进程暂停</p>
+<h2 id="7-27-unpause-参数"><a href="#7-27-unpause-参数" class="headerlink" title="7.27 unpause 参数"></a>7.27 unpause 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker unpause [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Unpause all processes within a container</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker pauese hopeful_feynman</span><br><span class="line">hopeful_feynman</span><br></pre></td></tr></table></figure>
+
+<p>恢复暂停</p>
+<h2 id="7-28-create-参数"><a href="#7-28-create-参数" class="headerlink" title="7.28 create 参数"></a>7.28 create 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker create [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line">Create a new container</span><br><span class="line"></span><br><span class="line">      -a, --attach=[]             Attach to STDIN, STDOUT or STDERR</span><br><span class="line">      --add-host=[]               Add a custom host-to-IP mapping (host:ip)</span><br><span class="line">      --blkio-weight=0            Block IO (relative weight), between 10 and 1000</span><br><span class="line">      -c, --cpu-shares=0          CPU shares (relative weight)</span><br><span class="line">      --cap-add=[]                Add Linux capabilities</span><br><span class="line">      --cap-drop=[]               Drop Linux capabilities</span><br><span class="line">      --cgroup-parent=            Optional parent cgroup for the container</span><br><span class="line">      --cidfile=                  Write the container ID to the file</span><br><span class="line">      --cpu-period=0              Limit CPU CFS (Completely Fair Scheduler) period</span><br><span class="line">      --cpu-quota=0               Limit the CPU CFS quota</span><br><span class="line">      --cpuset-cpus=              CPUs in which to allow execution (0-3, 0,1)</span><br><span class="line">      --cpuset-mems=              MEMs in which to allow execution (0-3, 0,1)</span><br><span class="line">      --device=[]                 Add a host device to the container</span><br><span class="line">      --dns=[]                    Set custom DNS servers</span><br><span class="line">      --dns-search=[]             Set custom DNS search domains</span><br><span class="line">      -e, --env=[]                Set environment variables</span><br><span class="line">      --entrypoint=               Overwrite the default ENTRYPOINT of the image</span><br><span class="line">      --env-file=[]               Read in a file of environment variables</span><br><span class="line">      --expose=[]                 Expose a port or a range of ports</span><br><span class="line">      -h, --hostname=             Container host name</span><br><span class="line">      --help=false                Print usage</span><br><span class="line">      -i, --interactive=false     Keep STDIN open even if not attached</span><br><span class="line">      --init=                     Run container following specified init system container method (systemd)</span><br><span class="line">      --ipc=                      IPC namespace to use</span><br><span class="line">      -l, --label=[]              Set meta data on a container</span><br><span class="line">      --label-file=[]             Read in a line delimited file of labels</span><br><span class="line">      --link=[]                   Add link to another container</span><br><span class="line">      --log-driver=               Logging driver for container</span><br><span class="line">      --log-opt=[]                Log driver options</span><br><span class="line">      --lxc-conf=[]               Add custom lxc options</span><br><span class="line">      -m, --memory=               Memory limit</span><br><span class="line">      --mac-address=              Container MAC address (e.g. 92:d0:c6:0a:29:33)</span><br><span class="line">      --memory-swap=              Total memory (memory + swap), &#x27;-1&#x27; to disable swap</span><br><span class="line">      --name=                     Assign a name to the container</span><br><span class="line">      --net=bridge                Set the Network mode for the container</span><br><span class="line">      --oom-kill-disable=false    Disable OOM Killer</span><br><span class="line">      -P, --publish-all=false     Publish all exposed ports to random ports</span><br><span class="line">      -p, --publish=[]            Publish a container&#x27;s port(s) to the host</span><br><span class="line">      --pid=                      PID namespace to use</span><br><span class="line">      --privileged=false          Give extended privileges to this container</span><br><span class="line">      --read-only=false           Mount the container&#x27;s root filesystem as read only</span><br><span class="line">      --restart=no                Restart policy to apply when a container exits</span><br><span class="line">      --security-opt=[]           Security Options</span><br><span class="line">      -t, --tty=false             Allocate a pseudo-TTY</span><br><span class="line">     -u, --user=                 Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])</span><br><span class="line">      --ulimit=[]                 Ulimit options</span><br><span class="line">      --uts=                      UTS namespace to use</span><br><span class="line">      -v, --volume=[]             Bind mount a volume</span><br><span class="line">      --volumes-from=[]           Mount volumes from the specified container(s)</span><br><span class="line">      -w, --workdir=              Working directory inside the container</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker create ubuntu /bin/echo &#x27;Hello world&#x27;</span><br><span class="line">a637c1d67506951928be296f2db02fa3e2b6e974ef371b181d9c26d1c8995963</span><br><span class="line">$...</span><br></pre></td></tr></table></figure>
+
+<p>若有如上输出则代表容器创建成功</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                    COMMAND                     CREATED             STATUS              PORTS               NAMES</span><br><span class="line">a637c1d67506        ubuntu:latest            &quot;/bin/echo &#x27;Hello wo        4 minutes ago                                               mad_hopper</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>然后在启动它</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker start a637c1d67506</span><br><span class="line">a637c1d67506</span><br><span class="line">$...</span><br></pre></td></tr></table></figure>
+
+<p>启动成功后会反回容器ID。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                    COMMAND                   CREATED                STATUS                                 PORTS           NAMES</span><br><span class="line">a637c1d67506        ubuntu:latest           &quot;/bin/echo &#x27;Hello wo       10 minutes ago         Exited (0) 2 minutes ago                               mad_hopper</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>当我们去查看容器状态时，容器没有在运行，这时因为我们在创建容器的时候，让容器执行的命令是&#x2F;bin&#x2F;echo ‘Hello world’，当容器执行完命令的时候就终止结束了。</p>
+<h2 id="7-29-run-参数"><a href="#7-29-run-参数" class="headerlink" title="7.29 run 参数"></a>7.29 run 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line">Run a command in a new container</span><br><span class="line"></span><br><span class="line">     -a, --attach=[]             Attach to STDIN, STDOUT or STDERR</span><br><span class="line">      --add-host=[]               Add a custom host-to-IP mapping (host:ip)</span><br><span class="line">      --blkio-weight=0            Block IO (relative weight), between 10 and 1000</span><br><span class="line">      -c, --cpu-shares=0          CPU shares (relative weight)</span><br><span class="line">      --cap-add=[]                Add Linux capabilities</span><br><span class="line">      --cap-drop=[]               Drop Linux capabilities</span><br><span class="line">      --cgroup-parent=            Optional parent cgroup for the container</span><br><span class="line">      --cidfile=                  Write the container ID to the file</span><br><span class="line">      --cpu-period=0              Limit CPU CFS (Completely Fair Scheduler) period</span><br><span class="line">      --cpu-quota=0               Limit the CPU CFS quota</span><br><span class="line">      --cpuset-cpus=              CPUs in which to allow execution (0-3, 0,1)</span><br><span class="line">      --cpuset-mems=              MEMs in which to allow execution (0-3, 0,1)</span><br><span class="line">      -d, --detach=false          Run container in background and print container ID</span><br><span class="line">      --device=[]                 Add a host device to the container</span><br><span class="line">      --dns=[]                    Set custom DNS servers</span><br><span class="line">      --dns-search=[]             Set custom DNS search domains</span><br><span class="line">      -e, --env=[]                Set environment variables</span><br><span class="line">      --entrypoint=               Overwrite the default ENTRYPOINT of the image</span><br><span class="line">      --env-file=[]               Read in a file of environment variables</span><br><span class="line">      --expose=[]                 Expose a port or a range of ports</span><br><span class="line">      -h, --hostname=             Container host name</span><br><span class="line">      --help=false                Print usage</span><br><span class="line">      -i, --interactive=false     Keep STDIN open even if not attached</span><br><span class="line">      --init=                     Run container following specified init system container method (systemd)</span><br><span class="line">      --ipc=                      IPC namespace to use</span><br><span class="line">      -l, --label=[]              Set meta data on a container</span><br><span class="line">      --label-file=[]             Read in a line delimited file of labels</span><br><span class="line">      --link=[]                   Add link to another container</span><br><span class="line">      --log-driver=               Logging driver for container</span><br><span class="line">      --log-opt=[]                Log driver options</span><br><span class="line">      --lxc-conf=[]               Add custom lxc options</span><br><span class="line">      -m, --memory=               Memory limit</span><br><span class="line">      --mac-address=              Container MAC address (e.g. 92:d0:c6:0a:29:33)</span><br><span class="line">      --memory-swap=              Total memory (memory + swap), &#x27;-1&#x27; to disable swap</span><br><span class="line">      --name=                     Assign a name to the container</span><br><span class="line">      --net=bridge                Set the Network mode for the container</span><br><span class="line">      --oom-kill-disable=false    Disable OOM Killer</span><br><span class="line">      -P, --publish-all=false     Publish all exposed ports to random ports</span><br><span class="line">      -p, --publish=[]            Publish a container&#x27;s port(s) to the host</span><br><span class="line">      --pid=                      PID namespace to use</span><br><span class="line">      --privileged=false          Give extended privileges to this container</span><br><span class="line">      --read-only=false           Mount the container&#x27;s root filesystem as read only</span><br><span class="line">      --restart=no                Restart policy to apply when a container exits</span><br><span class="line">      --rm=false                  Automatically remove the container when it exits</span><br><span class="line">      --security-opt=[]           Security Options</span><br><span class="line">      --sig-proxy=true            Proxy received signals to the process</span><br><span class="line">      -t, --tty=false             Allocate a pseudo-TTY</span><br><span class="line">      -u, --user=                 Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])</span><br><span class="line">      --ulimit=[]                 Ulimit options</span><br><span class="line">      --uts=                      UTS namespace to use</span><br><span class="line">      -v, --volume=[]             Bind mount a volume</span><br><span class="line">      --volumes-from=[]           Mount volumes from the specified container(s)</span><br><span class="line">      -w, --workdir=              Working directory inside the container</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>用法与create类似，只是在创建容器后不需要进行start操作就可以运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$  sudo docker run ubuntu /bin/echo &#x27;Hello world&#x27;</span><br><span class="line">Hello world</span><br><span class="line">$...</span><br></pre></td></tr></table></figure>
+
+<p>与上面一样，在运行完Hello world 之后也会退出容器。</p>
+<p><strong>Daemonized（守护态）</strong></p>
+<p>往往我们需要容器在后台一致执行，这时我们就需要在创建镜像的时候让容器以守护台方式(-d 参数)运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;</span><br><span class="line">61f37c1940c8ec9f08b107e99655b8a5181ded340415e3c15cf413069d556b73</span><br><span class="line">$...</span><br></pre></td></tr></table></figure>
+
+<p>这时，我们查看一下容器状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo  docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND                CREATED               STATUS                      PORTS               NAMES</span><br><span class="line">61f37c1940c8        ubuntu:latest          &quot;/bin/sh -c &#x27;while t   4 seconds ago         Up 3 seconds                                    prickly_galileo</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>查看容器输出的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker logs 61f37c1940c8</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>总结</p>
+<p>让容器以后台方式运行，并不是加一个 -d 参数就可以，命令行COMMAND所执行的动作必须为持续运行的状态。</p>
+</li>
+</ul>
+<h2 id="7-30-save-参数"><a href="#7-30-save-参数" class="headerlink" title="7.30 save 参数"></a>7.30 save 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker save [OPTIONS] IMAGE [IMAGE...]</span><br><span class="line"></span><br><span class="line">Save an image(s) to a tar archive (streamed to STDOUT by default)</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br><span class="line">  -o, --output=      Write to an file, instead of STDOUT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>载出镜像到文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker save -o /home/ubuntu.tar  docker.io/ubuntu:latest</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就在&#x2F;home目录下找到ubuntu.tar 文件了</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>在国内docker.io的下载速度奇慢，基本上下一个500M的image就可以搞你半天时间，这时我们就可以利用载入载出，从好朋友那里获取我们需要的镜像啦！</p>
+<h2 id="7-31-load-参数"><a href="#7-31-load-参数" class="headerlink" title="7.31 load 参数"></a>7.31 load 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker load [OPTIONS]</span><br><span class="line"></span><br><span class="line">Load an image from a tar archive on STDIN</span><br><span class="line"></span><br><span class="line">  --help=false       Print usage</span><br><span class="line">  -i, --input=       Read from a tar archive file, instead of STDIN</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>从文件载入镜像到本地</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker load --input /home/ubuntu.tar</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker load &lt; /home/ubuntu.tar</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>这种方式将导入镜像以及其相关的元数据信息（包括标签等）。</p>
+<h2 id="7-32-start-参数"><a href="#7-32-start-参数" class="headerlink" title="7.32 start 参数"></a>7.32 start 参数</h2><p>说明：启动容器参数</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker start [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Start one or more stopped containers</span><br><span class="line"></span><br><span class="line">-a, --attach=false         Attach STDOUT/STDERR and forward signals</span><br><span class="line">--help=false               Print usage</span><br><span class="line">-i, --interactive=false    Attach container&#x27;s STDIN</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-33-stop-参数"><a href="#7-33-stop-参数" class="headerlink" title="7.33 stop 参数"></a>7.33 stop 参数</h2><p>说明：停止容器参数</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker stop [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Stop a running container by sending SIGTERM and then SIGKILL after a</span><br><span class="line">grace period</span><br><span class="line"></span><br><span class="line">--help=false       Print usage</span><br><span class="line">-t, --time=10      Seconds to wait for stop before killing it</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-34-restart-参数"><a href="#7-34-restart-参数" class="headerlink" title="7.34 restart 参数"></a>7.34 restart 参数</h2><p>说明：重启容器参数</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker restart [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Restart a running container</span><br><span class="line"></span><br><span class="line">--help=false       Print usage</span><br><span class="line">-t, --time=10      Seconds to wait for stop before killing the container</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-34-stats-参数"><a href="#7-34-stats-参数" class="headerlink" title="7.34 stats 参数"></a>7.34 stats 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker stats [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Display a live stream of one or more containers&#x27; resource usage statistics</span><br><span class="line"></span><br><span class="line">--help=false         Print usage</span><br><span class="line">--no-stream=false    Disable streaming stats and only pull the first result</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker stats redis1 redis2</span><br><span class="line">CONTAINER           CPU %               MEM USAGE/LIMIT     MEM %               NET I/O</span><br><span class="line">redis1              0.07%               796 KB/64 MB        1.21%               788 B/648 B</span><br><span class="line">redis2              0.07%               2.746 MB/64 MB      4.29%               1.266 KB/648 B</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>该指令将只返回运行状态容器的数据流情况，停止状态的容器将不会返回任何数据。</p>
+<h2 id="7-35-tag-参数"><a href="#7-35-tag-参数" class="headerlink" title="7.35 tag 参数"></a>7.35 tag 参数</h2><p>说明：常用参数，主要用于镜像标签重命名</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br><span class="line">           docker tag -l [REGISTRYHOST/][USERNAME/]NAME...</span><br><span class="line"></span><br><span class="line">Tag an image or list remote tags</span><br><span class="line"></span><br><span class="line">-f, --force=false     Force</span><br><span class="line">--help=false          Print usage</span><br><span class="line">-l, --list=false      List repository tags</span><br><span class="line">-r, --remote=false    Force listing of remote repositories only</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker tag docker.io/scratch:latest  local/scratch:my</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>总结</li>
+</ul>
+<p>组合使用用户名，Image名字，标签名来组织管理Image。</p>
+<h2 id="7-36-top-参数"><a href="#7-36-top-参数" class="headerlink" title="7.36 top 参数"></a>7.36 top 参数</h2><ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker top [OPTIONS] CONTAINER [ps OPTIONS]</span><br><span class="line"></span><br><span class="line">Display the running processes of a container</span><br><span class="line"></span><br><span class="line">--help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<p>运行一个之前的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;</span><br></pre></td></tr></table></figure>
+
+<p>然后执行docker top 命令，可以查看到容器内进程</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker top 52c058ff716d</span><br><span class="line">UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD</span><br><span class="line">root                6326                1489                0                   23:58               ?                   00:00:00            /bin/sh -c while true; do echo hello world; sleep 1; done</span><br><span class="line">root                6410                6326                0                   23:59               ?          </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-37-wait-参数"><a href="#7-37-wait-参数" class="headerlink" title="7.37 wait 参数"></a>7.37 wait 参数</h2><p>说明：阻塞对指定容器的其他调用方法，直到容器停止后退出阻塞。</p>
+<ul>
+<li>用法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: docker wait [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Block until a container stops, then print its exit code.</span><br><span class="line"></span><br><span class="line">--help=false       Print usage</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/docker/referdesc.html">6. Docker 基本参数说明</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/docker/running.html">8. Docker run 运行容器</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#7-Docker-%E5%8F%82%E6%95%B0%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-text">7. Docker 参数用法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-deamon-%E5%8F%82%E6%95%B0"><span class="toc-text">7.1 deamon 参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Client"><span class="toc-text">Docker Client</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Daemon"><span class="toc-text">Docker Daemon</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-atttach-%E5%8F%82%E6%95%B0"><span class="toc-text">7.2 atttach 参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E5%B7%A5%E5%85%B7-nsenter"><span class="toc-text">扩展工具 nsenter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-build-%E5%8F%82%E6%95%B0"><span class="toc-text">7.3 build 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-commit-%E5%8F%82%E6%95%B0"><span class="toc-text">7.4 commit 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-cp-%E5%8F%82%E6%95%B0"><span class="toc-text">7.5 cp 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6-diff-%E5%8F%82%E6%95%B0"><span class="toc-text">7.6 diff 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-7-events-%E5%8F%82%E6%95%B0"><span class="toc-text">7.7 events 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-8-export-%E5%8F%82%E6%95%B0"><span class="toc-text">7.8 export 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-9-import-%E5%8F%82%E6%95%B0"><span class="toc-text">7.9 import 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-10-history-%E5%8F%82%E6%95%B0"><span class="toc-text">7.10 history 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-11-images-%E5%8F%82%E6%95%B0"><span class="toc-text">7.11 images 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-12-info-%E5%8F%82%E6%95%B0"><span class="toc-text">7.12 info 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-13-inspect-%E5%8F%82%E6%95%B0"><span class="toc-text">7.13 inspect 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-14-login-%E5%8F%82%E6%95%B0"><span class="toc-text">7.14 login 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-15-logout-%E5%8F%82%E6%95%B0"><span class="toc-text">7.15 logout 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-16-logs-%E5%8F%82%E6%95%B0"><span class="toc-text">7.16 logs 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-17-network-%E5%8F%82%E6%95%B0"><span class="toc-text">7.17 network 参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#network-connect"><span class="toc-text">network connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-create"><span class="toc-text">network create</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#connect-containers"><span class="toc-text">connect containers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Specifying-advanced-options"><span class="toc-text">Specifying advanced options</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-disconnect"><span class="toc-text">network disconnect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-ls"><span class="toc-text">network ls</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-rm"><span class="toc-text">network rm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-18-search-%E5%8F%82%E6%95%B0"><span class="toc-text">7.18 search 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-19-pull-%E5%8F%82%E6%95%B0"><span class="toc-text">7.19 pull 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-20-push-%E5%8F%82%E8%80%83"><span class="toc-text">7.20 push 参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-21-ps-%E5%8F%82%E6%95%B0"><span class="toc-text">7.21 ps 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-22-kill-%E5%8F%82%E6%95%B0"><span class="toc-text">7.22 kill 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-23-rm-%E5%8F%82%E6%95%B0"><span class="toc-text">7.23 rm 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-24-rmi-%E5%8F%82%E6%95%B0"><span class="toc-text">7.24 rmi 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-25-port-%E5%8F%82%E6%95%B0"><span class="toc-text">7.25 port 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-26-pause-%E5%8F%82%E6%95%B0"><span class="toc-text">7.26 pause 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-27-unpause-%E5%8F%82%E6%95%B0"><span class="toc-text">7.27 unpause 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-28-create-%E5%8F%82%E6%95%B0"><span class="toc-text">7.28 create 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-29-run-%E5%8F%82%E6%95%B0"><span class="toc-text">7.29 run 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-30-save-%E5%8F%82%E6%95%B0"><span class="toc-text">7.30 save 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-31-load-%E5%8F%82%E6%95%B0"><span class="toc-text">7.31 load 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-32-start-%E5%8F%82%E6%95%B0"><span class="toc-text">7.32 start 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-33-stop-%E5%8F%82%E6%95%B0"><span class="toc-text">7.33 stop 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-34-restart-%E5%8F%82%E6%95%B0"><span class="toc-text">7.34 restart 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-34-stats-%E5%8F%82%E6%95%B0"><span class="toc-text">7.34 stats 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-35-tag-%E5%8F%82%E6%95%B0"><span class="toc-text">7.35 tag 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-36-top-%E5%8F%82%E6%95%B0"><span class="toc-text">7.36 top 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-37-wait-%E5%8F%82%E6%95%B0"><span class="toc-text">7.37 wait 参数</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/13/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

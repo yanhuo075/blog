@@ -1,0 +1,896 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Docker：9. Docker 高级网络配置 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="9. Docker 高级网络配置当docker启动时，它会在宿主机器上创建一个名为docker0的虚拟网络接口。它会从RFC 1918定义的私有地址中随机选择一个主机不用的地址和子网掩码，并将它分配给docker0。 例如我启动docker几分钟后它选择了172.17.42.1&#x2F;16－一个16位的子网掩码为主机和它的容器提供了65,534个ip地址。 注意: 本文讨论了Docker的高级">
+<meta property="og:type" content="website">
+<meta property="og:title" content="9. Docker 高级网络配置">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/docker/network.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="9. Docker 高级网络配置当docker启动时，它会在宿主机器上创建一个名为docker0的虚拟网络接口。它会从RFC 1918定义的私有地址中随机选择一个主机不用的地址和子网掩码，并将它分配给docker0。 例如我启动docker几分钟后它选择了172.17.42.1&#x2F;16－一个16位的子网掩码为主机和它的容器提供了65,534个ip地址。 注意: 本文讨论了Docker的高级">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-13T16:21:32.093Z">
+<meta property="article:modified_time" content="2025-06-13T16:21:32.089Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/docker/introduction.html"><div class="main" ff="title">Docker</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/docker/" placeholder="在Docker文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">目录</span></div><div class="widget-body fs14"><a class="link" href="/wiki/docker/introduction.html#start"><span class="toc-text">1. Docker 简介</span></a><a class="link" href="/wiki/docker/coretech.html"><span class="toc-text">2. Docker 核心技术</span></a><a class="link" href="/wiki/docker/install.html"><span class="toc-text">3. Docker 服务安装</span></a><a class="link" href="/wiki/docker/images.html"><span class="toc-text">4. Docker 镜像管理</span></a><a class="link" href="/wiki/docker/container.html"><span class="toc-text">5. Docker 容器使用</span></a><a class="link" href="/wiki/docker/referdesc.html"><span class="toc-text">6. Docker 基本参数说明</span></a><a class="link" href="/wiki/docker/referuse.html"><span class="toc-text">7. Docker 参数用法详解</span></a><a class="link" href="/wiki/docker/running.html"><span class="toc-text">8. Docker run 运行容器</span></a><a class="link active" href="/wiki/docker/network.html"><span class="toc-text">9. Docker 高级网络配置</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/docker/registry.html"><span class="toc-text">10. Docker 私有仓库</span></a><a class="link" href="/wiki/docker/hubproxy.html"><span class="toc-text">11. DockerHub 国内加速</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/docker/introduction.html">Docker</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-06-13T16:21:32.089Z">2025-06-14</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>9. Docker 高级网络配置</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="9-Docker-高级网络配置"><a href="#9-Docker-高级网络配置" class="headerlink" title="9. Docker 高级网络配置"></a>9. Docker 高级网络配置</h2><p>当docker启动时，它会在宿主机器上创建一个名为docker0的虚拟网络接口。它会从RFC 1918定义的私有地址中随机选择一个主机不用的地址和子网掩码，并将它分配给docker0。</p>
+<p>例如我启动docker几分钟后它选择了172.17.42.1&#x2F;16－一个16位的子网掩码为主机和它的容器提供了65,534个ip地址。</p>
+<p><em>注意: 本文讨论了Docker的高级网络配置和选项。通常你不会用到这些。如果你想查看一个较为简单的Docker网络介绍和容器概念介绍来着手，请参见Dockers快速入门.</em></p>
+<p>但docker0并不是正常的网络接口。它只是一个在绑定到这上面的其他网卡间自动转发数据包的虚拟以太网桥。它可以使容器与主机相互通信。每次Docker创建一个容器，它就会创建<strong>一对对等接口(peer interface)</strong>，类似于一个管子的两端－在这边可以收到另一边发送的数据包。Docker会将对等接口中的一个做为eth0接口连接到容器上，并使用类似于vethAQI2QT这样的惟一名称来持有另一个，该名称取决于主机的命名空间。通过将所有veth＊接口绑定到docker0桥接网卡上，Docker在主机和所有Docker容器间创建一个<strong>共享的虚拟子网</strong>。</p>
+<p>本文将会讲解使用Docker选项的所有方式，并且在高级模式下使用纯linux网线配置命令来调整，补充，或完全替代Docker的默认网络配置。</p>
+<p><strong>Docker选项快速指南</strong></p>
+<p>这里有一份关于Docker网络配置的命令行选项列表，省去您查找相关资料的麻烦。</p>
+<p>一些网络配置的命令行选项只能在服务器启动时提供给Docker服务器。并且一旦启动起来就无法改变。</p>
+<p>一些网络配置命令选项只能在启动时提供给Docker服务器，并且在运行中不能改变:</p>
+<ul>
+<li><strong>-b BRIDGE或–bridge&#x3D;BRIDGE</strong></li>
+<li><strong>–bip&#x3D;CIDR</strong></li>
+<li><strong>-H SOCKET…或–host&#x3D;SOCKET…</strong>— 它看起来像是在设置容器的网络，但实际却恰恰相反：它告诉Docker服务器要接收命令的通道，例如“run container”和”stop container”。</li>
+<li><strong>–icc&#x3D;true|false</strong></li>
+<li><strong>–ip&#x3D;IP_ADDRESS</strong></li>
+<li><strong>–ip-forward&#x3D;true|false</strong></li>
+<li><strong>–iptables&#x3D;true|false</strong></li>
+<li><strong>–mtu&#x3D;BYTES</strong></li>
+</ul>
+<p>有两个网络配置选项可以在启动时或调用docker run时设置。当在启动时设置它会成为docker run的默认值:</p>
+<ul>
+<li><strong>–dns&#x3D;IP_ADDRESS…</strong></li>
+<li><strong>–dns-search&#x3D;DOMAIN…</strong></li>
+</ul>
+<p>最后，一些网络配置选项只能在调用docker run时指出，因为它们要为每个容器做特定的配置:</p>
+<ul>
+<li><strong>–link&#x3D;CONTAINER_NAME:ALIAS</strong></li>
+<li><strong>–net&#x3D;bridge|none|container:NAME_or_ID|host</strong></li>
+<li><strong>-p SPECor–publish&#x3D;SPEC</strong></li>
+<li><strong>-P或–publish-all&#x3D;true|false</strong></li>
+</ul>
+<h3 id="9-1-Docker-创建网络步骤"><a href="#9-1-Docker-创建网络步骤" class="headerlink" title="9.1 Docker 创建网络步骤"></a>9.1 Docker 创建网络步骤</h3><p>Docker是正在发展中的，并会持续提升网络配置的逻辑。当前命令行是很难满足Docker新建容器时所需要的网络配置。</p>
+<p>让我们回顾一些基础知识。</p>
+<p>通讯的时候使用网际协议（IP），一个机器需要访问至少一个网络接口用来发送和接收包，路由表定义了通过接口可达IP地址范围。网络接口不一定非是物理设备。<strong>实际上，在每一个Linux机器（和每个Docker容器内部）的lo回环接口都是有效的而且完全是虚拟的——Linux内核简单地拷贝回环（数据）包，直接从发送者的内存放入接收者的内存。</strong></p>
+<p>Docker使用特殊的虚拟接口让容器在主机间通讯——成对的虚拟接口被叫做“peers”，它被链接到主机内核的内部，因此（数据）包能在他们之间传输。他们简单创建，待会儿我们将会看到。</p>
+<p>Docker配置容器的步骤是：</p>
+<ol>
+<li>创建一对虚拟接口</li>
+<li>在主Docker主机内部给它一个唯一的名称，<strong>比如veth65f9，绑定它到docker0或者Docker使用的任何网桥上</strong></li>
+<li>让其他的接口翻墙进入新的容器（已经提供了lo接口），在容器的独立和唯一网络接口命名空间内，<strong>重新命名它为更漂亮的名字eth0，名称不要和其他的物理接口冲突。</strong></li>
+<li>设置接口的MAC地址，<strong>具体使用–mac-address 命令指定或者随机一个</strong>。</li>
+<li>在网桥的网络地址访问内给容器的eth0一个新的IP地址，**设置它的缺省路由为Docker主机在网桥上拥有的IP地址。**使用–default-gateway 设置默认路由来允许该地址向Docker deamon 来转发数据，否则将使用网桥定义的IP地址来转发（docker0）。除非自定义，否则MAC地址是根据IP来生成的。当一个新的容器使用已经分配过的IP（另一个具有不同MAC地址的容器）地址启动的时候，这将可以有效防止ARP缓存失效的问题。</li>
+</ol>
+<p>这些步骤结束后，容器将立即拥有一个eth0（虚拟）网卡，并会发现它自己可以和其他的容器以及互联网通讯。</p>
+<p>你可以使用 –net&#x3D; 这个选项来执行 docker run 启动一个容器，这个选项有一下可选参数。</p>
+<ul>
+<li><strong><code>--net=bridge</code></strong>— 默认选项，用网桥的方式来连接docker容器。</li>
+<li><strong><code>--net=host</code></strong>— 高数docker跳过配置容器的独立网络栈。本质上来说，<strong>这个参数告诉docker不去打包容器的网络层</strong>。当然，docker 容器的进程仍然被限制在它自己独有的文件系统、进程列表以及其他资源中。一个快速命令 ip addr 将像你展示docker的网络，它是建立在docker 宿主主机上的，有完整的权限去访问宿主主机的网络接口。注意这不意味着docker容器可以去重新配置宿主主机的网络栈，重新配置是需要 –privaleged&#x3D;true 这个选项参数的，但是这个选项参数会让docker容器打开大量的端口以及其他的系统的超级管理权限的进程。这也会允许容器去访问宿主主机的网络服务，比如 D-bus。这会使docker容器里的进程有有权限去做一些意想不到的事，比如重启你的宿主主机。所以要谨慎使用这个选项参数。</li>
+<li><strong><code>--net=container:NAME_or_ID</code></strong>— 告诉docker让这个新建的容器使用已有容器的网络配置。这个新建的容器将配置新的自己的文件系统和进程列表以及其他资源限制，但是将共享这个指定的容器的网络IP地址以及端口号，使得这两个容器可以通过 loopback接口相互访问。</li>
+<li><strong><code>--net=none</code></strong>— 告诉docker为新建的容器建立一个网络栈，但不对这个网络栈进行任何配置，在这个文档的最后将介绍如何让你去建立自定义的网络配置。</li>
+</ul>
+<p>去了解以下这一步是非常必要的，如果你在建立容器的时候使用 <code>--net=none</code> 这个选项参数。以下是一些命令去去配置自定义网络，就好像你让docker完全去自己配置一样。</p>
+<p>创建一个不带任何网络配置的网络：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run -i -t --rm --net=none base /bin/bash</span><br><span class="line">root@63f36fc01b5f:/#</span><br></pre></td></tr></table></figure>
+
+<p>重新开启一个窗口，获取容器的pid以在<code>var/run/netns/</code>下便创建网络，以下会用到<code>ip netns</code>命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker inspect -f &#x27;&#123;&#123;.State.Pid&#125;&#125;&#x27; 63f36fc01b5f</span><br><span class="line">2778</span><br><span class="line">$ pid=2778</span><br><span class="line">$ sudo mkdir -p /var/run/netns</span><br><span class="line">$ sudo ln -s /proc/$pid/ns/net /var/run/netns/$pid</span><br></pre></td></tr></table></figure>
+
+<p>检查主机的网桥是否启用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ip addr show docker0</span><br><span class="line">21: docker0: ...</span><br><span class="line">inet 172.17.42.1/16 scope global docker0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>创建一对（peers）网络接口A和B并绑定，然后启动，其中A是在主机上，B放在容器里：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo ip link add A type veth peer name B</span><br><span class="line">$ sudo brctl addif docker0 A</span><br><span class="line">$ sudo ip link set A up</span><br></pre></td></tr></table></figure>
+
+<p>覆盖容器的网络名字空间，并将B更改为eth0，以下步骤每执行完一次都可以到第一个窗口中查看网络配置状态（ip addr）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo ip link set B netns $pid</span><br><span class="line">$ sudo ip netns exec $pid ip link set dev B name eth0</span><br><span class="line">$ sudo ip netns exec $pid ip link set eth0 address 12:34:56:78:9a:bc</span><br><span class="line">$ sudo ip netns exec $pid ip link set eth0 up</span><br><span class="line">$ sudo ip netns exec $pid ip addr add 172.17.42.99/16 dev eth0</span><br><span class="line">$ sudo ip netns exec $pid ip route add default via 172.17.42.1</span><br></pre></td></tr></table></figure>
+
+<p>到这一步你的容器应该可以正常运行网络操作了。</p>
+<p>当你最后退出shell以及清理掉这个容器的时候，这个容器的虚拟网络 eth0 将在网络接口A 被清除后被消除，也会自动在网桥docker0上销毁。所以不用你执行其他的命令，所有的东西将被清理。当然，是几乎所有的东西：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Clean up dangling symlinks in /var/run/netns</span><br><span class="line">find -L /var/run/netns -type l -delete</span><br></pre></td></tr></table></figure>
+
+<p>还要注意上面的脚本使用了现代的ip命令行替代旧的弃用的封装，<strong>类似ipconfig和route，些老的命令行还是会一直呆在我们的容器内部工作。如果你嫌麻烦，ip addr命令行也可以只键入ip a。</strong></p>
+<p>总之，**注意这个ip netns exec重要的命令行，它让我们以root用户进入内部并配置一个网络命名空间。**如果在容器内部运行，类似的命令行可能不会工作，因为安全容器化的部分是Docker剥离容器的处理过程，这个过程要正确地配置自己的网络。</p>
+<p>*<em>使用<code>ip netns exec</code>可以让我们完成配置，还避免了运行容器自身<code>--privileged=true</code>的危险步骤。</em></p>
+<h3 id="9-2-Docker-定制网桥"><a href="#9-2-Docker-定制网桥" class="headerlink" title="9.2 Docker 定制网桥"></a>9.2 Docker 定制网桥</h3><h4 id="9-2-1-定制网桥docker0"><a href="#9-2-1-定制网桥docker0" class="headerlink" title="9.2.1 定制网桥docker0"></a>9.2.1 定制网桥docker0</h4><p>默认地，docker服务会在linux内核新建一个网络桥接docker0，使得物理主机和其他虚拟网络接口之间可以传递发送数据包，因此，这表现如一个独立的网络。</p>
+<p>docker0有一个IP地址和子网掩码，使得物理主机可以从容器的桥接网络接收和发送数据包。并且给这个桥接网络一个MTU（最大传输单元）或者说网络接口允许的最大包长度-例如1,500 bytes 或者从docker的宿主主机上的网络接口拷贝的数值。在服务启动的时候两者都是可配置的：</p>
+<ul>
+<li>–bip&#x3D;CIDR— 为docker0桥接网络提供一个特殊的IP地址和一个子网掩码, 使用标准的 CIDR 记法例如192.168.1.5&#x2F;24.</li>
+<li>–mtu&#x3D;BYTES— 从写docker0的最大数据包长度。</li>
+</ul>
+<p>在ubuntu系统上，你可以增加以上的配置到 &#x2F;etc&#x2F;default&#x2F;docker 文件中的DOCKER_OPTS参数中，然后重启docker服务。</p>
+<p>当你有一个或多个正常运行的容器时，你可以通过在主机上运行brct1命令，观察interfaces列的输出，来确定Docker已经将这些容器正确地连接到docker0网桥。下面是一个连接了两个不同容器的主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo brctl show</span><br><span class="line">bridge name     bridge id            STP enabled        interfaces</span><br><span class="line">docker0         8000.3a1d7362b4ee       no              veth65f9</span><br><span class="line">                                                        vethdda6</span><br></pre></td></tr></table></figure>
+
+<p>最后，每次新建一个容器的时候都会用到docker0 桥接网络。每次在执行docker run命令新建一个容器的时候，docker从可利用的桥接网络中随机选择一个未被使用的IP地址，以及使用桥接网络的子网掩码，用来配置容器 eth0网络接口。docker宿主主机的IP地址被docker容器作为默认的网关。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker run -i -t --rm base /bin/bash</span><br><span class="line">[root@e623fd7cf734 /] ip addr show eth0</span><br><span class="line">24: eth0: &lt;BROADCAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">     link/ether 32:6f:e0:35:57:91 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">     inet 172.17.0.3/16 scope global eth0</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br><span class="line">     inet6 fe80::306f:e0ff:fe35:5791/64 scope link</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br><span class="line">[root@e623fd7cf734 /] ip route</span><br><span class="line">default via 172.17.42.1 dev eth0</span><br><span class="line">172.17.0.0/16 dev eth0  proto kernel  scope link  src 172.17.0.3</span><br><span class="line">[root@e623fd7cf734 /] exit</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-2-2-建立你自己的桥接网络"><a href="#9-2-2-建立你自己的桥接网络" class="headerlink" title="9.2.2 建立你自己的桥接网络"></a>9.2.2 建立你自己的桥接网络</h4><p>如果你希望建立完整的自己的桥接网络，你可以在启动docker之前用 -b BRIDGE 或者 –bridge&#x3D;BRIDGE选项参数高数docker使用你自己的桥接网络。</p>
+<p>如果你已经用docker0启动docker了，你需要停止docker服务然后移除docker0.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo service docker stop</span><br><span class="line">$ sudo ip link set dev docker0 down</span><br><span class="line">$ sudo brctl delbr docker0</span><br><span class="line">$ sudo iptables -t nat -F POSTROUTING</span><br></pre></td></tr></table></figure>
+
+<p>然后，在启动docker服务之前，新建你自己的桥接网络，写上你想要的配置。接下来我们新建一个简单的桥接网络，刚好用这些选项来定做docker0 ，这刚好足够说明这个技术。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo brctl addbr bridge0</span><br><span class="line">$ sudo ip addr add 192.168.4.1/24 dev bridge0</span><br><span class="line">$ sudo ip link set dev bridge0 up</span><br><span class="line">Chain POSTROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">MASQUERADE  all  --  192.168.4.0/24       0.0.0.0/0</span><br></pre></td></tr></table></figure>
+
+<p>创建好网桥之后在docker配置文件中写入启动参数，或者手动指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker -d --bridge=bridge0</span><br></pre></td></tr></table></figure>
+
+<p>这样我们自己定义的网桥就做好了，当利用docker run启动容器时，会自动绑定网络到bridge0上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -it --rm centos</span><br><span class="line">[root@e623fd7cf734 /]# ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br><span class="line">40: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP</span><br><span class="line">     link/ether 02:42:c0:a8:04:02 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">     inet 192.168.4.2/24 scope global eth0</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br><span class="line">     inet6 fe80::42:c0ff:fea8:402/64 scope link</span><br><span class="line">           valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到新的网桥已经生效。</p>
+<h3 id="9-3-Docker-容器通信"><a href="#9-3-Docker-容器通信" class="headerlink" title="9.3 Docker 容器通信"></a>9.3 Docker 容器通信</h3><h4 id="9-3-1-容器与外部网络通信"><a href="#9-3-1-容器与外部网络通信" class="headerlink" title="9.3.1 容器与外部网络通信"></a>9.3.1 容器与外部网络通信</h4><p>决定容器是否可以访问外网取决于两个因素：</p>
+<ol>
+<li><p>主机是否会转发IP数据包。这取决于转发系统内的ip_forward这个参数的配置。如果ip_forward值为1，数据包就可以被转发。Docker会使用–ip_forward&#x3D;true的默认设置，一旦你docker服务启动docker会将系统的ip_forward的值修改为1。使用-ip_forward&#x3D;false对系统没有改变。通常设置方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sysctl net.ipv4.conf.all.forwarding</span><br><span class="line">net.ipv4.conf.all.forwarding = 0</span><br><span class="line">$ sysctl net.ipv4.conf.all.forwarding=1</span><br><span class="line">$ sysctl net.ipv4.conf.all.forwarding</span><br><span class="line">net.ipv4.conf.all.forwarding = 1</span><br></pre></td></tr></table></figure>
+
+<p>设置这个值很重要，它将决定你的容器是否可以与外部通信以及容器间的通信。在多网桥系统中，内嵌的容器也需要配置此项。</p>
+</li>
+<li><p>你的iptables防火墙是否允许特殊连接。当deamon启动的时候，如果你设置–iptables&#x3D;false，Docker将不会改变主机的iptables的防火墙规则。否则，Docker将追加规则到DOCKER filter chain</p>
+<p>Docker 不会删除或修改已经存在在DOCKER filter chain中的规则。这允许用户进一步创建限制访问容器的任何规则。</p>
+<p>Docker的默认规则是允许所有的外部IPs。如果只是想允许一个IP连接到容器，在DOCKER filter chain的顶部增加一条否定规则：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ iptables -I DOCKER -i ext_if ! -s 8.8.8.8 -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>这将只允许 8.8.8.8这个IP连接到容器。</p>
+</li>
+</ol>
+<h4 id="9-3-2-容器间互相访问"><a href="#9-3-2-容器间互相访问" class="headerlink" title="9.3.2 容器间互相访问"></a>9.3.2 容器间互相访问</h4><p>决定容器能否互相访在系统层面上问取决于两个因素：</p>
+<ol>
+<li><p>网络的拓扑结构是否已经连接到容器的网络接口。默认情况下，Docker会把所有的容器附加到docker0网桥下，并为两个容器间的包传输提供路径。</p>
+</li>
+<li><p>iptables是否允许特殊连接?如果你把设置 –iptables&#x3D;false,当守护进程启动时，Docker不会改变你的系统iptables规则。另外，如果你保留默认设置 –icc&#x3D;true，Docker服务器或向FORWARD链添加一个带有全局ACCEPT策略的默认规则。如果不保留默认设置即–icc&#x3D;false，系统会把策略设为DROP.</p>
+<p>使用docker都希望ip_forward 是打开的，至少使容器间的通讯成为可能。</p>
+<p>但是否同意 –icc&#x3D;true 或者更改为 –icc&#x3D;false 使得iptables 可以保护容器以及宿主主机不被任意地端口扫描、避免被已经被渗透的容器所访问，这是一个策略问题。 （在ubuntu，是编辑&#x2F;etc&#x2F;default&#x2F;docker文件中的DOCKER_OPTS参数，然后重启docker服务）</p>
+</li>
+</ol>
+<p><strong>如果你选择最安全的设置 –icc&#x3D;false ，那么当你想让它们彼此提供服务的时候如何让它们相互通讯？</strong></p>
+<p>**答案是：**使用前文提到的 –link&#x3D;CONTAINER_NAME:ALIAS 选项。如果docker守护进程正在以 –icc&#x3D;false 和 –iptables&#x3D;true 参数运行，当以选项 –link&#x3D; 执行 docker run 命令时，docker服务将插入一部分 iptables ACCEPT 规则使得新容器可以连接其他容器所暴露出来的端口（此端口指前文在 Dockerfile 中提到的EXPOSE这一行）。更多详细文档介绍请看：<a target="_blank" rel="noopener" href="https://jiajially.gitbooks.io/dockerguide/content/chapter_network_pro/chapter_fastlearn/docker_run/--link.md">容器互联</a>。</p>
+<p><strong>注意:</strong> –link 选项中的 CONTAINER_NAME 的值必须是 docker自动分配的容器名称，比如stupefied_pare，或者是在执行docker run 的时候用–name&#x3D;指定的容器名称. 这不能使一个docker无法识别的主机名</p>
+<p>你可以在你的Docker主机上运行iptables命令，来观察FORWARD链是否有默认的ACCEPT或DROP策略</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># When --icc=false, you should see a DROP rule:</span><br><span class="line">$ sudo iptables -L -n</span><br><span class="line">...</span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span><br><span class="line">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span><br><span class="line">...</span><br><span class="line"># When a --link= has been created under --icc=false,</span><br><span class="line"># you should see port-specific ACCEPT rules overriding</span><br><span class="line"># the subsequent DROP policy for all other packets:</span><br><span class="line">$ sudo iptables -L -n</span><br><span class="line">...</span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span><br><span class="line">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span><br><span class="line">Chain DOCKER (1 references)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">ACCEPT     tcp  --  172.17.0.2           172.17.0.3           tcp spt:80</span><br><span class="line">ACCEPT     tcp  --  172.17.0.3           172.17.0.2           tcp dpt:80</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-4-配置DNS"><a href="#9-4-配置DNS" class="headerlink" title="9.4 配置DNS"></a>9.4 配置DNS</h3><p>怎样为Docker提供的每一个容器进行主机名和DNS配置，而不必建立自定义镜像并将主机名写 到里面？它的诀窍是覆盖三个至关重要的在&#x2F;etc下的容器内的虚拟文件，那几个文件可以写入 新的信息。你可以在容器内部运行mount看到这个：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$$ mount</span><br><span class="line">...</span><br><span class="line">/dev/disk/by-uuid/1fec...ebdf on /etc/hostname type ext4 ...</span><br><span class="line">/dev/disk/by-uuid/1fec...ebdf on /etc/hosts type ext4 ...</span><br><span class="line">/dev/disk/by-uuid/1fec...ebdf on /etc/resolv.conf type ext4 ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>HCP配置之后，保持resolv.conf的数据到所有的容器中。Docker怎样维护在容器内的这些文件从Docker的一个版本到下一个版本的具体细节，你应该抛开这些单独的文件本身并且使用下面的Docker选项代替。</p>
+<p>有四种不同的选项会影响容器守护进程的服务名称。</p>
+<ol>
+<li><p>-h HOSTNAME 或 –hostname&#x3D;HOSTNAME –设置容器的主机名，仅本机可见。这种方式是写到&#x2F;etc&#x2F;hostname ，以及&#x2F;etc&#x2F;hosts 文件中，作为容器主机IP的别名，并且将显示在容器的bash中。不过这种方式设置的主机名将不容易被容器之外可见。这将不会出现在 docker ps 或者 其他的容器的&#x2F;etc&#x2F;hosts 文件中。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo docker run --hostname &#x27;myhost&#x27; -it centos</span><br><span class="line">[root@myhost /]# cat /etc/hosts</span><br><span class="line">172.17.0.7    myhost</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>–link&#x3D;CONTAINER_NAME:ALIAS –使用这个选项去run一个容器将在此容器的&#x2F;etc&#x2F;hosts文件中增加一个主机名ALIAS，这个主机名是名为CONTAINER_NAME 的容器的IP地址的别名。这使得新容器的内部进程可以访问主机名为ALIAS的容器而不用知道它的IP。–link&#x3D; 关于这个选项的详细讨论请看：<a target="_blank" rel="noopener" href="https://jiajially.gitbooks.io/dockerguide/content/chapter_fastlearn/docker_run/--link.html">容器互联</a></p>
+</li>
+<li><p>–dns&#x3D;IP_ADDRESS –设置DNS服务器的IP地址，写入到容器的&#x2F;etc&#x2F;resolv.conf文件中。当容器中的进程尝试访问不在&#x2F;etc&#x2F;hosts文件中的主机A时，容器将以53端口连接到IP_ADDRESS这个DNS服务器去搜寻主机A的IP地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$  sudo docker run -it --dns=192.168.5.1  centos</span><br><span class="line">[root@6a38049c9052 /]# cat /etc/resolv.conf</span><br><span class="line">nameserver 192.168.5.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>–dns-search&#x3D;DOMAIN –设置DNS服务器的搜索域，以防容器尝试访问不完整的主机名时从中检索相应的IP。这是写入到容器的&#x2F;etc&#x2F;resolv.conf文件中的。当容器尝试访问主机 host，而DNS搜索域被设置为 example.com ,那么DNS将不仅去查寻host主机的IP，还去查询host.example.com的IP。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$  sudo docker run -it --dns-search=www.domain.com  centos</span><br><span class="line">[root@ae0e9e99596f /]# cat /etc/resolv.conf</span><br><span class="line">nameserver 192.168.4.1</span><br><span class="line">search www.mydomain.com</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>在docker中，如果启动容器时缺少以上最后两种选项设置时，将使得容器的&#x2F;etc&#x2F;resolv.conf文件看起来<strong>和宿主主机的&#x2F;etc&#x2F;resolv.conf文件一致</strong>。这些选项将修改默认的设置。(本宿主机在实验时有一行“nameserver 192.168.4.1”，所以默认容器的配置会与宿主机一样。)</p>
+<h3 id="9-5-Docker-绑定端口"><a href="#9-5-Docker-绑定端口" class="headerlink" title="9.5 Docker 绑定端口"></a>9.5 Docker 绑定端口</h3><h4 id="9-5-1-为主机绑定容器端口"><a href="#9-5-1-为主机绑定容器端口" class="headerlink" title="9.5.1 为主机绑定容器端口"></a>9.5.1 为主机绑定容器端口</h4><p>默认情况下，Docker容器可以连接到外部区域，但外部区域不能连接到容器。在Docker启动时，由于它在主机上创建了一个<strong>iptables伪装规则</strong>，使得每一个输出连接看起来都是由主机IP地址建立起来的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># You can see that the Docker server creates a</span><br><span class="line"># masquerade rule that let containers connect</span><br><span class="line"># to IP addresses in the outside world:</span><br><span class="line">$ sudo iptables -t nat -L -n</span><br><span class="line">...</span><br><span class="line">Chain POSTROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">MASQUERADE  all  --  172.17.0.0/16       0.0.0.0/0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>当调用docker run的时候，如果你想让容器接受输入连接，你需要提供特殊选项。这些选项的详细说明在 <a target="_blank" rel="noopener" href="https://jiajially.gitbooks.io/dockerguide/content/chapter_fastlearn/index.html">Docker 快速入门</a>. 有两种方法可以实现。</p>
+<p>首先，你可以提供 <strong>-P 或者–publish-all&#x3D;true|false</strong> 选项参数来执行 docker run 命令，这将会识别所有在dockerfile中暴露的端口或者–expose参数制定的端口，然后用检查端口映射，临时端口范围由&#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;ip_local_port_range内核参数配置，并且随机映射到 <strong>32768 ～ 61000</strong> 之间的主机端口。</p>
+<p>更方便的操作是使用 <strong>-p SPEC 或者–publish&#x3D;SPEC</strong> 选项，这两个选项让你明确的指定docker容器的端口映射到任意的主机端口中，不局限于32768 ～ 61000.</p>
+<p>无论如何，你应该通过审查你的NAT表，去看看docker在你的网络占做了什么。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># What your NAT rules might look like when Docker</span><br><span class="line"># is finished setting up a -P forward:</span><br><span class="line">$ iptables -t nat -L -n</span><br><span class="line">...</span><br><span class="line">Chain DOCKER (2 references)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:49153 to:172.17.0.2:80</span><br><span class="line"># What your NAT rules might look like when Docker</span><br><span class="line"># is finished setting up a -p 80:80 forward:</span><br><span class="line">Chain DOCKER (2 references)</span><br><span class="line">target     prot opt source               destination</span><br><span class="line">DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:80 to:172.17.0.2:80</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，docker暴露了这些容器的端口到通配IP地址：0.0.0.0 ，这个通配IP地址可以匹配宿主主机上任意一个可以进入的端口。如果你希望更多的限制，并且只允许容器服务通过特殊的宿主主机的外部网络接口来相互联系，那么你有两种选择。当你执行 docker run 命令时，你可以使用 <strong>-p IP:host_port:container_port 或者 -p IP::port</strong>来明确地绑定外部接口。</p>
+<p>或者如果你希望dokcer永远转发到一个特殊的IP地址上，你可以编辑你的docker系统设置文件（ubuntu系统的设置方法为：编辑 &#x2F;etc&#x2F;default&#x2F;docker文件，改写DOCKER_OPTS参数），增加选项 –ip&#x3D;IP_ADDRESS 。<strong>修改完之后记得重启你的docker服务。</strong></p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/docker/running.html">8. Docker run 运行容器</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/docker/registry.html">10. Docker 私有仓库</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Docker-%E9%AB%98%E7%BA%A7%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">9. Docker 高级网络配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-Docker-%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C%E6%AD%A5%E9%AA%A4"><span class="toc-text">9.1 Docker 创建网络步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-Docker-%E5%AE%9A%E5%88%B6%E7%BD%91%E6%A1%A5"><span class="toc-text">9.2 Docker 定制网桥</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-1-%E5%AE%9A%E5%88%B6%E7%BD%91%E6%A1%A5docker0"><span class="toc-text">9.2.1 定制网桥docker0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-2-%E5%BB%BA%E7%AB%8B%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-text">9.2.2 建立你自己的桥接网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-Docker-%E5%AE%B9%E5%99%A8%E9%80%9A%E4%BF%A1"><span class="toc-text">9.3 Docker 容器通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-1-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1"><span class="toc-text">9.3.1 容器与外部网络通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-2-%E5%AE%B9%E5%99%A8%E9%97%B4%E4%BA%92%E7%9B%B8%E8%AE%BF%E9%97%AE"><span class="toc-text">9.3.2 容器间互相访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-%E9%85%8D%E7%BD%AEDNS"><span class="toc-text">9.4 配置DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-Docker-%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3"><span class="toc-text">9.5 Docker 绑定端口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-5-1-%E4%B8%BA%E4%B8%BB%E6%9C%BA%E7%BB%91%E5%AE%9A%E5%AE%B9%E5%99%A8%E7%AB%AF%E5%8F%A3"><span class="toc-text">9.5.1 为主机绑定容器端口</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/09/hello-world/","2025/06/13/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/09/2025/06/theme-design2/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
