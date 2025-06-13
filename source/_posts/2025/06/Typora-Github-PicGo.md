@@ -1,6 +1,11 @@
 ---
 title: Typora+Github+PicGo搭建个人免费图床
 categories: [装修日记]
+keywords: 博客文章密码
+password: pass
+abstract: 私密文档
+message:  输入密码，查看文章
+wrong_pass_message: 密码有误，请重新输入
 tags: [主题装修]
 ---
 

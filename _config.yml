@@ -103,3 +103,10 @@ theme: stellar
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# Security
+##
+encrypt:
+  enable: true
+  default_abstract: the content has been encrypted, enter the password to read.</br>
+  default_message: Please enter the password to read.
