@@ -49,7 +49,7 @@ menubar:
        url: /wiki/
      - id: nodes
        theme: '#FA6400'
-       icon: solar:pen-new-square-bold-duotone
+       icon: solar:pen-outline
        title: 笔记
        url: /notes/
      - id: social
