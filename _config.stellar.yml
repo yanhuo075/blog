@@ -50,7 +50,7 @@ menubar:
      - id: nodes
        theme: '#FA6400'
        #icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/notes.svg
-       icon: fad:fa-calendar-edit
+       icon: fad fa-calendar-edit
        title: 笔记
        url: /notes/
      - id: social
