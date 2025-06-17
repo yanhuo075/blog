@@ -49,8 +49,8 @@ menubar:
        url: /wiki/
      - id: nodes
        theme: '#FA6400'
-       #icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/notes.svg
-       icon: fad fa-calendar-edit
+       icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/notes.svg
+       #icon: fad fa-calendar-edit
        title: 笔记
        url: /notes/
      - id: social
