@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: git # 这是项目id，对应 /_data/wiki/git.yml
-title: LFS大文件应用
+title: 大文件托管
 order: 3
 ---
 
