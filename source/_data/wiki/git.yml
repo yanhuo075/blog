@@ -20,3 +20,4 @@ tree:
     - start
     - install-and-config
     - usage
+    - lfs
