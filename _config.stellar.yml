@@ -141,6 +141,11 @@ site_tree:
     menu_id: post
     leftbar: recent, timeline
     rightbar: timeline
+  # 友链页配置
+  links: 
+    base_dir: friends # 只影响自动生成的页面路径
+    leftbar: recent, timeline
+    rightbar: timeline
   # 错误页配置
   error_page:
     menu_id: post
