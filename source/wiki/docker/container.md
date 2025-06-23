@@ -293,7 +293,7 @@ $ docker run -d -p 80:5000 training/webapp python app.py
 
 我们来看看49155端口上的web应用吧！
 
-![image](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/webapp.jpg)
+![image](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/webapp.jpg)
 
 **5.2.5 快捷查看网络端口**
 

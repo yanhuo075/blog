@@ -127,7 +127,7 @@ ssh-keygen -t rsa -C user@example.com
 
 其中 `user@example.com` 对应的是你的 Git 邮箱。
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys1.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys1.png)
 
 ssh-agent 是一种控制用来保存公钥身份验证所使用的私钥的程序，其实 ssh-agent 就是一个密钥管理器，运行 ssh-agent 以后，使用 ssh-add 将私钥交给 ssh-agent 保管，其他程序需要身份验证的时候可以将验证申请交给 ssh-agent 来完成整个认证过程。
 
@@ -141,7 +141,7 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 ```
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys2.jpg)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys2.jpg)
 
 登陆 Github，添加 ssh：
 
@@ -149,4 +149,4 @@ ssh-add ~/.ssh/id_rsa
 
 把 id_rsa.pub 文件里的内容复制到这里：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys4.jpg)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ssh-keys4.jpg)

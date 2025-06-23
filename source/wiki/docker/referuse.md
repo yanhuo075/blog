@@ -12,7 +12,7 @@ order: 6
 
 Docker对使用者来讲是一个`C/S`模式的架构，而Docker的后端是一个非常松耦合的架构，模块各司其职，并有机组合，支撑Docker的运行,如下图所示：
 
-![image](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/docker_struct.jpg)
+![image](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/docker_struct.jpg)
 
 不难看出，用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。 而Docker Daemon作为Docker架构中的主体部分，首先提供Server的功能使其可以接受Docker Client的请求；而后Engine执行Docker内部的一系列工作，每一项工作都是以一个Job的形式的存在。
 

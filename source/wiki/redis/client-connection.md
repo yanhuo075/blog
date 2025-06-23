@@ -31,7 +31,7 @@ Config get maxclients
 "4064"  
 ```
 
-![Redis客户端连接1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-client-connection1-1.png)
+![Redis客户端连接1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-client-connection1-1.png)
 
 最大客户端数取决于 OS 的最大文件描述符数限制。它的默认值为 10000，但您可以更改此属性。
 

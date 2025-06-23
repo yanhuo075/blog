@@ -34,7 +34,7 @@ redis 127.0.0.1:6379> CONFIG GET loglevel
 2)  "verbose"
 ```
 
-![Redis配置1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-configuration1-1.png)
+![Redis配置1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-configuration1-1.png)
 
 要获取所有配置设置，请使用 `*` 代替 `CONFIG_SETTING_NAME`
 

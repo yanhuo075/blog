@@ -27,7 +27,7 @@ redis-benchmark -n 100000
 
 **注意**：该命令是在 redis 的安装目录下执行的，而不是 redis 客户端的内部指令。
 
-![Redis性能测试](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-benchmarks1-1.png)\
+![Redis性能测试](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-benchmarks1-1.png)\
 
 
 
@@ -60,4 +60,4 @@ redis-benchmark -n 100000
 redis-benchmark -h 127.0.0.1 -p 6379 -t set,lpush -n 100000 -q
 ```
 
-![Redis基准3](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-benchmarks3-1.png)
+![Redis基准3](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-benchmarks3-1.png)

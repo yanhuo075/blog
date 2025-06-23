@@ -13,11 +13,11 @@ Redis 发布/订阅是一种消息传模式，其中发送者（在Redis术语�
 
 下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的关系：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/pubsub1.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/pubsub1.png)
 
 当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/pubsub2.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/pubsub2.png)
 
 
 

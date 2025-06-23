@@ -72,7 +72,7 @@ vm_enabled:0
 role:master  
 ```
 
-![Redis发布服务器1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-server1-1.png)
+![Redis发布服务器1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-server1-1.png)
 
 ------
 

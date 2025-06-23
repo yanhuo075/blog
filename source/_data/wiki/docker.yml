@@ -2,8 +2,8 @@ name: Docker
 title: Docker容器使用教程
 subtitle: '数据库教程 | Designed by YanHuo075'
 tags: 容器
-icon: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg
-cover: https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg
+icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg
+cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/Docker.svg
 coverpage: true
 description: Docker 是一种轻量级容器化技术平台，通过将应用及其依赖打包成独立容器，实现跨环境的一致性运行，简化开发、部署与运维流程。
 repo: 

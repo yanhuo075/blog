@@ -151,11 +151,11 @@ sudo apt full-upgrade
 sudo apt install build-essential tcl
 ```
 
-![在Ubuntu               1上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu1-2.png)![在Ubuntu               2上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu2-2.png)
+![在Ubuntu               1上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu1-2.png)![在Ubuntu               2上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu2-2.png)
 
 要继续按 Y 键
 
-![在Ubuntu               3上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu3-2.png)
+![在Ubuntu               3上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu3-2.png)
 
 
 
@@ -165,7 +165,7 @@ sudo apt install build-essential tcl
 
 sudo apt-get install redis-server
 
-![在Ubuntu               4上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu4-2.png)![在Ubuntu               5上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu5-2.png)
+![在Ubuntu               4上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu4-2.png)![在Ubuntu               5上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu5-2.png)
 
 现在安装了 Redis Server。您可以启动 Redis 服务器：
 
@@ -181,7 +181,7 @@ sudo apt-get install redis-server
  redis-server
 ```
 
-![在Ubuntu               6上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu6-2.png)
+![在Ubuntu               6上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu6-2.png)
 
 
 
@@ -193,7 +193,7 @@ Redis 服务器已启动，因此您可以启动 redis 客户端以在它们之�
  redis-cli
 ```
 
-![在Ubuntu               7上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu7-2.png)
+![在Ubuntu               7上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu7-2.png)
 
 ------
 
@@ -215,7 +215,7 @@ redis-cli
 
 现在键入以下 PING 命令。返回 PONG 表示 Redis 已成功安装在您的系统上。
 
-![在Ubuntu               8上安装Redis](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu8-2.png)
+![在Ubuntu               8上安装Redis](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/installation-on-ubuntu8-2.png)
 
 
 
@@ -231,7 +231,7 @@ Redis 官方不建议在 windows 下使用 Redis，所以官网没有 windows �
 
 点击下载：
 
-![Redis安装4](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation4-1-1.png) ![Redis安装5](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation5-1-1.png)
+![Redis安装4](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation4-1-1.png) ![Redis安装5](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation5-1-1.png)
 
 您可以看到 Redis 现在已下载。
 
@@ -241,7 +241,7 @@ https://github.com/rgl/redis/downloads
 
 下载完成之后双击按着引导流程安装。
 
-![Redis安装6](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation6-1-1.png) ![Redis安装7](https://www.redis.com.cn/wp-content/uploads/2020/03/redis-installation7-1-1.png) ![Redis安装8](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation8-1-1.png) ![Redis安装9](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation9-1-1.png) ![Redis安装10](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation10-1-1.png) ![Redis安装11](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation11-1-1.png)
+![Redis安装6](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation6-1-1.png) ![Redis安装7](https://www.redis.com.cn/wp-content/uploads/2020/03/redis-installation7-1-1.png) ![Redis安装8](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation8-1-1.png) ![Redis安装9](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation9-1-1.png) ![Redis安装10](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation10-1-1.png) ![Redis安装11](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation11-1-1.png)
 
 ------
 
@@ -251,7 +251,7 @@ https://github.com/rgl/redis/downloads
 
 Redis 现在可以使用了。打开 Redis 程序目录：
 
-![Redis安装12](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation12-1-1.png)
+![Redis安装12](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation12-1-1.png)
 
 文件介绍：
 
@@ -271,21 +271,21 @@ redis.windows-service.conf：配置文件，将 redis 作为系统服务的配�
 
 单击 redis-server.exe，启动 Redis 服务。
 
-![Redis安装13](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation13-1-1.png)
+![Redis安装13](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation13-1-1.png)
 
 现在启动 Redis 客户端。
 
-![Redis安装14](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation14-1-1.png) ![Redis安装15](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation15-1-1.png)
+![Redis安装14](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation14-1-1.png) ![Redis安装15](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation15-1-1.png)
 
 检查 Redis 是否已连接。
 
 使用 PING 命令。
 
-![Redis安装16](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation16-1-1.png)
+![Redis安装16](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation16-1-1.png)
 
 Redis 服务窗口也输出 1 个客户端已连接。
 
-![Redis安装17](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation17-1-1.png)
+![Redis安装17](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-installation17-1-1.png)
 
 
 
@@ -293,7 +293,7 @@ Redis 服务窗口也输出 1 个客户端已连接。
 
 首先下载 redis 安装包：https://github.com/MSOpenTech/redis/releases
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20180530232823964-e1584240924769.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20180530232823964-e1584240924769.png)
 
 解压安装包到相应文件夹，任何盘符都行，例如 E:\tools\redis-3.2.100。
 
@@ -311,7 +311,7 @@ redis-server.exe redis.windows.conf
 
 输入之后会显示如下：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/5d84a6dd5f1b242dce37ab0423388981.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/5d84a6dd5f1b242dce37ab0423388981.png)
 
 
 
@@ -323,7 +323,7 @@ redis-server --service-install redis.windows.conf
 
 查看 windows 服务是否加入：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/2a38fe5c35c522f602e4647ef8af3d58.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/2a38fe5c35c522f602e4647ef8af3d58.png)
 
 这时候先关闭打开的第一个 cmd 窗口，然后执行以下命令启动再次 redis：
 

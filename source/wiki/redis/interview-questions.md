@@ -97,13 +97,13 @@ rdb是Redis DataBase缩写
 
 功能核心函数rdbSave(生成RDB文件)和rdbLoad（从文件加载内存）两个函数
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq1.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq1.png)
 
 **AOF:**
 
 Aof是Append-only file缩写
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq2.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq2.png)
 
 每当执行服务器(定时)任务或者函数时flushAppendOnlyFile 函数都会被调用， 这个函数执行以下两个工作
 
@@ -151,7 +151,7 @@ For Arrays the first byte of the reply is "*" 数组
 
 **单机版**
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq3.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq3.png)
 
 特点：简单
 
@@ -161,7 +161,7 @@ For Arrays the first byte of the reply is "*" 数组
 
 **主从复制**
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq4.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq4.png)
 
 Redis 的复制（replication）功能允许用户根据一个 Redis 服务器来创建任意多个该服务器的复制品，其中被复制的服务器为主服务器（master），而通过复制创建出来的服务器复制品则为从服务器（slave）。 只要主从服务器之间的网络连接正常，主从服务器两者会具有相同的数据，主服务器就会一直将发生在自己身上的数据更新同步 给从服务器，从而一直保证主从服务器的数据相同。
 
@@ -181,7 +181,7 @@ Redis 的复制（replication）功能允许用户根据一个 Redis 服务器�
 
 **哨兵**
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq5.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq5.png)
 
 Redis sentinel 是一个分布式系统中监控 redis 主从服务器，并在主服务器下线时自动进行故障转移。其中三个特性：
 
@@ -205,7 +205,7 @@ Redis sentinel 是一个分布式系统中监控 redis 主从服务器，并在�
 
 **集群（proxy 型）：**
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq6.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq6.png)
 
 Twemproxy 是一个 Twitter 开源的一个 redis 和 memcache 快速/轻量级代理服务器； Twemproxy 是一个快速的单线程代理程序，支持 Memcached ASCII 协议和 redis 协议。
 
@@ -221,7 +221,7 @@ failover 逻辑需要自己实现，其本身不能支持故障的自动转移�
 
 **集群（直连型）：**
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq7.png)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/riq7.png)
 
 从redis 3.0之后版本支持redis-cluster集群，Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接。
 

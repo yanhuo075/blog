@@ -23,7 +23,7 @@ order: 3
 config get requirepass
 ```
 
-![Redis安全1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security1-1.png)
+![Redis安全1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security1-1.png)
 
 您可以看到上面的属性为空，表示我们没有此实例的任何密码。您可以通过执行以下命令来更改此属性并为此实例设置密码。
 
@@ -31,13 +31,13 @@ config get requirepass
 config set requirepass "rediscomcn123"
 ```
 
-![Redis安全2](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security2-1.png)
+![Redis安全2](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security2-1.png)
 
 ```
 CONFIG get requirepass
 ```
 
-![Redis安全3](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security3-1.png)
+![Redis安全3](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security3-1.png)
 
 当您设置此密码时，如果客户端在未经身份验证的情况下运行该命令，则会收到错误"NOAUTH Authentication required"。因此，客户端需要使用 AUTH 命令来验证自己。
 
@@ -57,7 +57,7 @@ OK
 127.0.0.1:6379>  
 ```
 
-![Redis安全4](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security4-1.png)
+![Redis安全4](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-security4-1.png)
 
 
 

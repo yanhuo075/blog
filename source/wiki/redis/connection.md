@@ -24,7 +24,7 @@ PONG
 redis 127.0.0.1:6379>  
 ```
 
-![Redis Connections](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-connections1-1.png)
+![Redis Connections](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-connections1-1.png)
 
 
 

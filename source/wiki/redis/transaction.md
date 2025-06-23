@@ -34,9 +34,9 @@ MULTI、EXEC、DISCARD、WATCH 这四个指令构成了 redis 事务处理的基
 
 在 Redis 中，通过使用MULTI命令启动事务，然后需要传递应在事务中执行的命令列表，之后整个事务由EXEC命令执行。
 
-![Redis交易1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-transactions1-1.png)
+![Redis交易1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-transactions1-1.png)
 
-![Redis交易2](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-transactions2-1.png)
+![Redis交易2](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-transactions2-1.png)
 
 
 

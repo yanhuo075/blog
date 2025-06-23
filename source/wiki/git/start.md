@@ -21,7 +21,7 @@ Git 是目前世界上最先进的分布式版本控制系统，用于敏捷高�
 4. Git 没有一个全局的版本号，而 SVN 有。目前为止这是跟 SVN 相比 Git 缺少的最大的一个特征。
 5. Git 的内容完整性要优于 SVN。Git 的内容存储使用的是 SHA-1 哈希算法。这能确保代码内容的完整性，确保在遇到磁盘故障和网络问题时降低对版本库的破坏。
 
-![图片来源于 RUNOOB](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/svn-git.jpg)
+![图片来源于 RUNOOB](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/svn-git.jpg)
 
 图片来源于 RUNOOB
 

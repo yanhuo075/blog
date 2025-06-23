@@ -213,7 +213,7 @@ CMD ["./run.sh"]
 
 通过 docker build 以上 Dockerfile 的时候，会在 ubuntu:14.04 镜像基础上，添加三层独立的镜像，依次对应于三条不同的命令。镜像示意图如下：
 
-![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/dockerfile.jpg)
+![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/dockerfile.jpg)
 
 有了 Dockerfile 与镜像关系的初步认识之后，我们再进一步联系到每一层镜像的大小。
 

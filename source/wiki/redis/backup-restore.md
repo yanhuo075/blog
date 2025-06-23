@@ -27,13 +27,13 @@ SAVE
 
 SAVE
 
-![Redis备份1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup1-1.png)
+![Redis备份1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup1-1.png)
 
 它将在 Redis 目录中创建 dump.rdb 文件。
 
 可以看到 dump.rdb 文件已创建。
 
-![Redis备份2](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup2-1.png)
+![Redis备份2](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup2-1.png)
 
 
 
@@ -43,7 +43,7 @@ SAVE
 
 查找 Redis 的安装目录，使用 Redis 的 CONFIG 命令，如下所示。
 
-![Redis备份3](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup3-1.png)
+![Redis备份3](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup3-1.png)
 
 Redis 服务器安装在以下目录中。
 
@@ -65,4 +65,4 @@ BGSAVE
 
 **例**
 
-![Redis备份4](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup4-1.png)
+![Redis备份4](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-backup4-1.png)

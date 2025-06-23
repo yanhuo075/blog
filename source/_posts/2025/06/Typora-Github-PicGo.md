@@ -15,11 +15,11 @@ tags: [主题装修]
 
 ### 1.1、New repository
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150012537.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220901738-2024171065.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150012537.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220901738-2024171065.png)
 
 ### 1.2、定义仓库名称，设置公开属性
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150012570.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220901265-1393623121.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150012570.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220901265-1393623121.png)
 
 ## 2、创建私人令牌（token）
 
@@ -49,9 +49,9 @@ tags: [主题装修]
 >
 > 访问权限：选择repo，对私有库享有完全控制
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150013595.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220857739-1764979956.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150013595.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220857739-1764979956.png)
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150013583.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220857204-874985880.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150013583.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220857204-874985880.png)
 
 ### 2.6、记事本记下token
 
@@ -96,7 +96,7 @@ bash
 misakivv/Cloud-Image-Hosting
 ```
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150014655.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220853562-1698621985.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150014655.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220853562-1698621985.png)
 
 ### 3.3、设定分支名
 
@@ -127,20 +127,20 @@ misakivv/Cloud-Image-Hosting
 bash
 
 ```bash
-# https://cdn.jsdelivr.net/gh/：固定的前缀，相当于替换掉了Github地址中的https://github.com/
+# https://fastly.jsdelivr.net/gh/：固定的前缀，相当于替换掉了Github地址中的https://github.com/
 # user：Github上的用户名
 # repo：仓库名
 # @version：版本号（这里我们可以不管）
 # file：文件名（这里我们也不需要加上，因为上传完图片后，它会自动将上传的图片的名字作为存储的文件名）
 # 例如我这里的填写
-https://cdn.jsdelivr.net/gh/misakivv/Cloud-Image-Hosting
+https://fastly.jsdelivr.net/gh/misakivv/Cloud-Image-Hosting
 ```
 
 [![img](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220852595-1340430072.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220852595-1340430072.png)
 
 这里值得注意的是，如果需要指定上传到哪个分支，此时需要在自定义域名后面使用@ + 分支名，如果是仓库默认的分支，可以省略指定分支这一步。
 
-eg：我需要上传到 k8s 分支上，此时自定义域名就变成了：https://cdn.jsdelivr.net/gh/misakivv/Cloud-Image-Hosting@k8s
+eg：我需要上传到 k8s 分支上，此时自定义域名就变成了：https://fastly.jsdelivr.net/gh/misakivv/Cloud-Image-Hosting@k8s
 
 # 三、测试
 
@@ -166,17 +166,17 @@ eg：我需要上传到 k8s 分支上，此时自定义域名就变成了：http
 
 > 需要将PicGo图床的链接格式换成Markdonw格式才能实现功能
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150017317.png)](https://gcore.jsdelivr.net/gh/misakivv/Cloud-Image/Default/20241231202037169.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150017317.png)](https://gcore.jsdelivr.net/gh/misakivv/Cloud-Image/Default/20241231202037169.png)
 
 ## 1、打开 Typora 偏好设置
 
 > ctrl + , 快捷键
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150015804.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220850023-1681762472.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150015804.png)](https://img2023.cnblogs.com/blog/3332572/202412/3332572-20241208220850023-1681762472.png)
 
 ## 2、插入图片选项选择上传图片
 
-[![img](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150016826.png)](https://gcore.jsdelivr.net/gh/misakivv/Cloud-Image/Default/20241231201935722.png)
+[![img](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250609150016826.png)](https://gcore.jsdelivr.net/gh/misakivv/Cloud-Image/Default/20241231201935722.png)
 
 ## 3、上传服务设定
 

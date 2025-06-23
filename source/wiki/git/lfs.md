@@ -384,13 +384,13 @@ Git LFS场景
 
 Git场景
 
-![Git 2](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/p240000.png)
+![Git 2](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/p240000.png)
 
 如图所示，可以针对jpg格式的图片利用Git LFS的存储功能，在推送过程中将其上传至大文件存储服务。同时，与大文件对应的指针文件将与其他普通代码文件一并推送到远端Git仓库中。
 
 **Git LFS处理流程介绍**
 
-![Git 3](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/p240002.png)
+![Git 3](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/p240002.png)
 
 ## **Git LFS的限制**
 

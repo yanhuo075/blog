@@ -33,7 +33,7 @@ Redis 是一个支持请求/响应协议的 TCP 服务器。在 Redis 中，请�
  nc localhost  6379  
 ```
 
-![Redis流水线1](https://cdn.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-pipelining1-1.png)
+![Redis流水线1](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/redis-pipelining1-1.png)
 
 这里：
 
