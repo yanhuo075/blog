@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="烟火075的博客">
 <meta property="og:description" content="Docker命令大全详解(39个常用命令)Docker是云原生的核心，也是大厂必备技能，下面我就全面来详解Docker命令大全。 Docker 版本与系统信息 docker --version               # 查看 Docker 版本docker version                 # 查看客户端和服务端版本docker info">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-26T09:30:49.352Z">
-<meta property="article:modified_time" content="2025-06-26T09:30:49.352Z">
+<meta property="article:published_time" content="2025-06-26T09:34:42.983Z">
+<meta property="article:modified_time" content="2025-06-26T09:34:42.983Z">
 <meta property="article:author" content="YanHuo075">
 <meta property="article:tag" content="容器技术">
 <meta name="twitter:card" content="summary">
@@ -65,7 +65,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/26/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2025/06/26/2025/06/docker20250626-1714/"><span class="title">Docker命令大全详解(39个常用命令)</span></a><a class="item title" href="/2025/06/26/2025/06/network-command/"><span class="title">华为交换机救命命令、断网不慌！</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1544/"><span class="title">运维老鸟私藏！这20个脚本太6了</span></a><a class="item title" href="/2025/06/26/2025/06/git20250626-1624/"><span class="title">史上最全 Git 图文教程</span></a><a class="item title" href="/2025/06/23/2025/06/Typora-Github-PicGo/"><span class="title">Typora+Github+PicGo搭建个人免费图床</span></a><a class="item title" href="/2025/06/23/2025/06/theme-design2/"><span class="title">Hexo-Stellar主题装修日记(二)</span></a><a class="item title" href="/2025/06/09/2025/06/theme-design1/"><span class="title">Hexo-Stellar主题装修日记(一)</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/26/2025/06/docker20250626-1714/"><span class="title">Docker命令大全详解(39个常用命令)</span></a><a class="item title" href="/2025/06/26/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2025/06/26/2025/06/network-command/"><span class="title">华为交换机救命命令、断网不慌！</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1544/"><span class="title">运维老鸟私藏！这20个脚本太6了</span></a><a class="item title" href="/2025/06/26/2025/06/git20250626-1624/"><span class="title">史上最全 Git 图文教程</span></a><a class="item title" href="/2025/06/23/2025/06/Typora-Github-PicGo/"><span class="title">Typora+Github+PicGo搭建个人免费图床</span></a><a class="item title" href="/2025/06/23/2025/06/theme-design2/"><span class="title">Hexo-Stellar主题装修日记(二)</span></a><a class="item title" href="/2025/06/09/2025/06/theme-design1/"><span class="title">Hexo-Stellar主题装修日记(一)</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
 </div></aside><div class="l_main" id="main">
@@ -78,7 +78,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/">容器技术</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-26T09:30:49.352Z">2025-06-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-26T09:30:49.352Z">2025-06-26</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-26T09:34:42.983Z">2025-06-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-26T09:34:42.983Z">2025-06-26</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -106,7 +106,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker volume create myvol           # 创建数据卷</span><br><span class="line">docker volume ls                     # 查看所有数据卷</span><br><span class="line">docker volume inspect myvol          # 查看卷信息</span><br><span class="line">docker run -v myvol:/data &lt;img&gt;      # 挂载卷运行容器</span><br><span class="line">docker volume rm myvol               # 删除卷</span><br></pre></td></tr></table></figure>
 
 <p><strong>导出与导入（镜像 + 容器）</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker export&lt;container&gt;&gt; c.tar      # 导出容器文件系统</span><br><span class="line">docker import c.tar newimg           # 从 tar 文件创建镜像</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker export&lt;container&gt;&gt; c.tar      # 导出容器文件系统</span><br><span class="line">docker import c.tar newimg           # 从tar文件创建镜像</span><br></pre></td></tr></table></figure>
 
 <p><strong>系统清理与空间释放</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker system df                     # 查看空间使用情况</span><br><span class="line">docker system prune                  # 清理无用资源（镜像、容器、网络等）</span><br><span class="line">docker builder prune                 # 清理构建缓存</span><br></pre></td></tr></table></figure>
@@ -119,7 +119,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/26/hello-world/">Hello World</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/26/2025/06/network-command/">华为交换机救命命令、断网不慌！</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/26/hello-world/">Hello World</a></div></section></div>
 
 
 
