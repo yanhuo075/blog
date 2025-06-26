@@ -1,6 +1,6 @@
 ---
 title: 华为交换机救命命令、断网不慌！
-categories: [运维]
+categories: [运维技能]
 tags: [网络运维]
 ---
 
