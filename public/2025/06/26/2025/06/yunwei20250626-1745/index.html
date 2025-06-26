@@ -1,0 +1,828 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>运维神器！42个必备Shell脚本，一键提升效率！ - 烟火075的博客</title>
+
+  
+    <meta name="description" content="运维神器！42个必备Shell脚本，一键提升效率！1. 检查磁盘空间#!&#x2F;bin&#x2F;bashdf-h | grep -vE &#x27;^Filesystem|tmpfs|cdrom&#x27;| awk &#x27;&#123; print $5 &quot; &quot; $6 &#125;&#x27;|whileread output;doecho$outputif[ $(echo$outpu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运维神器！42个必备Shell脚本，一键提升效率！">
+<meta property="og:url" content="https://blog.zycloud.tk/2025/06/26/2025/06/yunwei20250626-1745/index.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="运维神器！42个必备Shell脚本，一键提升效率！1. 检查磁盘空间#!&#x2F;bin&#x2F;bashdf-h | grep -vE &#x27;^Filesystem|tmpfs|cdrom&#x27;| awk &#x27;&#123; print $5 &quot; &quot; $6 &#125;&#x27;|whileread output;doecho$outputif[ $(echo$outpu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-26T09:48:20.836Z">
+<meta property="article:modified_time" content="2025-06-26T09:48:20.836Z">
+<meta property="article:author" content="YanHuo075">
+<meta property="article:tag" content="运维脚本">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="运维脚本">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/yanhuo-logo.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">烟火075的博客</div><div class="sub normal cap">YanHuo's blog</div><div class="sub hover cap" style="opacity:0"> blog.zycloud.tk</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1745/"><span class="title">运维神器！42个必备Shell脚本，一键提升效率！</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1544/"><span class="title">运维老鸟私藏！这20个脚本太6了</span></a><a class="item title" href="/2025/06/26/2025/06/docker20250626-1714/"><span class="title">Docker命令大全详解(39个常用命令)</span></a><a class="item title" href="/2025/06/26/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2025/06/26/2025/06/network-command/"><span class="title">华为交换机救命命令、断网不慌！</span></a><a class="item title" href="/2025/06/26/2025/06/git20250626-1624/"><span class="title">史上最全 Git 图文教程</span></a><a class="item title" href="/2025/06/23/2025/06/Typora-Github-PicGo/"><span class="title">Typora+Github+PicGo搭建个人免费图床</span></a><a class="item title" href="/2025/06/23/2025/06/theme-design2/"><span class="title">Hexo-Stellar主题装修日记(二)</span></a><a class="item title" href="/2025/06/09/2025/06/theme-design1/"><span class="title">Hexo-Stellar主题装修日记(一)</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E8%83%BD/">运维技能</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-26T09:48:20.836Z">2025-06-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-26T09:48:20.836Z">2025-06-26</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>运维神器！42个必备Shell脚本，一键提升效率！</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="运维神器！42个必备Shell脚本，一键提升效率！"><a href="#运维神器！42个必备Shell脚本，一键提升效率！" class="headerlink" title="运维神器！42个必备Shell脚本，一键提升效率！"></a>运维神器！42个必备Shell脚本，一键提升效率！</h1><h3 id="1-检查磁盘空间"><a href="#1-检查磁盘空间" class="headerlink" title="1. 检查磁盘空间"></a>1. 检查磁盘空间</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">df-h | grep -vE &#x27;^Filesystem|tmpfs|cdrom&#x27;| awk &#x27;&#123; print $5 &quot; &quot; $6 &#125;&#x27;|whileread output;</span><br><span class="line">do</span><br><span class="line">echo$output</span><br><span class="line">if[ $(echo$output| awk &#x27;&#123;print $1&#125;&#x27;| sed &#x27;s/%//g&#x27;)-ge 80];then</span><br><span class="line">echo&quot;Warning: $output&quot;</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-监控系统负载"><a href="#2-监控系统负载" class="headerlink" title="2. 监控系统负载"></a>2. 监控系统负载</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">uptime | awk -F &#x27;load average:&#x27; &#x27;&#123;print $2&#125;&#x27; | sed &#x27;s/,//g&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-查找并删除特定大小的文件"><a href="#3-查找并删除特定大小的文件" class="headerlink" title="3. 查找并删除特定大小的文件"></a>3. 查找并删除特定大小的文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /path/to/search -type f -size +100M -exec rm -f &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-列出并杀死特定名称的进程"><a href="#4-列出并杀死特定名称的进程" class="headerlink" title="4. 列出并杀死特定名称的进程"></a>4. 列出并杀死特定名称的进程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">ps aux | grep &#x27;process_name&#x27; | awk &#x27;&#123;print $2&#125;&#x27; | xargs kill</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-监控特定端口的占用情况"><a href="#5-监控特定端口的占用情况" class="headerlink" title="5. 监控特定端口的占用情况"></a>5. 监控特定端口的占用情况</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">lsof -i :80</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-压缩目录"><a href="#6-压缩目录" class="headerlink" title="6. 压缩目录"></a>6. 压缩目录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">tar -czvf archive_name.tar.gz /path/to/directory</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-解压文件"><a href="#7-解压文件" class="headerlink" title="7. 解压文件"></a>7. 解压文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">tar -xzvf file_name.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-批量重命名文件"><a href="#8-批量重命名文件" class="headerlink" title="8. 批量重命名文件"></a>8. 批量重命名文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">for file in *.jpg; do</span><br><span class="line">  mv &quot;$file&quot; &quot;$&#123;file%.jpg&#125;_renamed.jpg&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-检查服务状态"><a href="#9-检查服务状态" class="headerlink" title="9. 检查服务状态"></a>9. 检查服务状态</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-重启服务"><a href="#10-重启服务" class="headerlink" title="10. 重启服务"></a>10. 重启服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-备份MySQL数据库"><a href="#11-备份MySQL数据库" class="headerlink" title="11. 备份MySQL数据库"></a>11. 备份MySQL数据库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">mysqldump -u root -p database_name &gt; backup_file.sql</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-检查网络连接"><a href="#12-检查网络连接" class="headerlink" title="12. 检查网络连接"></a>12. 检查网络连接</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">ping -c 4 google.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-更新系统"><a href="#13-更新系统" class="headerlink" title="13. 更新系统"></a>13. 更新系统</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">apt-get update &amp;&amp; apt-get upgrade -y</span><br></pre></td></tr></table></figure>
+
+<p>或对于基于RPM的系统：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">yum update -y</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-清理系统日志"><a href="#14-清理系统日志" class="headerlink" title="14. 清理系统日志"></a>14. 清理系统日志</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /var/log/ -type f -mtime +30 -exec rm -f &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<h3 id="15-监控CPU使用率"><a href="#15-监控CPU使用率" class="headerlink" title="15. 监控CPU使用率"></a>15. 监控CPU使用率</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">top -bn1 | grep &quot;Cpu(s)&quot; | sed &quot;s/.*, *\([0-9.]*\)%* id.*/\1/&quot; | awk &#x27;&#123;print 100 - $1&quot;%&quot;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-列出空目录"><a href="#16-列出空目录" class="headerlink" title="16. 列出空目录"></a>16. 列出空目录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /path/to/search -type d -empty</span><br></pre></td></tr></table></figure>
+
+<h3 id="17-监控内存使用情况"><a href="#17-监控内存使用情况" class="headerlink" title="17. 监控内存使用情况"></a>17. 监控内存使用情况</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">free -m | grep Mem | awk &#x27;&#123;print &quot;Memory Usage: &quot; $3/$2 * 100 &quot;% Used, &quot; $3/2 &quot; GB Used, &quot; $2/2 &quot; GB Total&quot;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="18-重启系统"><a href="#18-重启系统" class="headerlink" title="18. 重启系统"></a>18. 重启系统</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h3 id="19-关闭系统"><a href="#19-关闭系统" class="headerlink" title="19. 关闭系统"></a>19. 关闭系统</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">shutdown -h now</span><br></pre></td></tr></table></figure>
+
+<h3 id="20-检查SSH端口是否开放"><a href="#20-检查SSH端口是否开放" class="headerlink" title="20. 检查SSH端口是否开放"></a>20. 检查SSH端口是否开放</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">nc -zv localhost 22</span><br></pre></td></tr></table></figure>
+
+<h3 id="21-监控并自动重启失败的服务"><a href="#21-监控并自动重启失败的服务" class="headerlink" title="21. 监控并自动重启失败的服务"></a>21. 监控并自动重启失败的服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">SERVICE=&quot;myapp&quot;</span><br><span class="line">whiletrue;do</span><br><span class="line">if! systemctl is-active --quiet $SERVICE;then</span><br><span class="line">echo&quot;Service $SERVICE is down, attempting to restart.&quot;</span><br><span class="line">        systemctl restart $SERVICE</span><br><span class="line">sleep10</span><br><span class="line">else</span><br><span class="line">echo&quot;Service $SERVICE is running.&quot;</span><br><span class="line">sleep60</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="22-备份MySQL数据库并压缩"><a href="#22-备份MySQL数据库并压缩" class="headerlink" title="22. 备份MySQL数据库并压缩"></a>22. 备份MySQL数据库并压缩</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">DB_NAME=&quot;mydatabase&quot;</span><br><span class="line">DB_USER=&quot;root&quot;</span><br><span class="line">DB_PASS=&quot;mypassword&quot;</span><br><span class="line">BACKUP_DIR=&quot;/backups&quot;</span><br><span class="line">DATE=$(date +%Y-%m-%d_%H%M%S)</span><br><span class="line">FILENAME=&quot;$BACKUP_DIR/$DB_NAME-$DATE.sql.gz&quot;</span><br><span class="line">mysqldump -u$DB_USER -p$DB_PASS $DB_NAME | gzip &gt; $FILENAME</span><br><span class="line">echo &quot;Database backup completed: $FILENAME&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="23-检查并删除旧文件"><a href="#23-检查并删除旧文件" class="headerlink" title="23. 检查并删除旧文件"></a>23. 检查并删除旧文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /path/to/files -type f -mtime +30 -exec rm &#123;&#125; \;</span><br><span class="line">echo &quot;Deleted files older than 30 days.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="24-分析日志文件并发送报警邮件"><a href="#24-分析日志文件并发送报警邮件" class="headerlink" title="24. 分析日志文件并发送报警邮件"></a>24. 分析日志文件并发送报警邮件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">ERROR_COUNT=$(grep -c &quot;ERROR&quot; /var/log/myapp.log)</span><br><span class="line">if [ $ERROR_COUNT -gt 0 ]; then</span><br><span class="line">    echo &quot;Detected $ERROR_COUNT errors in the log file.&quot; | mail -s &quot;Error Alert&quot; admin@example.com</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="25-动态生成SSH密钥对"><a href="#25-动态生成SSH密钥对" class="headerlink" title="25. 动态生成SSH密钥对"></a>25. 动态生成SSH密钥对</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">KEY_DIR=&quot;/home/user/.ssh&quot;</span><br><span class="line">KEY_NAME=&quot;mykey&quot;</span><br><span class="line">mkdir -p $KEY_DIR</span><br><span class="line">ssh-keygen -t rsa -b 4096 -f $KEY_DIR/$KEY_NAME -N &quot;&quot;</span><br><span class="line">echo &quot;SSH key pair generated at $KEY_DIR/$KEY_NAME&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="26-批量更改文件扩展名"><a href="#26-批量更改文件扩展名" class="headerlink" title="26. 批量更改文件扩展名"></a>26. 批量更改文件扩展名</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">for file in *.txt; do</span><br><span class="line">    mv &quot;$file&quot; &quot;$&#123;file%.txt&#125;.md&quot;</span><br><span class="line">done</span><br><span class="line">echo &quot;File extensions changed from .txt to .md&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="27-定时轮询API并处理响应"><a href="#27-定时轮询API并处理响应" class="headerlink" title="27. 定时轮询API并处理响应"></a>27. 定时轮询API并处理响应</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">whiletrue;do</span><br><span class="line">    RESPONSE=$(curl -s http://api.example.com/data)</span><br><span class="line">    process_response &quot;$RESPONSE&quot;</span><br><span class="line">sleep60</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">process_response()&#123;</span><br><span class="line"># Process the response here</span><br><span class="line">echo&quot;$1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="28-检查磁盘空间并自动清理临时文件"><a href="#28-检查磁盘空间并自动清理临时文件" class="headerlink" title="28. 检查磁盘空间并自动清理临时文件"></a>28. 检查磁盘空间并自动清理临时文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">FREE_SPACE=$(df/| grep /| awk &#x27;&#123;print $5&#125;&#x27;| sed &#x27;s/%//g&#x27;)</span><br><span class="line">if[$FREE_SPACE-le 10];then</span><br><span class="line">echo&quot;Low disk space, cleaning up temporary files...&quot;</span><br><span class="line">rm-rf /tmp/*</span><br><span class="line">echo&quot;Temporary files cleaned up.&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="29-自动化部署脚本"><a href="#29-自动化部署脚本" class="headerlink" title="29. 自动化部署脚本"></a>29. 自动化部署脚本</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># 假设使用Git进行版本控制</span><br><span class="line">git pull</span><br><span class="line"># 构建项目（示例：使用Maven）</span><br><span class="line">mvn clean install</span><br><span class="line"># 停止当前运行的服务</span><br><span class="line">systemctl stop myapp</span><br><span class="line"># 部署新构建的应用</span><br><span class="line">cp target/myapp.jar /var/lib/myapp/</span><br><span class="line"># 重启服务</span><br><span class="line">systemctl start myapp</span><br><span class="line">echo &quot;Deployment completed successfully.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="30-使用awk处理CSV文件"><a href="#30-使用awk处理CSV文件" class="headerlink" title="30. 使用awk处理CSV文件"></a>30. 使用awk处理CSV文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">awk -F, &#x27;&#123;if ($1==&quot;John Doe&quot;) print $2&#125;&#x27; input.csv</span><br></pre></td></tr></table></figure>
+
+<h3 id="31-批量更改多个文件的权限"><a href="#31-批量更改多个文件的权限" class="headerlink" title="31. 批量更改多个文件的权限"></a>31. 批量更改多个文件的权限</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">for file in /path/to/files/*; do</span><br><span class="line">    chmod 644 &quot;$file&quot;</span><br><span class="line">done</span><br><span class="line">echo &quot;Permissions updated for all files in /path/to/files/&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="32-使用curl和jq处理JSON-API响应"><a href="#32-使用curl和jq处理JSON-API响应" class="headerlink" title="32. 使用curl和jq处理JSON API响应"></a>32. 使用curl和jq处理JSON API响应</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">response=$(curl -s https://api.example.com/data)</span><br><span class="line">echo &quot;$response&quot; | jq &#x27;.items[].name&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="33-监控网络带宽使用情况"><a href="#33-监控网络带宽使用情况" class="headerlink" title="33. 监控网络带宽使用情况"></a>33. 监控网络带宽使用情况</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">ifconfig eth0 | grep &#x27;RX bytes&#x27; | awk &#x27;&#123;print $2 $3&#125;&#x27; | cut -d: -f2 | sed &#x27;s/ //g&#x27;</span><br><span class="line">ifconfig eth0 | grep &#x27;TX bytes&#x27; | awk &#x27;&#123;print $2 $3&#125;&#x27; | cut -d: -f2 | sed &#x27;s/ //g&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="34-递归地搜索并替换文件中的文本"><a href="#34-递归地搜索并替换文件中的文本" class="headerlink" title="34. 递归地搜索并替换文件中的文本"></a>34. 递归地搜索并替换文件中的文本</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /path/to/search -type f -exec sed -i &#x27;s/old_text/new_text/g&#x27; &#123;&#125; +</span><br><span class="line">echo &quot;All occurrences of &#x27;old_text&#x27; replaced with &#x27;new_text&#x27;.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="35-使用diff比较两个目录的内容"><a href="#35-使用diff比较两个目录的内容" class="headerlink" title="35. 使用diff比较两个目录的内容"></a>35. 使用diff比较两个目录的内容</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">diff -rq /dir1 /dir2</span><br></pre></td></tr></table></figure>
+
+<h3 id="36-定时任务脚本，用于清理-tmp目录"><a href="#36-定时任务脚本，用于清理-tmp目录" class="headerlink" title="36. 定时任务脚本，用于清理&#x2F;tmp目录"></a>36. 定时任务脚本，用于清理&#x2F;tmp目录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">find /tmp -type f -mtime +7 -exec rm -f &#123;&#125; \;</span><br><span class="line">echo &quot;/tmp cleaned up of files older than 7 days.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="37-创建用户并设置密码（使用chpasswd）"><a href="#37-创建用户并设置密码（使用chpasswd）" class="headerlink" title="37. 创建用户并设置密码（使用chpasswd）"></a>37. 创建用户并设置密码（使用chpasswd）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">echo &quot;username:password&quot; | sudo chpasswd</span><br><span class="line">sudo useradd -m username</span><br><span class="line">echo &quot;User &#x27;username&#x27; created and password set.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="38-监视磁盘I-O并发送警告（使用iostat和mail）"><a href="#38-监视磁盘I-O并发送警告（使用iostat和mail）" class="headerlink" title="38. 监视磁盘I&#x2F;O并发送警告（使用iostat和mail）"></a>38. 监视磁盘I&#x2F;O并发送警告（使用iostat和mail）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">iowait=$(iostat -dx 12|tail-1| awk &#x27;&#123;print $11&#125;&#x27;)</span><br><span class="line">if[&quot;$iowait&quot;-gt 30];then</span><br><span class="line">echo&quot;High IO wait ($iowait%) detected.&quot;| mail -s &quot;IO Wait Warning&quot; admin@example.com</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="39-使用rsync进行文件同步"><a href="#39-使用rsync进行文件同步" class="headerlink" title="39. 使用rsync进行文件同步"></a>39. 使用rsync进行文件同步</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">rsync -avz /source/ /destination/</span><br><span class="line">echo &quot;Files synchronized from /source/ to /destination/.&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="40-检查特定端口的开放状态，并记录结果"><a href="#40-检查特定端口的开放状态，并记录结果" class="headerlink" title="40. 检查特定端口的开放状态，并记录结果"></a>40. 检查特定端口的开放状态，并记录结果</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">PORT=80</span><br><span class="line">if nc -z localhost $PORT; then</span><br><span class="line">    echo &quot;Port $PORT is open.&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;Port $PORT is closed.&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="41-动态创建并管理Docker容器"><a href="#41-动态创建并管理Docker容器" class="headerlink" title="41. 动态创建并管理Docker容器"></a>41. 动态创建并管理Docker容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">CONTAINER_NAME=&quot;myapp_container&quot;</span><br><span class="line">IMAGE=&quot;myapp:latest&quot;</span><br><span class="line"></span><br><span class="line">if docker ps -aqf &quot;name=^/$CONTAINER_NAME$&quot;;then</span><br><span class="line">echo&quot;Container $CONTAINER_NAME already exists. Restarting...&quot;</span><br><span class="line">    docker restart $CONTAINER_NAME</span><br><span class="line">else</span><br><span class="line">echo&quot;Creating and starting new container $CONTAINER_NAME...&quot;</span><br><span class="line">    docker run -d --name $CONTAINER_NAME$IMAGE</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="42-批量下载网页并保存为HTML文件"><a href="#42-批量下载网页并保存为HTML文件" class="headerlink" title="42. 批量下载网页并保存为HTML文件"></a>42. 批量下载网页并保存为HTML文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">URLS=(&quot;http://example1.com&quot; &quot;http://example2.com&quot;)</span><br><span class="line">for url in &quot;$&#123;URLS[@]&#125;&quot;; do</span><br><span class="line">    filename=$(echo &quot;$url&quot; | tr -d &#x27;/&#x27; | sed &#x27;s|^http://||;s|$|.html|&#x27;)</span><br><span class="line">    curl -o &quot;$filename&quot; &quot;$url&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/26/2025/06/yunwei20250626-1544/">运维老鸟私藏！这20个脚本太6了</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E7%BB%B4%E7%A5%9E%E5%99%A8%EF%BC%8142%E4%B8%AA%E5%BF%85%E5%A4%87Shell%E8%84%9A%E6%9C%AC%EF%BC%8C%E4%B8%80%E9%94%AE%E6%8F%90%E5%8D%87%E6%95%88%E7%8E%87%EF%BC%81"><span class="toc-text">运维神器！42个必备Shell脚本，一键提升效率！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="toc-text">1. 检查磁盘空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E8%B4%9F%E8%BD%BD"><span class="toc-text">2. 监控系统负载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9F%A5%E6%89%BE%E5%B9%B6%E5%88%A0%E9%99%A4%E7%89%B9%E5%AE%9A%E5%A4%A7%E5%B0%8F%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-text">3. 查找并删除特定大小的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%88%97%E5%87%BA%E5%B9%B6%E6%9D%80%E6%AD%BB%E7%89%B9%E5%AE%9A%E5%90%8D%E7%A7%B0%E7%9A%84%E8%BF%9B%E7%A8%8B"><span class="toc-text">4. 列出并杀死特定名称的进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9B%91%E6%8E%A7%E7%89%B9%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%8D%A0%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">5. 监控特定端口的占用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%8E%8B%E7%BC%A9%E7%9B%AE%E5%BD%95"><span class="toc-text">6. 压缩目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="toc-text">7. 解压文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6"><span class="toc-text">8. 批量重命名文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E6%A3%80%E6%9F%A5%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-text">9. 检查服务状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E9%87%8D%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="toc-text">10. 重启服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">11. 备份MySQL数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%A3%80%E6%9F%A5%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="toc-text">12. 检查网络连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F"><span class="toc-text">13. 更新系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E6%B8%85%E7%90%86%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97"><span class="toc-text">14. 清理系统日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E7%9B%91%E6%8E%A7CPU%E4%BD%BF%E7%94%A8%E7%8E%87"><span class="toc-text">15. 监控CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E5%88%97%E5%87%BA%E7%A9%BA%E7%9B%AE%E5%BD%95"><span class="toc-text">16. 列出空目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E7%9B%91%E6%8E%A7%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">17. 监控内存使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">18. 重启系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-%E5%85%B3%E9%97%AD%E7%B3%BB%E7%BB%9F"><span class="toc-text">19. 关闭系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-%E6%A3%80%E6%9F%A5SSH%E7%AB%AF%E5%8F%A3%E6%98%AF%E5%90%A6%E5%BC%80%E6%94%BE"><span class="toc-text">20. 检查SSH端口是否开放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E7%9B%91%E6%8E%A7%E5%B9%B6%E8%87%AA%E5%8A%A8%E9%87%8D%E5%90%AF%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-text">21. 监控并自动重启失败的服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%8E%8B%E7%BC%A9"><span class="toc-text">22. 备份MySQL数据库并压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E6%A3%80%E6%9F%A5%E5%B9%B6%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6"><span class="toc-text">23. 检查并删除旧文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-%E5%88%86%E6%9E%90%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%B9%B6%E5%8F%91%E9%80%81%E6%8A%A5%E8%AD%A6%E9%82%AE%E4%BB%B6"><span class="toc-text">24. 分析日志文件并发送报警邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90SSH%E5%AF%86%E9%92%A5%E5%AF%B9"><span class="toc-text">25. 动态生成SSH密钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-%E6%89%B9%E9%87%8F%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D"><span class="toc-text">26. 批量更改文件扩展名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-%E5%AE%9A%E6%97%B6%E8%BD%AE%E8%AF%A2API%E5%B9%B6%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94"><span class="toc-text">27. 定时轮询API并处理响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-%E6%A3%80%E6%9F%A5%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E5%B9%B6%E8%87%AA%E5%8A%A8%E6%B8%85%E7%90%86%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-text">28. 检查磁盘空间并自动清理临时文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#29-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC"><span class="toc-text">29. 自动化部署脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-%E4%BD%BF%E7%94%A8awk%E5%A4%84%E7%90%86CSV%E6%96%87%E4%BB%B6"><span class="toc-text">30. 使用awk处理CSV文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E6%89%B9%E9%87%8F%E6%9B%B4%E6%94%B9%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-text">31. 批量更改多个文件的权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E4%BD%BF%E7%94%A8curl%E5%92%8Cjq%E5%A4%84%E7%90%86JSON-API%E5%93%8D%E5%BA%94"><span class="toc-text">32. 使用curl和jq处理JSON API响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#33-%E7%9B%91%E6%8E%A7%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">33. 监控网络带宽使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#34-%E9%80%92%E5%BD%92%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%B9%B6%E6%9B%BF%E6%8D%A2%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%96%87%E6%9C%AC"><span class="toc-text">34. 递归地搜索并替换文件中的文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#35-%E4%BD%BF%E7%94%A8diff%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E7%9B%AE%E5%BD%95%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">35. 使用diff比较两个目录的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#36-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%94%A8%E4%BA%8E%E6%B8%85%E7%90%86-tmp%E7%9B%AE%E5%BD%95"><span class="toc-text">36. 定时任务脚本，用于清理&#x2F;tmp目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%EF%BC%88%E4%BD%BF%E7%94%A8chpasswd%EF%BC%89"><span class="toc-text">37. 创建用户并设置密码（使用chpasswd）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#38-%E7%9B%91%E8%A7%86%E7%A3%81%E7%9B%98I-O%E5%B9%B6%E5%8F%91%E9%80%81%E8%AD%A6%E5%91%8A%EF%BC%88%E4%BD%BF%E7%94%A8iostat%E5%92%8Cmail%EF%BC%89"><span class="toc-text">38. 监视磁盘I&#x2F;O并发送警告（使用iostat和mail）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#39-%E4%BD%BF%E7%94%A8rsync%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E5%90%8C%E6%AD%A5"><span class="toc-text">39. 使用rsync进行文件同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#40-%E6%A3%80%E6%9F%A5%E7%89%B9%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%BC%80%E6%94%BE%E7%8A%B6%E6%80%81%EF%BC%8C%E5%B9%B6%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%9C"><span class="toc-text">40. 检查特定端口的开放状态，并记录结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%B9%B6%E7%AE%A1%E7%90%86Docker%E5%AE%B9%E5%99%A8"><span class="toc-text">41. 动态创建并管理Docker容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#42-%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD%E7%BD%91%E9%A1%B5%E5%B9%B6%E4%BF%9D%E5%AD%98%E4%B8%BAHTML%E6%96%87%E4%BB%B6"><span class="toc-text">42. 批量下载网页并保存为HTML文件</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
