@@ -1,0 +1,1519 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Windows系统常见蓝屏代码汇总 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="Windows系统常见蓝屏代码汇总Windows系统常见蓝屏代码汇总（一） 一、电脑为什么会蓝屏？ 电脑蓝屏又被叫做蓝屏死机（Blue Screen Of Death）简称BSOD，是因为电脑的Windows系统无法从一个系统错误中恢复过来时，为了保护电脑数据文件不被破坏强制显示的屏幕图像。 以后可能就不会有蓝屏了，在Windows11 24H2的更新中，蓝屏死机被黑屏死机所取代了。 二、解决蓝屏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows系统常见蓝屏代码汇总">
+<meta property="og:url" content="https://blog.zycloud.tk/2025/07/18/2025/07/yunwei20250718-0933/index.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="Windows系统常见蓝屏代码汇总Windows系统常见蓝屏代码汇总（一） 一、电脑为什么会蓝屏？ 电脑蓝屏又被叫做蓝屏死机（Blue Screen Of Death）简称BSOD，是因为电脑的Windows系统无法从一个系统错误中恢复过来时，为了保护电脑数据文件不被破坏强制显示的屏幕图像。 以后可能就不会有蓝屏了，在Windows11 24H2的更新中，蓝屏死机被黑屏死机所取代了。 二、解决蓝屏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092629388.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092739246.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092810921.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092817718.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092825794.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092831723.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092840592.png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/sz_mmbiz_png/YuwrXxpDQNicqxlBEQe1q0t9wLuiaU0pIicrwNayCicZkqTL7kGaOrCI2xNW7EdzLEOzbrhx7OrJ4VKBbxBP0Cy2kA/640?wx_fmt=png&from=appmsg&randomid=nn7q2iya&watermark=1&tp=wxpic&wxfrom=5&wx_lazy=1">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092851757.png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/sz_mmbiz_png/YuwrXxpDQNicqxlBEQe1q0t9wLuiaU0pIicXRbdgQUWE4l16acRuS6GkicWYXVqhULUQqSq4g42EBMhjQgmfibxDVFg/640?wx_fmt=png&from=appmsg&randomid=r6h6her5&watermark=1&tp=wxpic&wxfrom=5&wx_lazy=1">
+<meta property="article:published_time" content="2025-07-18T01:34:48.018Z">
+<meta property="article:modified_time" content="2025-07-18T01:34:48.018Z">
+<meta property="article:author" content="YanHuo075">
+<meta property="article:tag" content="系统运维">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092629388.jpeg">
+  
+  
+  
+  <meta name="keywords" content="系统运维">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/yanhuo-logo.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">烟火075的博客</div><div class="sub normal cap">YanHuo's blog</div><div class="sub hover cap" style="opacity:0"> blog.zycloud.tk</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/07/18/2025/07/yunwei20250718-0933/"><span class="title">Windows系统常见蓝屏代码汇总</span></a><a class="item title" href="/2025/07/17/2025/07/yunwei20250717-1758/"><span class="title">网络测试工具全面指南</span></a><a class="item title" href="/2025/07/06/2025/07/yunwei20250706-1107/"><span class="title">Linux系统SSH免密码登录配置教程</span></a><a class="item title" href="/2025/07/03/2025/07/yunwei20250703-2212/"><span class="title">Curl命令用法详解</span></a><a class="item title" href="/2025/06/26/2025/06/git20250626-1624/"><span class="title">史上最全 Git 图文教程</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1745/"><span class="title">运维神器！42个必备Shell脚本，一键提升效率！</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1544/"><span class="title">运维老鸟私藏！这20个脚本太6了</span></a><a class="item title" href="/2025/06/26/2025/06/docker20250626-1714/"><span class="title">Docker命令大全详解(39个常用命令)</span></a><a class="item title" href="/2025/06/26/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2025/06/26/2025/06/network-command/"><span class="title">华为交换机救命命令、断网不慌！</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E8%83%BD/">运维技能</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-18T01:34:48.018Z">2025-07-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-18T01:34:48.018Z">2025-07-18</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Windows系统常见蓝屏代码汇总</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="Windows系统常见蓝屏代码汇总"><a href="#Windows系统常见蓝屏代码汇总" class="headerlink" title="Windows系统常见蓝屏代码汇总"></a>Windows系统常见蓝屏代码汇总</h1><h2 id="Windows系统常见蓝屏代码汇总（一）"><a href="#Windows系统常见蓝屏代码汇总（一）" class="headerlink" title="Windows系统常见蓝屏代码汇总（一）"></a>Windows系统常见蓝屏代码汇总（一）</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092629388.jpeg" alt="图片"></p>
+<p><strong>一、电脑为什么会蓝屏？</strong></p>
+<p><strong>电脑蓝屏又被叫做蓝屏死机（Blue Screen Of Death）简称BSOD，是因为电脑的Windows系统无法从一个系统错误中恢复过来时，为了保护电脑数据文件不被破坏强制显示的屏幕图像。</strong></p>
+<p><strong>以后可能就不会有蓝屏了，在Windows11 24H2的更新中，蓝屏死机被黑屏死机所取代了。</strong></p>
+<p><strong>二、解决蓝屏的核心思路（适合大部分数蓝屏死机）：</strong></p>
+<p><strong>1）、记录关键信息：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>停止代码（Stop Code）</strong></th>
+<th>*<em>例如：<strong><strong>IRQL_NOT_LESS_OR_EQUAL</strong></strong>SYSTEM_SERVICE_EXCEPTION</em>*<strong>KERNEL_SECURITY_CHECK_FAILURE 等</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>导致崩溃的文件名（Caused by driver）</strong></td>
+<td>**例如：**<strong>nvlddmkm.sys, dxgkrnl.sys, ntoskrnl.exe 等，非常重要</strong></td>
+</tr>
+<tr>
+<td><strong>蓝屏发生时的操作</strong></td>
+<td>**例如：**<strong>刚启动？运行特定程序？玩游戏？更新系统或者驱动？</strong></td>
+</tr>
+</tbody></table>
+<p><strong>2）、安全重启：</strong></p>
+<p><strong>一般蓝屏死机之后电脑都会重启，如果卡住了不重启可以长按电源键关机再开机。</strong></p>
+<p><strong>3）、数据备份：</strong></p>
+<p><strong>蓝屏死机之后，如果要进行系统还原等比较复杂的操作需要及时备份数据，如果持续蓝屏的话可能有硬件故障的风险。</strong></p>
+<p><strong>4）、基本检查：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>散热</strong></th>
+<th><strong>电脑清灰，确保散热良好，检查CPU和GPU的温度（可以用工具查看）。</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>物理连接</strong></td>
+<td><strong>检查内存条、显卡、硬盘数据线和电源线是否松动，尝试重新插拔（关机断电操作）。</strong></td>
+</tr>
+<tr>
+<td><strong>外设</strong></td>
+<td><strong>拔掉所有非必要的外设，只留鼠标键盘，看看问题是否还在。</strong></td>
+</tr>
+</tbody></table>
+<p><strong>5）、使用诊断工具：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Windows内存诊断</strong></th>
+<th><strong>搜索“Windows 内存诊断”运行检查内存问题。</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092739246.png" alt="图片"></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>检查修复磁盘错误</strong></td>
+<td>**在命令提示符（管理员）运行：**<strong>chkdsk C: &#x2F;f &#x2F;r (C盘是系统盘）需要重启</strong></td>
+</tr>
+<tr>
+<td><strong>扫描并修复系统文件</strong></td>
+<td>**在命令提示符（管理员）运行：**<strong>sfc &#x2F;scannow</strong></td>
+</tr>
+<tr>
+<td><strong>修复系统镜像</strong></td>
+<td><strong>如果sfc命令无效，可以用DISM修复系统映象</strong><code>DISM /Online /Cleanup-Image /RestoreHealth</code></td>
+</tr>
+<tr>
+<td><strong>查看蓝屏日志</strong></td>
+<td><strong>文件夹位于C:\Windows\Minidump\（小内存转存）或C:\Windows\MEMORY.DMP（完全内存转存）</strong></td>
+</tr>
+<tr>
+<td><strong>可以使用WinDbg Preview或者BlueScreenView工具分析这些日志文件</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>三、蓝屏代码汇总：</strong></p>
+<p><strong>1）、高频蓝屏代码：</strong></p>
+<p><strong>（1）、CRITICAL_PROCESS_DIED(0x000000EF)</strong></p>
+<p><strong>原因：关键系统进程意外终止。可能是系统文件损坏、驱动问题、磁盘错误、恶意软件或者内存故障。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>优先使用DISM &#x2F;Online &#x2F;Cleanup-Image &#x2F;RestoreHealth和sfc &#x2F;scannow</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>运行chkdsk &#x2F;r</strong></td>
+</tr>
+<tr>
+<td><strong>检查最近安装的软件或者更新，尝试卸载软件或者更新。</strong></td>
+</tr>
+<tr>
+<td><strong>使用杀毒软件查杀恶意文件</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存（Windows 内存诊断）</strong></td>
+</tr>
+<tr>
+<td><strong>尝试系统还原到稳定点（提前做还原点）</strong></td>
+</tr>
+<tr>
+<td><strong>最后才考虑重置Windows或者重装系统</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（2）、 SYSTEM_SERVICE_EXCEPTION (0x0000003B)</strong></p>
+<p><strong>原因：系统线程或者服务遇到了未处理的异常，非常常见，大多数都是因为有缺陷的驱动引起的（显卡驱动、存储驱动、网络驱动和杀毒驱动的原因比较大），也可能是内存的问题。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>重点看导致崩溃的文件名，***.sys的文件是最有可能的驱动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新该设备的驱动程序（去官网下载稳定版本的驱动）</strong></td>
+</tr>
+<tr>
+<td><strong>如果是刚刚更新了驱动，尝试回滚驱动（设备管理器-选择设备-右键属性-驱动程序-回滚驱动程序）</strong></td>
+</tr>
+<tr>
+<td><strong>暂时卸载可能引起蓝屏的驱动或者软件（尤其是安全软件、虚拟化软件和旧版本硬件工具）</strong></td>
+</tr>
+<tr>
+<td><strong>运行 scf &#x2F;scannow</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存条（重新插拔、擦拭金手指或者更换内存条）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（3）、IRQL_NOT_LESS_OR_EQUAL (0x0000000A)</strong></p>
+<p><strong>原因：驱动程序或者内核模式程序在过高的中断请求级别（IRQL）访问了不该访问的内存地址（经典的驱动问题标志）。特别是网络驱动、声卡驱动和旧驱动。也可能是内存的原因。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>重点看导致崩溃的驱动文件名，定位有问题的驱动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新或者回滚相关驱动程序（尤其是最近更新的驱动）</strong></td>
+</tr>
+<tr>
+<td><strong>检查是否硬件问题（设备管理器里看看有没有感叹号）</strong></td>
+</tr>
+<tr>
+<td><strong>运行sfc &#x2F;scannow</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存</strong></td>
+</tr>
+<tr>
+<td><strong>禁用BIOS中的内存缓存或影子选项（老旧系统）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（4）、DPC_WATCHDOG_VIOLATION (0x00000133)</strong></p>
+<p><strong>原因： 一个延迟过程调用(DPC)运行时间过长或陷入死循环，导致看门狗超时。通常指向有问题的驱动程序，尤其是存储驱动（SATA&#x2F;AHCI&#x2F;NVMe 控制器驱动，如 iaStorAVC.sys, storahci.sys）、显示驱动、网卡驱动。也可能是硬盘故障（尤其是 SSD）。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>重点看导致崩溃的文件名</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新存储控制器的驱动、显卡驱动和网卡驱动（一定要去官网下载驱动）</strong></td>
+</tr>
+<tr>
+<td><strong>检查硬盘健康状态（特别是SSD，用厂商的工具检测）</strong></td>
+</tr>
+<tr>
+<td><strong>运行chkdsk</strong></td>
+</tr>
+<tr>
+<td><strong>把BIOS中的SATA模式从RAID改为AHCI或者反过来（要小心，可能会导致重装系统）</strong></td>
+</tr>
+<tr>
+<td><strong>禁用快速启动（控制面板-电源选项-电源按钮的功能-更改不可用设置-勾掉快速启动）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（5）、KERNEL_SECURITY_CHECK_FAILURE (0x00000139)</strong></p>
+<p><strong>原因：内核检测到关键数据结构的损坏或安全问题。常见于驱动兼容问题（尤其是升级之后的系统）、内存损坏、系统文件损坏、</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>优先使用DISM &#x2F;Online &#x2F;Cleanup-Image &#x2F;RestoreHealth和sfc &#x2F;scannow</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>检查内存（Windows 内存诊断）</strong></td>
+</tr>
+<tr>
+<td><strong>更新所有驱动程序，特别是主板芯片组、存储控制器和显卡驱动</strong></td>
+</tr>
+<tr>
+<td><strong>卸载最近安装有可能不兼容的软件</strong></td>
+</tr>
+<tr>
+<td><strong>检查磁盘错误（chkdsk）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（6）、PAGE_FAULT_IN_NONPAGED_AREA (0x00000050)</strong></p>
+<p><strong>原因：系统尝试访问不在内存分页文件中的无效内存地址。很大可能是硬件问题，尤其是内存条。也可能是有缺陷的驱动、系统文件损坏或者磁盘损坏（尤其是分页文件所在盘），也可能是恶意文件。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>首先是彻底检查内存问题，可以逐根更换内存条测试（可以创建USB启动盘长时间测试）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>运行sfc &#x2F;scannow和chkdsk</strong></td>
+</tr>
+<tr>
+<td><strong>检查硬盘健康状况</strong></td>
+</tr>
+<tr>
+<td><strong>更新驱动程序（尤其是存储驱动）</strong></td>
+</tr>
+<tr>
+<td><strong>扫描恶意文件</strong></td>
+</tr>
+<tr>
+<td><strong>检查最近安装的硬件</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（7）、VIDEO_TDR_FAILURE (0x00000116)</strong></p>
+<p><strong>原因：显卡驱动程序停止响应并且无法恢复。几乎肯定是显卡驱动或者显卡硬件问题（过热、超频、不稳定或者故障）。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>可以使用DDU工具在安全模式下彻底卸载显卡驱动，重新安装官网驱动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>检查显卡温度，清理灰尘并且检查显卡风扇是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>如果超频了显卡或者CPU，恢复默认频率</strong></td>
+</tr>
+<tr>
+<td><strong>降低显卡负载（降低游戏画面和分辨率）</strong></td>
+</tr>
+<tr>
+<td><strong>尝试更换显卡的插槽一般是PCIe（台式机）</strong></td>
+</tr>
+<tr>
+<td><strong>如果上面都不行，很有可能是显卡硬件故障</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（8）、NTFS_FILE_SYSTEM (0x00000024)</strong></p>
+<p><strong>原因：文件系统（NTFS或FAT）驱动程序内部错误（ntfs.sys,fastfat.sys)。通常是由磁盘错误（坏道）、存储控制器驱动问题或者是内存问题，也有可能是硬盘本身的故障引起的。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>立即运行chkdsk C: &#x2F;f &#x2F;r（C盘是系统盘，需要重启）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>检查硬盘健康状况（CrystalDiskInfo）</strong></td>
+</tr>
+<tr>
+<td><strong>更新存储控制器驱动（主板官网）</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存</strong></td>
+</tr>
+<tr>
+<td><strong>硬盘可能损坏（备份数据）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（9）、WHEA_UNCORRECTABLE_ERROR (0x00000124)</strong></p>
+<p><strong>原因：硬件错误架构报告了一个无法由系统恢复的严重硬件错误。非常严重，通常指向底层硬件故障，CPU（过热、超频、故障）、内存（不稳定、故障）、主板（特别是电压调节、总线问题）、PCIe设备（显卡、SSD），也可能和驱动或者BIOS有关。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>检查CPU温度，清理灰尘、重新涂抹硅脂，检查散热器是否松动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>如果超频了，立马恢复默认设置，这个原因最常见</strong></td>
+</tr>
+<tr>
+<td><strong>测试内存（MemTest86+)</strong></td>
+</tr>
+<tr>
+<td><strong>更新主板BIOS驱动到最新稳定版（谨慎操作）</strong></td>
+</tr>
+<tr>
+<td><strong>更新主板芯片组驱动</strong></td>
+</tr>
+<tr>
+<td><strong>尝试最小化启动系统（只保留CPU，单根内存和集成显卡）</strong></td>
+</tr>
+<tr>
+<td><strong>硬件可能性极高（CPU、主板、内存），需要更换排查</strong></td>
+</tr>
+</tbody></table>
+<p>**（10）、DRIVER_IRQL_NOT_LESS_OR_EQUAL (**<strong>0x000000D1）</strong></p>
+<p><strong>原因：驱动程序在过高的中断请求级别(IRQL)访问了可分页内存。经典的有缺陷驱动程序标志。与 IRQL_NOT_LESS_OR_EQUAL 类似，但更明确指向驱动问题。</strong></p>
+<p><strong>解决：同（3）、*<em>IRQL_NOT_LESS_OR_EQUAL (0x0000000A)*</em></strong></p>
+<p><em><strong>*（11）、UNEXPECTED_KERNEL_MODE_TRAP (0x0000007F)*</strong></em></p>
+<p><em><strong>*原因：CPU 捕获到一个内核模式陷阱（错误），而内核无法处理。常见原因包括：硬件问题（CPU 过热、超频不稳、故障；内存故障）、不兼容的硬件、BIOS 设置错误（如电压）、损坏的系统文件。*</strong></em></p>
+<p><em><strong>*解决：*</strong></em></p>
+<table>
+<thead>
+<tr>
+<th><strong>检查CPU温度，清理灰尘、重新涂抹硅脂，检查散热器是否松动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>关闭所有超频</strong></td>
+</tr>
+<tr>
+<td><strong>测试内存（MemTest86+）</strong></td>
+</tr>
+<tr>
+<td><strong>运行sfc &#x2F;scannow</strong></td>
+</tr>
+<tr>
+<td><strong>检查 BIOS 设置是否合理（恢复默认设置试试）</strong></td>
+</tr>
+<tr>
+<td><strong>更新主板BIOS驱动到最新稳定版（谨慎操作）</strong></td>
+</tr>
+<tr>
+<td><strong>检查是否有不兼容的硬件</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（12）、INACCESSIBLE_BOOT_DEVICE (0x0000007B)</strong></p>
+<p><strong>原因： Windows 在启动过程中无法访问启动卷（通常是系统盘）。启动关键驱动加载失败或磁盘无法识别。常见于：存储控制器驱动问题&#x2F;变更（如 BIOS 中 SATA 模式从 AHCI 改为了 RAID&#x2F;IDE 或反之）、磁盘损坏、系统文件损坏、磁盘控制器硬件故障、连接问题、分区表&#x2F;引导记录损坏。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>检查 BIOS 中 SATA 模式设置是否与之前一致（之前是 AHCI，现在不能是 RAID），改了就改回去。</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>检查硬盘连接是否松动</strong></td>
+</tr>
+<tr>
+<td><strong>尝试Windows自动修复（通过安装介质启动修复引导）</strong></td>
+</tr>
+<tr>
+<td><strong>尝试运行命令（管理员）bootrec &#x2F;fixmbr, bootrec &#x2F;fixboot, bootrec &#x2F;scanos, bootrec &#x2F;rebuildbcd</strong></td>
+</tr>
+<tr>
+<td><strong>运行 chkdsk &#x2F;r (可能需要从安装介质启动)</strong></td>
+</tr>
+<tr>
+<td><strong>如果最近更新了存储驱动或磁盘控制器驱动，尝试在安全模式下卸载或回滚</strong></td>
+</tr>
+<tr>
+<td><strong>检查硬盘是否在其他电脑上可识别</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（13）、BAD_SYSTEM_CONFIG_INFO (0x00000074)</strong></p>
+<p><strong>原因： Windows 注册表配置单元文件（特别是 SYSTEM 文件）损坏或无法加载。通常由不正常关机、磁盘错误、内存故障或手动修改注册表错误导致。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>尝试Windows自动修复（通过安装介质）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>尝试最后一次正确配置启动</strong></td>
+</tr>
+<tr>
+<td><strong>尝试系统还原</strong></td>
+</tr>
+<tr>
+<td><strong>使用命令提示符（管理员）：sfc &#x2F;scannow和chkdsk &#x2F;r</strong></td>
+</tr>
+<tr>
+<td><strong>如果之前备份了注册表或系统还原点，可以尝试恢复</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存</strong></td>
+</tr>
+<tr>
+<td><strong>最后手段可能要重装系统或者还重置Windows</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（14）、CLOCK_WATCHDOG_TIMEOUT (0x00000101)</strong></p>
+<p><strong>原因：一个处理器核心在规定时间内没有响应中断。强烈指向 CPU 相关问题：CPU 物理故障、严重过热、超频不稳定、电压不足（电源问题或主板 VRM 问题）、BIOS Bug。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>立即检查 CPU 温度！ 确保散热器工作正常</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>立即关闭所有 CPU 超频！ 恢复 BIOS 默认设置</strong></td>
+</tr>
+<tr>
+<td><strong>更新主板 BIOS&#x2F;UEFI 到最新版</strong></td>
+</tr>
+<tr>
+<td><strong>检查 CPU 是否安装牢固（台式机可尝试重新安装）</strong></td>
+</tr>
+<tr>
+<td><strong>考虑电源问题（电源功率不足或老化）</strong></td>
+</tr>
+<tr>
+<td><strong>最小化系统测试（排除其他硬件干扰）</strong></td>
+</tr>
+<tr>
+<td><strong>CPU 或主板硬件故障的可能性很高</strong></td>
+</tr>
+</tbody></table>
+<p><strong>（15）、SYSTEM_THREAD_EXCEPTION_NOT_HANDLED (0x1000007E)</strong></p>
+<p><strong>这个蓝屏代码和第2个是一样的，请参考第2条：SYSTEM_SERVICE_EXCEPTION (0x0000003B)</strong></p>
+<p><strong>（16）、KMODE_EXCEPTION_NOT_HANDLED (0x0000001E)</strong></p>
+<p><strong>原因：内核模式程序产生了处理器无法捕获的异常。通常也是驱动程序问题（文件系统驱动如 ntfs.sys, 存储驱动，硬件抽象层驱动 hal.dll）。也可能是硬件故障（内存、主板）或 BIOS 设置不当。</strong></p>
+<p><strong>解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th><em><strong>*重点看“导致崩溃的文件名”*</strong></em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新或回滚相关驱动</strong></td>
+</tr>
+<tr>
+<td><strong>运行 sfc &#x2F;scannow 和 chkdsk</strong></td>
+</tr>
+<tr>
+<td><strong>检查内存</strong></td>
+</tr>
+<tr>
+<td><strong>检查硬盘健康状况（使用 CrystalDiskInfo 等工具）</strong></td>
+</tr>
+<tr>
+<td><strong>确保 BIOS 设置正确且为最新版本（谨慎更新 BIOS）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>四、高级分析工具：</strong></p>
+<p><strong>1）、WinDbg Preview (Windows Debugger)：</strong></p>
+<p><strong>微软官方强大的调试工具，分析蓝屏日志文件，可以精确的定位导致蓝屏的驱动或者模块。但是需要一定的学习基础，但是信息准确。</strong></p>
+<p><strong>2）、BlueScreenView (NirSoft)：</strong></p>
+<p><strong>免费、轻量和易用。直观显示Minidump的文件中的关键信息，包括停止代码、出发崩溃的驱动和文件、堆栈调用等，非常适合快速定位问题驱动。</strong></p>
+<p><strong>3）、硬件制造商诊断工具：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>内存</strong></th>
+<th><strong>MemTest86+ (最彻底)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>硬盘</strong></td>
+<td><strong>CrystalDiskInfo (查看 SMART 状态), 硬盘厂商工具 (如 SeaTools, WD Diagnostics, Samsung Magician)</strong></td>
+</tr>
+<tr>
+<td><strong>显卡</strong></td>
+<td><strong>FurMark（压力测试），显卡厂商工具</strong></td>
+</tr>
+<tr>
+<td><strong>CPU</strong></td>
+<td><strong>Prime95、AIDA64（压力测试和温度监控）</strong></td>
+</tr>
+<tr>
+<td><strong>电源</strong></td>
+<td><strong>难以直接软件测试，通常靠替换法排除</strong></td>
+</tr>
+</tbody></table>
+<p><strong>注意：遇到蓝屏时，记录停止代码和可能相关的文件名是关键的第一步。然后按照从简单（散热、基本检查、软件驱动）到复杂（硬件诊断、系统修复）的顺序进行排查。最后软件问题可以重装系统，硬件问题可以使用替换法排查。</strong></p>
+<h2 id="Windows系统常见蓝屏代码汇总（二）"><a href="#Windows系统常见蓝屏代码汇总（二）" class="headerlink" title="Windows系统常见蓝屏代码汇总（二）"></a>Windows系统常见蓝屏代码汇总（二）</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092810921.jpeg" alt="图片"></p>
+<p><strong>前面一篇介绍了高频发的蓝屏死机代码，这一篇来介绍一下次高频的蓝屏死机代码。虽然蓝屏代码有上百种，但是常见的蓝屏代码也就是那几十种，重要还是看蓝屏代码的报错信息和报错文件。</strong></p>
+<p><strong>次高频蓝屏死机代码：</strong></p>
+<p><strong>1、MEMORY_MANAGEMENT（0x0000001E）</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092817718.png" alt="图片"></p>
+<p><strong>原因：通常是由于内存管理相关的严重错误引发的，可能是内存硬件故障（常见）、驱动程序冲突、系统文件损坏、硬盘上分页文件问题、恶意的感染或者硬件兼容性问题。</strong></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>拔掉除键盘鼠标之外的所有外设，重启电脑</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>重新插拔内存条擦拭金手指或者更换内存条或者用MemTest86工具检测内存（<strong><strong>最有可能</strong></strong>）</strong></td>
+</tr>
+<tr>
+<td><strong>检查磁盘健康状态，chkdsk C: &#x2F;f &#x2F;r（管理员运行）</strong></td>
+</tr>
+<tr>
+<td><strong>从官网更新主板驱动</strong></td>
+</tr>
+<tr>
+<td><strong>扫描系统文件DISM &#x2F;Online &#x2F;Cleanup-Image &#x2F;RestoreHealth和sfc &#x2F;scannow</strong></td>
+</tr>
+</tbody></table>
+<p>**2、**<strong>DRIVER_POWER_STATE_FAILURE (0x0000009F)</strong></p>
+<p><strong>原因：当系统尝试切换电源状态的时候，某个驱动程序无法正确处理电源请求，导致内核挂起。可能是因为驱动程序冲突、硬件兼容问题、系统文件或注册表损坏或者快速启动冲突。</strong></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>拔掉所有外设仅留鼠标和键盘之后重启</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新官网稳定版驱动（显卡驱动用DDU彻底卸载）</strong></td>
+</tr>
+<tr>
+<td><strong>禁用休眠和快速启动</strong></td>
+</tr>
+<tr>
+<td><strong>重置电源计划 powercfg &#x2F;restoredefaultschemes</strong></td>
+</tr>
+<tr>
+<td><strong>恢复BIOS默认设置，更新BIOS驱动（谨慎使用）</strong></td>
+</tr>
+<tr>
+<td><strong>清除休眠文件：</strong><code>powercfg /h off #关闭休眠del /f /q C:\hiberfil.sys #强制删除残留文件powercfg /h on #重新启用（可选）</code></td>
+</tr>
+</tbody></table>
+<p><strong>针对不同场景：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>睡眠唤醒时蓝屏</strong></th>
+<th><strong>更新显卡驱动–禁用USB唤醒–关闭网卡允许唤醒计算机</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>关机时蓝屏</strong></td>
+<td><strong>禁用快速启动–运行sfc &#x2F;scannow–更新声卡驱动</strong></td>
+</tr>
+<tr>
+<td><strong>休眠恢复失败蓝屏</strong></td>
+<td><strong>关闭休眠–检查硬盘健康–清理系统盘（空闲空间大于内存的1.5倍</strong></td>
+</tr>
+<tr>
+<td><strong>连接扩展坞时</strong></td>
+<td><strong>更新扩展坞固件–禁用扩展坞充电–改用主板USB</strong></td>
+</tr>
+</tbody></table>
+<p><strong>3、PFN_LIST_CORRUPT (0x0000004E)</strong></p>
+<p>**原因：Windows内存管理核心的严重错误，表明物理页帧号数据库被破坏。该数据库记录物理内存页的分配状态，其损坏会导致系统崩溃。可能是由内存硬件故障、驱动程序冲突、文件系统损坏或者系统内核损伤。**<strong>这个故障容易引发文件损坏，注意备份重要数据。</strong></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>内存测试用MemTest86+工具</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>检测硬盘健康，修复磁盘错误：chkdsk C: &#x2F;f &#x2F;r（管理员）</strong></td>
+</tr>
+<tr>
+<td><strong>更新官网稳定版驱动</strong></td>
+</tr>
+<tr>
+<td><strong>修复系统文件CMD：</strong><code>DISM /Online /Cleanup-Image /RestoreHealthsfc /scannow</code></td>
+</tr>
+<tr>
+<td><strong>禁用内存压缩（PowerShell）：Disable-MMAgent -MemoryCompression（管理员）</strong></td>
+</tr>
+<tr>
+<td><strong>恢复BIOS默认设置–禁用XMP&#x2F;DOCP–关闭内存虚拟化（SVM&#x2F;Intel VT-d）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>针对不同场景：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>游戏或高清视频</strong></th>
+<th><strong>显卡驱动DDU重装–禁用GPU超频–监控显存温度</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>文件复制时</strong></td>
+<td><strong>更换SATA线–更新芯片组驱动–扫描硬盘坏道</strong></td>
+</tr>
+<tr>
+<td><strong>多条内存混用时</strong></td>
+<td><strong>单条内存测试–增加内存电压（BIOS微调）</strong></td>
+</tr>
+<tr>
+<td><strong>超频后蓝屏</strong></td>
+<td><strong>恢复默认频率–加强散热</strong></td>
+</tr>
+</tbody></table>
+<p><strong>注意：这个蓝屏代码在16GB以上大内存电脑上更常见，注意内存兼容性和分页文件碎片。如果MemTest86+无报错但是蓝屏依旧在，重点排查显卡故障。</strong></p>
+<p><strong>4、MACHINE_CHECK_EXCEPTION (0x0000009C)</strong></p>
+<p><strong>原因：这个故障是Windows最严重的蓝屏代码之一，表明CPU检测到底层硬件致命的错误。这个错误绕过操作系统直接由处理器出发，通常是因为硬件故障引起的。可能和CPU故障、内存故障、主板故障或者是供电问题。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092825794.png" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>检测CPU散热状态，如果超频恢复默认频率</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>内存深度检测用MemTest86+工具，内存控制器诊断TestMem5工具检查内存插槽是否有问题。</strong></td>
+</tr>
+<tr>
+<td><strong>检查主板CPU供电区域电容是否有鼓包或者漏液</strong></td>
+</tr>
+<tr>
+<td><strong>最小启动检查，看看是不是外接硬件故障</strong></td>
+</tr>
+<tr>
+<td><strong>恢复BIOS默认设置或者更新BIOS（谨慎使用）</strong></td>
+</tr>
+</tbody></table>
+<p><strong>注意：如果CPU背面有发黄的印记，可能是高温灼烧所致，要立马更换硬件。这个错误CPU的故障的概率很大，重点检查CPU的状态。</strong></p>
+<p><strong>5、KERNEL_DATA_INPAGE_ERROR (0x0000007A)</strong></p>
+<p><strong>原因：Windows系统中与磁盘读写失败直接相关的严重蓝屏错误，表明系统无法从分页文件（虚拟内存）或者物理磁盘读取关键内核数据。可能是由硬盘物理故障、存储驱动冲突、内存故障或者系统文件损坏引起的。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092831723.png" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>用官方驱动检测硬盘状态，查看物理连接是否松动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新硬盘驱动，BIOS更改硬盘模式</strong></td>
+</tr>
+<tr>
+<td><strong>修复系统文件CMD：</strong><code>fsutil dirty set C:      # 标记磁盘检查chkdsk C: /f /x /r      # 强制卸载卷并修复bootrec /fixmbr        # 修复主引导记录bootrec /rebuildbcd      # 重建 BCD 启动配置</code></td>
+</tr>
+<tr>
+<td>*<em>更改注册表：<strong><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services</strong></strong>Start值改为4</em>*</td>
+</tr>
+<tr>
+<td><strong>内存测试（同时运行）CMD：</strong><code>mdsched.exe /full      # Windows 内存诊断（完整模式）wmic diskdrive get status  # 实时监控磁盘状态</code></td>
+</tr>
+</tbody></table>
+<p><strong>注意：此错误优先排除物理介质的故障，软件修复仅适用于早期数据损坏，这个错误很可能是硬盘故障，尽快备份重要数据。</strong></p>
+<p><strong>6、DRIVER_OVERRAN_STACK_BUFFER (0x000000F7)</strong></p>
+<p><strong>原因：Windows 中典型的 内核栈溢出错误，表明某个驱动程序试图向系统栈空间写入超出预留大小的数据，导致关键内存结构被破坏。可能是由于程序启动缺陷、硬件兼容问题或者系统配置冲突引起的。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092840592.png" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>官网更显所有稳定版本的驱动尤其是声卡、网卡和显卡驱动</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>恢复BIOS默认设置，更新BIOS驱动（谨慎使用）</strong></td>
+</tr>
+<tr>
+<td><strong>拔掉所有外设，仅留鼠标和键盘最小化启动</strong></td>
+</tr>
+</tbody></table>
+<p><strong>7、ATTEMPTED_WRITE_TO_READONLY_MEMORY (0x000000BE)</strong></p>
+<p><strong>原因：Windows 内核级严重错误，表明 驱动程序或系统组件试图写入只读内存区域。这种违规操作会直接触发蓝屏以保护系统完整性。由于驱动程序越权操作、内存保护机制冲突、硬件故障或者安全软件冲突导致。</strong></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>退出或者卸载杀毒软件，或者更新到新版本</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新或者回滚驱动程序（官网下载安装）</strong></td>
+</tr>
+<tr>
+<td><strong>内存测试用MemTest86+工具</strong></td>
+</tr>
+<tr>
+<td><strong>恢复BIOS默认设置，更新BIOS驱动（谨慎使用)</strong></td>
+</tr>
+<tr>
+<td><strong>扫描修复系统文件：</strong><code>DISM /Online /Cleanup-Image /RestoreHealthsfc /scannow</code></td>
+</tr>
+</tbody></table>
+<p><strong>8、THREAD_STUCK_IN_DEVICE_DRIVER (0x000000EA)</strong></p>
+<p><strong>原因：Windows 中典型的显卡驱动线程阻塞错误，表明显示驱动在指定时间内（通常 2-5 秒）未能完成图形处理任务。可能是由于显卡驱动或者显卡硬件问题引起的。</strong></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>更新显卡驱动（厂商官网）先彻底卸载再安装（PowerShell）：</strong><code># 使用 DDU 卸载（管理员权限）Start-Process -FilePath &quot;DDU.exe&quot; -ArgumentList &quot;-silent -clean -nvidia&quot; -Wait# 安装 NVIDIA 工作室版驱动（稳定性优先）msiexec /i &quot;nvidia-driver.msi&quot; /qr SETUP_SILENT=1 ADDLOCAL=ALL</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>修改注册表（REG）：</strong><code>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]&quot;TdrDelay&quot;=dword:00000008 ; 超时时间从 2 秒增至 8 秒&quot;TdrDdiDelay&quot;=dword:0000003c ; DDI 超时延长至 60 秒</code></td>
+</tr>
+<tr>
+<td><strong>禁用驱动测试（CMD）：</strong><code>reg add &quot;HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers&quot; /v TdrLevel /t REG_DWORD /d 0 /f</code></td>
+</tr>
+<tr>
+<td><strong>检查显卡散热–重新插拔–擦拭金手指–更换显卡硬件</strong></td>
+</tr>
+</tbody></table>
+<p><strong>9、FLTMGR_FILE_SYSTEM (0x000000E1)</strong></p>
+<p><strong>原因：Windows 中与文件系统过滤驱动相关的严重错误，表明文件系统过滤器管理器（fltmgr.sys）检测到文件系统栈的异常行为。可能引起的原因：文件系统过滤驱动冲突、文件系统结构损坏、内存硬件故障或者系统更新冲突。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/YuwrXxpDQNicqxlBEQe1q0t9wLuiaU0pIicrwNayCicZkqTL7kGaOrCI2xNW7EdzLEOzbrhx7OrJ4VKBbxBP0Cy2kA/640?wx_fmt=png&from=appmsg&randomid=nn7q2iya&watermark=1&tp=wxpic&wxfrom=5&wx_lazy=1" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>驱动修复：回滚或者更新驱动（官方稳定版）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>修复系统文件（CMD）：</strong><code>dism /online /cleanup-image /restorehealthsfc /scannow</code></td>
+</tr>
+<tr>
+<td><strong>文件系统修复（CMD）：</strong><code>chkdsk C: /f /r /x  # 强制卸载卷+修复坏道+恢复数据#重建NTFS元数据fsutil usn deletejournal /d C:  # 删除USN日志（重建）fsutil behavior set disablelastaccess 1  # 禁用LastAccess时间戳#重置休眠文件powercfg /h offdel /f /q C:\hiberfil.syspowercfg /h on</code></td>
+</tr>
+<tr>
+<td><strong>测试内存MemTest86+工具</strong></td>
+</tr>
+<tr>
+<td><strong>磁盘工具扫描磁盘坏道</strong></td>
+</tr>
+</tbody></table>
+<p><strong>10、HYPERVISOR_ERROR (0x00000015)</strong></p>
+<p><strong>愿因：Windows中与硬件虚拟化层相关的严重错误，表明虚拟机监控程序（Hypervisor）在运行时遇到不可恢复的故障。可能是由于虚拟软件冲突、CPU虚拟化缺陷、内存硬件故障或者BIOS配置问题引起的。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250718092851757.png" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<p><strong>1）、卸载冲突软件（PowerShell）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 彻底移除第三方虚拟化工具Get-WindowsOptionalFeature -Online | Where FeatureName -like &quot;*Hyper*&quot; | Disable-WindowsOptionalFeature -Online -Removewinget uninstall &quot;VMware Workstation&quot; --force</span><br></pre></td></tr></table></figure>
+
+<p><strong>2）、重建Hyper-V栈（CMD）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dism /online /disable-feature /featurename:Microsoft-Hyper-V-Allbcdedit /set hypervisorlaunchtype offdel /f /q C:\Windows\System32\vmcompute.exe  # 强制删除虚拟化组件sfc /scannowdism /online /enable-feature /featurename:Microsoft-Hyper-V-All</span><br></pre></td></tr></table></figure>
+
+<p><strong>3）、配置WSL2&#x2F;Docker（PowerShell）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置单一虚拟化后端wsl --set-default-version 2wsl --shutdownbcdedit /set hypervisorlaunchtype auto</span><br></pre></td></tr></table></figure>
+
+<p><strong>4）、BIOS关键设置：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Security]Execute Disable Bit = Enabled  # Intel XD/NX[CPU]SVM Mode = Enabled             # AMD-VVT-x = Enabled                 # Intel VTVT-d = Disabled                # 临时关闭IO虚拟化[Power]C-State = Disabled             # 禁用节能状态</span><br></pre></td></tr></table></figure>
+
+<p><strong>5）、禁用所有超频</strong></p>
+<p><strong>6）、测试内存使用 MemTest86+工具</strong></p>
+<p><strong>11、CRITICAL_OBJECT_TERMINATION (0x000000F4)</strong></p>
+<p><strong>原因：Windows 系统中最致命的蓝屏错误之一，表明操作系统核心进程（如 smss.exe, csrss.exe, wininit.exe）被意外终止。可能是因为存储设备故障、系统文件或注册表损坏、内存问题、或者安全软件误杀。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/YuwrXxpDQNicqxlBEQe1q0t9wLuiaU0pIicXRbdgQUWE4l16acRuS6GkicWYXVqhULUQqSq4g42EBMhjQgmfibxDVFg/640?wx_fmt=png&from=appmsg&randomid=r6h6her5&watermark=1&tp=wxpic&wxfrom=5&wx_lazy=1" alt="图片"></p>
+<p><strong>解决方案：</strong></p>
+<p><strong>1）SSD&#x2F;HDD健康检测（PowerShell）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 检查SSD剩余寿命Get-PhysicalDisk | Select FriendlyName, MediaType, HealthStatus, OperationalStatus | Where HealthStatus -ne &quot;Healthy&quot;# 机械硬盘坏道扫描chkdsk /scan /perf  # 在线扫描chkdsk /spotfix     # 离线修复</span><br></pre></td></tr></table></figure>
+
+<p><strong>也可以用磁盘工具扫描硬盘</strong></p>
+<p><strong>2）、关键进程文件修复（CMD）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dism /online /cleanup-image /restorehealthsfc /scannow /offbootdir=C:\ /offwindir=C:\Windows  # WinPE环境</span><br></pre></td></tr></table></figure>
+
+<p><strong>3）、重建启动配置（CMD）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bootrec /fixmbrbootrec /fixbootbootrec /rebuildbcdbcdedit /set &#123;default&#125; safeboot minimal  # 安全模式启动</span><br></pre></td></tr></table></figure>
+
+<p><strong>4）、注册表恢复（如果有备份）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 从备份配置单元还原reg load HKLM\Temp C:\Windows\System32\config\SOFTWARE.bakreg copy HKLM\Temp\Microsoft\Windows\CurrentVersion HKLM\...\CurrentVersion /s /f</span><br></pre></td></tr></table></figure>
+
+<p><strong>5）、内存泄漏检测（CMD）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">poolmon /b /n  # 捕获非分页池使用driverquery /v | findstr /i &quot;nonpaged&quot;  # 定位问题驱动</span><br></pre></td></tr></table></figure>
+
+<p><strong>6）、禁用驱动（REG）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ProblemDriver]&quot;Start&quot;=dword:00000004  # 禁用驱动</span><br></pre></td></tr></table></figure>
+
+<p><em><em>注意：<strong><strong>此错误发生后，系统已处于</strong></strong></em>*崩溃边缘*</em><strong><strong>。完成数据备份前</strong></strong><em>*切勿反复重启******，否则将导致彻底无法恢复。企业环境应立即启动灾难恢复预案（DRP），普通用户建议使用专业数据恢复服务。*</em></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/07/17/2025/07/yunwei20250717-1758/">网络测试工具全面指南</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E8%93%9D%E5%B1%8F%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB"><span class="toc-text">Windows系统常见蓝屏代码汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E8%93%9D%E5%B1%8F%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB%EF%BC%88%E4%B8%80%EF%BC%89"><span class="toc-text">Windows系统常见蓝屏代码汇总（一）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E8%93%9D%E5%B1%8F%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">Windows系统常见蓝屏代码汇总（二）</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
