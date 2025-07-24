@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,20 +17,29 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>归档 - 烟火075的博客</title>
+  <title>NextTrace 路由跟踪工具使用教程 - 烟火075的博客</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="https://blog.zycloud.tk/archives/2025/06/index.html">
+    <meta name="description" content="NextTrace 路由跟踪工具使用教程关于NTrace-V1和NTrace-core两个仓库的说明：两者将大体上保持一致。所有的开发工作均在NTrace-V1仓库中进行。NTrace-V1仓库首先发布新版本，在稳定定运行一段时间后（时长不定），我们把版本同步到NTrace-core。这意味着NTrace-V1仓库充当了一个“测试版”的角色。请注意，版本同步也例外存在。如果NTrace-V1的某个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NextTrace 路由跟踪工具使用教程">
+<meta property="og:url" content="https://blog.zycloud.tk/2025/07/24/2025/07/yunwei20250724-1423/index.html">
 <meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="NextTrace 路由跟踪工具使用教程关于NTrace-V1和NTrace-core两个仓库的说明：两者将大体上保持一致。所有的开发工作均在NTrace-V1仓库中进行。NTrace-V1仓库首先发布新版本，在稳定定运行一段时间后（时长不定），我们把版本同步到NTrace-core。这意味着NTrace-V1仓库充当了一个“测试版”的角色。请注意，版本同步也例外存在。如果NTrace-V1的某个">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144151918.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144151943.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144158043.png">
+<meta property="article:published_time" content="2025-07-24T06:44:07.327Z">
+<meta property="article:modified_time" content="2025-07-24T06:44:07.327Z">
 <meta property="article:author" content="YanHuo075">
+<meta property="article:tag" content="网络运维">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144151918.png">
   
   
   
-  
+  <meta name="keywords" content="网络运维">
 
   <!-- feed -->
   
@@ -46,7 +55,7 @@
 </head>
 <body>
 
-<div class="l_body index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/yanhuo-logo.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">烟火075的博客</div><div class="sub normal cap">YanHuo's blog</div><div class="sub hover cap" style="opacity:0"> blog.zycloud.tk</div></a></div></header>
@@ -58,25 +67,196 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
 </div>
 <div class="widgets">
-<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">欢迎光临我的博客网站</span></div><div class="widget-body fs14"><p>本站托管于Cloudflare, 首次访问可能会出现页面加载缓慢问题，欢迎在评论区交流技术知识。<br><br> <hr><br>今日诗词:  <span id="jinrishici-sentence"> </span></p>
-<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"> </script>
-</div></widget>
+
 
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/07/24/2025/07/yunwei20250724-1423/"><span class="title">NextTrace 路由跟踪工具使用教程</span></a><a class="item title" href="/2025/07/24/2025/07/yunwei20250724-0957/"><span class="title">写一个 Windows 下运行的路由追踪程序</span></a><a class="item title" href="/2025/07/18/2025/07/yunwei20250718-0933/"><span class="title">Windows系统常见蓝屏代码汇总</span></a><a class="item title" href="/2025/07/17/2025/07/yunwei20250717-1758/"><span class="title">网络测试工具全面指南</span></a><a class="item title" href="/2025/07/06/2025/07/yunwei20250706-1107/"><span class="title">Linux系统SSH免密码登录配置教程</span></a><a class="item title" href="/2025/07/03/2025/07/yunwei20250703-2212/"><span class="title">Curl命令用法详解</span></a><a class="item title" href="/2025/06/26/2025/06/git20250626-1624/"><span class="title">史上最全 Git 图文教程</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1745/"><span class="title">运维神器！42个必备Shell脚本，一键提升效率！</span></a><a class="item title" href="/2025/06/26/2025/06/yunwei20250626-1544/"><span class="title">运维老鸟私藏！这20个脚本太6了</span></a><a class="item title" href="/2025/06/26/2025/06/docker20250626-1714/"><span class="title">Docker命令大全详解(39个常用命令)</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/yanhuo-logo.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">烟火075的博客</div><div class="sub normal cap">YanHuo's blog</div><div class="sub hover cap" style="opacity:0"> blog.zycloud.tk</div></a></div></header>
-
- 
 
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/archives/">归档</a></nav></div><div class="post-list archives"><article class="" id="archive"><div class='archive-header h4'>2025</div><div class="archive-list"><a class='post fs14' href="/2025/07/24/2025/07/yunwei20250724-1423/"><time>07-24</time><span>NextTrace 路由跟踪工具使用教程</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/07/24/2025/07/yunwei20250724-0957/"><time>07-24</time><span>写一个 Windows 下运行的路由追踪程序</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/07/18/2025/07/yunwei20250718-0933/"><time>07-18</time><span>Windows系统常见蓝屏代码汇总</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/07/17/2025/07/yunwei20250717-1758/"><time>07-17</time><span>网络测试工具全面指南</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/07/06/2025/07/yunwei20250706-1107/"><time>07-06</time><span>Linux系统SSH免密码登录配置教程</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/07/03/2025/07/yunwei20250703-2212/"><time>07-03</time><span>Curl命令用法详解</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/2025/06/git20250626-1624/"><time>06-26</time><span>史上最全 Git 图文教程</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/2025/06/yunwei20250626-1745/"><time>06-26</time><span>运维神器！42个必备Shell脚本，一键提升效率！</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/2025/06/yunwei20250626-1544/"><time>06-26</time><span>运维老鸟私藏！这20个脚本太6了</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/2025/06/docker20250626-1714/"><time>06-26</time><span>Docker命令大全详解(39个常用命令)</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/hello-world/"><time>06-26</time><span>Hello World</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/26/2025/06/network-command/"><time>06-26</time><span>华为交换机救命命令、断网不慌！</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/23/2025/06/Typora-Github-PicGo/"><time>06-23</time><span>Typora+Github+PicGo搭建个人免费图床</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/23/2025/06/theme-design2/"><time>06-23</time><span>Hexo-Stellar主题装修日记(二)</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/06/09/2025/06/theme-design1/"><time>06-09</time><span>Hexo-Stellar主题装修日记(一)</span></a></div></article></div>
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E8%83%BD/">运维技能</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-24T06:44:07.327Z">2025-07-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-24T06:44:07.327Z">2025-07-24</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>NextTrace 路由跟踪工具使用教程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="NextTrace-路由跟踪工具使用教程"><a href="#NextTrace-路由跟踪工具使用教程" class="headerlink" title="NextTrace 路由跟踪工具使用教程"></a>NextTrace 路由跟踪工具使用教程</h1><p>关于NTrace-V1和NTrace-core两个仓库的说明：<br>两者将大体上保持一致。所有的开发工作均在NTrace-V1仓库中进行。NTrace-V1仓库首先发布新版本，在稳定定运行一段时间后（时长不定），我们把版本同步到NTrace-core。这意味着NTrace-V1仓库充当了一个“测试版”的角色。<br>请注意，版本同步也例外存在。如果NTrace-V1的某个版本出现了严重的bug，NTrace-core会跳过这个有缺陷的版本，直接同步到下一个修复了该问题的版本。</p>
+<h3 id="使用前"><a href="#使用前" class="headerlink" title="使用前"></a>使用前</h3><p>在使用NextTrace之前，我们建议您先阅读<a target="_blank" rel="noopener" href="https://github.com/nxtrace/NTrace-core/blob/main/README_zh_CN.md#ip-%E6%95%B0%E6%8D%AE%E4%BB%A5%E5%8F%8A%E7%B2%BE%E5%87%86%E5%BA%A6%E8%AF%B4%E6%98%8E">#IP数据以及精准度说明</a>，在了解您自己对数据精准度需求以后再进行决策抉择。</p>
+<h3 id="自动安装"><a href="#自动安装" class="headerlink" title="自动安装"></a>自动安装</h3><ul>
+<li><p>Linux</p>
+<ul>
+<li><p>一键安装脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl nxtrace.org/nt | bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从 nxtrace 的 APT 源安装</p>
+<ul>
+<li><p>支持 AMD64&#x2F;ARM64 架构</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &quot;deb [trusted=yes] https://github.com/nxtrace/nexttrace-debs/releases/latest/download ./&quot; |</span><br><span class="line">sudo tee /etc/apt/sources.list.d/nexttrace.list</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>APT源由 wcbing, nxtrace 维护</p>
+</li>
+</ul>
+</li>
+<li><p>Arch Linux AUR 安装命令</p>
+<ul>
+<li><p>直接下载bin包(仅支持amd64)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yay -S nexttrace-bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自构建(仅支持amd64源码)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yay -S nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AUR 的构建分别由 ouuan, huyz 维护</p>
+</li>
+</ul>
+</li>
+<li><p>Linuxbrew 安装命令</p>
+<p>同macOS Homebrew安装方法(homebrew-core版本仅支持amd64)</p>
+</li>
+<li><p>Deepin 安装命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://cn.x-cmd.com/pkg/nexttrace">x-cmd</a>安装命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">x env use nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Termux 安装命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pkg install nexttrace-enhanced</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>macOS</p>
+<ul>
+<li><p>macOS Homebrew 安装命令</p>
+<ul>
+<li><p>homebrew-core版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本仓库ACTIONS自动构建版(更新更快)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew tap nxtrace/nexttrace &amp;&amp; brew install nxtrace/nexttrace/nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>homebrew-core 由 chenrui333 维护构建，请注意该版本更新可能会后面仓库操作自动构建版本</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>视窗</p>
+<ul>
+<li><p>Windows WinGet安装命令</p>
+<ul>
+<li><p>WinGet 版</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">winget install nexttrace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>WinGet 由 Dragon1573 构建 维护</p>
+</li>
+</ul>
+</li>
+<li><p>Windows Scoop 安装命令</p>
+<ul>
+<li>scoop-extras 版</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scoop bucket add extras &amp;&amp; scoop install extras/nexttrace</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>scoop-extra 由 soenggam 维护</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>请注意，以上多种安装方式的仓库均由开源供应商自行维护，不保证供货和更新，如遇到问题请及时联系仓库维护者解决，或使用本项目官方编译提供的二进制包。</p>
+<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><ul>
+<li><p>下载预编译的执行程序</p>
+<p>对于没有上述方法的用户，请直接前往<a target="_blank" rel="noopener" href="https://www.nxtrace.org/downloads">Release</a>下载编译后的二进制可执行文件。</p>
+<ul>
+<li><code>Release</code>里面为很多系统以及不同的架构提供了编译好的二进制可执行文件，如果没有可以自行编译。</li>
+<li>一些本项目的需求依赖在<code>Windows</code>底层<code>Golang</code>实现尚未完全，因此目前<code>NextTrace</code>在<code>Windows</code>平台上处于实验性支持阶段。</li>
+</ul>
+</li>
+</ul>
+<h3 id="立即开始"><a href="#立即开始" class="headerlink" title="立即开始"></a>立即开始</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NextTrace`默认同时使用`ICMP`协议发起`TraceRoute`请求，该协议支持`IPv4`和`IPv6</span><br><span class="line"># IPv4 ICMP Trace</span><br><span class="line">nexttrace 1.0.0.1</span><br><span class="line"># URL</span><br><span class="line">nexttrace http://example.com:8080/index.html?q=1</span><br><span class="line"></span><br><span class="line"># 表格打印，使用 --table / -t 参数，将实时显示结果</span><br><span class="line">nexttrace --table 1.0.0.1</span><br><span class="line"></span><br><span class="line"># 一个方便供机器读取转化的模式</span><br><span class="line">nexttrace --raw 1.0.0.1</span><br><span class="line">nexttrace --json 1.0.0.1</span><br><span class="line"></span><br><span class="line"># 只进行IPv4/IPv6解析，且当多个IP时自动选择第一个IP</span><br><span class="line">nexttrace --ipv4 g.co</span><br><span class="line">nexttrace --ipv6 g.co</span><br><span class="line"></span><br><span class="line"># IPv6 ICMP Trace</span><br><span class="line">nexttrace 2606:4700:4700::1111</span><br><span class="line"></span><br><span class="line"># 禁用路径可视化 使用 --map / -M 参数</span><br><span class="line">nexttrace koreacentral.blob.core.windows.net</span><br><span class="line"># MapTrace URL: https://api.nxtrace.org/tracemap/html/c14e439e-3250-5310-8965-42a1e3545266.html</span><br><span class="line"></span><br><span class="line"># 禁用MPLS显示 使用 --disable-mpls / -e 参数 或 NEXTTRACE_DISABLEMPLS 环境变量</span><br><span class="line">nexttrace --disable-mpls example.com</span><br><span class="line">export NEXTTRACE_DISABLEMPLS=1</span><br></pre></td></tr></table></figure>
+
+<p>PS：路由可视化的较差模块由<a target="_blank" rel="noopener" href="https://github.com/tsosunchia">@tsosunchia</a>同学编写，具体代码可在<a target="_blank" rel="noopener" href="https://github.com/tsosunchia/traceMap">tsosunchia&#x2F;traceMap</a>查看</p>
+<p>需要注意的是，在 LeoMoeAPI 2.0 中，由于新增了断层数据，<strong>我们已经放弃使用traceMap插件中OpenStreetMap API的在线查询的部分，并且使用自己数据库内的位置信息</strong>。</p>
+<p>路由可视化功能因为每个Hop的断层坐标，而需要第三方API通常不提供此类信息，所以此功能目前只支持搭配LeoMoeAPI使用。</p>
+<p><code>NextTrace</code>目前已经支持快速测试，有批量测试回程路由需求的朋友可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 北上广（电信+联通+移动+教育网）IPv4 / IPv6 ICMP 快速测试</span><br><span class="line">nexttrace --fast-trace</span><br><span class="line"></span><br><span class="line"># 也可以使用 TCP SYN 而非 ICMP 进行测试</span><br><span class="line">nexttrace --fast-trace --tcp</span><br><span class="line"></span><br><span class="line"># 也可以通过自定义的IP/DOMAIN列表文件进行快速测试</span><br><span class="line">nexttrace --file /path/to/your/iplist.txt</span><br><span class="line"># 自定义的IP/DOMAIN列表文件格式</span><br><span class="line">## 一行一个IP/DOMAIN + 空格 + 描述信息（可选）</span><br><span class="line">## 例如：</span><br><span class="line">## 106.37.67.1 北京电信</span><br><span class="line">## 240e:928:101:31a::1 北京电信</span><br><span class="line">## bj.10086.cn 北京移动</span><br><span class="line">## 2409:8080:0:1::1</span><br><span class="line">## 223.5.5.5</span><br></pre></td></tr></table></figure>
+
+<p><code>NextTrace</code>已支持指定防火墙进行路由跟踪</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 请注意 Lite 版本此参数不能和快速测试联用，如有需要请使用 enhanced 版本</span><br><span class="line"># 使用 eth0 网卡</span><br><span class="line">nexttrace --dev eth0 2606:4700:4700::1111</span><br><span class="line"></span><br><span class="line"># 使用 eth0 网卡IP</span><br><span class="line"># 网卡 IP 可以使用 ip a 或者 ifconfig 获取</span><br><span class="line"># 使用网卡IP进行路由跟踪时需要注意跟踪的IP类型应该和网卡IP类型一致（如都为 IPv4）</span><br><span class="line">nexttrace --source 204.98.134.56 9.9.9.9</span><br><span class="line">NextTrace`也可以使用`TCP`和`UDP`协议发起`Traceroute`请求，不过目前`UDP`只支持`IPv4</span><br><span class="line"># TCP SYN Trace</span><br><span class="line">nexttrace --tcp www.bing.com</span><br><span class="line"></span><br><span class="line"># 可以自行指定端口[此处为443]，默认80端口</span><br><span class="line">nexttrace --tcp --port 443 2001:4860:4860::8888</span><br><span class="line"></span><br><span class="line"># UDP Trace</span><br><span class="line">nexttrace --udp 1.0.0.1</span><br><span class="line"></span><br><span class="line"># 可以自行指定端口[此处为5353]，默认33494端口</span><br><span class="line">nexttrace --udp --port 5353 1.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p><code>NextTrace</code>还支持一些进阶功能，如TTL控制、并发数控制、模式切换等</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 每一跳发送2个探测包</span><br><span class="line">nexttrace --queries 2 www.hkix.net</span><br><span class="line"></span><br><span class="line"># 无并发，每次只发送一个探测包</span><br><span class="line">nexttrace --parallel-requests 1 www.hkix.net</span><br><span class="line"></span><br><span class="line"># 从TTL为5开始发送探测包，直到TTL为10结束</span><br><span class="line">nexttrace --first 5 --max-hops 10 www.decix.net</span><br><span class="line"># 此外还提供了一个ENV，可以设置是否隐匿目的IP</span><br><span class="line">export NEXTTRACE_ENABLEHIDDENDSTIP=1</span><br><span class="line"></span><br><span class="line"># 关闭IP反向解析功能</span><br><span class="line">nexttrace --no-rdns www.bbix.net</span><br><span class="line"></span><br><span class="line"># 设置载荷大小为1024字节</span><br><span class="line">nexttrace --psize 1024 example.com</span><br><span class="line"></span><br><span class="line"># 设置载荷大小以及DF标志进行TCP Trace</span><br><span class="line">nexttrace --psize 1024 --dont-fragment --tcp example.com</span><br><span class="line"></span><br><span class="line"># 特色功能：打印Route-Path图</span><br><span class="line"># Route-Path图示例：</span><br><span class="line"># AS6453 塔塔通信「Singapore『Singapore』」</span><br><span class="line">#  ╭╯</span><br><span class="line">#  ╰AS9299 Philippine Long Distance Telephone Co.「Philippines『Metro Manila』」</span><br><span class="line">#  ╭╯</span><br><span class="line">#  ╰AS36776 Five9 Inc.「Philippines『Metro Manila』」</span><br><span class="line">#  ╭╯</span><br><span class="line">#  ╰AS37963 阿里云「ALIDNS.COM『ALIDNS.COM』」</span><br><span class="line">nexttrace --route-path www.time.com.my</span><br><span class="line"># 禁止色彩输出</span><br><span class="line">nexttrace --nocolor 1.1.1.1</span><br><span class="line"># 或者使用环境变量</span><br><span class="line">export NO_COLOR=1</span><br></pre></td></tr></table></figure>
+
+<p><code>NextTrace</code>支持用户自主选择IP数据库（目前支持：<code>LeoMoeAPI</code>, <code>IP.SB</code>, <code>IPInfo</code>, <code>IPInsight</code>, <code>IPAPI.com</code>, <code>Ip2region</code>, <code>IPInfoLocal</code>, <code>CHUNZHEN</code>)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 可以自行指定IP数据库[此处为IP-API.com]，不指定则默认为LeoMoeAPI</span><br><span class="line">nexttrace --data-provider ip-api.com</span><br><span class="line">## 特别的: 其中 ipinfo 和 IPInsight API 对于免费版查询有频率限制，可从这些服务商自行购买服务以解除限制，如有需要可以 clone 本项目添加其提供的 token 自行编译</span><br><span class="line">##        TOKEN填写路径：ipgeo/tokens.go</span><br><span class="line"></span><br><span class="line">## 特别的: 对于离线库 IPInfoLocal，请自行下载并命名为 ipinfoLocal.mmdb</span><br><span class="line">##        (可以从这里下载：https://ipinfo.io/signup?ref=free-database-downloads)，</span><br><span class="line">##        默认搜索用户当前路径、程序所在路径、和 FHS 路径（Unix-like）</span><br><span class="line">##        如果需要自定义路径，请设置环境变量</span><br><span class="line">export NEXTTRACE_IPINFOLOCALPATH=/xxx/yyy.mmdb</span><br><span class="line">##        对于离线库 Ip2region 可NextTrace自动下载，也可自行下载并命名为 ip2region.db</span><br><span class="line">## 另外：由于IP.SB被滥用比较严重，会经常出现无法查询的问题，请知悉。</span><br><span class="line">##      IP-API.com限制调用较为严格，如有查询不到的情况，请几分钟后再试。</span><br><span class="line"># 纯真IP数据库默认使用 http://127.0.0.1:2060 作为查询接口，如需自定义请使用环境变量</span><br><span class="line">export NEXTTRACE_CHUNZHENURL=http://127.0.0.1:2060</span><br><span class="line">## 可使用 https://github.com/freshcn/qqwry 自行搭建纯真IP数据库服务</span><br><span class="line"></span><br><span class="line"># 也可以通过设置环境变量来指定默认IP数据库</span><br><span class="line">export NEXTTRACE_DATAPROVIDER=ipinfo</span><br></pre></td></tr></table></figure>
+
+<p><code>NextTrace</code>支持使用混合参数和简略参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Example:</span><br><span class="line">nexttrace --data-provider ip-api.com --max-hops 20 --tcp --port 443 --queries 5 --no-rdns 1.1.1.1</span><br><span class="line">nexttrace -tcp --queries 2 --parallel-requests 1 --table --route-path 2001:4860:4860::8888</span><br><span class="line"></span><br><span class="line">Equivalent to:</span><br><span class="line">nexttrace -d ip-api.com -m 20 -T -p 443 -q 5 -n 1.1.1.1</span><br><span class="line">nexttrace -T -q 2 --parallel-requests 1 -t -P 2001:4860:4860::8888</span><br></pre></td></tr></table></figure>
+
+<h3 id="全部用法参见使用菜单"><a href="#全部用法参见使用菜单" class="headerlink" title="全部用法参见使用菜单"></a>全部用法参见使用菜单</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Usage: nexttrace [-h|--help] [-4|--ipv4] [-6|--ipv6] [-T|--tcp] [-U|--udp]</span><br><span class="line">                 [-F|--fast-trace] [-p|--port &lt;integer&gt;] [-q|--queries</span><br><span class="line">                 &lt;integer&gt;] [--parallel-requests &lt;integer&gt;] [-m|--max-hops</span><br><span class="line">                 &lt;integer&gt;] [-d|--data-provider</span><br><span class="line">                 (Ip2region|ip2region|IP.SB|ip.sb|IPInfo|ipinfo|IPInsight|ipinsight|IPAPI.com|ip-api.com|IPInfoLocal|ipinfolocal|chunzhen|LeoMoeAPI|leomoeapi|disable-geoip)]</span><br><span class="line">                 [--pow-provider (api.nxtrace.org|sakura)] [-n|--no-rdns]</span><br><span class="line">                 [-a|--always-rdns] [-P|--route-path] [-r|--report] [--dn42]</span><br><span class="line">                 [-o|--output] [-t|--table] [--raw] [-j|--json] [-c|--classic]</span><br><span class="line">                 [-f|--first &lt;integer&gt;] [-M|--map] [-e|--disable-mpls]</span><br><span class="line">                 [-v|--version] [-s|--source &quot;&lt;value&gt;&quot;] [-D|--dev &quot;&lt;value&gt;&quot;]</span><br><span class="line">                 [-z|--send-time &lt;integer&gt;] [-i|--ttl-time &lt;integer&gt;]</span><br><span class="line">                 [--timeout &lt;integer&gt;] [--psize &lt;integer&gt;]</span><br><span class="line">                 [_positionalArg_nexttrace_32 &quot;&lt;value&gt;&quot;] [--dot-server</span><br><span class="line">                 (dnssb|aliyun|dnspod|google|cloudflare)] [-g|--language</span><br><span class="line">                 (en|cn)] [--file &quot;&lt;value&gt;&quot;] [-C|--nocolor]</span><br><span class="line"></span><br><span class="line">Arguments:</span><br><span class="line"></span><br><span class="line">  -h  --help                         Print help information</span><br><span class="line">  -4  --ipv4                         Use IPv4 only</span><br><span class="line">  -6  --ipv6                         Use IPv6 only</span><br><span class="line">  -T  --tcp                          Use TCP SYN for tracerouting (default port</span><br><span class="line">                                     is 80)</span><br><span class="line">  -U  --udp                          Use UDP SYN for tracerouting (default port</span><br><span class="line">                                     is 33494)</span><br><span class="line">  -F  --fast-trace                   One-Key Fast Trace to China ISPs</span><br><span class="line">  -p  --port                         Set the destination port to use. With</span><br><span class="line">                                     default of 80 for &quot;tcp&quot;, 33494 for &quot;udp&quot;</span><br><span class="line">  -q  --queries                      Set the number of probes per each hop.</span><br><span class="line">                                     Default: 3</span><br><span class="line">      --parallel-requests            Set ParallelRequests number. It should be</span><br><span class="line">                                     1 when there is a multi-routing. Default:</span><br><span class="line">                                     18</span><br><span class="line">  -m  --max-hops                     Set the max number of hops (max TTL to be</span><br><span class="line">                                     reached). Default: 30</span><br><span class="line">  -d  --data-provider                Choose IP Geograph Data Provider [IP.SB,</span><br><span class="line">                                     IPInfo, IPInsight, IP-API.com, Ip2region,</span><br><span class="line">                                     IPInfoLocal, CHUNZHEN, disable-geoip].</span><br><span class="line">                                     Default: LeoMoeAPI</span><br><span class="line">      --pow-provider                 Choose PoW Provider [api.nxtrace.org,</span><br><span class="line">                                     sakura] For China mainland users, please</span><br><span class="line">                                     use sakura. Default: api.nxtrace.org</span><br><span class="line">  -n  --no-rdns                      Do not resolve IP addresses to their</span><br><span class="line">                                     domain names</span><br><span class="line">  -a  --always-rdns                  Always resolve IP addresses to their</span><br><span class="line">                                     domain names</span><br><span class="line">  -P  --route-path                   Print traceroute hop path by ASN and</span><br><span class="line">                                     location</span><br><span class="line">  -r  --report                       output using report mode</span><br><span class="line">      --dn42                         DN42 Mode</span><br><span class="line">  -o  --output                       Write trace result to file</span><br><span class="line">                                     (RealTimePrinter ONLY)</span><br><span class="line">  -t  --table                        Output trace results as table</span><br><span class="line">      --raw                          An Output Easy to Parse</span><br><span class="line">  -j  --json                         Output trace results as JSON</span><br><span class="line">  -c  --classic                      Classic Output trace results like</span><br><span class="line">                                     BestTrace</span><br><span class="line">  -f  --first                        Start from the first_ttl hop (instead from</span><br><span class="line">                                     1). Default: 1</span><br><span class="line">  -M  --map                          Disable Print Trace Map</span><br><span class="line">  -e  --disable-mpls                 Disable MPLS</span><br><span class="line">  -v  --version                      Print version info and exit</span><br><span class="line">  -s  --source                       Use source src_addr for outgoing packets</span><br><span class="line">  -D  --dev                          Use the following Network Devices as the</span><br><span class="line">                                     source address in outgoing packets</span><br><span class="line">  -z  --send-time                    Set how many [milliseconds] between</span><br><span class="line">                                     sending each packet.. Useful when some</span><br><span class="line">                                     routers use rate-limit for ICMP messages.</span><br><span class="line">                                     Default: 50</span><br><span class="line">  -i  --ttl-time                     Set how many [milliseconds] between</span><br><span class="line">                                     sending packets groups by TTL. Useful when</span><br><span class="line">                                     some routers use rate-limit for ICMP</span><br><span class="line">                                     messages. Default: 50</span><br><span class="line">      --timeout                      The number of [milliseconds] to keep probe</span><br><span class="line">                                     sockets open before giving up on the</span><br><span class="line">                                     connection.. Default: 1000</span><br><span class="line">      --psize                        Set the payload size. Default: 52</span><br><span class="line">      --_positionalArg_nexttrace_32  IP Address or domain name</span><br><span class="line">      --dot-server                   Use DoT Server for DNS Parse [dnssb,</span><br><span class="line">                                     aliyun, dnspod, google, cloudflare]</span><br><span class="line">  -g  --language                     Choose the language for displaying [en,</span><br><span class="line">                                     cn]. Default: cn</span><br><span class="line">      --file                         Read IP Address or domain name from file</span><br><span class="line">  -C  --nocolor                      Disable Colorful Output</span><br><span class="line">      --dont-fragment                Set the Don&#x27;t Fragment bit (IPv4 TCP</span><br><span class="line">                                     only). Default: false</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>右键打开命令行，输入以下命令</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://v2cross.com/wp-content/uploads/2023/10/1698512248-b95147a73406293.png"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144151918.png" alt="NextTrace 路由跟踪工具使用教程"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.\nexttrace_windows_amd64.exe 1.1.1.1 </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>请将 <code>1.1.1.1</code> 替换成需要追踪的 IP，支持 IPv4 &#x2F; IPv6-注意路径。</p>
+</blockquote>
+<blockquote>
+<p><code>nexttrace_windows_amd64.exe</code> 为示例程序名，请根据实际文件名修改成对应的</p>
+</blockquote>
+<blockquote>
+<p>更多高级命令用法可以参考项目README：<a target="_blank" rel="noopener" href="https://github.com/sjlleo/nexttrace/blob/main/README_zh_CN.md">https://github.com/sjlleo/nexttrace/blob/main/README_zh_CN.md</a></p>
+</blockquote>
+<ol>
+<li>运行完命令之后，可以在下方查询到追踪结果</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://v2cross.com/wp-content/uploads/2023/10/1698512251-54476fd64364e70.png"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144151943.png" alt="NextTrace 路由跟踪工具使用教程"></a></p>
+<ol>
+<li>可以使用提供的地图链接，实时显示路由情况</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://v2cross.com/wp-content/uploads/2023/10/1698512254-1f97333dcf1592d.png"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250724144158043.png" alt="NextTrace 路由跟踪工具使用教程"></a></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/07/24/2025/07/yunwei20250724-0957/">写一个 Windows 下运行的路由追踪程序</a></div></section></div>
+
+
+
+
+
+
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NextTrace-%E8%B7%AF%E7%94%B1%E8%B7%9F%E8%B8%AA%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B"><span class="toc-text">NextTrace 路由跟踪工具使用教程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%89%8D"><span class="toc-text">使用前</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="toc-text">自动安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="toc-text">手动安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E5%BC%80%E5%A7%8B"><span class="toc-text">立即开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E9%83%A8%E7%94%A8%E6%B3%95%E5%8F%82%E8%A7%81%E4%BD%BF%E7%94%A8%E8%8F%9C%E5%8D%95"><span class="toc-text">全部用法参见使用菜单</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
