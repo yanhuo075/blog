@@ -1,6 +1,6 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: 4.5 Alertmanager 基于标签的告警路由
+title: 4.5 Alertmanager 基于路由标签
 order: 20
 ---
 

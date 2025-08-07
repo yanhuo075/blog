@@ -1,0 +1,906 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Prometheus：5.4 使用Java自定义Exporter - 烟火075的博客</title>
+
+  
+    <meta name="description" content="使用Java自定义Exporter本小节将带领读者了解Promrtheus提供的client_java的基本用法，并且在最后在Spring Boot应用程序中使用client_java，直接在应用程序层面提供对Prometheus的支持。 使用Client Java构建Exporter程序client_java是Prometheus针对JVM类开发语言的client library库，我们可以直接">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.4 使用Java自定义Exporter">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/advanced-exporter-java.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="使用Java自定义Exporter本小节将带领读者了解Promrtheus提供的client_java的基本用法，并且在最后在Spring Boot应用程序中使用client_java，直接在应用程序层面提供对Prometheus的支持。 使用Client Java构建Exporter程序client_java是Prometheus针对JVM类开发语言的client library库，我们可以直接">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180937437.png">
+<meta property="article:published_time" content="2025-08-07T10:11:59.754Z">
+<meta property="article:modified_time" content="2025-08-07T10:11:59.754Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180937437.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/prometheus/introduction.html"><div class="main" ff="title">Prometheus</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/prometheus/" placeholder="在Prometheus文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于路由标签</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Prometheus进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/advanced-exporter-intro.html"><span class="toc-text">5.1 Exporter进阶</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-desc.html"><span class="toc-text">5.2 Exporter详解</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-common.html"><span class="toc-text">5.3 常用Exporter</span></a><a class="link active" href="/wiki/prometheus/advanced-exporter-java.html"><span class="toc-text">5.4 使用Java自定义Exporter</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T10:11:59.754Z">2025-08-07</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.4 使用Java自定义Exporter</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="使用Java自定义Exporter"><a href="#使用Java自定义Exporter" class="headerlink" title="使用Java自定义Exporter"></a>使用Java自定义Exporter</h1><p>本小节将带领读者了解Promrtheus提供的client_java的基本用法，并且在最后在Spring Boot应用程序中使用client_java，直接在应用程序层面提供对Prometheus的支持。</p>
+<h1 id="使用Client-Java构建Exporter程序"><a href="#使用Client-Java构建Exporter程序" class="headerlink" title="使用Client Java构建Exporter程序"></a>使用Client Java构建Exporter程序</h1><p>client_java是Prometheus针对JVM类开发语言的client library库，我们可以直接基于client_java用户可以快速实现独立运行的Exporter程序，也可以在我们的项目源码中集成client_java以支持Prometheus。</p>
+<h2 id="自定义Collector"><a href="#自定义Collector" class="headerlink" title="自定义Collector"></a>自定义Collector</h2><p>在client_java的simpleclient模块中提供了自定义监控指标的核心接口。</p>
+<p>如果使用Gradle作为项目构建工具，可以通过向build.gradle添加simpleclient依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">compile &#x27;io.prometheus:simpleclient:0.3.0&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>当无法直接修改监控目标时，可以通过自定义Collector的方式，实现对监控样本收集，该收集器需要实现collect()方法并返回一组监控样本，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">YourCustomCollector</span> <span class="keyword">extends</span> <span class="title class_">Collector</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;MetricFamilySamples&gt; <span class="title function_">collect</span><span class="params">()</span> &#123;</span><br><span class="line">        List&lt;MetricFamilySamples&gt; mfs = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;MetricFamilySamples&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">metricName</span> <span class="operator">=</span> <span class="string">&quot;my_guage_1&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Your code to get metrics</span></span><br><span class="line"></span><br><span class="line">        MetricFamilySamples.<span class="type">Sample</span> <span class="variable">sample</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MetricFamilySamples</span>.Sample(metricName, Arrays.asList(<span class="string">&quot;l1&quot;</span>), Arrays.asList(<span class="string">&quot;v1&quot;</span>), <span class="number">4</span>);</span><br><span class="line">        MetricFamilySamples.<span class="type">Sample</span> <span class="variable">sample2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MetricFamilySamples</span>.Sample(metricName, Arrays.asList(<span class="string">&quot;l1&quot;</span>, <span class="string">&quot;l2&quot;</span>), Arrays.asList(<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>), <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">MetricFamilySamples</span> <span class="variable">samples</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MetricFamilySamples</span>(metricName, Type.GAUGE, <span class="string">&quot;help&quot;</span>, Arrays.asList(sample, sample2));</span><br><span class="line"></span><br><span class="line">        mfs.add(samples);</span><br><span class="line">        <span class="keyword">return</span> mfs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里定义了一个名为my_guage的监控指标，该监控指标的所有样本数据均转换为一个MetricFamilySamples.Sample实例，该实例中包含了该样本的指标名称、标签名数组、标签值数组以及样本数据的值。</p>
+<p>监控指标my_guage的所有样本值，需要持久化到一个MetricFamilySamples实例中，MetricFamilySamples指定了当前监控指标的名称、类型、注释信息等。需要注意的是MetricFamilySamples中所有样本的名称必须保持一致，否则生成的数据将无法符合Prometheus的规范。</p>
+<p>直接使用MetricFamilySamples.Sample和MetricFamilySamples的方式适用于当某监控指标的样本之间的标签可能不一致的情况，例如，当监控容器时，不同容器实例可能包含一些自定义的标签，如果需要将这些标签反应到样本上，那么每个样本的标签则不可能保持一致。而如果所有样本的是一致的情况下，我们还可以使用client_java针对不同指标类型的实现GaugeMetricFamily，CounterMetricFamily，SummaryMetricFamily等，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">YourCustomCollector2</span> <span class="keyword">extends</span> <span class="title class_">Collector</span> &#123;</span><br><span class="line">  List&lt;MetricFamilySamples&gt; <span class="title function_">collect</span><span class="params">()</span> &#123;</span><br><span class="line">    List&lt;MetricFamilySamples&gt; mfs = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;MetricFamilySamples&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// With no labels.</span></span><br><span class="line">    mfs.add(<span class="keyword">new</span> <span class="title class_">GaugeMetricFamily</span>(<span class="string">&quot;my_gauge_2&quot;</span>, <span class="string">&quot;help&quot;</span>, <span class="number">42</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// With labels</span></span><br><span class="line">    <span class="type">GaugeMetricFamily</span> <span class="variable">labeledGauge</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GaugeMetricFamily</span>(<span class="string">&quot;my_other_gauge&quot;</span>, <span class="string">&quot;help&quot;</span>, Arrays.asList(<span class="string">&quot;labelname&quot;</span>));</span><br><span class="line">    labeledGauge.addMetric(Arrays.asList(<span class="string">&quot;foo&quot;</span>), <span class="number">4</span>);</span><br><span class="line">    labeledGauge.addMetric(Arrays.asList(<span class="string">&quot;bar&quot;</span>), <span class="number">5</span>);</span><br><span class="line">    mfs.add(labeledGauge);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mfs;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用HTTP-Server暴露样本数据"><a href="#使用HTTP-Server暴露样本数据" class="headerlink" title="使用HTTP Server暴露样本数据"></a>使用HTTP Server暴露样本数据</h2><p>client_java下的simpleclient_httpserver模块实现了一个简单的HTTP服务器，当向该服务器发送获取样本数据的请求后，它会自动调用所有Collector的collect()方法，并将所有样本数据转换为Prometheus要求的数据输出格式规范。如果用户使用了Gradle构建项目，可以添加以下依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">compile &#x27;io.prometheus:simpleclient_httpserver:0.3.0&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>添加依赖之后，就可以在Exporter程序的main方法中启动一个HTTPServer实例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomExporter</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">HTTPServer</span> <span class="variable">server</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HTTPServer</span>(<span class="number">1234</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在启动之前，别忘记调用Collector的register()方法。否则HTTPServer是找不到任何的Collector实例的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">YourCustomCollector</span>().register();</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">YourCustomCollector2</span>().register();</span><br></pre></td></tr></table></figure>
+
+<p>运行CustomExporter并访问<a target="_blank" rel="noopener" href="http://127.0.0.1:1234/metrics%EF%BC%8C%E5%8D%B3%E5%8F%AF%E8%8E%B7%E5%8F%96%E5%88%B0%E4%BB%A5%E4%B8%8B%E6%95%B0%E6%8D%AE%EF%BC%9A">http://127.0.0.1:1234/metrics，即可获取到以下数据：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl http://127.0.0.1:1234/metrics</span><br><span class="line"># HELP my_gauge help</span><br><span class="line"># TYPE my_gauge gauge</span><br><span class="line">my_gauge 42.0</span><br><span class="line"># HELP my_other_gauge help</span><br><span class="line"># TYPE my_other_gauge gauge</span><br><span class="line">my_other_gauge&#123;labelname=&quot;foo&quot;,&#125; 4.0</span><br><span class="line">my_other_gauge&#123;labelname=&quot;bar&quot;,&#125; 5.0</span><br><span class="line"># HELP my_guage help</span><br><span class="line"># TYPE my_guage gauge</span><br><span class="line">my_guage&#123;l1=&quot;v1&quot;,&#125; 4.0</span><br><span class="line">my_guage&#123;l1=&quot;v1&quot;,l2=&quot;v2&quot;,&#125; 3.0</span><br></pre></td></tr></table></figure>
+
+<p>当然HTTPServer中并不存在什么黑魔法，其内部实现如下所示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180937437.png" alt="HTTPServer处理流程">HTTPServer处理流程</p>
+<p>当调用Collector实例register()方法时，会将该实例保存到CollectorRegistry当中，CollectorRegistry负责维护当前系统中所有的Collector实例。 HTTPServer在接收到HTTP请求之后，会从CollectorRegistry中拿到所有的Collector实例，并调用其collect()方法获取所有样本，最后格式化为Prometheus的标准输出。</p>
+<p>除了直接使用HTTPServer以外暴露样本数据以外，client_java中还提供了对Spring Boot、Spring Web以及Servlet的支持。</p>
+<h2 id="使用内置的Collector"><a href="#使用内置的Collector" class="headerlink" title="使用内置的Collector"></a>使用内置的Collector</h2><p>通过client_java中定义的标准接口，用户可以快速实现自己的监控数据收集器，并通过HTTPServer将样本数据输出给Prometheus。除了提供接口规范以外，client_java还提供了多个内置的Collector模块，以simpleclient_hotspot为例，该模块中内置了对JVM虚拟机运行状态（GC，内存池，JMX，类加载，线程池等）数据的Collector实现，用户可以通过在Gradle中添加以下依赖，导入simpleclient_hotspot：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">compile <span class="string">&#x27;io.prometheus:simpleclient_hotspot:0.3.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过调用io.prometheus.client.hotspot.DefaultExport的initialize方法注册该模块中所有的Collector实例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DefaultExports.initialize();</span><br></pre></td></tr></table></figure>
+
+<p>重新运行CustomExporter，并获取样本数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl http://127.0.0.1:1234/metrics</span><br><span class="line"># HELP jvm_buffer_pool_used_bytes Used bytes of a given JVM buffer pool.</span><br><span class="line"># TYPE jvm_buffer_pool_used_bytes gauge</span><br><span class="line">jvm_buffer_pool_used_bytes&#123;pool=&quot;direct&quot;,&#125; 8192.0</span><br><span class="line">jvm_buffer_pool_used_bytes&#123;pool=&quot;mapped&quot;,&#125; 0.0</span><br></pre></td></tr></table></figure>
+
+<p>除了之前自定义的监控指标以外，在响应内容中还会得到当前JVM的运行状态数据。在client_java项目中除了使用内置了对JVM监控的Collector以外，还实现了对Hibernate，Guava Cache，Jetty，Log4j、Logback等监控数据收集的支持。用户只需要添加相应的依赖，就可以直接进行使用。</p>
+<h2 id="在业务代码中进行监控埋点"><a href="#在业务代码中进行监控埋点" class="headerlink" title="在业务代码中进行监控埋点"></a>在业务代码中进行监控埋点</h2><p>在client_java中除了使用Collector直接采集样本数据以外，还直接提供了对Prometheus中4种监控类型的实现分别是：Counter、Gauge、Summary和Histogram。 基于这些实现，开发人员可以非常方便的在应用程序的业务流程中进行监控埋点。</p>
+<h2 id="简单类型Gauge和Counter"><a href="#简单类型Gauge和Counter" class="headerlink" title="简单类型Gauge和Counter"></a>简单类型Gauge和Counter</h2><p>以Gauge为例，当我们需要监控某个业务当前正在处理的请求数量，可以使用以下方式实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">YourClass</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Gauge</span> <span class="variable">inprogressRequests</span> <span class="operator">=</span> Gauge.build()</span><br><span class="line">            .name(<span class="string">&quot;inprogress_requests&quot;</span>).help(<span class="string">&quot;Inprogress requests.&quot;</span>).register();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">processRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        inprogressRequests.inc();</span><br><span class="line">        <span class="comment">// Your code here.</span></span><br><span class="line">        inprogressRequests.dec();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Gauge继承自Collector，registoer()方法会将该Gauge实例注册到CollectorRegistry中。这里创建了一个名为inprogress_requests的监控指标，其注释信息为”Inprogress requests”。</p>
+<p>Gauge对象主要包含两个方法inc()和dec()，分别用于计数器+1和-1。</p>
+<p>如果监控指标中还需要定义标签，则可以使用Gauge构造器的labelNames()方法，声明监控指标的标签，同时在样本计数时，通过指标的labels()方法指定标签的值，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">YourClass</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Gauge</span> <span class="variable">inprogressRequests</span> <span class="operator">=</span> Gauge.build()</span><br><span class="line">            .name(<span class="string">&quot;inprogress_requests&quot;</span>)</span><br><span class="line">            .labelNames(<span class="string">&quot;method&quot;</span>)</span><br><span class="line">            .help(<span class="string">&quot;Inprogress requests.&quot;</span>).register();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">processRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        inprogressRequests.labels(<span class="string">&quot;get&quot;</span>).inc();</span><br><span class="line">        <span class="comment">// Your code here.</span></span><br><span class="line">        inprogressRequests.labels(<span class="string">&quot;get&quot;</span>).dec();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Counter与Gauge的使用方法一致，唯一的区别在于Counter实例只包含一个inc()方法，用于计数器+1。</p>
+<h3 id="复杂类型Summary和Histogram"><a href="#复杂类型Summary和Histogram" class="headerlink" title="复杂类型Summary和Histogram"></a>复杂类型Summary和Histogram</h3><p>Summary和Histogram用于统计和分析样本的分布情况。如下所示，通过Summary可以将HTTP请求的字节数以及请求处理时间作为统计样本，直接统计其样本的分布情况。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">YourClass</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Summary</span> <span class="variable">receivedBytes</span> <span class="operator">=</span> Summary.build()</span><br><span class="line">     .name(<span class="string">&quot;requests_size_bytes&quot;</span>).help(<span class="string">&quot;Request size in bytes.&quot;</span>).register();</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Summary</span> <span class="variable">requestLatency</span> <span class="operator">=</span> Summary.build()</span><br><span class="line">     .name(<span class="string">&quot;requests_latency_seconds&quot;</span>).help(<span class="string">&quot;Request latency in seconds.&quot;</span>).register();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">processRequest</span><span class="params">(Request req)</span> &#123;</span><br><span class="line">    Summary.<span class="type">Timer</span> <span class="variable">requestTimer</span> <span class="operator">=</span> requestLatency.startTimer();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// Your code here.</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      receivedBytes.observe(req.size());</span><br><span class="line">      requestTimer.observeDuration();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了使用Timer进行计时以外，Summary实例也提供了timer()方法，可以对线程或者Lamda表达式运行时间进行统计：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">YourClass</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Summary</span> <span class="variable">requestLatency</span> <span class="operator">=</span> Summary.build()</span><br><span class="line">    .name(<span class="string">&quot;requests_latency_seconds&quot;</span>).help(<span class="string">&quot;Request latency in seconds.&quot;</span>).register();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">processRequest</span><span class="params">(Request req)</span> &#123;</span><br><span class="line">    requestLatency.timer(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// Your code here.    </span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// Or the Java 8 lambda equivalent   </span></span><br><span class="line">    requestLatency.timer(() -&gt; &#123;</span><br><span class="line">      <span class="comment">// Your code here.</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Summary和Histogram的用法基本保持一致，区别在于Summary可以指定在客户端统计的分位数，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Summary</span> <span class="variable">requestLatency</span> <span class="operator">=</span> Summary.build()</span><br><span class="line">    .quantile(<span class="number">0.5</span>, <span class="number">0.05</span>)   <span class="comment">// 其中0.05为误差</span></span><br><span class="line">    .quantile(<span class="number">0.9</span>, <span class="number">0.01</span>)   <span class="comment">// 其中0.01为误差</span></span><br><span class="line">    .name(<span class="string">&quot;requests_latency_seconds&quot;</span>).help(<span class="string">&quot;Request latency in seconds.&quot;</span>).register();</span><br></pre></td></tr></table></figure>
+
+<p>对于Histogram而言，默认的分布桶为[.005, .01, .025, .05, .075, .1, .25, .5, .75, 1, 2.5, 5, 7.5, 10]，如果需要指定自定义的桶分布，可以使用buckets()方法指定，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Histogram</span> <span class="variable">requestLatency</span> <span class="operator">=</span> Histogram.build()</span><br><span class="line">           .name(<span class="string">&quot;requests_latency_seconds&quot;</span>).help(<span class="string">&quot;Request latency in seconds.&quot;</span>)</span><br><span class="line">           .buckets(<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.4</span>, <span class="number">0.8</span>)</span><br><span class="line">           .register();</span><br></pre></td></tr></table></figure>
+
+<h2 id="与PushGateway集成"><a href="#与PushGateway集成" class="headerlink" title="与PushGateway集成"></a>与PushGateway集成</h2><p>对于一些短周期或者临时采集的样本数据，client_java还提供了对PushGateway的支持：</p>
+<p>添加依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">compile <span class="string">&#x27;io.prometheus:simpleclient_pushgateway:0.3.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>如下所示，PushGateway的实现类可以从所有注册到defaultRegistry的Collector实例中获取样本数据并直接推送 到外部部署的PushGateway服务中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PushGatewayIntegration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">push</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">CollectorRegistry</span> <span class="variable">registry</span> <span class="operator">=</span> CollectorRegistry.defaultRegistry;</span><br><span class="line">        <span class="type">PushGateway</span> <span class="variable">pg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PushGateway</span>(<span class="string">&quot;127.0.0.1:9091&quot;</span>);</span><br><span class="line">        pg.pushAdd(registry, <span class="string">&quot;my_batch_job&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="在应用中内置Prometheus支持"><a href="#在应用中内置Prometheus支持" class="headerlink" title="在应用中内置Prometheus支持"></a>在应用中内置Prometheus支持</h1><p>本小节将以Spring Boot为例，介绍如何在应用代码中集成client_java。</p>
+<p>添加Prometheus Java Client相关的依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">&#x27;io.prometheus:simpleclient:0.0.24&#x27;</span></span><br><span class="line">    compile <span class="string">&quot;io.prometheus:simpleclient_spring_boot:0.0.24&quot;</span></span><br><span class="line">    compile <span class="string">&quot;io.prometheus:simpleclient_hotspot:0.0.24&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过注解@EnablePrometheusEndpoint启用Prometheus Endpoint，这里同时使用了simpleclient_hotspot中提供的DefaultExporter。该Exporter会在metrics endpoint中统计当前应用JVM的相关信息：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnablePrometheusEndpoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringApplication</span> <span class="keyword">implements</span> <span class="title class_">CommandLineRunner</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(GatewayApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">(String... strings)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        DefaultExports.initialize();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下Prometheus暴露的metrics endpoint为 &#x2F;prometheus，可以通过endpoint配置进行修改:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">endpoints:</span></span><br><span class="line">  <span class="attr">prometheus:</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">metrics</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">springmetrics</span></span><br><span class="line">    <span class="attr">sensitive:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>启动应用程序访问<a target="_blank" rel="noopener" href="http://localhost:8080/metrics%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E4%BB%A5%E4%B8%8B%E8%BE%93%E5%87%BA%E5%86%85%E5%AE%B9%EF%BC%9A">http://localhost:8080/metrics可以看到以下输出内容：</a></p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP jvm_gc_collection_seconds Time spent in a given JVM garbage collector in seconds.</span><br><span class="line"># TYPE jvm_gc_collection_seconds summary</span><br><span class="line">jvm_gc_collection_seconds_count&#123;gc=&quot;PS Scavenge&quot;,&#125; 11.0</span><br><span class="line">jvm_gc_collection_seconds_sum&#123;gc=&quot;PS Scavenge&quot;,&#125; 0.18</span><br><span class="line">jvm_gc_collection_seconds_count&#123;gc=&quot;PS MarkSweep&quot;,&#125; 2.0</span><br><span class="line">jvm_gc_collection_seconds_sum&#123;gc=&quot;PS MarkSweep&quot;,&#125; 0.121</span><br><span class="line"># HELP jvm_classes_loaded The number of classes that are currently loaded in the JVM</span><br><span class="line"># TYPE jvm_classes_loaded gauge</span><br><span class="line">jvm_classes_loaded 8376.0</span><br><span class="line"># HELP jvm_classes_loaded_total The total number of classes that have been loaded since the JVM has started execution</span><br><span class="line"># TYPE jvm_classes_loaded_total counter</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加拦截器，为监控埋点做准备"><a href="#添加拦截器，为监控埋点做准备" class="headerlink" title="添加拦截器，为监控埋点做准备"></a>添加拦截器，为监控埋点做准备</h5><p>除了获取应用JVM相关的状态以外，我们还可能需要添加一些自定义的监控Metrics实现对系统性能，以及业务状态进行采集，以提供日后优化的相关支撑数据。首先我们使用拦截器处理对应用的所有请求。</p>
+<p>继承WebMvcConfigurerAdapter类并复写addInterceptors方法，对所有请求&#x2F;**添加拦截器</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnablePrometheusEndpoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringApplication</span> <span class="keyword">extends</span> <span class="title class_">WebMvcConfigurerAdapter</span> <span class="keyword">implements</span> <span class="title class_">CommandLineRunner</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        registry.addInterceptor(<span class="keyword">new</span> <span class="title class_">PrometheusMetricsInterceptor</span>()).addPathPatterns(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PrometheusMetricsInterceptor继承自HandlerInterceptorAdapter，通过复写父方法preHandle和afterCompletion可以拦截一个HTTP请求生命周期的不同阶段：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrometheusMetricsInterceptor</span> <span class="keyword">extends</span> <span class="title class_">HandlerInterceptorAdapter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.preHandle(request, response, handler);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="built_in">super</span>.afterCompletion(request, response, handler, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="自定义监控指标"><a href="#自定义监控指标" class="headerlink" title="自定义监控指标"></a>自定义监控指标</h5><p>一旦PrometheusMetricsInterceptor能够成功拦截和处理请求之后，我们就可以使用client java自定义多种监控指标。</p>
+<p>计数器可以用于记录只会增加不会减少的指标类型，比如记录应用请求的总量(http_requests_total)，cpu使用时间(process_cpu_seconds_total)等。 一般而言，Counter类型的metrics指标在命名中我们使用_total结束。</p>
+<p>使用Counter.build()创建Counter类型的监控指标，并且通过name()方法定义监控指标的名称，通过labelNames()定义该指标包含的标签。最后通过register()将该指标注册到Collector的defaultRegistry中中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrometheusMetricsInterceptor</span> <span class="keyword">extends</span> <span class="title class_">HandlerInterceptorAdapter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Counter</span> <span class="variable">requestCounter</span> <span class="operator">=</span> Counter.build()</span><br><span class="line">            .name(<span class="string">&quot;io_namespace_http_requests_total&quot;</span>).labelNames(<span class="string">&quot;path&quot;</span>, <span class="string">&quot;method&quot;</span>, <span class="string">&quot;code&quot;</span>)</span><br><span class="line">            .help(<span class="string">&quot;Total requests.&quot;</span>).register();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">requestURI</span> <span class="operator">=</span> request.getRequestURI();</span><br><span class="line">        <span class="type">String</span> <span class="variable">method</span> <span class="operator">=</span> request.getMethod();</span><br><span class="line">        <span class="type">int</span> <span class="variable">status</span> <span class="operator">=</span> response.getStatus();</span><br><span class="line"></span><br><span class="line">        requestCounter.labels(requestURI, method, String.valueOf(status)).inc();</span><br><span class="line">        <span class="built_in">super</span>.afterCompletion(request, response, handler, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在afterCompletion方法中，可以获取到当前请求的请求路径、请求方法以及状态码。 这里通过labels指定了当前样本各个标签对应的值，最后通过.inc()计数器+1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">requestCounter.labels(requestURI, method, String.valueOf(status)).inc();</span><br></pre></td></tr></table></figure>
+
+<p>通过指标io_namespace_http_requests_total我们可以实现：</p>
+<ul>
+<li>查询应用的请求总量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># PromQL</span><br><span class="line">sum(io_namespace_http_requests_total)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询每秒Http请求量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># PromQL</span><br><span class="line">sum(rate(io_wise2c_gateway_requests_total[5m]))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询当前应用请求量Top N的URI</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># PromQL</span><br><span class="line">topk(10, sum(io_namespace_http_requests_total) by (path))</span><br></pre></td></tr></table></figure>
+
+<p>使用Gauge可以反映应用的<strong>当前状态</strong>,例如在监控主机时，主机当前空闲的内容大小(node_memory_MemFree)，可用内存大小(node_memory_MemAvailable)。或者容器当前的CPU使用率,内存使用率。这里我们使用Gauge记录当前应用正在处理的Http请求数量。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter &#123;</span><br><span class="line"></span><br><span class="line">    ...省略的代码</span><br><span class="line">    static final Gauge inprogressRequests = Gauge.build()</span><br><span class="line">            .name(&quot;io_namespace_http_inprogress_requests&quot;).labelNames(&quot;path&quot;, &quot;method&quot;)</span><br><span class="line">            .help(&quot;Inprogress requests.&quot;).register();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        // 计数器+1</span><br><span class="line">        inprogressRequests.labels(requestURI, method).inc();</span><br><span class="line">        return super.preHandle(request, response, handler);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        // 计数器-1</span><br><span class="line">        inprogressRequests.labels(requestURI, method).dec();</span><br><span class="line"></span><br><span class="line">        super.afterCompletion(request, response, handler, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过指标io_namespace_http_inprogress_requests我们可以直接查询应用当前正在处理中的Http请求数量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># PromQL</span><br><span class="line">io_namespace_http_inprogress_requests&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Histogram主要用于在指定分布范围内(Buckets)记录大小(如http request bytes)或者事件发生的次数。以请求响应时间requests_latency_seconds为例。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter &#123;</span><br><span class="line"></span><br><span class="line">    static final Histogram requestLatencyHistogram = Histogram.build().labelNames(&quot;path&quot;, &quot;method&quot;, &quot;code&quot;)</span><br><span class="line">            .name(&quot;io_namespace_http_requests_latency_seconds_histogram&quot;).help(&quot;Request latency in seconds.&quot;)</span><br><span class="line">            .register();</span><br><span class="line"></span><br><span class="line">    private Histogram.Timer histogramRequestTimer;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        histogramRequestTimer = requestLatencyHistogram.labels(requestURI, method, String.valueOf(status)).startTimer();</span><br><span class="line">        ...省略的代码</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        histogramRequestTimer.observeDuration();</span><br><span class="line">        ...省略的代码</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Histogram会自动创建3个指标，分别为：</p>
+<ul>
+<li>事件发生总次数： basename_count</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 实际含义： 当前一共发生了2次http请求</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_count&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,&#125; 2.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>所有事件产生值的大小的总和： basename_sum</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 实际含义： 发生的2次http请求总的响应时间为13.107670803000001 秒</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_sum&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,&#125; 13.107670803000001</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>事件产生的值分布在bucket中的次数： basename_bucket{le&#x3D;”上包含”}</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 在总共2次请求当中。http请求响应时间 &lt;=0.005 秒 的请求次数为0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.005&quot;,&#125; 0.0</span><br><span class="line"># 在总共2次请求当中。http请求响应时间 &lt;=0.01 秒 的请求次数为0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.01&quot;,&#125; 0.0</span><br><span class="line"># 在总共2次请求当中。http请求响应时间 &lt;=0.025 秒 的请求次数为0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.025&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.05&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.075&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.1&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.25&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.5&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;0.75&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;1.0&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;2.5&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;5.0&quot;,&#125; 0.0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;7.5&quot;,&#125; 2.0</span><br><span class="line"># 在总共2次请求当中。http请求响应时间 &lt;=10 秒 的请求次数为0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;10.0&quot;,&#125; 2.0</span><br><span class="line"># 在总共2次请求当中。http请求响应时间 10 秒 的请求次数为0</span><br><span class="line">io_namespace_http_requests_latency_seconds_histogram_bucket&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,le=&quot;+Inf&quot;,&#125; 2.0</span><br></pre></td></tr></table></figure>
+
+<p>Summary和Histogram非常类型相似，都可以统计事件发生的次数或者发小，以及其分布情况。Summary和Histogram都提供了对于事件的计数_count以及值的汇总_sum。 因此使用_count,和_sum时间序列可以计算出相同的内容，例如http每秒的平均响应时间：rate(basename_sum[5m]) &#x2F; rate(basename_count[5m])。同时Summary和Histogram都可以计算和统计样本的分布情况，比如中位数，9分位数等等。其中 0.0&lt;&#x3D; 分位数Quantiles &lt;&#x3D; 1.0。</p>
+<p>不同在于Histogram可以通过histogram_quantile函数在服务器端计算分位数，而Sumamry的分位数则是直接在客户端进行定义。因此对于分位数的计算。 Summary在通过PromQL进行查询时有更好的性能表现，而Histogram则会消耗更多的资源。相对的对于客户端而言Histogram消耗的资源更少。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter &#123;</span><br><span class="line"></span><br><span class="line">    static final Summary requestLatency = Summary.build()</span><br><span class="line">            .name(&quot;io_namespace_http_requests_latency_seconds_summary&quot;)</span><br><span class="line">            .quantile(0.5, 0.05)</span><br><span class="line">            .quantile(0.9, 0.01)</span><br><span class="line">            .labelNames(&quot;path&quot;, &quot;method&quot;, &quot;code&quot;)</span><br><span class="line">            .help(&quot;Request latency in seconds.&quot;).register();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        requestTimer = requestLatency.labels(requestURI, method, String.valueOf(status)).startTimer();</span><br><span class="line">        ...省略的代码</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        requestTimer.observeDuration();</span><br><span class="line">        ...省略的代码</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Summary指标，会自动创建多个时间序列：</p>
+<ul>
+<li>事件发生总的次数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 含义：当前http请求发生总次数为12次</span><br><span class="line">io_namespace_http_requests_latency_seconds_summary_count&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,&#125; 12.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>事件产生的值的总和</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 含义：这12次http请求的总响应时间为 51.029495508s</span><br><span class="line">io_namespace_http_requests_latency_seconds_summary_sum&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,&#125; 51.029495508</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>事件产生的值的分布情况</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 含义：这12次http请求响应时间的中位数是3.052404983s</span><br><span class="line">io_namespace_http_requests_latency_seconds_summary&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,quantile=&quot;0.5&quot;,&#125; 3.052404983</span><br><span class="line"># 含义：这12次http请求响应时间的9分位数是8.003261666s</span><br><span class="line">io_namespace_http_requests_latency_seconds_summary&#123;path=&quot;/&quot;,method=&quot;GET&quot;,code=&quot;200&quot;,quantile=&quot;0.9&quot;,&#125; 8.003261666</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用Collector暴露其它指标"><a href="#使用Collector暴露其它指标" class="headerlink" title="使用Collector暴露其它指标"></a>使用Collector暴露其它指标</h5><p>除了在拦截器中使用Prometheus提供的Counter,Summary,Gauage等构造监控指标以外，我们还可以通过自定义的Collector实现对相关业务指标的暴露。例如，我们可以通过自定义Collector直接从应用程序的数据库中统计监控指标.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnablePrometheusEndpoint</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringApplication</span> <span class="keyword">extends</span> <span class="title class_">WebMvcConfigurerAdapter</span> <span class="keyword">implements</span> <span class="title class_">CommandLineRunner</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomExporter customExporter;</span><br><span class="line"></span><br><span class="line">    ...省略的代码</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">(String... args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        ...省略的代码</span><br><span class="line">        customExporter.register();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CustomExporter集成自io.prometheus.client.Collector，在调用Collector的register()方法后，当访问&#x2F;metrics时，则会自动从Collector的collection()方法中获取采集到的监控指标。</p>
+<p>由于这里CustomExporter存在于Spring的IOC容器当中，这里可以直接访问业务代码，返回需要的业务相关的指标。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> io.prometheus.client.Collector;</span><br><span class="line"><span class="keyword">import</span> io.prometheus.client.GaugeMetricFamily;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomExporter</span> <span class="keyword">extends</span> <span class="title class_">Collector</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;MetricFamilySamples&gt; <span class="title function_">collect</span><span class="params">()</span> &#123;</span><br><span class="line">        List&lt;MetricFamilySamples&gt; mfs = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        # 创建metrics指标</span><br><span class="line">        <span class="type">GaugeMetricFamily</span> <span class="variable">labeledGauge</span> <span class="operator">=</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">GaugeMetricFamily</span>(<span class="string">&quot;io_namespace_custom_metrics&quot;</span>, <span class="string">&quot;custom metrics&quot;</span>, Collections.singletonList(<span class="string">&quot;labelname&quot;</span>));</span><br><span class="line"></span><br><span class="line">        # 设置指标的label以及value</span><br><span class="line">        labeledGauge.addMetric(Collections.singletonList(<span class="string">&quot;labelvalue&quot;</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        mfs.add(labeledGauge);</span><br><span class="line">        <span class="keyword">return</span> mfs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里也可以使用CounterMetricFamily，SummaryMetricFamily声明其它的指标类型。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/advanced-exporter-common.html">5.3 常用Exporter</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Java%E8%87%AA%E5%AE%9A%E4%B9%89Exporter"><span class="toc-text">使用Java自定义Exporter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Client-Java%E6%9E%84%E5%BB%BAExporter%E7%A8%8B%E5%BA%8F"><span class="toc-text">使用Client Java构建Exporter程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Collector"><span class="toc-text">自定义Collector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8HTTP-Server%E6%9A%B4%E9%9C%B2%E6%A0%B7%E6%9C%AC%E6%95%B0%E6%8D%AE"><span class="toc-text">使用HTTP Server暴露样本数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E7%9A%84Collector"><span class="toc-text">使用内置的Collector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%E4%B8%AD%E8%BF%9B%E8%A1%8C%E7%9B%91%E6%8E%A7%E5%9F%8B%E7%82%B9"><span class="toc-text">在业务代码中进行监控埋点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%B1%BB%E5%9E%8BGauge%E5%92%8CCounter"><span class="toc-text">简单类型Gauge和Counter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8BSummary%E5%92%8CHistogram"><span class="toc-text">复杂类型Summary和Histogram</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8EPushGateway%E9%9B%86%E6%88%90"><span class="toc-text">与PushGateway集成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%BA%94%E7%94%A8%E4%B8%AD%E5%86%85%E7%BD%AEPrometheus%E6%94%AF%E6%8C%81"><span class="toc-text">在应用中内置Prometheus支持</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%8B%A6%E6%88%AA%E5%99%A8%EF%BC%8C%E4%B8%BA%E7%9B%91%E6%8E%A7%E5%9F%8B%E7%82%B9%E5%81%9A%E5%87%86%E5%A4%87"><span class="toc-text">添加拦截器，为监控埋点做准备</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="toc-text">自定义监控指标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Collector%E6%9A%B4%E9%9C%B2%E5%85%B6%E5%AE%83%E6%8C%87%E6%A0%87"><span class="toc-text">使用Collector暴露其它指标</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

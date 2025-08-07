@@ -48,3 +48,9 @@ tree:
     - alertmanager-template
     - alertmanager-slicense
     - alertmanager-recoding
+  
+  '第5章 Prometheus进阶':
+    - advanced-exporter-intro
+    - advanced-exporter-desc
+    - advanced-exporter-common
+    - advanced-exporter-java

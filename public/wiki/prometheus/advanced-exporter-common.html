@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Prometheus：5.3 常用Exporter - 烟火075的博客</title>
+
+  
+    <meta name="description" content="常用Exporter在第1章中，我们已经初步了解了Node Exporter的使用场景和方法。本小节，将会介绍更多常用的Exporter用法。包括如何监控容器运行状态，如何监控和评估MySQL服务的运行状态以及如何通过Prometheus实现基于网络探测的黑盒监控。 容器监控：cAdvisorDocker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.3 常用Exporter">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/advanced-exporter-common.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="常用Exporter在第1章中，我们已经初步了解了Node Exporter的使用场景和方法。本小节，将会介绍更多常用的Exporter用法。包括如何监控容器运行状态，如何监控和评估MySQL服务的运行状态以及如何通过Prometheus实现基于网络探测的黑盒监控。 容器监控：cAdvisorDocker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175730813.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175805629.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175851158.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175926434.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180002958.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180041592.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180123081.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180357819.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180512238.png">
+<meta property="og:image" content="https://www.prometheus.wang/exporter/static/relabel_blackbox_targets.png">
+<meta property="article:published_time" content="2025-08-07T10:07:48.502Z">
+<meta property="article:modified_time" content="2025-08-07T10:07:48.502Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175730813.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/prometheus/introduction.html"><div class="main" ff="title">Prometheus</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/prometheus/" placeholder="在Prometheus文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于路由标签</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Prometheus进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/advanced-exporter-intro.html"><span class="toc-text">5.1 Exporter进阶</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-desc.html"><span class="toc-text">5.2 Exporter详解</span></a><a class="link active" href="/wiki/prometheus/advanced-exporter-common.html"><span class="toc-text">5.3 常用Exporter</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/advanced-exporter-java.html"><span class="toc-text">5.4 使用Java自定义Exporter</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T10:07:48.502Z">2025-08-07</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.3 常用Exporter</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="常用Exporter"><a href="#常用Exporter" class="headerlink" title="常用Exporter"></a>常用Exporter</h1><p>在第1章中，我们已经初步了解了Node Exporter的使用场景和方法。本小节，将会介绍更多常用的Exporter用法。包括如何监控容器运行状态，如何监控和评估MySQL服务的运行状态以及如何通过Prometheus实现基于网络探测的黑盒监控。</p>
+<h1 id="容器监控：cAdvisor"><a href="#容器监控：cAdvisor" class="headerlink" title="容器监控：cAdvisor"></a>容器监控：cAdvisor</h1><p>Docker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux&#x2F;Windows&#x2F;Mac机器上。容器镜像正成为一个新的标准化软件交付方式。</p>
+<p>例如，可以通过以下命令快速在本地启动一个Nginx服务：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -itd nginx</span><br></pre></td></tr></table></figure>
+
+<p>为了能够获取到Docker容器的运行状态，用户可以通过Docker的stats命令获取到当前主机上运行容器的统计信息，可以查看容器的CPU利用率、内存使用量、网络IO总量以及磁盘IO总量等信息。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker stats</span></span><br><span class="line">CONTAINER           CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS</span><br><span class="line">9a1648bec3b2        0.30%               196KiB / 3.855GiB     0.00%               828B / 0B           827kB / 0B          1</span><br></pre></td></tr></table></figure>
+
+<p>除了使用命令以外，用户还可以通过Docker提供的HTTP API查看容器详细的监控统计信息。</p>
+<h2 id="使用CAdvisor"><a href="#使用CAdvisor" class="headerlink" title="使用CAdvisor"></a>使用CAdvisor</h2><p>CAdvisor是Google开源的一款用于展示和分析容器运行状态的可视化工具。通过在主机上运行CAdvisor用户可以轻松的获取到当前主机上容器的运行统计信息，并以图表的形式向用户展示。</p>
+<p>在本地运行CAdvisor也非常简单，直接运行一下命令即可：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">  --volume=/:/rootfs:ro \</span><br><span class="line">  --volume=/var/run:/var/run:rw \</span><br><span class="line">  --volume=/sys:/sys:ro \</span><br><span class="line">  --volume=/var/lib/docker/:/var/lib/docker:ro \</span><br><span class="line">  --publish=8080:8080 \</span><br><span class="line">  --detach=true \</span><br><span class="line">  --name=cadvisor \</span><br><span class="line">  google/cadvisor:latest</span><br></pre></td></tr></table></figure>
+
+<p>通过访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a>可以查看，当前主机上容器的运行状态，如下所示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175730813.png" alt="CAdvisor可视化：CPU总量">CAdvisor可视化：CPU总量</p>
+<p>CAdvisor是一个简单易用的工具，相比于使用Docker命令行工具，用户不用再登录到服务器中即可以可视化图表的形式查看主机上所有容器的运行状态。</p>
+<p>而在多主机的情况下，在所有节点上运行一个CAdvisor再通过各自的UI查看监控信息显然不太方便，同时CAdvisor默认只保存2分钟的监控数据。好消息是CAdvisor已经内置了对Prometheus的支持。访问<a target="_blank" rel="noopener" href="http://localhost:8080/metrics%E5%8D%B3%E5%8F%AF%E8%8E%B7%E5%8F%96%E5%88%B0%E6%A0%87%E5%87%86%E7%9A%84Prometheus%E7%9B%91%E6%8E%A7%E6%A0%B7%E6%9C%AC%E8%BE%93%E5%87%BA">http://localhost:8080/metrics即可获取到标准的Prometheus监控样本输出</a>:</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP cadvisor_version_info A metric with a constant &#x27;1&#x27; value labeled by kernel version, OS version, docker version, cadvisor version &amp; cadvisor revision.</span><br><span class="line"># TYPE cadvisor_version_info gauge</span><br><span class="line">cadvisor_version_info&#123;cadvisorRevision=&quot;1e567c2&quot;,cadvisorVersion=&quot;v0.28.3&quot;,dockerVersion=&quot;17.09.1-ce&quot;,kernelVersion=&quot;4.9.49-moby&quot;,osVersion=&quot;Alpine Linux v3.4&quot;&#125; 1</span><br><span class="line"># HELP container_cpu_load_average_10s Value of container cpu load average over the last 10 seconds.</span><br><span class="line"># TYPE container_cpu_load_average_10s gauge</span><br><span class="line">container_cpu_load_average_10s&#123;container_label_maintainer=&quot;&quot;,id=&quot;/&quot;,image=&quot;&quot;,name=&quot;&quot;&#125; 0</span><br><span class="line">container_cpu_load_average_10s&#123;container_label_maintainer=&quot;&quot;,id=&quot;/docker&quot;,image=&quot;&quot;,name=&quot;&quot;&#125; 0</span><br><span class="line">container_cpu_load_average_10s&#123;container_label_maintainer=&quot;&quot;,id=&quot;/docker/15535a1e09b3a307b46d90400423d5b262ec84dc55b91ca9e7dd886f4f764ab3&quot;,image=&quot;busybox&quot;,name=&quot;lucid_shaw&quot;&#125; 0</span><br><span class="line">container_cpu_load_average_10s&#123;container_label_maintainer=&quot;&quot;,id=&quot;/docker/46750749b97bae47921d49dccdf9011b503e954312b8cffdec6268c249afa2dd&quot;,image=&quot;google/cadvisor:latest&quot;,name=&quot;cadvisor&quot;&#125; 0</span><br><span class="line">container_cpu_load_average_10s&#123;container_label_maintainer=&quot;NGINX Docker Maintainers &lt;docker-maint@nginx.com&gt;&quot;,id=&quot;/docker/f51fd4d4f410965d3a0fd7e9f3250218911c1505e12960fb6dd7b889e75fc114&quot;,image=&quot;nginx&quot;,name=&quot;confident_brattain&quot;&#125; 0</span><br></pre></td></tr></table></figure>
+
+<p>下面表格中列举了一些CAdvisor中获取到的典型监控指标：</p>
+<table>
+<thead>
+<tr>
+<th>指标名称</th>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>container_cpu_load_average_10s</td>
+<td>gauge</td>
+<td>过去10秒容器CPU的平均负载</td>
+</tr>
+<tr>
+<td>container_cpu_usage_seconds_total</td>
+<td>counter</td>
+<td>容器在每个CPU内核上的累积占用时间 (单位：秒)</td>
+</tr>
+<tr>
+<td>container_cpu_system_seconds_total</td>
+<td>counter</td>
+<td>System CPU累积占用时间（单位：秒）</td>
+</tr>
+<tr>
+<td>container_cpu_user_seconds_total</td>
+<td>counter</td>
+<td>User CPU累积占用时间（单位：秒）</td>
+</tr>
+<tr>
+<td>container_fs_usage_bytes</td>
+<td>gauge</td>
+<td>容器中文件系统的使用量(单位：字节)</td>
+</tr>
+<tr>
+<td>container_fs_limit_bytes</td>
+<td>gauge</td>
+<td>容器可以使用的文件系统总量(单位：字节)</td>
+</tr>
+<tr>
+<td>container_fs_reads_bytes_total</td>
+<td>counter</td>
+<td>容器累积读取数据的总量(单位：字节)</td>
+</tr>
+<tr>
+<td>container_fs_writes_bytes_total</td>
+<td>counter</td>
+<td>容器累积写入数据的总量(单位：字节)</td>
+</tr>
+<tr>
+<td>container_memory_max_usage_bytes</td>
+<td>gauge</td>
+<td>容器的最大内存使用量（单位：字节）</td>
+</tr>
+<tr>
+<td>container_memory_usage_bytes</td>
+<td>gauge</td>
+<td>容器当前的内存使用量（单位：字节</td>
+</tr>
+<tr>
+<td>container_spec_memory_limit_bytes</td>
+<td>gauge</td>
+<td>容器的内存使用量限制</td>
+</tr>
+<tr>
+<td>machine_memory_bytes</td>
+<td>gauge</td>
+<td>当前主机的内存总量</td>
+</tr>
+<tr>
+<td>container_network_receive_bytes_total</td>
+<td>counter</td>
+<td>容器网络累积接收数据总量（单位：字节）</td>
+</tr>
+<tr>
+<td>container_network_transmit_bytes_total</td>
+<td>counter</td>
+<td>容器网络累积传输数据总量（单位：字节）</td>
+</tr>
+</tbody></table>
+<h2 id="与Prometheus集成"><a href="#与Prometheus集成" class="headerlink" title="与Prometheus集成"></a>与Prometheus集成</h2><p>修改&#x2F;etc&#x2F;prometheus&#x2F;prometheus.yml，将cAdvisor添加监控数据采集任务目标当中：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">cadvisor</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">localhost:8080</span></span><br></pre></td></tr></table></figure>
+
+<p>启动Prometheus服务:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/data/prometheus</span><br></pre></td></tr></table></figure>
+
+<p>启动完成后，可以在Prometheus UI中查看到当前所有的Target状态：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175805629.png" alt="Target">Target</p>
+<p>当能够正常采集到cAdvisor的样本数据后，可以通过以下表达式计算容器的CPU使用率：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(irate(container_cpu_usage_seconds_total&#123;image!=&quot;&quot;&#125;[1m])) without (cpu)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175851158.png" alt="容器CPU使用率">容器CPU使用率</p>
+<p>查询容器内存使用量（单位：字节）:</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">container_memory_usage_bytes&#123;image!=&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询容器网络接收量速率（单位：字节&#x2F;秒）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(rate(container_network_receive_bytes_total&#123;image!=&quot;&quot;&#125;[1m])) without (interface)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807175926434.png" alt="容器网络接收量 字节&#x2F;秒">容器网络接收量 字节&#x2F;秒</p>
+<p>查询容器网络传输量速率（单位：字节&#x2F;秒）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(rate(container_network_transmit_bytes_total&#123;image!=&quot;&quot;&#125;[1m])) without (interface)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180002958.png" alt="容器网络传输量 字节&#x2F;秒">容器网络传输量 字节&#x2F;秒</p>
+<p>查询容器文件系统读取速率（单位：字节&#x2F;秒）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(rate(container_fs_reads_bytes_total&#123;image!=&quot;&quot;&#125;[1m])) without (device)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180041592.png" alt="容器文件系统读取速率 字节&#x2F;秒">容器文件系统读取速率 字节&#x2F;秒</p>
+<p>查询容器文件系统写入速率（单位：字节&#x2F;秒）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(rate(container_fs_writes_bytes_total&#123;image!=&quot;&quot;&#125;[1m])) without (device)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180123081.png" alt="容器文件系统写入速率 字节&#x2F;秒"></p>
+<h1 id="监控MySQL运行状态：MySQLD-Exporter"><a href="#监控MySQL运行状态：MySQLD-Exporter" class="headerlink" title="监控MySQL运行状态：MySQLD Exporter"></a>监控MySQL运行状态：MySQLD Exporter</h1><p>MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，目前属于Oracle旗下的产品。 MySQL是最流行的关系型数据库管理系统之一。数据库的稳定运行是保证业务可用性的关键因素之一。这一小节当中将介绍如何使用Prometheus提供的MySQLD Exporter实现对MySQL数据库性能以及资源利用率的监控和度量。</p>
+<h2 id="二进制部署MySQL-Exporter"><a href="#二进制部署MySQL-Exporter" class="headerlink" title="二进制部署MySQL_Exporter"></a>二进制部署MySQL_Exporter</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://github.com/prometheus/mysqld_exporter/releases/download/v0.12.0/mysqld_exporter-0.12.0.linux-amd64.tar.gz</span><br><span class="line">tar xvf mysqld_exporter-0.12.0.linux-amd64.tar.gz</span><br><span class="line"><span class="built_in">mv</span> mysqld_exporter-0.12.0.linux-amd64 /data/</span><br><span class="line"><span class="comment"># 创建配置文件</span></span><br><span class="line"><span class="built_in">cat</span> &gt;&gt; /data/mysql_exporter/localhost_db.cnf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">[client]</span></span><br><span class="line"><span class="string">user=mysqld_exporter</span></span><br><span class="line"><span class="string">password=12345678</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"><span class="comment"># 创建systemd服务</span></span><br><span class="line"><span class="built_in">cat</span> &gt; /etc/systemd/system/mysql_exporter.service &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">[Unit]</span></span><br><span class="line"><span class="string">Description=mysql_exporter</span></span><br><span class="line"><span class="string">After=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Service]</span></span><br><span class="line"><span class="string">Type=simple</span></span><br><span class="line"><span class="string">User=prometheus</span></span><br><span class="line"><span class="string">ExecStart=/data/mysql_exporter/mysqld_exporter --config.my-cnf=&quot;/data/mysql_exporter/localhost_db.cnf&quot; --web.listen-address=&quot;:9105&quot;</span></span><br><span class="line"><span class="string">Restart=on-failure</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Install]</span></span><br><span class="line"><span class="string">WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="grant-permission-to-database"><a href="#grant-permission-to-database" class="headerlink" title="grant permission to database."></a>grant permission to database.</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT REPLICATION CLIENT, PROCESS ON *.* TO &#x27;mysqld_exporter&#x27;@&#x27;localhost&#x27; identified by &#x27;12345678&#x27;;</span><br><span class="line">GRANT SELECT ON performance_schema.* TO &#x27;mysqld_exporter&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Docker部署部署MySQLD-Exporter"><a href="#Docker部署部署MySQLD-Exporter" class="headerlink" title="Docker部署部署MySQLD Exporter"></a>Docker部署部署MySQLD Exporter</h2><p>为了简化测试环境复杂度，这里使用Docker Compose定义并启动MySQL以及MySQLD Exporter：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">version: &#x27;3&#x27;</span><br><span class="line">services:</span><br><span class="line">  mysql:</span><br><span class="line">    image: mysql:5.7</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;3306:3306&quot;</span><br><span class="line">    environment:</span><br><span class="line">      - MYSQL_ROOT_PASSWORD=password</span><br><span class="line">      - MYSQL_DATABASE=database</span><br><span class="line">  mysqlexporter:</span><br><span class="line">    image: prom/mysqld-exporter</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9104:9104&quot;</span><br><span class="line">    environment:</span><br><span class="line">      - DATA_SOURCE_NAME=root:password@(mysql:3306)/database</span><br></pre></td></tr></table></figure>
+
+<p>这里通过环境变量DATA_SOURCE_NAME方式定义监控目标。使用Docker Compose启动测试用的MySQL实例以及MySQLD Exporter:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>启动完成后，可以通过以下命令登录到MySQL容器当中，并执行MySQL相关的指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker exec -it &lt;mysql_container_id&gt; mysql -uroot -ppassword</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过<a target="_blank" rel="noopener" href="http://localhost:9104/">http://localhost:9104</a>访问MySQLD Exporter暴露的服务：</p>
+<p>可以通过&#x2F;metrics查看mysql_up指标判断当前MySQLD Exporter是否正常连接到了MySQL实例，当指标值为1时表示能够正常获取监控数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP mysql_up Whether the MySQL server is up.</span><br><span class="line"># TYPE mysql_up gauge</span><br><span class="line">mysql_up 1</span><br></pre></td></tr></table></figure>
+
+<p>修改Prometheus配置文件&#x2F;etc&#x2F;prometheus&#x2F;prometheus.yml，增加对MySQLD Exporter实例的采集任务配置:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: mysqld</span><br><span class="line">  static_configs:</span><br><span class="line">  - targets:</span><br><span class="line">    - localhost:9104</span><br></pre></td></tr></table></figure>
+
+<p>启动Prometheus:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/data/prometheus</span><br></pre></td></tr></table></figure>
+
+<p>通过Prometheus的状态页，可以查看当前Target的状态：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180357819.png" alt="MySQLD Exporter实例状态">MySQLD Exporter实例状态</p>
+<p>为了确保数据库的稳定运行，通常会关注一下四个与性能和资源利用率相关的指标：查询吞吐量、连接情况、缓冲池使用情况以及查询执行性能等。</p>
+<h2 id="监控数据库吞吐量"><a href="#监控数据库吞吐量" class="headerlink" title="监控数据库吞吐量"></a>监控数据库吞吐量</h2><p>对于数据库而言，最重要的工作就是实现对数据的增、删、改、查。为了衡量数据库服务器当前的吞吐量变化情况。在MySQL内部通过一个名为Questions的计数器，当客户端发送一个查询语句后，其值就会+1。可以通过以下MySQL指令查询Questions等服务器状态变量的值：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SHOW GLOBAL STATUS LIKE <span class="string">&quot;Questions&quot;</span>;</span></span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Questions     | 1326  |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>MySQLD Exporter中返回的样本数据中通过mysql_global_status_questions反映当前Questions计数器的大小：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_questions Generic metric from SHOW GLOBAL STATUS.</span><br><span class="line"># TYPE mysql_global_status_questions untyped</span><br><span class="line">mysql_global_status_questions 1016</span><br></pre></td></tr></table></figure>
+
+<p>通过以下PromQL可以查看当前MySQL实例查询速率的变化情况，查询数量的突变往往暗示着可能发生了某些严重的问题，因此用于用户应该关注并且设置响应的告警规则，以及时获取该指标的变化情况：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">rate(mysql_global_status_questions[2m])</span><br></pre></td></tr></table></figure>
+
+<p>一般还可以从监控读操作和写操作的执行情况进行判断。通过MySQL全局状态中的Com_select可以查询到当前服务器执行查询语句的总次数：相应的，也可以通过Com_insert、Com_update以及Com_delete的总量衡量当前服务器写操作的总次数，例如，可以通过以下指令查询当前MySQL实例insert语句的执行次数总量：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SHOW GLOBAL STATUS LIKE <span class="string">&quot;Com_insert&quot;</span>;</span></span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Com_insert    | 0     |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>从MySQLD Exporter的&#x2F;metrics返回的监控样本中，可以通过global_status_commands_total获取当前实例各类指令执行的次数：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_commands_total Total number of executed MySQL commands.</span><br><span class="line"># TYPE mysql_global_status_commands_total counter</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;admin_commands&quot;&#125; 0</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;alter_db&quot;&#125; 0</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;alter_db_upgrade&quot;&#125; 0</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;select&quot;&#125; 10</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;insert&quot;&#125; 2</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;update&quot;&#125; 2</span><br><span class="line">mysql_global_status_commands_total&#123;command=&quot;delete&quot;&#125; 1</span><br></pre></td></tr></table></figure>
+
+<p>用户可以通过以下PromQL查看当前MySQL实例写操作速率的变化情况：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sum(rate(mysql_global_status_commands_total&#123;command=~&quot;insert|update|delete&quot;&#125;[2m])) without (command)</span><br></pre></td></tr></table></figure>
+
+<h2 id="连接情况"><a href="#连接情况" class="headerlink" title="连接情况"></a>连接情况</h2><p>在MySQL中通过全局设置max_connections限制了当前服务器允许的最大客户端连接数量。一旦可用连接数被用尽，新的客户端连接都会被直接拒绝。 因此当监控MySQL运行状态时，需要时刻关注MySQL服务器的连接情况。用户可以通过以下指令查看当前MySQL服务的max_connections配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SHOW VARIABLES LIKE <span class="string">&#x27;max_connections&#x27;</span>;</span></span><br><span class="line">+-----------------+-------+</span><br><span class="line">| Variable_name   | Value |</span><br><span class="line">+-----------------+-------+</span><br><span class="line">| max_connections | 151   |</span><br><span class="line">+-----------------+-------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<p>MySQL默认的最大链接数为151。临时调整最大连接数，可以通过以下指令进行设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET GLOBAL max_connections = 200;</span><br></pre></td></tr></table></figure>
+
+<p>如果想永久化设置，则需要通过修改MySQL配置文件my.cnf，添加以下内容：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">max_connections = 200</span><br></pre></td></tr></table></figure>
+
+<p>通过Global Status中的Threads_connected、Aborted_connects、Connection_errors_max_connections以及Threads_running可以查看当前MySQL实例的连接情况。</p>
+<p>例如，通过以下指令可以直接当前MySQL实例的连接数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &quot;Threads_connected&quot;;</span><br><span class="line">+-------------------+-------+</span><br><span class="line">| Variable_name     | Value |</span><br><span class="line">+-------------------+-------+</span><br><span class="line">| Threads_connected | 1     |</span><br><span class="line">+-------------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>当所有可用连接都被占用时，如果一个客户端尝试连接至MySQL，会出现“Too many connections(连接数过多)”错误，同时Connection_errors_max_connections的值也会增加。为了防止出现此类情况，你应该监控可用连接的数量，并确保其值保持在max_connections限制以内。同时如果Aborted_connects的数量不断增加时，说明客户端尝试连接到MySQL都失败了。此时可以通过Connection_errors_max_connections以及Connection_errors_internal分析连接失败的问题原因。</p>
+<p>下面列举了与MySQL连接相关的监控指标：</p>
+<ul>
+<li>mysql_global_variables_max_connections： 允许的最大连接数；</li>
+<li>mysql_global_status_threads_connected： 当前开放的连接；</li>
+<li>mysql_global_status_threads_running：当前开放的连接；</li>
+<li>mysql_global_status_aborted_connects：当前开放的连接；</li>
+<li>mysql_global_status_connection_errors_total{error&#x3D;”max_connections”}：由于超出最大连接数导致的错误；</li>
+<li>mysql_global_status_connection_errors_total{error&#x3D;”internal”}：由于系统内部导致的错误；</li>
+</ul>
+<p>通过PromQL查询当前剩余的可用连接数：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mysql_global_variables_max_connections - mysql_global_status_threads_connected</span><br></pre></td></tr></table></figure>
+
+<p>使用PromQL查询当前MySQL实例连接拒绝数：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mysql_global_status_aborted_connects</span><br></pre></td></tr></table></figure>
+
+<h2 id="监控缓冲池使用情况"><a href="#监控缓冲池使用情况" class="headerlink" title="监控缓冲池使用情况"></a>监控缓冲池使用情况</h2><p>MySQL默认的存储引擎InnoDB使用了一片称为缓冲池的内存区域，用于缓存数据表以及索引的数据。 当缓冲池的资源使用超出限制后，可能会导致数据库性能的下降，同时很多查询命令会直接在磁盘中执行，导致磁盘I&#x2F;O不断攀升。 因此，应该关注MySQL缓冲池的资源使用情况，并且在合理的时间扩大缓冲池的大小可以优化数据库的性能。</p>
+<p>Innodb_buffer_pool_pages_total反映了当前缓冲池中的内存页的总页数。可以通过以下指令查看：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &quot;Innodb_buffer_pool_pages_total&quot;;</span><br><span class="line">+--------------------------------+-------+</span><br><span class="line">| Variable_name                  | Value |</span><br><span class="line">+--------------------------------+-------+</span><br><span class="line">| Innodb_buffer_pool_pages_total | 8191  |</span><br><span class="line">+--------------------------------+-------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure>
+
+<p>MySQLD Exporter通过以下指标返回缓冲池中各类内存页的数量：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_buffer_pool_pages Innodb buffer pool pages by state.</span><br><span class="line"># TYPE mysql_global_status_buffer_pool_pages gauge</span><br><span class="line">mysql_global_status_buffer_pool_pages&#123;state=&quot;data&quot;&#125; 516</span><br><span class="line">mysql_global_status_buffer_pool_pages&#123;state=&quot;dirty&quot;&#125; 0</span><br><span class="line">mysql_global_status_buffer_pool_pages&#123;state=&quot;free&quot;&#125; 7675</span><br><span class="line">mysql_global_status_buffer_pool_pages&#123;state=&quot;misc&quot;&#125; 0</span><br></pre></td></tr></table></figure>
+
+<p>Innodb_buffer_pool_read_requests记录了正常从缓冲池读取数据的请求数量。可以通过以下指令查看：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &quot;Innodb_buffer_pool_read_requests&quot;;</span><br><span class="line">+----------------------------------+--------+</span><br><span class="line">| Variable_name                    | Value  |</span><br><span class="line">+----------------------------------+--------+</span><br><span class="line">| Innodb_buffer_pool_read_requests | 797023 |</span><br><span class="line">+----------------------------------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>MySQLD Exporter通过以下指标返回缓冲池中Innodb_buffer_pool_read_requests的值：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_innodb_buffer_pool_read_requests Generic metric from SHOW GLOBAL STATUS.</span><br><span class="line"># TYPE mysql_global_status_innodb_buffer_pool_read_requests untyped</span><br><span class="line">mysql_global_status_innodb_buffer_pool_read_requests 736711</span><br></pre></td></tr></table></figure>
+
+<p>当缓冲池无法满足时，MySQL只能从磁盘中读取数据。Innodb_buffer_pool_reads即记录了从磁盘读取数据的请求数量。通常来说从内存中读取数据的速度要比从磁盘中读取快很多，因此，如果Innodb_buffer_pool_reads的值开始增加，可能意味着数据库的性能有问题。 可以通过以下只能查看Innodb_buffer_pool_reads的数量</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &quot;Innodb_buffer_pool_reads&quot;;</span><br><span class="line">+--------------------------+-------+</span><br><span class="line">| Variable_name            | Value |</span><br><span class="line">+--------------------------+-------+</span><br><span class="line">| Innodb_buffer_pool_reads | 443   |</span><br><span class="line">+--------------------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>在MySQLD Exporter中可以通过以下指标查看Innodb_buffer_pool_reads的数量。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_innodb_buffer_pool_reads Generic metric from SHOW GLOBAL STATUS.</span><br><span class="line"># TYPE mysql_global_status_innodb_buffer_pool_reads untyped</span><br><span class="line">mysql_global_status_innodb_buffer_pool_reads 443</span><br></pre></td></tr></table></figure>
+
+<p>通过以上监控指标，以及实际监控的场景，我们可以利用PromQL快速建立多个监控项。</p>
+<p>通过以下PromQL可以得到各个MySQL实例的缓冲池利用率。一般来说还需要结合Innodb_buffer_pool_reads的增长率情况来结合判断缓冲池大小是否合理：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(sum(mysql_global_status_buffer_pool_pages) by (instance) - sum(mysql_global_status_buffer_pool_pages&#123;state=&quot;free&quot;&#125;) by (instance)) / sum(mysql_global_status_buffer_pool_pages) by (instance)</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过以下PromQL计算2分钟内磁盘读取请求次数的增长率的变化情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rate(mysql_global_status_innodb_buffer_pool_reads[2m])</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询性能"><a href="#查询性能" class="headerlink" title="查询性能"></a>查询性能</h2><p>MySQL还提供了一个Slow_queries的计数器，当查询的执行时间超过long_query_time的值后，计数器就会+1，其默认值为10秒，可以通过以下指令在MySQL中查询当前long_query_time的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &#x27;long_query_time&#x27;;</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Variable_name   | Value     |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| long_query_time | 10.000000 |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>通过以下指令可以查看当前MySQL实例中Slow_queries的数量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &quot;Slow_queries&quot;;</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Slow_queries  | 0     |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>MySQLD Exporter返回的样本数据中，通过以下指标展示当前的Slow_queries的值：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP mysql_global_status_slow_queries Generic metric from SHOW GLOBAL STATUS.</span><br><span class="line"># TYPE mysql_global_status_slow_queries untyped</span><br><span class="line">mysql_global_status_slow_queries 0</span><br></pre></td></tr></table></figure>
+
+<p>通过监控Slow_queries的增长率，可以反映出当前MySQL服务器的性能状态，可以通过以下PromQL查询Slow_queries的增长情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rate(mysql_global_status_slow_queries[2m])</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL中还可以通过安装response time插件，从而支持记录查询时间区间的统计信息。启动该功能后MySQLD Exporter也会自动获取到相关数据，从而可以细化MySQL查询响应时间的分布情况。 感兴趣的读者可以自行尝试。</p>
+<h1 id="网络探测：Blackbox-Exporter"><a href="#网络探测：Blackbox-Exporter" class="headerlink" title="网络探测：Blackbox Exporter"></a>网络探测：Blackbox Exporter</h1><p>在本章的前几个小节中我们主要介绍了Prometheus下如何进行白盒监控，我们监控主机的资源用量、容器的运行状态、数据库中间件的运行数据。 这些都是支持业务和服务的基础设施，通过白盒能够了解其内部的实际运行状态，通过对监控指标的观察能够预判可能出现的问题，从而对潜在的不确定因素进行优化。而从完整的监控逻辑的角度，除了大量的应用白盒监控以外，还应该添加适当的黑盒监控。黑盒监控即以用户的身份测试服务的外部可见性，常见的黑盒监控包括HTTP探针、TCP探针等用于检测站点或者服务的可访问性，以及访问效率等。</p>
+<p>黑盒监控相较于白盒监控最大的不同在于黑盒监控是以故障为导向当故障发生时，黑盒监控能快速发现故障，而白盒监控则侧重于主动发现或者预测潜在的问题。一个完善的监控目标是要能够从白盒的角度发现潜在问题，能够在黑盒的角度快速发现已经发生的问题。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807180512238.png" alt="黑盒监控和白盒监控"></p>
+<p>​                                                                                            黑盒监控和白盒监控</p>
+<h2 id="使用Blackbox-Exporter"><a href="#使用Blackbox-Exporter" class="headerlink" title="使用Blackbox Exporter"></a>使用Blackbox Exporter</h2><p>Blackbox Exporter是Prometheus社区提供的官方黑盒监控解决方案，其允许用户通过：HTTP、HTTPS、DNS、TCP以及ICMP的方式对网络进行探测。用户可以直接使用go get命令获取Blackbox Exporter源码并生成本地可执行文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go get prometheus/blackbox_exporter</span><br></pre></td></tr></table></figure>
+
+<p>运行Blackbox Exporter时，需要用户提供探针的配置信息，这些配置信息可能是一些自定义的HTTP头信息，也可能是探测时需要的一些TSL配置，也可能是探针本身的验证行为。在Blackbox Exporter每一个探针配置称为一个module，并且以YAML配置文件的形式提供给Blackbox Exporter。 每一个module主要包含以下配置内容，包括探针类型（prober）、验证访问超时时间（timeout）、以及当前探针的具体配置项：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 探针类型：http、 tcp、 dns、 icmp.</span><br><span class="line">prober: &lt;prober_string&gt;</span><br><span class="line"></span><br><span class="line"># 超时时间</span><br><span class="line">[ timeout: &lt;duration&gt; ]</span><br><span class="line"></span><br><span class="line"># 探针的详细配置，最多只能配置其中的一个</span><br><span class="line">[ http: &lt;http_probe&gt; ]</span><br><span class="line">[ tcp: &lt;tcp_probe&gt; ]</span><br><span class="line">[ dns: &lt;dns_probe&gt; ]</span><br><span class="line">[ icmp: &lt;icmp_probe&gt; ]</span><br></pre></td></tr></table></figure>
+
+<p>下面是一个简化的探针配置文件blockbox.yml，包含两个HTTP探针配置项：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">modules:</span><br><span class="line">  http_2xx:</span><br><span class="line">    prober: http</span><br><span class="line">    http:</span><br><span class="line">      method: GET</span><br><span class="line">  http_post_2xx:</span><br><span class="line">    prober: http</span><br><span class="line">    http:</span><br><span class="line">      method: POST</span><br></pre></td></tr></table></figure>
+
+<p>通过运行以下命令，并指定使用的探针配置文件启动Blockbox Exporter实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">blackbox_exporter --config.file=/etc/prometheus/blackbox.yml</span><br></pre></td></tr></table></figure>
+
+<p>启动成功后，就可以通过访问<a href="http://127.0.0.1:9115/probe?module=http_2xx&target=baidu.com%E5%AF%B9baidu.com%E8%BF%9B%E8%A1%8C%E6%8E%A2%E6%B5%8B%E3%80%82%E8%BF%99%E9%87%8C%E9%80%9A%E8%BF%87%E5%9C%A8URL%E4%B8%AD%E6%8F%90%E4%BE%9Bmodule%E5%8F%82%E6%95%B0%E6%8C%87%E5%AE%9A%E4%BA%86%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8E%A2%E9%92%88%EF%BC%8Ctarget%E5%8F%82%E6%95%B0%E6%8C%87%E5%AE%9A%E6%8E%A2%E6%B5%8B%E7%9B%AE%E6%A0%87%EF%BC%8C%E6%8E%A2%E9%92%88%E7%9A%84%E6%8E%A2%E6%B5%8B%E7%BB%93%E6%9E%9C%E9%80%9A%E8%BF%87Metrics%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%BF%94%E5%9B%9E%EF%BC%9A">http://127.0.0.1:9115/probe?module=http_2xx&amp;target=baidu.com对baidu.com进行探测。这里通过在URL中提供module参数指定了当前使用的探针，target参数指定探测目标，探针的探测结果通过Metrics的形式返回：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP probe_dns_lookup_time_seconds Returns the time taken for probe dns lookup in seconds</span><br><span class="line"># TYPE probe_dns_lookup_time_seconds gauge</span><br><span class="line">probe_dns_lookup_time_seconds 0.011633673</span><br><span class="line"># HELP probe_duration_seconds Returns how long the probe took to complete in seconds</span><br><span class="line"># TYPE probe_duration_seconds gauge</span><br><span class="line">probe_duration_seconds 0.117332275</span><br><span class="line"># HELP probe_failed_due_to_regex Indicates if probe failed due to regex</span><br><span class="line"># TYPE probe_failed_due_to_regex gauge</span><br><span class="line">probe_failed_due_to_regex 0</span><br><span class="line"># HELP probe_http_content_length Length of http content response</span><br><span class="line"># TYPE probe_http_content_length gauge</span><br><span class="line">probe_http_content_length 81</span><br><span class="line"># HELP probe_http_duration_seconds Duration of http request by phase, summed over all redirects</span><br><span class="line"># TYPE probe_http_duration_seconds gauge</span><br><span class="line">probe_http_duration_seconds&#123;phase=&quot;connect&quot;&#125; 0.055551141</span><br><span class="line">probe_http_duration_seconds&#123;phase=&quot;processing&quot;&#125; 0.049736019</span><br><span class="line">probe_http_duration_seconds&#123;phase=&quot;resolve&quot;&#125; 0.011633673</span><br><span class="line">probe_http_duration_seconds&#123;phase=&quot;tls&quot;&#125; 0</span><br><span class="line">probe_http_duration_seconds&#123;phase=&quot;transfer&quot;&#125; 3.8919e-05</span><br><span class="line"># HELP probe_http_redirects The number of redirects</span><br><span class="line"># TYPE probe_http_redirects gauge</span><br><span class="line">probe_http_redirects 0</span><br><span class="line"># HELP probe_http_ssl Indicates if SSL was used for the final redirect</span><br><span class="line"># TYPE probe_http_ssl gauge</span><br><span class="line">probe_http_ssl 0</span><br><span class="line"># HELP probe_http_status_code Response HTTP status code</span><br><span class="line"># TYPE probe_http_status_code gauge</span><br><span class="line">probe_http_status_code 200</span><br><span class="line"># HELP probe_http_version Returns the version of HTTP of the probe response</span><br><span class="line"># TYPE probe_http_version gauge</span><br><span class="line">probe_http_version 1.1</span><br><span class="line"># HELP probe_ip_protocol Specifies whether probe ip protocol is IP4 or IP6</span><br><span class="line"># TYPE probe_ip_protocol gauge</span><br><span class="line">probe_ip_protocol 4</span><br><span class="line"># HELP probe_success Displays whether or not the probe was a success</span><br><span class="line"># TYPE probe_success gauge</span><br><span class="line">probe_success 1</span><br></pre></td></tr></table></figure>
+
+<p>从返回的样本中，用户可以获取站点的DNS解析耗时、站点响应时间、HTTP响应状态码等等和站点访问质量相关的监控指标，从而帮助管理员主动的发现故障和问题。</p>
+<h2 id="与Prometheus集成-1"><a href="#与Prometheus集成-1" class="headerlink" title="与Prometheus集成"></a>与Prometheus集成</h2><p>接下来，只需要在Prometheus下配置对Blockbox Exporter实例的采集任务即可。最直观的配置方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: baidu_http2xx_probe</span><br><span class="line">  params:</span><br><span class="line">    module:</span><br><span class="line">    - http_2xx</span><br><span class="line">    target:</span><br><span class="line">    - baidu.com</span><br><span class="line">  metrics_path: /probe</span><br><span class="line">  static_configs:</span><br><span class="line">  - targets:</span><br><span class="line">    - 127.0.0.1:9115</span><br><span class="line">- job_name: prometheus_http2xx_probe</span><br><span class="line">  params:</span><br><span class="line">    module:</span><br><span class="line">    - http_2xx</span><br><span class="line">    target:</span><br><span class="line">    - prometheus.io</span><br><span class="line">  metrics_path: /probe</span><br><span class="line">  static_configs:</span><br><span class="line">  - targets:</span><br><span class="line">    - 127.0.0.1:9115</span><br></pre></td></tr></table></figure>
+
+<p>这里分别配置了名为baidu_http2x_probe和prometheus_http2xx_probe的采集任务，并且通过params指定使用的探针（module）以及探测目标（target）。</p>
+<p>那问题就来了，假如我们有N个目标站点且都需要M种探测方式，那么Prometheus中将包含N * M个采集任务，从配置管理的角度来说显然是不可接受的。 在第7章的“服务发现与Relabel”小节，我们介绍了Prometheus的Relabeling能力，这里我们也可以采用Relabling的方式对这些配置进行简化，配置方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  - job_name: &#x27;blackbox&#x27;</span><br><span class="line">    metrics_path: /probe</span><br><span class="line">    params:</span><br><span class="line">      module: [http_2xx]</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets:</span><br><span class="line">        - http://prometheus.io    # Target to probe with http.</span><br><span class="line">        - https://prometheus.io   # Target to probe with https.</span><br><span class="line">        - http://example.com:8080 # Target to probe with http on port 8080.</span><br><span class="line">    relabel_configs:</span><br><span class="line">      - source_labels: [__address__]</span><br><span class="line">        target_label: __param_target</span><br><span class="line">      - source_labels: [__param_target]</span><br><span class="line">        target_label: instance</span><br><span class="line">      - target_label: __address__</span><br><span class="line">        replacement: 127.0.0.1:9115</span><br></pre></td></tr></table></figure>
+
+<p>这里针对每一个探针服务（如http_2xx）定义一个采集任务，并且直接将任务的采集目标定义为我们需要探测的站点。在采集样本数据之前通过relabel_configs对采集任务进行动态设置。</p>
+<ul>
+<li>第1步，根据Target实例的地址，写入<code>__param_target</code>标签中。<code>__param_&lt;name&gt;</code>形式的标签表示，在采集任务时会在请求目标地址中添加<code>&lt;name&gt;</code>参数，等同于params的设置；</li>
+<li>第2步，获取__param_target的值，并覆写到instance标签中；</li>
+<li>第3步，覆写Target实例的<code>__address__</code>标签值为BlockBox Exporter实例的访问地址。</li>
+</ul>
+<p>通过以上3个relabel步骤，即可大大简化Prometheus任务配置的复杂度:</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.prometheus.wang/exporter/static/relabel_blackbox_targets.png" alt="Blackbox Target实例">Blackbox Target实例</p>
+<p>接下来，我们将详细介绍Blackbox中常用的HTTP探针使用方式</p>
+<h2 id="HTTP探针"><a href="#HTTP探针" class="headerlink" title="HTTP探针"></a>HTTP探针</h2><p>HTTP探针是进行黑盒监控时最常用的探针之一，通过HTTP探针能够网站或者HTTP服务建立有效的监控，包括其本身的可用性，以及用户体验相关的如响应时间等等。除了能够在服务出现异常的时候及时报警，还能帮助系统管理员分析和优化网站体验。</p>
+<p>在上一小节讲过，Blockbox Exporter中所有的探针均是以Module的信息进行配置。如下所示，配置了一个最简单的HTTP探针：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">modules:</span><br><span class="line">  http_2xx_example:</span><br><span class="line">    prober: http</span><br><span class="line">    http:</span><br></pre></td></tr></table></figure>
+
+<p>通过prober配置项指定探针类型。配置项http用于自定义探针的探测方式，这里有没对http配置项添加任何配置，表示完全使用HTTP探针的默认配置，该探针将使用HTTP GET的方式对目标服务进行探测，并且验证返回状态码是否为2XX，是则表示验证成功，否则失败。</p>
+<h3 id="自定义HTTP请求"><a href="#自定义HTTP请求" class="headerlink" title="自定义HTTP请求"></a>自定义HTTP请求</h3><p>HTTP服务通常会以不同的形式对外展现，有些可能就是一些简单的网页，而有些则可能是一些基于REST的API服务。 对于不同类型的HTTP的探测需要管理员能够对HTTP探针的行为进行更多的自定义设置，包括：HTTP请求方法、HTTP头信息、请求参数等。对于某些启用了安全认证的服务还需要能够对HTTP探测设置相应的Auth支持。对于HTTPS类型的服务还需要能够对证书进行自定义设置。</p>
+<p>如下所示，这里通过method定义了探测时使用的请求方法，对于一些需要请求参数的服务，还可以通过headers定义相关的请求头信息，使用body定义请求内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_post_2xx:</span><br><span class="line">    prober: http</span><br><span class="line">    timeout: 5s</span><br><span class="line">    http:</span><br><span class="line">      method: POST</span><br><span class="line">      headers:</span><br><span class="line">        Content-Type: application/json</span><br><span class="line">      body: &#x27;&#123;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果HTTP服务启用了安全认证，Blockbox Exporter内置了对basic_auth的支持，可以直接设置相关的认证信息即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_basic_auth_example:</span><br><span class="line">    prober: http</span><br><span class="line">    timeout: 5s</span><br><span class="line">    http:</span><br><span class="line">      method: POST</span><br><span class="line">      headers:</span><br><span class="line">        Host: &quot;login.example.com&quot;</span><br><span class="line">      basic_auth:</span><br><span class="line">        username: &quot;username&quot;</span><br><span class="line">        password: &quot;mysecret&quot;</span><br></pre></td></tr></table></figure>
+
+<p>对于使用了Bear Token的服务也可以通过bearer_token配置项直接指定令牌字符串，或者通过bearer_token_file指定令牌文件。</p>
+<p>对于一些启用了HTTPS的服务，但是需要自定义证书的服务，可以通过tls_config指定相关的证书信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_custom_ca_example:</span><br><span class="line">   prober: http</span><br><span class="line">   http:</span><br><span class="line">     method: GET</span><br><span class="line">     tls_config:</span><br><span class="line">       ca_file: &quot;/certs/my_cert.crt&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义探针行为"><a href="#自定义探针行为" class="headerlink" title="自定义探针行为"></a>自定义探针行为</h3><p>在默认情况下HTTP探针只会对HTTP返回状态码进行校验，如果状态码为2XX（200 &lt;&#x3D; StatusCode &lt; 300）则表示探测成功，并且探针返回的指标probe_success值为1。</p>
+<p>如果用户需要指定HTTP返回状态码，或者对HTTP版本有特殊要求，如下所示，可以使用valid_http_versions和valid_status_codes进行定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_2xx_example:</span><br><span class="line">  prober: http</span><br><span class="line">  timeout: 5s</span><br><span class="line">  http:</span><br><span class="line">    valid_http_versions: [&quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;]</span><br><span class="line">    valid_status_codes: []</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，Blockbox返回的样本数据中也会包含指标probe_http_ssl，用于表明当前探针是否使用了SSL：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP probe_http_ssl Indicates if SSL was used for the final redirect</span><br><span class="line"># TYPE probe_http_ssl gauge</span><br><span class="line">probe_http_ssl 0</span><br></pre></td></tr></table></figure>
+
+<p>而如果用户对于HTTP服务是否启用SSL有强制的标准。则可以使用fail_if_ssl和fail_if_not_ssl进行配置。fail_if_ssl为true时，表示如果站点启用了SSL则探针失败，反之成功。fail_if_not_ssl刚好相反。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_2xx_example:</span><br><span class="line">  prober: http</span><br><span class="line">  timeout: 5s</span><br><span class="line">  http:</span><br><span class="line">    valid_status_codes: []</span><br><span class="line">    method: GET</span><br><span class="line">    no_follow_redirects: false</span><br><span class="line">    fail_if_ssl: false</span><br><span class="line">    fail_if_not_ssl: false</span><br></pre></td></tr></table></figure>
+
+<p>除了基于HTTP状态码，HTTP协议版本以及是否启用SSL作为控制探针探测行为成功与否的标准以外，还可以匹配HTTP服务的响应内容。使用fail_if_matches_regexp和fail_if_not_matches_regexp用户可以定义一组正则表达式，用于验证HTTP返回内容是否符合或者不符合正则表达式的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_2xx_example:</span><br><span class="line">  prober: http</span><br><span class="line">  timeout: 5s</span><br><span class="line">  http:</span><br><span class="line">    method: GET</span><br><span class="line">    fail_if_matches_regexp:</span><br><span class="line">      - &quot;Could not connect to database&quot;</span><br><span class="line">    fail_if_not_matches_regexp:</span><br><span class="line">      - &quot;Download the latest version here&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最后需要提醒的时，默认情况下HTTP探针会走IPV6的协议。 在大多数情况下，可以使用preferred_ip_protocol&#x3D;ip4强制通过IPV4的方式进行探测。在Bloackbox响应的监控样本中，也会通过指标probe_ip_protocol，表明当前的协议使用情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP probe_ip_protocol Specifies whether probe ip protocol is IP4 or IP6</span><br><span class="line"># TYPE probe_ip_protocol gauge</span><br><span class="line">probe_ip_protocol 6</span><br></pre></td></tr></table></figure>
+
+<p>除了支持对HTTP协议进行网络探测以外，Blackbox还支持对TCP、DNS、ICMP等其他网络协议，感兴趣的读者可以从Blackbox的Github项目中获取更多使用信息</p>
+<h4 id="https-github-com-prometheus-blackbox-exporter。"><a href="#https-github-com-prometheus-blackbox-exporter。" class="headerlink" title="https://github.com/prometheus/blackbox_exporter。"></a><a target="_blank" rel="noopener" href="https://github.com/prometheus/blackbox_exporter%E3%80%82">https://github.com/prometheus/blackbox_exporter。</a></h4><h1 id="监控Redis运行状态：Redis-Exporter"><a href="#监控Redis运行状态：Redis-Exporter" class="headerlink" title="监控Redis运行状态：Redis Exporter"></a>监控Redis运行状态：Redis Exporter</h1><h2 id="部署Redis-Exporter"><a href="#部署Redis-Exporter" class="headerlink" title="部署Redis Exporter"></a>部署Redis Exporter</h2><p>这里使用二进制部署启动Redis以及Redis Exporter，具体安装细节就不做重复了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /data/redis_exporter</span><br><span class="line">sudo wget https://github.com/oliver006/redis_exporter/releases/download/v1.3.2/redis_exporter-v1.3.2.linux-amd64.tar.gz</span><br><span class="line">tar -xvf  redis_exporter-v1.3.2.linux-amd64.tar.gz</span><br><span class="line">mv redis_exporter-v1.3.2.linux-amd64 /data/redis_exporter</span><br><span class="line"></span><br><span class="line">wget  https://grafana.com/api/dashboards/763/revisions/1/download</span><br><span class="line"></span><br><span class="line">## 无密码</span><br><span class="line">./redis_exporter redis//172.26.42.229:6379</span><br><span class="line">## 有密码</span><br><span class="line">./redis_exporter -redis.addr 172.26.42.229:6379  -redis.password 123456</span><br><span class="line"></span><br><span class="line">cat &gt; /etc/systemd/system/redis_exporter.service &lt;&lt;EOF</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=redis_exporter</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=prometheus</span><br><span class="line">ExecStart=/data/redis_exporter/redis_exporter -redis.addr 172.26.42.229:6379  -redis.password 123456</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- job_name: redis</span><br><span class="line">static_configs:</span><br><span class="line">  - targets: [&#x27;1172.26.42.229:9121&#x27;]</span><br><span class="line">    labels:</span><br><span class="line">      instance: redis120</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/advanced-exporter-desc.html">5.2 Exporter详解</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/advanced-exporter-java.html">5.4 使用Java自定义Exporter</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8Exporter"><span class="toc-text">常用Exporter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%EF%BC%9AcAdvisor"><span class="toc-text">容器监控：cAdvisor</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8CAdvisor"><span class="toc-text">使用CAdvisor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8EPrometheus%E9%9B%86%E6%88%90"><span class="toc-text">与Prometheus集成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7MySQL%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%EF%BC%9AMySQLD-Exporter"><span class="toc-text">监控MySQL运行状态：MySQLD Exporter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%83%A8%E7%BD%B2MySQL-Exporter"><span class="toc-text">二进制部署MySQL_Exporter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grant-permission-to-database"><span class="toc-text">grant permission to database.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E9%83%A8%E7%BD%B2%E9%83%A8%E7%BD%B2MySQLD-Exporter"><span class="toc-text">Docker部署部署MySQLD Exporter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%9E%E5%90%90%E9%87%8F"><span class="toc-text">监控数据库吞吐量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%83%85%E5%86%B5"><span class="toc-text">连接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E7%BC%93%E5%86%B2%E6%B1%A0%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">监控缓冲池使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%80%A7%E8%83%BD"><span class="toc-text">查询性能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A2%E6%B5%8B%EF%BC%9ABlackbox-Exporter"><span class="toc-text">网络探测：Blackbox Exporter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Blackbox-Exporter"><span class="toc-text">使用Blackbox Exporter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8EPrometheus%E9%9B%86%E6%88%90-1"><span class="toc-text">与Prometheus集成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E6%8E%A2%E9%92%88"><span class="toc-text">HTTP探针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89HTTP%E8%AF%B7%E6%B1%82"><span class="toc-text">自定义HTTP请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E8%A1%8C%E4%B8%BA"><span class="toc-text">自定义探针行为</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#https-github-com-prometheus-blackbox-exporter%E3%80%82"><span class="toc-text">https:&#x2F;&#x2F;github.com&#x2F;prometheus&#x2F;blackbox_exporter。</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7Redis%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%EF%BC%9ARedis-Exporter"><span class="toc-text">监控Redis运行状态：Redis Exporter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Redis-Exporter"><span class="toc-text">部署Redis Exporter</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
