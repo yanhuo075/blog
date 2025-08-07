@@ -27,3 +27,9 @@ tree:
     - promsql
     - grafana
     - task
+
+  '第3章 探索PromQL':
+    - time-series
+    - metric-type
+    - promql-learn
+    - promql-symbol
