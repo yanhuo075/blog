@@ -24,3 +24,4 @@ tree:
     - install
     - node
     - promsql
+    - grafana
