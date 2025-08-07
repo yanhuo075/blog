@@ -17,12 +17,12 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：Prometheus 简介 - 烟火075的博客</title>
+  <title>Prometheus：1.1 Prometheus 简介 - 烟火075的博客</title>
 
   
     <meta name="description" content="Prometheus简介Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Prometheus 简介">
+<meta property="og:title" content="1.1 Prometheus 简介">
 <meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/introduction.html">
 <meta property="og:site_name" content="烟火075的博客">
 <meta property="og:description" content="Prometheus简介Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年">
@@ -31,8 +31,8 @@
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115838642.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807120039074.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115925104.png">
-<meta property="article:published_time" content="2025-08-07T06:45:16.925Z">
-<meta property="article:modified_time" content="2025-08-07T06:45:16.925Z">
+<meta property="article:published_time" content="2025-08-07T07:11:29.293Z">
+<meta property="article:modified_time" content="2025-08-07T07:11:29.289Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115711765.png">
@@ -70,7 +70,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">Prometheus 简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">初识 Prometheus</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a></div></widget>
 
 
 </div>
@@ -85,12 +85,12 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T06:45:16.925Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T07:11:29.289Z">2025-08-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>Prometheus 简介</span></h1>
+        <h1 class="text title"><span>1.1 Prometheus 简介</span></h1>
         
       </div>
     </div>
@@ -154,7 +154,7 @@
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/describe.html">初识 Prometheus</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/describe.html">2.1 初识 Prometheus</a></div></section></div>
 
 
 

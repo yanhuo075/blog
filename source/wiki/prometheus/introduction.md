@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: Prometheus 简介
+title: 1.1 Prometheus 简介
 order: 0
 ---
 

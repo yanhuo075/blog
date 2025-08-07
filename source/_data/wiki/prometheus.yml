@@ -20,4 +20,4 @@ tree:
     - introduction
   
   '第2章 Prometheus安装和使用':
-    - install
+    - describe
