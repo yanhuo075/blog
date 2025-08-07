@@ -17,25 +17,20 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：Prometheus 简介 - 烟火075的博客</title>
+  <title>Prometheus：初识 Prometheus - 烟火075的博客</title>
 
   
-    <meta name="description" content="Prometheus简介Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年">
+    <meta name="description" content="初识PrometheusPrometheus是一个开放性的监控解决方案，用户可以非常方便的安装和使用Prometheus并且能够非常方便的对其进行扩展。为了能够更加直观的了解Prometheus Server，接下来我们将在本地部署并运行一个Prometheus Server实例，通过Node Exporter采集当前主机的系统资源使用情况。 并通过Grafana创建一个简单的可视化仪表盘。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Prometheus 简介">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/introduction.html">
+<meta property="og:title" content="初识 Prometheus">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/describe.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="Prometheus简介Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年">
+<meta property="og:description" content="初识PrometheusPrometheus是一个开放性的监控解决方案，用户可以非常方便的安装和使用Prometheus并且能够非常方便的对其进行扩展。为了能够更加直观的了解Prometheus Server，接下来我们将在本地部署并运行一个Prometheus Server实例，通过Node Exporter采集当前主机的系统资源使用情况。 并通过Grafana创建一个简单的可视化仪表盘。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115711765.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115838642.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807120039074.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115925104.png">
-<meta property="article:published_time" content="2025-08-07T06:45:16.925Z">
-<meta property="article:modified_time" content="2025-08-07T06:45:16.925Z">
+<meta property="article:published_time" content="2025-08-07T06:45:26.745Z">
+<meta property="article:modified_time" content="2025-08-07T06:45:26.745Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115711765.png">
   
   
   
@@ -55,7 +50,7 @@
 </head>
 <body>
 
-<div class="l_cover wiki"><article class="cover-wrap md-text"><div class="preview cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg"/></div><div class="cover-title"><span>Prometheus监控学习指南</span></div><div class="description">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</div><div class="start-wrap"><a class="button start gradient" href="#start">开始使用</a></div></article></div><hr>
+
 
 <div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
 
@@ -70,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">Prometheus 简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">初识 Prometheus</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">Prometheus 简介</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/describe.html"><span class="toc-text">初识 Prometheus</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 
 </div>
@@ -85,76 +80,22 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T06:45:16.925Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T06:45:26.745Z">2025-08-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>Prometheus 简介</span></h1>
+        <h1 class="text title"><span>初识 Prometheus</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="Prometheus简介"><a href="#Prometheus简介" class="headerlink" title="Prometheus简介"></a>Prometheus简介</h1><p>Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Google的Brog系统演变而来），从2012年开始由前Google工程师在Soundcloud以开源软件的形式进行研发，并且于2015年早期对外发布早期版本。2016年5月继Kubernetes之后成为第二个正式加入CNCF基金会的项目，同年6月正式发布1.0版本。2017年底发布了基于全新存储层的2.0版本，能更好地与容器平台、云平台配合。</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115711765.png" alt="Prometheus简史">	Prometheus简史</p>
-<p>Prometheus作为新一代的云原生监控系统，目前已经有超过650+位贡献者参与到Prometheus的研发工作上，并且超过120+项的第三方集成。</p>
-<h2 id="监控的目标"><a href="#监控的目标" class="headerlink" title="监控的目标"></a>监控的目标</h2><p>在《SRE: Google运维解密》一书中指出，监控系统需要能够有效的支持白盒监控和黑盒监控。通过白盒能够了解其内部的实际运行状态，通过对监控指标的观察能够预判可能出现的问题，从而对潜在的不确定因素进行优化。而黑盒监控，常见的如HTTP探针，TCP探针等，可以在系统或者服务在发生故障时能够快速通知相关的人员进行处理。通过建立完善的监控体系，从而达到以下目的：</p>
-<ul>
-<li>长期趋势分析：通过对监控样本数据的持续收集和统计，对监控指标进行长期趋势分析。例如，通过对磁盘空间增长率的判断，我们可以提前预测在未来什么时间节点上需要对资源进行扩容。</li>
-<li>对照分析：两个版本的系统运行资源使用情况的差异如何？在不同容量情况下系统的并发和负载变化如何？通过监控能够方便的对系统进行跟踪和比较。</li>
-<li>告警：当系统出现或者即将出现故障时，监控系统需要迅速反应并通知管理员，从而能够对问题进行快速的处理或者提前预防问题的发生，避免出现对业务的影响。</li>
-<li>故障分析与定位：当问题发生后，需要对问题进行调查和处理。通过对不同监控监控以及历史数据的分析，能够找到并解决根源问题。</li>
-<li>数据可视化：通过可视化仪表盘能够直接获取系统的运行状态、资源使用情况、以及服务运行状态等直观的信息。</li>
-</ul>
-<h2 id="与常见监控系统比较"><a href="#与常见监控系统比较" class="headerlink" title="与常见监控系统比较"></a>与常见监控系统比较</h2><p>对于常用的监控系统，如Nagios、Zabbix的用户而言，往往并不能很好的解决上述问题。这里以Nagios为例，如下图所示是Nagios监控系统的基本架构：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115838642.png" alt="Nagios监控系统">Nagios监控系统</p>
-<p>Nagios的主要功能是监控服务和主机。Nagios软件需要安装在一台独立的服务器上运行，该服务器称为监控中心。每一台被监控的硬件主机或者服务都需要运行一个与监控中心服务器进行通信的Nagios软件后台程序，可以理解为Agent或者插件。</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807120039074.png" alt="Nagios主机监控页面">Nagios主机监控页面</p>
-<p>首先对于Nagios而言，大部分的监控能力都是围绕系统的一些边缘性的问题，主要针对系统服务和资源的状态以及应用程序的可用性。 例如：Nagios通过check_disk插件可以用于检查磁盘空间，check_load用于检查CPU负载等。这些插件会返回4种Nagios可识别的状态，0(OK)表示正常，1(WARNING)表示警告，2(CRITTCAL)表示错误，3(UNKNOWN)表示未知错误，并通过Web UI显示出来。</p>
-<p>对于Nagios这类系统而言，其核心是采用了测试和告警(check&amp;alert)的监控系统模型。 对于基于这类模型的监控系统而言往往存在以下问题：</p>
-<ul>
-<li>与业务脱离的监控：监控系统获取到的监控指标与业务本身也是一种分离的关系。好比客户可能关注的是服务的可用性、服务的SLA等级，而监控系统却只能根据系统负载去产生告警；</li>
-<li>运维管理难度大：Nagios这一类监控系统本身运维管理难度就比较大，需要有专业的人员进行安装，配置和管理，而且过程并不简单；</li>
-<li>可扩展性低： 监控系统自身难以扩展，以适应监控规模的变化；</li>
-<li>问题定位难度大：当问题产生之后（比如主机负载异常增加）对于用户而言，他们看到的依然是一个黑盒，他们无法了解主机上服务真正的运行情况，因此当故障发生后，这些告警信息并不能有效的支持用户对于故障根源问题的分析和定位。</li>
-</ul>
-<h2 id="Prometheus的优势"><a href="#Prometheus的优势" class="headerlink" title="Prometheus的优势"></a>Prometheus的优势</h2><p>Prometheus是一个开源的完整监控解决方案，其对传统监控系统的测试和告警模型进行了彻底的颠覆，形成了基于中央化的规则计算、统一分析和告警的新模型。 相比于传统监控系统Prometheus具有以下优点：</p>
-<h3 id="易于管理"><a href="#易于管理" class="headerlink" title="易于管理"></a>易于管理</h3><p>Prometheus核心部分只有一个单独的二进制文件，不存在任何的第三方依赖(数据库，缓存等等)。唯一需要的就是本地磁盘，因此不会有潜在级联故障的风险。</p>
-<p>Prometheus基于Pull模型的架构方式，可以在任何地方（本地电脑，开发环境，测试环境）搭建我们的监控系统。对于一些复杂的情况，还可以使用Prometheus服务发现(Service Discovery)的能力动态管理监控目标。</p>
-<h3 id="监控服务的内部运行状态"><a href="#监控服务的内部运行状态" class="headerlink" title="监控服务的内部运行状态"></a>监控服务的内部运行状态</h3><p>Pometheus鼓励用户监控服务的内部状态，基于Prometheus丰富的Client库，用户可以轻松的在应用程序中添加对Prometheus的支持，从而让用户可以获取服务和应用内部真正的运行状态。</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807115925104.png" alt="监控服务内部运行状态">监控服务内部运行状态</p>
-<h3 id="强大的数据模型"><a href="#强大的数据模型" class="headerlink" title="强大的数据模型"></a>强大的数据模型</h3><p>所有采集的监控数据均以指标(metric)的形式保存在内置的时间序列数据库当中(TSDB)。所有的样本除了基本的指标名称以外，还包含一组用于描述该样本特征的标签。</p>
-<p>如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http_request_status&#123;code=&#x27;200&#x27;,content_path=&#x27;/api/path&#x27;, environment=&#x27;produment&#x27;&#125; =&gt; [value1@timestamp1,value2@timestamp2...]</span><br><span class="line"></span><br><span class="line">http_request_status&#123;code=&#x27;200&#x27;,content_path=&#x27;/api/path2&#x27;, environment=&#x27;produment&#x27;&#125; =&gt; [value1@timestamp1,value2@timestamp2...]</span><br></pre></td></tr></table></figure>
-
-<p>每一条时间序列由指标名称(Metrics Name)以及一组标签(Labels)唯一标识。每条时间序列按照时间的先后顺序存储一系列的样本值。</p>
-<p>表示维度的标签可能来源于你的监控对象的状态，比如code&#x3D;404或者content_path&#x3D;&#x2F;api&#x2F;path。也可能来源于的你的环境定义，比如environment&#x3D;produment。基于这些Labels我们可以方便地对监控数据进行聚合，过滤，裁剪。</p>
-<h3 id="强大的查询语言PromQL"><a href="#强大的查询语言PromQL" class="headerlink" title="强大的查询语言PromQL"></a>强大的查询语言PromQL</h3><p>Prometheus内置了一个强大的数据查询语言PromQL。 通过PromQL可以实现对监控数据的查询、聚合。同时PromQL也被应用于数据可视化(如Grafana)以及告警当中。</p>
-<p>通过PromQL可以轻松回答类似于以下问题：</p>
-<ul>
-<li>在过去一段时间中95%应用延迟时间的分布范围？</li>
-<li>预测在4小时后，磁盘空间占用大致会是什么情况？</li>
-<li>CPU占用率前5位的服务有哪些？(过滤)</li>
-</ul>
-<h3 id="高效"><a href="#高效" class="headerlink" title="高效"></a>高效</h3><p>对于监控系统而言，大量的监控任务必然导致有大量的数据产生。而Prometheus可以高效地处理这些数据，对于单一Prometheus Server实例而言它可以处理：</p>
-<ul>
-<li>数以百万的监控指标</li>
-<li>每秒处理数十万的数据点。</li>
-</ul>
-<h3 id="可扩展"><a href="#可扩展" class="headerlink" title="可扩展"></a>可扩展</h3><p>Prometheus是如此简单，因此你可以在每个数据中心、每个团队运行独立的Prometheus Sevrer。Prometheus对于联邦集群的支持，可以让多个Prometheus实例产生一个逻辑集群，当单实例Prometheus Server处理的任务量过大时，通过使用功能分区(sharding)+联邦集群(federation)可以对其进行扩展。</p>
-<h3 id="易于集成"><a href="#易于集成" class="headerlink" title="易于集成"></a>易于集成</h3><p>使用Prometheus可以快速搭建监控服务，并且可以非常方便地在应用程序中进行集成。目前支持： Java， JMX， Python， Go，Ruby， .Net， Node.js等等语言的客户端SDK，基于这些SDK可以快速让应用程序纳入到Prometheus的监控当中，或者开发自己的监控数据收集程序。同时这些客户端收集的监控数据，不仅仅支持Prometheus，还能支持Graphite这些其他的监控工具。</p>
-<p>同时Prometheus还支持与其他的监控系统进行集成：Graphite， Statsd， Collected， Scollector， muini， Nagios等。</p>
-<p>Prometheus社区还提供了大量第三方实现的监控数据采集支持：JMX， CloudWatch， EC2， MySQL， PostgresSQL， Haskell， Bash， SNMP， Consul， Haproxy， Mesos， Bind， CouchDB， Django， Memcached， RabbitMQ， Redis， RethinkDB， Rsyslog等等。</p>
-<h3 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h3><p>Prometheus Server中自带了一个Prometheus UI，通过这个UI可以方便地直接对数据进行查询，并且支持直接以图形化的形式展示数据。同时Prometheus还提供了一个独立的基于Ruby On Rails的Dashboard解决方案Promdash。最新的Grafana可视化工具也已经提供了完整的Prometheus支持，基于Grafana可以创建更加精美的监控图标。基于Prometheus提供的API还可以实现自己的监控可视化UI。</p>
-<h3 id="开放性"><a href="#开放性" class="headerlink" title="开放性"></a>开放性</h3><p>通常来说当我们需要监控一个应用程序时，一般需要该应用程序提供对相应监控系统协议的支持。因此应用程序会与所选择的监控系统进行绑定。为了减少这种绑定所带来的限制。对于决策者而言要么你就直接在应用中集成该监控系统的支持，要么就在外部创建单独的服务来适配不同的监控系统。</p>
-<p>而对于Prometheus来说，使用Prometheus的client library的输出格式不止支持Prometheus的格式化数据，也可以输出支持其它监控系统的格式化数据，比如Graphite。</p>
-<p>因此你甚至可以在不使用Prometheus的情况下，采用Prometheus的client library来让你的应用程序支持监控数据采集。</p>
-<p>接下来，在本书当中，将带领读者感受Prometheus是如何对监控系统的重新定义。</p>
+  </div><article class="md-text content"><h1 id="初识Prometheus"><a href="#初识Prometheus" class="headerlink" title="初识Prometheus"></a>初识Prometheus</h1><p>Prometheus是一个开放性的监控解决方案，用户可以非常方便的安装和使用Prometheus并且能够非常方便的对其进行扩展。为了能够更加直观的了解Prometheus Server，接下来我们将在本地部署并运行一个Prometheus Server实例，通过Node Exporter采集当前主机的系统资源使用情况。 并通过Grafana创建一个简单的可视化仪表盘。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/describe.html">初识 Prometheus</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/introduction.html">Prometheus 简介</a></div><div class="item" id="next"></div></section></div>
 
 
 
@@ -166,7 +107,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prometheus%E7%AE%80%E4%BB%8B"><span class="toc-text">Prometheus简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="toc-text">监控的目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E6%AF%94%E8%BE%83"><span class="toc-text">与常见监控系统比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prometheus%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-text">Prometheus的优势</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%93%E4%BA%8E%E7%AE%A1%E7%90%86"><span class="toc-text">易于管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%86%85%E9%83%A8%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-text">监控服务的内部运行状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-text">强大的数据模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80PromQL"><span class="toc-text">强大的查询语言PromQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%95%88"><span class="toc-text">高效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95"><span class="toc-text">可扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%93%E4%BA%8E%E9%9B%86%E6%88%90"><span class="toc-text">易于集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-text">可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%94%BE%E6%80%A7"><span class="toc-text">开放性</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E8%AF%86Prometheus"><span class="toc-text">初识Prometheus</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

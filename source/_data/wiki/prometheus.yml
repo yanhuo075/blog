@@ -18,3 +18,6 @@ base_dir: /wiki/prometheus/
 tree:
   '第1章 Prometheus基础知识':
     - introduction
+  
+  '第2章 Prometheus安装和使用':
+    - install
