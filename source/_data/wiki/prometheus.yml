@@ -1,7 +1,7 @@
 name: Prometheus
 title: Prometheus监控学习指南
 subtitle: '数据库教程 | Designed by YanHuo075'
-tags: 容器
+tags: 监控
 icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg
 cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg
 coverpage: true
