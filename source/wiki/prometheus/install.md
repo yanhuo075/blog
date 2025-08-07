@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
 title: 2.2 安装 Prometheus Server
-order: 2
+order: 3
 ---
 
 # 安装Prometheus Server

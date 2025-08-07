@@ -1,10 +1,10 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: 2.5 使用Grafana创建可视化Dashboard
-order: 5
+title: 2.5 使用Grafana创建可视化
+order: 6
 ---
 
-# 使用Grafana创建可视化Dashboard
+# 使用Grafana创建可视化
 
 Prometheus UI提供了快速验证PromQL以及临时可视化支持的能力，而在大多数场景下引入监控系统通常还需要构建可以长期使用的监控数据可视化面板（Dashboard）。这时用户可以考虑使用第三方的可视化工具如Grafana，Grafana是一个开源的可视化平台，并且提供了对Prometheus的完整支持。
 

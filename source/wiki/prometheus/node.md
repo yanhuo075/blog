@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
 title: 2.3 使用Node Exporter采集数据
-order: 3
+order: 4
 ---
 
 # 使用Node Exporter采集数据

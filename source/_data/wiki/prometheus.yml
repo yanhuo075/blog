@@ -25,3 +25,4 @@ tree:
     - node
     - promsql
     - grafana
+    - task
