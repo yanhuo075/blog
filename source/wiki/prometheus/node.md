@@ -19,8 +19,8 @@ Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖�
 
 ```
 curl -OL https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-arm64.tar.gz
-tar -xzf node_exporter-1.19.1.linux-amd64.tar.gz
-sudo mv node_exporter-1.2.0.linux-amd64 /opt/node_exporter
+tar -xzf node_exporter-1.9.1.linux-amd64.tar.gz
+sudo mv node_exporter-1.9.1.linux-amd64 /opt/node_exporter
 ```
 
 配置脚本
