@@ -37,3 +37,14 @@ tree:
     - promql-function
     - promql-httpapi
     - promql-practices
+  
+  '第4章 Prometheus告警处理':
+    - alert-intro
+    - alert-rules
+    - alertmanager-deploy
+    - alertmanager-config
+    - alertmanager-route
+    - alertmanager-receiver
+    - alertmanager-template
+    - alertmanager-slicense
+    - alertmanager-recoding

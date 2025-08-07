@@ -1,6 +1,6 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: 3.7 在HTTP API中使用PromQL
+title: 3.7 PromQL 在HTTP-API使用
 order: 14
 ---
 

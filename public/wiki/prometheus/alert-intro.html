@@ -17,22 +17,23 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：1.2 Prometheus 组件 - 烟火075的博客</title>
+  <title>Prometheus：4.1 Prometheus 告警简介 - 烟火075的博客</title>
 
   
-    <meta name="description" content="Prometheus组件上一小节，通过部署Node Exporter我们成功的获取到了当前主机的资源使用情况。接下来我们将从Prometheus的架构角度详细介绍Prometheus生态中的各个组件。 下图展示Prometheus的基本架构： Prometheus架构 Prometheus ServerPrometheus Server是Prometheus组件中的核心部分，负责实现对监控数据的获">
+    <meta name="description" content="Prometheus告警简介本章我们将带领读者探索Prometheus的告警处理机制，在前面的部分中已经介绍了告警能力在Prometheus的架构中被划分为两个部分，在Prometheus Server中定义告警规则以及产生告警，Alertmanager组件则用于处理这些由Prometheus产生的告警。Alertmanager即Prometheus体系中告警的统一处理中心。Alertmanage">
 <meta property="og:type" content="website">
-<meta property="og:title" content="1.2 Prometheus 组件">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/arch.html">
+<meta property="og:title" content="4.1 Prometheus 告警简介">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/alert-intro.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="Prometheus组件上一小节，通过部署Node Exporter我们成功的获取到了当前主机的资源使用情况。接下来我们将从Prometheus的架构角度详细介绍Prometheus生态中的各个组件。 下图展示Prometheus的基本架构： Prometheus架构 Prometheus ServerPrometheus Server是Prometheus组件中的核心部分，负责实现对监控数据的获">
+<meta property="og:description" content="Prometheus告警简介本章我们将带领读者探索Prometheus的告警处理机制，在前面的部分中已经介绍了告警能力在Prometheus的架构中被划分为两个部分，在Prometheus Server中定义告警规则以及产生告警，Alertmanager组件则用于处理这些由Prometheus产生的告警。Alertmanager即Prometheus体系中告警的统一处理中心。Alertmanage">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807160047020.png">
-<meta property="article:published_time" content="2025-08-07T08:02:24.417Z">
-<meta property="article:modified_time" content="2025-08-07T08:02:24.417Z">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807165218288.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807165240723.png">
+<meta property="article:published_time" content="2025-08-07T09:02:59.485Z">
+<meta property="article:modified_time" content="2025-08-07T09:02:59.485Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807160047020.png">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807165218288.png">
   
   
   
@@ -67,7 +68,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link active" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于标签的告警路由</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于标签的告警路由</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div></widget>
 
 
 </div>
@@ -82,35 +83,51 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:02:24.417Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T09:02:59.485Z">2025-08-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>1.2 Prometheus 组件</span></h1>
+        <h1 class="text title"><span>4.1 Prometheus 告警简介</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="Prometheus组件"><a href="#Prometheus组件" class="headerlink" title="Prometheus组件"></a>Prometheus组件</h1><p>上一小节，通过部署Node Exporter我们成功的获取到了当前主机的资源使用情况。接下来我们将从Prometheus的架构角度详细介绍Prometheus生态中的各个组件。</p>
-<p>下图展示Prometheus的基本架构：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807160047020.png" alt="Prometheus架构">Prometheus架构</p>
-<h2 id="Prometheus-Server"><a href="#Prometheus-Server" class="headerlink" title="Prometheus Server"></a>Prometheus Server</h2><p>Prometheus Server是Prometheus组件中的核心部分，负责实现对监控数据的获取，存储以及查询。 Prometheus Server可以通过静态配置管理监控目标，也可以配合使用Service Discovery的方式动态管理监控目标，并从这些监控目标中获取数据。其次Prometheus Server需要对采集到的监控数据进行存储，Prometheus Server本身就是一个时序数据库，将采集到的监控数据按照时间序列的方式存储在本地磁盘当中。最后Prometheus Server对外提供了自定义的PromQL语言，实现对数据的查询以及分析。</p>
-<p>Prometheus Server内置的Express Browser UI，通过这个UI可以直接通过PromQL实现数据的查询以及可视化。</p>
-<p>Prometheus Server的联邦集群能力可以使其从其他的Prometheus Server实例中获取数据，因此在大规模监控的情况下，可以通过联邦集群以及功能分区的方式对Prometheus Server进行扩展。</p>
-<h2 id="Exporters"><a href="#Exporters" class="headerlink" title="Exporters"></a>Exporters</h2><p>Exporter将监控数据采集的端点通过HTTP服务的形式暴露给Prometheus Server，Prometheus Server通过访问该Exporter提供的Endpoint端点，即可获取到需要采集的监控数据。</p>
-<p>一般来说可以将Exporter分为2类：</p>
+  </div><article class="md-text content"><h1 id="Prometheus告警简介"><a href="#Prometheus告警简介" class="headerlink" title="Prometheus告警简介"></a>Prometheus告警简介</h1><p>本章我们将带领读者探索Prometheus的告警处理机制，在前面的部分中已经介绍了告警能力在Prometheus的架构中被划分为两个部分，在Prometheus Server中定义告警规则以及产生告警，Alertmanager组件则用于处理这些由Prometheus产生的告警。Alertmanager即Prometheus体系中告警的统一处理中心。Alertmanager提供了多种内置第三方告警通知方式，同时还提供了对Webhook通知的支持，通过Webhook用户可以完成对告警更多个性化的扩展。</p>
+<p>本章主要内容：</p>
 <ul>
-<li>直接采集：这一类Exporter直接内置了对Prometheus监控的支持，比如cAdvisor，Kubernetes，Etcd，Gokit等，都直接内置了用于向Prometheus暴露监控数据的端点。</li>
-<li>间接采集：间接采集，原有监控目标并不直接支持Prometheus，因此我们需要通过Prometheus提供的Client Library编写该监控目标的监控采集程序。例如： Mysql Exporter，JMX Exporter，Consul Exporter等。</li>
+<li>在Prometheus中自定义告警规则</li>
+<li>理解Alertmanager特性</li>
+<li>基于标签的动态告警处理</li>
+<li>将告警通知发送到第三方服务</li>
+<li>如何使用Webhook扩展Alertmanager</li>
+<li>以及一些其他的性能优化模式</li>
 </ul>
-<h2 id="AlertManager"><a href="#AlertManager" class="headerlink" title="AlertManager"></a>AlertManager</h2><p>在Prometheus Server中支持基于PromQL创建告警规则，如果满足PromQL定义的规则，则会产生一条告警，而告警的后续处理流程则由AlertManager进行管理。在AlertManager中我们可以与邮件，Slack等等内置的通知方式进行集成，也可以通过Webhook自定义告警处理方式。AlertManager即Prometheus体系中的告警处理中心。</p>
-<h2 id="PushGateway"><a href="#PushGateway" class="headerlink" title="PushGateway"></a>PushGateway</h2><p>由于Prometheus数据采集基于Pull模型进行设计，因此在网络环境的配置上必须要让Prometheus Server能够直接与Exporter进行通信。 当这种网络需求无法直接满足时，就可以利用PushGateway来进行中转。可以通过PushGateway将内部网络的监控数据主动Push到Gateway当中。而Prometheus Server则可以采用同样Pull的方式从PushGateway中获取到监控数据。</p>
+<h2 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h2><p>告警能力在Prometheus的架构中被划分成两个独立的部分。如下所示，通过在Prometheus中定义AlertRule（告警规则），Prometheus会周期性的对告警规则进行计算，如果满足告警触发条件就会向Alertmanager发送告警信息。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807165218288.png" alt="Prometheus告警处理">Prometheus告警处理</p>
+<p>在Prometheus中一条告警规则主要由以下几部分组成：</p>
+<ul>
+<li>告警名称：用户需要为告警规则命名，当然对于命名而言，需要能够直接表达出该告警的主要内容</li>
+<li>告警规则：告警规则实际上主要由PromQL进行定义，其实际意义是当表达式（PromQL）查询结果持续多长时间（During）后出发告警</li>
+</ul>
+<p>在Prometheus中，还可以通过Group（告警组）对一组相关的告警进行统一定义。当然这些定义都是通过YAML文件来统一管理的。</p>
+<p>Alertmanager作为一个独立的组件，负责接收并处理来自Prometheus Server(也可以是其它的客户端程序)的告警信息。Alertmanager可以对这些告警信息进行进一步的处理，比如当接收到大量重复告警时能够消除重复的告警信息，同时对告警信息进行分组并且路由到正确的通知方，Prometheus内置了对邮件，Slack等多种通知方式的支持，同时还支持与Webhook的集成，以支持更多定制化的场景。例如，目前Alertmanager还不支持钉钉，那用户完全可以通过Webhook与钉钉机器人进行集成，从而通过钉钉接收告警信息。同时AlertManager还提供了静默和告警抑制机制来对告警通知行为进行优化。</p>
+<h2 id="Alertmanager特性"><a href="#Alertmanager特性" class="headerlink" title="Alertmanager特性"></a>Alertmanager特性</h2><p>Alertmanager除了提供基本的告警通知能力以外，还主要提供了如：分组、抑制以及静默等告警特性：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807165240723.png" alt="Alertmanager特性">Alertmanager特性</p>
+<h4 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h4><p>分组机制可以将详细的告警信息合并成一个通知。在某些情况下，比如由于系统宕机导致大量的告警被同时触发，在这种情况下分组机制可以将这些被触发的告警合并为一个告警通知，避免一次性接受大量的告警通知，而无法对问题进行快速定位。</p>
+<p>例如，当集群中有数百个正在运行的服务实例，并且为每一个实例设置了告警规则。假如此时发生了网络故障，可能导致大量的服务实例无法连接到数据库，结果就会有数百个告警被发送到Alertmanager。</p>
+<p>而作为用户，可能只希望能够在一个通知中中就能查看哪些服务实例收到影响。这时可以按照服务所在集群或者告警名称对告警进行分组，而将这些告警内聚在一起成为一个通知。</p>
+<p>告警分组，告警时间，以及告警的接受方式可以通过Alertmanager的配置文件进行配置。</p>
+<h4 id="抑制"><a href="#抑制" class="headerlink" title="抑制"></a>抑制</h4><p>抑制是指当某一告警发出后，可以停止重复发送由此告警引发的其它告警的机制。</p>
+<p>例如，当集群不可访问时触发了一次告警，通过配置Alertmanager可以忽略与该集群有关的其它所有告警。这样可以避免接收到大量与实际问题无关的告警通知。</p>
+<p>抑制机制同样通过Alertmanager的配置文件进行设置。</p>
+<h4 id="静默"><a href="#静默" class="headerlink" title="静默"></a>静默</h4><p>静默提供了一个简单的机制可以快速根据标签对告警进行静默处理。如果接收到的告警符合静默的配置，Alertmanager则不会发送告警通知。</p>
+<p>静默设置需要在Alertmanager的Werb页面上进行设置。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/introduction.html">1.1 Prometheus 简介</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/describe.html">2.1 初识 Prometheus</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/promql-practices.html">3.8 PromQL 最佳实践</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/alert-rules.html">4.2 Prometheus 告警规则</a></div></section></div>
 
 
 
@@ -122,7 +139,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prometheus%E7%BB%84%E4%BB%B6"><span class="toc-text">Prometheus组件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prometheus-Server"><span class="toc-text">Prometheus Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exporters"><span class="toc-text">Exporters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AlertManager"><span class="toc-text">AlertManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PushGateway"><span class="toc-text">PushGateway</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prometheus%E5%91%8A%E8%AD%A6%E7%AE%80%E4%BB%8B"><span class="toc-text">Prometheus告警简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0"><span class="toc-text">基本概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Alertmanager%E7%89%B9%E6%80%A7"><span class="toc-text">Alertmanager特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%BB%84"><span class="toc-text">分组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%91%E5%88%B6"><span class="toc-text">抑制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E9%BB%98"><span class="toc-text">静默</span></a></li></ol></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
