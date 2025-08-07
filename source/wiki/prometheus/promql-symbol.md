@@ -1,6 +1,6 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: 3.4 PromQL操作符
+title: 3.4 PromQL 操作符
 order: 11
 ---
 

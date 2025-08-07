@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：3.1 理解时间序列 - 烟火075的博客</title>
+  <title>Prometheus：3.7 在HTTP API中使用PromQL - 烟火075的博客</title>
 
   
-    <meta name="description" content="理解时间序列在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如： # HELP node_cpu Seconds the cpus spent in each mode.# TYPE node_cpu counternode_cpu&#123;cpu&#x3D;&quot;cpu0&quot;,mode&#x3D;&quot;idle&amp;">
+    <meta name="description" content="在HTTP API中使用PromQLPrometheus当前稳定的HTTP API可以通过&#x2F;api&#x2F;v1访问。 API响应格式Prometheus API使用了JSON格式的响应内容。 当API调用成功后将会返回2xx的HTTP状态码。 反之，当API调用失败时可能返回以下几种不同的HTTP状态码：  404 Bad Request：当参数错误或者缺失时。 422 Unproc">
 <meta property="og:type" content="website">
-<meta property="og:title" content="3.1 理解时间序列">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/time-series.html">
+<meta property="og:title" content="3.7 在HTTP API中使用PromQL">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/promql-httpapi.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="理解时间序列在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如： # HELP node_cpu Seconds the cpus spent in each mode.# TYPE node_cpu counternode_cpu&#123;cpu&#x3D;&quot;cpu0&quot;,mode&#x3D;&quot;idle&amp;">
+<meta property="og:description" content="在HTTP API中使用PromQLPrometheus当前稳定的HTTP API可以通过&#x2F;api&#x2F;v1访问。 API响应格式Prometheus API使用了JSON格式的响应内容。 当API调用成功后将会返回2xx的HTTP状态码。 反之，当API调用失败时可能返回以下几种不同的HTTP状态码：  404 Bad Request：当参数错误或者缺失时。 422 Unproc">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-07T08:21:20.687Z">
-<meta property="article:modified_time" content="2025-08-07T08:21:20.683Z">
+<meta property="article:published_time" content="2025-08-07T08:39:54.104Z">
+<meta property="article:modified_time" content="2025-08-07T08:39:54.104Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 在HTTP API中使用PromQL</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link active" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 在HTTP API中使用PromQL</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div></widget>
 
 
 </div>
@@ -80,49 +80,96 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:21:20.683Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:39:54.104Z">2025-08-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>3.1 理解时间序列</span></h1>
+        <h1 class="text title"><span>3.7 在HTTP API中使用PromQL</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="理解时间序列"><a href="#理解时间序列" class="headerlink" title="理解时间序列"></a>理解时间序列</h1><p>在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP node_cpu Seconds the cpus spent in each mode.</span><br><span class="line"># TYPE node_cpu counter</span><br><span class="line">node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;idle&quot;&#125; 362812.7890625</span><br><span class="line"># HELP node_load1 1m load average.</span><br><span class="line"># TYPE node_load1 gauge</span><br><span class="line">node_load1 3.0703125</span><br></pre></td></tr></table></figure>
-
-<p>其中非#开头的每一行表示当前Node Exporter采集到的一个监控样本：node_cpu和node_load1表明了当前指标的名称、大括号中的标签则反映了当前样本的一些特征和维度、浮点数则是该监控样本的具体值。</p>
-<h2 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h2><p>Prometheus会将所有采集到的样本数据以时间序列（time-series）的方式保存在内存数据库中，并且定时保存到硬盘上。time-series是按照时间戳和值的序列顺序存放的，我们称之为向量(vector). 每条time-series通过指标名称(metrics name)和一组标签集(labelset)命名。如下所示，可以将time-series理解为一个以时间为Y轴的数字矩阵：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^</span><br><span class="line">│   . . . . . . . . . . . . . . . . .   . .   node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;idle&quot;&#125;</span><br><span class="line">│     . . . . . . . . . . . . . . . . . . .   node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;system&quot;&#125;</span><br><span class="line">│     . . . . . . . . . .   . . . . . . . .   node_load1&#123;&#125;</span><br><span class="line">│     . . . . . . . . . . . . . . . .   . .  </span><br><span class="line">v</span><br><span class="line">  &lt;------------------ 时间 ----------------&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在time-series中的每一个点称为一个样本（sample），样本由以下三部分组成：</p>
+  </div><article class="md-text content"><h1 id="在HTTP-API中使用PromQL"><a href="#在HTTP-API中使用PromQL" class="headerlink" title="在HTTP API中使用PromQL"></a>在HTTP API中使用PromQL</h1><p>Prometheus当前稳定的HTTP API可以通过&#x2F;api&#x2F;v1访问。</p>
+<h2 id="API响应格式"><a href="#API响应格式" class="headerlink" title="API响应格式"></a>API响应格式</h2><p>Prometheus API使用了JSON格式的响应内容。 当API调用成功后将会返回2xx的HTTP状态码。</p>
+<p>反之，当API调用失败时可能返回以下几种不同的HTTP状态码：</p>
 <ul>
-<li>指标(metric)：metric name和描述当前样本特征的labelsets;</li>
-<li>时间戳(timestamp)：一个精确到毫秒的时间戳;</li>
-<li>样本值(value)： 一个float64的浮点型数据表示当前样本的值。</li>
+<li>404 Bad Request：当参数错误或者缺失时。</li>
+<li>422 Unprocessable Entity 当表达式无法执行时。</li>
+<li>503 Service Unavailiable 当请求超时或者被中断时。</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;--------------- metric ---------------------&gt;&lt;-timestamp -&gt;&lt;-value-&gt;</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;GET&quot;&#125;@1434417560938 =&gt; 94355</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;GET&quot;&#125;@1434417561287 =&gt; 94334</span><br><span class="line"></span><br><span class="line">http_request_total&#123;status=&quot;404&quot;, method=&quot;GET&quot;&#125;@1434417560938 =&gt; 38473</span><br><span class="line">http_request_total&#123;status=&quot;404&quot;, method=&quot;GET&quot;&#125;@1434417561287 =&gt; 38544</span><br><span class="line"></span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;POST&quot;&#125;@1434417560938 =&gt; 4748</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;POST&quot;&#125;@1434417561287 =&gt; 4785</span><br></pre></td></tr></table></figure>
+<p>所有的API请求均使用以下的JSON格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;status&quot;: &quot;success&quot; | &quot;error&quot;,</span><br><span class="line">  &quot;data&quot;: &lt;data&gt;,</span><br><span class="line"></span><br><span class="line">  // Only set if status is &quot;error&quot;. The data field may still hold</span><br><span class="line">  // additional data.</span><br><span class="line">  &quot;errorType&quot;: &quot;&lt;string&gt;&quot;,</span><br><span class="line">  &quot;error&quot;: &quot;&lt;string&gt;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="指标-Metric"><a href="#指标-Metric" class="headerlink" title="指标(Metric)"></a>指标(Metric)</h2><p>在形式上，所有的指标(Metric)都通过如下格式标示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;metric name&gt;&#123;&lt;label name&gt;=&lt;label value&gt;, ...&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="在HTTP-API中使用PromQL-1"><a href="#在HTTP-API中使用PromQL-1" class="headerlink" title="在HTTP API中使用PromQL"></a>在HTTP API中使用PromQL</h2><p>通过HTTP API我们可以分别通过&#x2F;api&#x2F;v1&#x2F;query和&#x2F;api&#x2F;v1&#x2F;query_range查询PromQL表达式当前或者一定时间范围内的计算结果。</p>
+<h3 id="瞬时数据查询"><a href="#瞬时数据查询" class="headerlink" title="瞬时数据查询"></a>瞬时数据查询</h3><p>通过使用QUERY API我们可以查询PromQL在特定时间点下的计算结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET /api/v1/query</span><br></pre></td></tr></table></figure>
 
-<p>指标的名称(metric name)可以反映被监控样本的含义（比如，<code>http_request_total</code> - 表示当前系统接收到的HTTP请求总量）。指标名称只能由ASCII字符、数字、下划线以及冒号组成并必须符合正则表达式<code>[a-zA-Z_:][a-zA-Z0-9_:]*</code>。</p>
-<p>标签(label)反映了当前样本的特征维度，通过这些维度Prometheus可以对样本数据进行过滤，聚合等。标签的名称只能由ASCII字符、数字以及下划线组成并满足正则表达式<code>[a-zA-Z_][a-zA-Z0-9_]*</code>。</p>
-<p>其中以<code>__</code>作为前缀的标签，是系统保留的关键字，只能在系统内部使用。标签的值则可以包含任何Unicode编码的字符。在Prometheus的底层实现中指标名称实际上是以<code>__name__=&lt;metric name&gt;</code>的形式保存在数据库中的，因此以下两种方式均表示的同一条time-series：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">api_http_requests_total&#123;method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>URL请求参数：</p>
+<ul>
+<li>query&#x3D;：PromQL表达式。</li>
+<li>time&#x3D;：用于指定用于计算PromQL的时间戳。可选参数，默认情况下使用当前系统时间。</li>
+<li>timeout&#x3D;：超时设置。可选参数，默认情况下使用-query,timeout的全局设置。</li>
+</ul>
+<p>例如使用以下表达式查询表达式up在时间点2015-07-01T20:10:51.781Z的计算结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl &#x27;http://localhost:9090/api/v1/query?query=up&amp;time=2015-07-01T20:10:51.781Z&#x27;</span><br><span class="line">&#123;</span><br><span class="line">   &quot;status&quot; : &quot;success&quot;,</span><br><span class="line">   &quot;data&quot; : &#123;</span><br><span class="line">      &quot;resultType&quot; : &quot;vector&quot;,</span><br><span class="line">      &quot;result&quot; : [</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;metric&quot; : &#123;</span><br><span class="line">               &quot;__name__&quot; : &quot;up&quot;,</span><br><span class="line">               &quot;job&quot; : &quot;prometheus&quot;,</span><br><span class="line">               &quot;instance&quot; : &quot;localhost:9090&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;value&quot;: [ 1435781451.781, &quot;1&quot; ]</span><br><span class="line">         &#125;,</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;metric&quot; : &#123;</span><br><span class="line">               &quot;__name__&quot; : &quot;up&quot;,</span><br><span class="line">               &quot;job&quot; : &quot;node&quot;,</span><br><span class="line">               &quot;instance&quot; : &quot;localhost:9100&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;value&quot; : [ 1435781451.781, &quot;0&quot; ]</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>等同于：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;__name__=&quot;api_http_requests_total&quot;，method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="响应数据类型"><a href="#响应数据类型" class="headerlink" title="响应数据类型"></a>响应数据类型</h3><p>当API调用成功后，Prometheus会返回JSON格式的响应内容，格式如上小节所示。并且在data节点中返回查询结果。data节点格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;resultType&quot;: &quot;matrix&quot; | &quot;vector&quot; | &quot;scalar&quot; | &quot;string&quot;,</span><br><span class="line">  &quot;result&quot;: &lt;value&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在Prometheus源码中也可以指标(Metric)对应的数据结构，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type Metric LabelSet</span><br><span class="line"></span><br><span class="line">type LabelSet map[LabelName]LabelValue</span><br><span class="line"></span><br><span class="line">type LabelName string</span><br><span class="line"></span><br><span class="line">type LabelValue string</span><br></pre></td></tr></table></figure>
+<p>PromQL表达式可能返回多种数据类型，在响应内容中使用resultType表示当前返回的数据类型，包括：</p>
+<ul>
+<li>瞬时向量：vector</li>
+</ul>
+<p>当返回数据类型resultType为vector时，result响应格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;metric&quot;: &#123; &quot;&lt;label_name&gt;&quot;: &quot;&lt;label_value&gt;&quot;, ... &#125;,</span><br><span class="line">    &quot;value&quot;: [ &lt;unix_time&gt;, &quot;&lt;sample_value&gt;&quot; ]</span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>其中metrics表示当前时间序列的特征维度，value只包含一个唯一的样本。</p>
+<ul>
+<li>区间向量：matrix</li>
+</ul>
+<p>当返回数据类型resultType为matrix时，result响应格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;metric&quot;: &#123; &quot;&lt;label_name&gt;&quot;: &quot;&lt;label_value&gt;&quot;, ... &#125;,</span><br><span class="line">    &quot;values&quot;: [ [ &lt;unix_time&gt;, &quot;&lt;sample_value&gt;&quot; ], ... ]</span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>其中metrics表示当前时间序列的特征维度，values包含当前事件序列的一组样本。</p>
+<ul>
+<li>标量：scalar</li>
+</ul>
+<p>当返回数据类型resultType为scalar时，result响应格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ &lt;unix_time&gt;, &quot;&lt;scalar_value&gt;&quot; ]</span><br></pre></td></tr></table></figure>
+
+<p>由于标量不存在时间序列一说，因此result表示为当前系统时间一个标量的值。</p>
+<ul>
+<li>字符串：string</li>
+</ul>
+<p>当返回数据类型resultType为string时，result响应格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ &lt;unix_time&gt;, &quot;&lt;string_value&gt;&quot; ]</span><br></pre></td></tr></table></figure>
+
+<p>字符串类型的响应内容格式和标量相同。</p>
+<h3 id="区间数据查询"><a href="#区间数据查询" class="headerlink" title="区间数据查询"></a>区间数据查询</h3><p>使用QUERY_RANGE API我们则可以直接查询PromQL表达式在一段时间返回内的计算结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET /api/v1/query_range</span><br></pre></td></tr></table></figure>
+
+<p>URL请求参数：</p>
+<ul>
+<li>query&#x3D;: PromQL表达式。</li>
+<li>start&#x3D;: 起始时间。</li>
+<li>end&#x3D;: 结束时间。</li>
+<li>step&#x3D;: 查询步长。</li>
+<li>timeout&#x3D;: 超时设置。可选参数，默认情况下使用-query,timeout的全局设置。</li>
+</ul>
+<p>当使用QUERY_RANGE API查询PromQL表达式时，返回结果一定是一个区间向量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;resultType&quot;: &quot;matrix&quot;,</span><br><span class="line">  &quot;result&quot;: &lt;value&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>需要注意的是，在QUERY_RANGE API中PromQL只能使用瞬时向量选择器类型的表达式。</p>
+</blockquote>
+<p>例如使用以下表达式查询表达式up在30秒范围内以15秒为间隔计算PromQL表达式的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl &#x27;http://localhost:9090/api/v1/query_range?query=up&amp;start=2015-07-01T20:10:30.781Z&amp;end=2015-07-01T20:11:00.781Z&amp;step=15s&#x27;</span><br><span class="line">&#123;</span><br><span class="line">   &quot;status&quot; : &quot;success&quot;,</span><br><span class="line">   &quot;data&quot; : &#123;</span><br><span class="line">      &quot;resultType&quot; : &quot;matrix&quot;,</span><br><span class="line">      &quot;result&quot; : [</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;metric&quot; : &#123;</span><br><span class="line">               &quot;__name__&quot; : &quot;up&quot;,</span><br><span class="line">               &quot;job&quot; : &quot;prometheus&quot;,</span><br><span class="line">               &quot;instance&quot; : &quot;localhost:9090&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;values&quot; : [</span><br><span class="line">               [ 1435781430.781, &quot;1&quot; ],</span><br><span class="line">               [ 1435781445.781, &quot;1&quot; ],</span><br><span class="line">               [ 1435781460.781, &quot;1&quot; ]</span><br><span class="line">            ]</span><br><span class="line">         &#125;,</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;metric&quot; : &#123;</span><br><span class="line">               &quot;__name__&quot; : &quot;up&quot;,</span><br><span class="line">               &quot;job&quot; : &quot;node&quot;,</span><br><span class="line">               &quot;instance&quot; : &quot;localhost:9091&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;values&quot; : [</span><br><span class="line">               [ 1435781430.781, &quot;0&quot; ],</span><br><span class="line">               [ 1435781445.781, &quot;0&quot; ],</span><br><span class="line">               [ 1435781460.781, &quot;1&quot; ]</span><br><span class="line">            ]</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/task.html">2.6 Prometheus 任务和实例</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/metric-type.html">3.2 Metric类型</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/promql-function.html">3.6 PromQL 内置函数</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/promql-practices.html">3.8 PromQL 最佳实践</a></div></section></div>
 
 
 
@@ -134,7 +181,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97"><span class="toc-text">理解时间序列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E6%9C%AC"><span class="toc-text">样本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E6%A0%87-Metric"><span class="toc-text">指标(Metric)</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8HTTP-API%E4%B8%AD%E4%BD%BF%E7%94%A8PromQL"><span class="toc-text">在HTTP API中使用PromQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#API%E5%93%8D%E5%BA%94%E6%A0%BC%E5%BC%8F"><span class="toc-text">API响应格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8HTTP-API%E4%B8%AD%E4%BD%BF%E7%94%A8PromQL-1"><span class="toc-text">在HTTP API中使用PromQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9E%AC%E6%97%B6%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">瞬时数据查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">响应数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">区间数据查询</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

@@ -33,3 +33,7 @@ tree:
     - metric-type
     - promql-learn
     - promql-symbol
+    - promql-aggregation
+    - promql-function
+    - promql-httpapi
+    - promql-practices

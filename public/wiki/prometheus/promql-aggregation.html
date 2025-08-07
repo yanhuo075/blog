@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：3.1 理解时间序列 - 烟火075的博客</title>
+  <title>Prometheus：3.5 PromQL 聚合操作 - 烟火075的博客</title>
 
   
-    <meta name="description" content="理解时间序列在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如： # HELP node_cpu Seconds the cpus spent in each mode.# TYPE node_cpu counternode_cpu&#123;cpu&#x3D;&quot;cpu0&quot;,mode&#x3D;&quot;idle&amp;">
+    <meta name="description" content="PromQL聚合操作Prometheus还提供了下列内置的聚合操作符，这些操作符作用域瞬时向量。可以将瞬时表达式返回的样本数据进行聚合，形成一个新的时间序列。  sum (求和) min (最小值) max (最大值) avg (平均值) stddev (标准差) stdvar (标准差异) count (计数) count_values (对value进行计数) bottomk (后n条时序)">
 <meta property="og:type" content="website">
-<meta property="og:title" content="3.1 理解时间序列">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/time-series.html">
+<meta property="og:title" content="3.5 PromQL 聚合操作">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/promql-aggregation.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="理解时间序列在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如： # HELP node_cpu Seconds the cpus spent in each mode.# TYPE node_cpu counternode_cpu&#123;cpu&#x3D;&quot;cpu0&quot;,mode&#x3D;&quot;idle&amp;">
+<meta property="og:description" content="PromQL聚合操作Prometheus还提供了下列内置的聚合操作符，这些操作符作用域瞬时向量。可以将瞬时表达式返回的样本数据进行聚合，形成一个新的时间序列。  sum (求和) min (最小值) max (最大值) avg (平均值) stddev (标准差) stdvar (标准差异) count (计数) count_values (对value进行计数) bottomk (后n条时序)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-07T08:21:20.687Z">
-<meta property="article:modified_time" content="2025-08-07T08:21:20.683Z">
+<meta property="article:published_time" content="2025-08-07T08:37:53.602Z">
+<meta property="article:modified_time" content="2025-08-07T08:37:53.598Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 在HTTP API中使用PromQL</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link active" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 在HTTP API中使用PromQL</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div></widget>
 
 
 </div>
@@ -80,49 +80,60 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:21:20.683Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:37:53.598Z">2025-08-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>3.1 理解时间序列</span></h1>
+        <h1 class="text title"><span>3.5 PromQL 聚合操作</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="理解时间序列"><a href="#理解时间序列" class="headerlink" title="理解时间序列"></a>理解时间序列</h1><p>在2.3节当中，通过Node Exporter暴露的HTTP服务，Prometheus可以采集到当前主机所有监控指标的样本数据。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># HELP node_cpu Seconds the cpus spent in each mode.</span><br><span class="line"># TYPE node_cpu counter</span><br><span class="line">node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;idle&quot;&#125; 362812.7890625</span><br><span class="line"># HELP node_load1 1m load average.</span><br><span class="line"># TYPE node_load1 gauge</span><br><span class="line">node_load1 3.0703125</span><br></pre></td></tr></table></figure>
-
-<p>其中非#开头的每一行表示当前Node Exporter采集到的一个监控样本：node_cpu和node_load1表明了当前指标的名称、大括号中的标签则反映了当前样本的一些特征和维度、浮点数则是该监控样本的具体值。</p>
-<h2 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h2><p>Prometheus会将所有采集到的样本数据以时间序列（time-series）的方式保存在内存数据库中，并且定时保存到硬盘上。time-series是按照时间戳和值的序列顺序存放的，我们称之为向量(vector). 每条time-series通过指标名称(metrics name)和一组标签集(labelset)命名。如下所示，可以将time-series理解为一个以时间为Y轴的数字矩阵：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^</span><br><span class="line">│   . . . . . . . . . . . . . . . . .   . .   node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;idle&quot;&#125;</span><br><span class="line">│     . . . . . . . . . . . . . . . . . . .   node_cpu&#123;cpu=&quot;cpu0&quot;,mode=&quot;system&quot;&#125;</span><br><span class="line">│     . . . . . . . . . .   . . . . . . . .   node_load1&#123;&#125;</span><br><span class="line">│     . . . . . . . . . . . . . . . .   . .  </span><br><span class="line">v</span><br><span class="line">  &lt;------------------ 时间 ----------------&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在time-series中的每一个点称为一个样本（sample），样本由以下三部分组成：</p>
+  </div><article class="md-text content"><h1 id="PromQL聚合操作"><a href="#PromQL聚合操作" class="headerlink" title="PromQL聚合操作"></a>PromQL聚合操作</h1><p>Prometheus还提供了下列内置的聚合操作符，这些操作符作用域瞬时向量。可以将瞬时表达式返回的样本数据进行聚合，形成一个新的时间序列。</p>
 <ul>
-<li>指标(metric)：metric name和描述当前样本特征的labelsets;</li>
-<li>时间戳(timestamp)：一个精确到毫秒的时间戳;</li>
-<li>样本值(value)： 一个float64的浮点型数据表示当前样本的值。</li>
+<li><code>sum</code> (求和)</li>
+<li><code>min</code> (最小值)</li>
+<li><code>max</code> (最大值)</li>
+<li><code>avg</code> (平均值)</li>
+<li><code>stddev</code> (标准差)</li>
+<li><code>stdvar</code> (标准差异)</li>
+<li><code>count</code> (计数)</li>
+<li><code>count_values</code> (对value进行计数)</li>
+<li><code>bottomk</code> (后n条时序)</li>
+<li><code>topk</code> (前n条时序)</li>
+<li><code>quantile</code> (分布统计)</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;--------------- metric ---------------------&gt;&lt;-timestamp -&gt;&lt;-value-&gt;</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;GET&quot;&#125;@1434417560938 =&gt; 94355</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;GET&quot;&#125;@1434417561287 =&gt; 94334</span><br><span class="line"></span><br><span class="line">http_request_total&#123;status=&quot;404&quot;, method=&quot;GET&quot;&#125;@1434417560938 =&gt; 38473</span><br><span class="line">http_request_total&#123;status=&quot;404&quot;, method=&quot;GET&quot;&#125;@1434417561287 =&gt; 38544</span><br><span class="line"></span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;POST&quot;&#125;@1434417560938 =&gt; 4748</span><br><span class="line">http_request_total&#123;status=&quot;200&quot;, method=&quot;POST&quot;&#125;@1434417561287 =&gt; 4785</span><br></pre></td></tr></table></figure>
+<p>使用聚合操作的语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;aggr-op&gt;([parameter,] &lt;vector expression&gt;) [without|by (&lt;label list&gt;)]</span><br></pre></td></tr></table></figure>
 
-<h2 id="指标-Metric"><a href="#指标-Metric" class="headerlink" title="指标(Metric)"></a>指标(Metric)</h2><p>在形式上，所有的指标(Metric)都通过如下格式标示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;metric name&gt;&#123;&lt;label name&gt;=&lt;label value&gt;, ...&#125;</span><br></pre></td></tr></table></figure>
+<p>其中只有<code>count_values</code>, <code>quantile</code>, <code>topk</code>, <code>bottomk</code>支持参数(parameter)。</p>
+<p>without用于从计算结果中移除列举的标签，而保留其它标签。by则正好相反，结果向量中只保留列出的标签，其余标签则移除。通过without和by可以按照样本的问题对数据进行聚合。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sum(http_requests_total) without (instance)</span><br></pre></td></tr></table></figure>
 
-<p>指标的名称(metric name)可以反映被监控样本的含义（比如，<code>http_request_total</code> - 表示当前系统接收到的HTTP请求总量）。指标名称只能由ASCII字符、数字、下划线以及冒号组成并必须符合正则表达式<code>[a-zA-Z_:][a-zA-Z0-9_:]*</code>。</p>
-<p>标签(label)反映了当前样本的特征维度，通过这些维度Prometheus可以对样本数据进行过滤，聚合等。标签的名称只能由ASCII字符、数字以及下划线组成并满足正则表达式<code>[a-zA-Z_][a-zA-Z0-9_]*</code>。</p>
-<p>其中以<code>__</code>作为前缀的标签，是系统保留的关键字，只能在系统内部使用。标签的值则可以包含任何Unicode编码的字符。在Prometheus的底层实现中指标名称实际上是以<code>__name__=&lt;metric name&gt;</code>的形式保存在数据库中的，因此以下两种方式均表示的同一条time-series：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">api_http_requests_total&#123;method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sum(http_requests_total) by (code,handler,job,method)</span><br></pre></td></tr></table></figure>
 
-<p>等同于：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;__name__=&quot;api_http_requests_total&quot;，method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果只需要计算整个应用的HTTP请求总量，可以直接使用表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sum(http_requests_total)</span><br></pre></td></tr></table></figure>
 
-<p>在Prometheus源码中也可以指标(Metric)对应的数据结构，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type Metric LabelSet</span><br><span class="line"></span><br><span class="line">type LabelSet map[LabelName]LabelValue</span><br><span class="line"></span><br><span class="line">type LabelName string</span><br><span class="line"></span><br><span class="line">type LabelValue string</span><br></pre></td></tr></table></figure>
+<p>count_values用于时间序列中每一个样本值出现的次数。count_values会为每一个唯一的样本值输出一个时间序列，并且每一个时间序列包含一个额外的标签。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">count_values(&quot;count&quot;, http_requests_total)</span><br></pre></td></tr></table></figure>
+
+<p>topk和bottomk则用于对样本值进行排序，返回当前样本值前n位，或者后n位的时间序列。</p>
+<p>获取HTTP请求数前5位的时序样本数据，可以使用表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">topk(5, http_requests_total)</span><br></pre></td></tr></table></figure>
+
+<p>quantile用于计算当前样本数据值的分布情况quantile(φ, express)其中0 ≤ φ ≤ 1。</p>
+<p>例如，当φ为0.5时，即表示找到当前样本数据中的中位数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">quantile(0.5, http_requests_total)</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/task.html">2.6 Prometheus 任务和实例</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/metric-type.html">3.2 Metric类型</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/promql-symbol.html">3.4 PromQL 操作符</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/promql-function.html">3.6 PromQL 内置函数</a></div></section></div>
 
 
 
@@ -134,7 +145,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97"><span class="toc-text">理解时间序列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E6%9C%AC"><span class="toc-text">样本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E6%A0%87-Metric"><span class="toc-text">指标(Metric)</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PromQL%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C"><span class="toc-text">PromQL聚合操作</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
