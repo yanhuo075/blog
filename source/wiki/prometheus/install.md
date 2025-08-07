@@ -2,7 +2,7 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
 title: 2.2 安装 Prometheus Server
-order: 1
+order: 2
 ---
 
 # 安装Prometheus Server
@@ -15,7 +15,7 @@ Prometheus基于Golang编写，编译后的软件包，不依赖于任何的第�
 
 ```
 export VERSION=3.5.0
-curl -LO  https://github.com/prometheus/prometheus/releases/download/v$VERSION/prometheus-$VERSION.darwin-amd64.tar.gz
+curl -LO  https://github.com/prometheus/prometheus/releases/download/v$VERSION/prometheus-$VERSION.linux-amd64.tar.gz
 ```
 
 解压，并将Prometheus相关的命令，添加到系统环境变量路径即可：
