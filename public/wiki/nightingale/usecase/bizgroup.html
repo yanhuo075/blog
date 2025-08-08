@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Nightingale：5.3 端口监控 - 烟火075的博客</title>
+  <title>Nightingale：5.2 业务组 - 烟火075的博客</title>
 
   
-    <meta name="description" content="端口监控 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。 一般">
+    <meta name="description" content="业务组夜莺中要管理很多东西，比如：告警规则、屏蔽规则、订阅规则、自愈脚本、仪表盘，在创建这些东西的时候，都要先选择一个业务组，因为这些东西都要归属到某个业务组。还有机器也是，安装了 categraf 之后，categraf 就会自动向夜莺注册机器信息，此时这个机器会出现在未归组机器列表种，管理员需要把这个机器归到某个业务组下，业务组的人才能使用。 业务组在夜莺中使用频繁，本篇讲解夜莺监控中的业务组">
 <meta property="og:type" content="website">
-<meta property="og:title" content="5.3 端口监控">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/practice/port.html">
+<meta property="og:title" content="5.2 业务组">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/usecase/bizgroup.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="端口监控 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。 一般">
+<meta property="og:description" content="业务组夜莺中要管理很多东西，比如：告警规则、屏蔽规则、订阅规则、自愈脚本、仪表盘，在创建这些东西的时候，都要先选择一个业务组，因为这些东西都要归属到某个业务组。还有机器也是，安装了 categraf 之后，categraf 就会自动向夜莺注册机器信息，此时这个机器会出现在未归组机器列表种，管理员需要把这个机器归到某个业务组下，业务组的人才能使用。 业务组在夜莺中使用频繁，本篇讲解夜莺监控中的业务组">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-08T09:55:00.738Z">
-<meta property="article:modified_time" content="2025-08-08T09:55:00.734Z">
+<meta property="article:published_time" content="2025-08-08T10:24:19.704Z">
+<meta property="article:modified_time" content="2025-08-08T10:24:19.704Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link active" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div><div class="widget-header dis-select"><span class="name">第6章 功能详解</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usecase/alerting.html"><span class="toc-text">5.1 告警原理和流程说明</span></a><a class="link" href="/wiki/nightingale/usecase/bizgroup.html"><span class="toc-text">5.2 业务组</span></a><a class="link" href="/wiki/nightingale/usecase/mute.html"><span class="toc-text">5.3 屏蔽规则</span></a><a class="link" href="/wiki/nightingale/usecase/subscribe.html"><span class="toc-text">5.4 订阅规则</span></a><a class="link" href="/wiki/nightingale/usecase/processor.html"><span class="toc-text">5.5 事件处理器</span></a><a class="link" href="/wiki/nightingale/usecase/media.html"><span class="toc-text">5.6 自定义通知媒介</span></a><a class="link" href="/wiki/nightingale/usecase/sso.html"><span class="toc-text">5.7 单点登录</span></a><a class="link" href="/wiki/nightingale/usecase/api.html"><span class="toc-text">5.8 API</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div><div class="widget-header dis-select"><span class="name">第6章 功能详解</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usecase/alerting.html"><span class="toc-text">5.1 告警原理和流程说明</span></a><a class="link active" href="/wiki/nightingale/usecase/bizgroup.html"><span class="toc-text">5.2 业务组</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/usecase/mute.html"><span class="toc-text">5.3 屏蔽规则</span></a><a class="link" href="/wiki/nightingale/usecase/subscribe.html"><span class="toc-text">5.4 订阅规则</span></a><a class="link" href="/wiki/nightingale/usecase/processor.html"><span class="toc-text">5.5 事件处理器</span></a><a class="link" href="/wiki/nightingale/usecase/media.html"><span class="toc-text">5.6 自定义通知媒介</span></a><a class="link" href="/wiki/nightingale/usecase/sso.html"><span class="toc-text">5.7 单点登录</span></a><a class="link" href="/wiki/nightingale/usecase/api.html"><span class="toc-text">5.8 API</span></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：监控</span></div><div class="widget-body"><a class="item wiki" href="/wiki/prometheus/introduction.html"><span class="title">Prometheus监控学习指南</span><span class="excerpt">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</span></a></div></widget>
 </div>
@@ -80,54 +80,79 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T09:55:00.734Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T10:24:19.704Z">2025-08-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>5.3 端口监控</span></h1>
+        <h1 class="text title"><span>5.2 业务组</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="端口监控"><a href="#端口监控" class="headerlink" title="端口监控"></a>端口监控</h1><blockquote>
-<p>对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。</p>
-</blockquote>
-<p>端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。</p>
-<p>一般来说，端口探测分三种协议：</p>
+  </div><article class="md-text content"><h1 id="业务组"><a href="#业务组" class="headerlink" title="业务组"></a>业务组</h1><p>夜莺中要管理很多东西，比如：告警规则、屏蔽规则、订阅规则、自愈脚本、仪表盘，在创建这些东西的时候，都要先选择一个业务组，因为这些东西都要归属到某个业务组。还有机器也是，安装了 categraf 之后，categraf 就会自动向夜莺注册机器信息，此时这个机器会出现在未归组机器列表种，管理员需要把这个机器归到某个业务组下，业务组的人才能使用。</p>
+<p>业务组在夜莺中使用频繁，本篇讲解夜莺监控中的业务组的概念，以及相关的设计初衷。</p>
+<h2 id="需求来源"><a href="#需求来源" class="headerlink" title="需求来源"></a>需求来源</h2><p>夜莺中要管理很多东西，比如：告警规则、屏蔽规则、订阅规则、自愈脚本、机器等。如果各个东西都放在一个表格里让大家查看、管理，那就比较混乱了，需要有个机制来分门别类。</p>
+<p>于是，我们引入了“业务组”的概念。业务组就是一个分组机制，比如 DBA 把 MySQL 的告警规则放到一个业务组里（组名姑且叫 <code>DBA/MySQL</code>），把 Postgres 的告警规则放到另一个业务组里（组名姑且叫 <code>DBA/Postgres</code>）；比如 Kubernetes 运维人员，按照集群对 Kubernetes 的宿主机做了拆分，不同的集群的机器放到不同的业务组下，比如分成 <code>K8S/集群A</code>、<code>K8S/集群B</code> 等等。</p>
+<h2 id="演进"><a href="#演进" class="headerlink" title="演进"></a>演进</h2><p>早期版本的夜莺，业务组渲染为扁平的列表，后来发现，其实业务组需要层级结构，比如上面的四个业务组：</p>
 <ul>
-<li>TCP 协议</li>
-<li>UDP 协议</li>
-<li>HTTP 协议</li>
+<li><code>DBA/MySQL</code></li>
+<li><code>DBA/Postgres</code></li>
+<li><code>K8S/集群A</code></li>
+<li><code>K8S/集群B</code></li>
 </ul>
-<p>依据服务监听的端口协议类型不同，使用的探测方式也不同。</p>
-<h2 id="TCP-UDP-协议"><a href="#TCP-UDP-协议" class="headerlink" title="TCP&#x2F;UDP 协议"></a>TCP&#x2F;UDP 协议</h2><p>TCP&#x2F;UDP 协议的端口监控，适合针对 RPC 类的服务，可以使用 Categraf 的 <code>net_response</code> 插件来实现。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/flashcatcloud/categraf/blob/main/inputs/net_response/README.md">Categraf net_response 插件说明</a></li>
-</ul>
-<p>这里最应该关注的指标是：<code>net_response_result_code</code>，如果这个指标的值是 0，表示一切正常，如果非 0 则表示异常，不同的值表示不同的异常类型。</p>
-<ul>
-<li>0: Success</li>
-<li>1: Timeout</li>
-<li>2: ConnectionFailed</li>
-<li>3: ReadFailed</li>
-<li>4: StringMismatch</li>
-</ul>
-<p>在夜莺的<code>集成中心-模板中心</code>可以找到相关的仪表盘。</p>
-<h2 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h2><p>HTTP 协议的探测和 TCP&#x2F;UDP 协议类似，Categraf 也提供了 <code>http_response</code> 插件来实现。相比 TCP&#x2F;UDP 协议，HTTP 协议的端口监控可以更进一步，除了探测端口是否可用，还可以探测 HTTP 响应内容（返回的状态码、返回的 Response body）是否符合预期，如果是 HTTPS 站点，还可以探测证书过期时间。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/categraf/plugin/http-response/">Categraf http_response 插件说明</a></li>
-</ul>
-<p>用于告警的指标是 http_response_result_code 只要这个指标是 0 就是正常的，如果这个指标非 0，就是异常的，不同的值代表不同的含义：</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">Success</span>          = <span class="number">0</span></span><br><span class="line"><span class="attr">ConnectionFailed</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">Timeout</span>          = <span class="number">2</span></span><br><span class="line"><span class="attr">DNSError</span>         = <span class="number">3</span></span><br><span class="line"><span class="attr">AddressError</span>     = <span class="number">4</span></span><br><span class="line"><span class="attr">BodyMismatch</span>     = <span class="number">5</span></span><br><span class="line"><span class="attr">CodeMismatch</span>     = <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>渲染为树形结构的话就更方便查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DBA</span><br><span class="line">├── MySQL</span><br><span class="line">└── Postgres</span><br><span class="line">K8S</span><br><span class="line">├── 集群A</span><br><span class="line">└── 集群B</span><br></pre></td></tr></table></figure>
 
-<p><code>http_response_cert_expire_timestamp</code> 是证书过期的时间戳，<code>http_response_cert_expire_timestamp - time()</code> 表示证书还有多久过期，单位是秒。</p>
-<p>在夜莺的<code>集成中心-模板中心</code>可以找到相关的仪表盘。</p>
+<p>所以新版本的夜莺，为了兼容老版本，业务组存储到 DB 的时候，仍然是扁平的列表，但在前端展示的时候，可以根据名称里的分隔符渲染为树形结构。比如上面的例子，名称里的分隔符是 <code>/</code>，当然你也可以使用其他分隔符，比如 <code>-</code>、<code>_</code> 等等。在夜莺的菜单 <code>系统配置-站点设置</code> 里，可以设置业务组展示模式和分隔符。</p>
+<blockquote>
+<p>🟢 推荐使用 <code>/</code> 作为分隔符。</p>
+</blockquote>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在夜莺里，业务组是全局共享的，既可以把规则挂到业务组上，也可以把机器挂到业务组上，这有个好处，就是方便复用业务组，即业务组创建一次之后，在多个地方都可以使用。</p>
+<p>但是这样做也有一个问题，那就是不同的东西，其分组的颗粒度是不同的。比如我们对机器分组的话，可能会分的比较细，比如：</p>
+<ul>
+<li><code>DBA/MySQL/Proxy/RegionA</code></li>
+<li><code>DBA/MySQL/Proxy/RegionB</code></li>
+</ul>
+<p>但当我们对告警规则、仪表盘这些东西分组的时候，可能就不会分的那么细了，比如 DBA 所有的仪表盘，可能全部放在 DBA 下面就好了。</p>
+<p>这个问题目前不好解决，除非业务组不搞成全局复用的，机器有机器的分组，告警规则有告警规则的分组，仪表盘有仪表盘的分组，这样就会导致有些业务组要重复创建，在机器那创建完了还要在告警规则那再创建一次。鱼与熊掌不可兼得。</p>
+<h2 id="划分业务组的最佳实践"><a href="#划分业务组的最佳实践" class="headerlink" title="划分业务组的最佳实践"></a>划分业务组的最佳实践</h2><p>虽然业务组既可以用于各类规则的分类，也可以用于机器的分组，但是颗粒度不同，通常机器的分组颗粒度更细，而规则的分组颗粒度较粗。通常，先按照机器分组来规划业务组，然后各类规则、仪表盘等挂到中间层级的业务组上就差不多了。下面咱们先说机器的分组。</p>
+<p>不知道读者是否听过“服务树”这个概念，业务组的划分和“服务树”是类似的，通常来讲，顶层是对组织结构的建模，即顶层节点是部门、业务、团队之类的这种信息，比如：</p>
+<ul>
+<li><code>基础架构/运维/容器云</code> 是运维团队里的容器云团队</li>
+<li><code>基础架构/运维/数据库</code> 是运维团队里的数据库运维团队</li>
+<li><code>XBU/业务1/产品1</code> 是某个 BU 下面的业务1下面的产品1团队</li>
+<li><code>XBU/业务1/产品2</code> 是某个 BU 下面的业务1下面的产品2团队</li>
+</ul>
+<p>如果公司的组织架构比较扁平，这个信息的层级会少一些，如果公司组织架构的层级比较多，可以多加几层。</p>
+<p>顶层是对组织结构的建模，中层是对系统服务建模，通常中层分两层，<code>系统</code>-<code>模块</code>，比如 Kubernetes 是一个系统，里边的 apiserver、etcd、scheduler 等是不同的模块。</p>
+<p>最后说业务组的底层，底层通常是按照集群划分，比如量确实很大，集群上面还可以引入地域的概念，如果量没那么大，只需要按集群划分即可，如果只有一个集群，取消底层集群节点都是可以的。</p>
+<p>于是，最终容器云平台的业务组可能是这么划分的：</p>
+<ul>
+<li><code>基础架构/运维/容器云/KubeUI/Webapi/华南集群</code></li>
+<li><code>基础架构/运维/容器云/KubeUI/Webapi/华北集群</code></li>
+<li><code>基础架构/运维/容器云/KubeUI/Report/华南集群</code></li>
+<li><code>基础架构/运维/容器云/KubeUI/Report/华北集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/etcd/华南集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/etcd/华北集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/apiserver/华南集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/apiserver/华北集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/scheduler/华南集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/scheduler/华北集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/node/华南集群</code></li>
+<li><code>基础架构/运维/容器云/Kubernetes/node/华北集群</code></li>
+</ul>
+<p>业务组按照机器的颗粒度划分完了之后，规则之类的应该挂在上层，比如 Webapi 的告警规则，可以专门创建一个 <code>基础架构/运维/容器云/KubeUI/Webapi-Rules</code> 的业务组，然后把 Webapi 的告警规则挂到这个业务组上。</p>
+<p>如果 Webapi 和 Report 的告警规则都很少，直接一并创建一个 <code>基础架构/运维/容器云/KubeUI-Rules</code> 的业务组，把 Webapi 和 Report 的告警规则都挂到这个业务组上，也是可以的。</p>
+<p>仪表盘通常更少，直接创建一个 <code>基础架构/运维/容器云-Dashboards</code> 的业务组，容器云团队所有的仪表盘都挂到这个业务组上，就可以了。</p>
+<p>当然，上面的划分逻辑只是一个思路参考，无法适合所有公司，比如有些企业主要用夜莺监控一堆设备（分散在不同地域、工厂），不是服务，那在业务组划分的时候，可以考虑按照地域、工厂等维度进行划分。</p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="找不到业务组操作入口"><a href="#找不到业务组操作入口" class="headerlink" title="找不到业务组操作入口"></a>找不到业务组操作入口</h3><p><strong>Question</strong>：V8 新版本，在人员组织下面怎么找不到业务组的菜单了，那如何对业务组增删改查？</p>
+<p><strong>Answer</strong>：业务组出现在很多个功能菜单下面，比如告警规则、屏蔽规则、仪表盘、自愈脚本等，可以直接在这些地方对业务组进行增删改查，不需要到一个单独的业务组菜单去操作了。鼠标挪到业务组上，会自动出现编辑 icon，点击编辑 icon 可以对业务组进行编辑、删除，业务组上面有个小加号的 icon，可以新增业务组。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/practice/proc.html">5.2 进程监控</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/practice/exec.html">5.4 插件脚本</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/usecase/alerting.html">5.1 告警原理和流程说明</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/usecase/mute.html">5.3 屏蔽规则</a></div></section></div>
 
 
 
@@ -139,7 +164,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%9B%91%E6%8E%A7"><span class="toc-text">端口监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-UDP-%E5%8D%8F%E8%AE%AE"><span class="toc-text">TCP&#x2F;UDP 协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E5%8D%8F%E8%AE%AE"><span class="toc-text">HTTP 协议</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E7%BB%84"><span class="toc-text">业务组</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%9D%A5%E6%BA%90"><span class="toc-text">需求来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E8%BF%9B"><span class="toc-text">演进</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86%E4%B8%9A%E5%8A%A1%E7%BB%84%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">划分业务组的最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FAQ"><span class="toc-text">FAQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0%E4%B8%9A%E5%8A%A1%E7%BB%84%E6%93%8D%E4%BD%9C%E5%85%A5%E5%8F%A3"><span class="toc-text">找不到业务组操作入口</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

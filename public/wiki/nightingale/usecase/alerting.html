@@ -17,20 +17,23 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Nightingale：5.3 端口监控 - 烟火075的博客</title>
+  <title>Nightingale：5.1 告警原理和流程说明 - 烟火075的博客</title>
 
   
-    <meta name="description" content="端口监控 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。 一般">
+    <meta name="description" content="告警原理和流程说明夜莺监控（Nightingale）的功能侧重点是告警引擎，为了做得灵活，整个告警流程涉及到的功能点比较多，本文从原理和数据流的角度，介绍一下相关知识，理解这些知识，对于您使用夜莺、排查告警问题，都会有帮助。 数据流原理概述  用户在 Web UI 配置告警规则，规则保存在 DB 中（通常是 MySQL）。 告警引擎（n9e 进程内置一个告警引擎，边缘模式下 n9e-edge 进程">
 <meta property="og:type" content="website">
-<meta property="og:title" content="5.3 端口监控">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/practice/port.html">
+<meta property="og:title" content="5.1 告警原理和流程说明">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/usecase/alerting.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="端口监控 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。 一般">
+<meta property="og:description" content="告警原理和流程说明夜莺监控（Nightingale）的功能侧重点是告警引擎，为了做得灵活，整个告警流程涉及到的功能点比较多，本文从原理和数据流的角度，介绍一下相关知识，理解这些知识，对于您使用夜莺、排查告警问题，都会有帮助。 数据流原理概述  用户在 Web UI 配置告警规则，规则保存在 DB 中（通常是 MySQL）。 告警引擎（n9e 进程内置一个告警引擎，边缘模式下 n9e-edge 进程">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-08T09:55:00.738Z">
-<meta property="article:modified_time" content="2025-08-08T09:55:00.734Z">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808181522483.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808181336029.png">
+<meta property="article:published_time" content="2025-08-08T10:23:45.775Z">
+<meta property="article:modified_time" content="2025-08-08T10:23:45.771Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808181522483.png">
   
   
   
@@ -65,7 +68,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link active" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div><div class="widget-header dis-select"><span class="name">第6章 功能详解</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usecase/alerting.html"><span class="toc-text">5.1 告警原理和流程说明</span></a><a class="link" href="/wiki/nightingale/usecase/bizgroup.html"><span class="toc-text">5.2 业务组</span></a><a class="link" href="/wiki/nightingale/usecase/mute.html"><span class="toc-text">5.3 屏蔽规则</span></a><a class="link" href="/wiki/nightingale/usecase/subscribe.html"><span class="toc-text">5.4 订阅规则</span></a><a class="link" href="/wiki/nightingale/usecase/processor.html"><span class="toc-text">5.5 事件处理器</span></a><a class="link" href="/wiki/nightingale/usecase/media.html"><span class="toc-text">5.6 自定义通知媒介</span></a><a class="link" href="/wiki/nightingale/usecase/sso.html"><span class="toc-text">5.7 单点登录</span></a><a class="link" href="/wiki/nightingale/usecase/api.html"><span class="toc-text">5.8 API</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div><div class="widget-header dis-select"><span class="name">第6章 功能详解</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/nightingale/usecase/alerting.html"><span class="toc-text">5.1 告警原理和流程说明</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/usecase/bizgroup.html"><span class="toc-text">5.2 业务组</span></a><a class="link" href="/wiki/nightingale/usecase/mute.html"><span class="toc-text">5.3 屏蔽规则</span></a><a class="link" href="/wiki/nightingale/usecase/subscribe.html"><span class="toc-text">5.4 订阅规则</span></a><a class="link" href="/wiki/nightingale/usecase/processor.html"><span class="toc-text">5.5 事件处理器</span></a><a class="link" href="/wiki/nightingale/usecase/media.html"><span class="toc-text">5.6 自定义通知媒介</span></a><a class="link" href="/wiki/nightingale/usecase/sso.html"><span class="toc-text">5.7 单点登录</span></a><a class="link" href="/wiki/nightingale/usecase/api.html"><span class="toc-text">5.8 API</span></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：监控</span></div><div class="widget-body"><a class="item wiki" href="/wiki/prometheus/introduction.html"><span class="title">Prometheus监控学习指南</span><span class="excerpt">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</span></a></div></widget>
 </div>
@@ -80,54 +83,85 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T09:55:00.734Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T10:23:45.771Z">2025-08-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>5.3 端口监控</span></h1>
+        <h1 class="text title"><span>5.1 告警原理和流程说明</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="端口监控"><a href="#端口监控" class="headerlink" title="端口监控"></a>端口监控</h1><blockquote>
-<p>对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。</p>
+  </div><article class="md-text content"><h1 id="告警原理和流程说明"><a href="#告警原理和流程说明" class="headerlink" title="告警原理和流程说明"></a>告警原理和流程说明</h1><p>夜莺监控（Nightingale）的功能侧重点是告警引擎，为了做得灵活，整个告警流程涉及到的功能点比较多，本文从原理和数据流的角度，介绍一下相关知识，理解这些知识，对于您使用夜莺、排查告警问题，都会有帮助。</p>
+<h2 id="数据流原理概述"><a href="#数据流原理概述" class="headerlink" title="数据流原理概述"></a>数据流原理概述</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808181522483.png" alt="夜莺告警数据流原理概述"></p>
+<ol>
+<li>用户在 Web UI 配置告警规则，规则保存在 DB 中（通常是 MySQL）。</li>
+<li>告警引擎（<code>n9e</code> 进程内置一个告警引擎，边缘模式下 <code>n9e-edge</code> 进程里也内置告警引擎）从 DB 同步告警规则到内存中（通常 <code>n9e-edge</code> 无法直接读 DB，是调用的中心端 <code>n9e</code> 的接口获取的告警规则）。</li>
+<li>告警引擎会为每条告警规则创建一个 goroutine（协程，姑且可以理解为轻量级线程），按照用户在告警规则里配置的频率，周期性查询存储，对数据做异常判定，最终生成告警事件。</li>
+<li>产生告警事件后，要先持久化到 DB 中（通常是 MySQL），然后再走后面的通知规则。</li>
+<li>通知规则包含两部分，一个是若干事件处理器（比如 relabel、event update、event drop、ai summary 等），另一个是若干告警通知配置（比如 Critical 的告警事件关联电话、短信通知媒介，Warning 的告警事件只关联邮件媒介）。</li>
+</ol>
+<h2 id="告警规则"><a href="#告警规则" class="headerlink" title="告警规则"></a>告警规则</h2><p>告警规则核心就是配置一个查询条件，比如 Prometheus 数据源就是配置 PromQL，ClickHouse 数据源就是配置 SQL，然后再配置一个阈值（Prometheus 场景下，阈值包含在 PromQL 中，不需要单独配置），达到阈值并满足持续时长，就告警。</p>
+<p>告警引擎针对每条规则创建一个 goroutine（协程），周期性地查询数据源，判断是否满足告警条件。以 Prometheus 数据源举例，其原理是：</p>
+<ul>
+<li>夜莺周期性调用数据源的 <code>/api/v1/query</code> 接口，把当前时间和 PromQL 作为查询条件传给这个接口。</li>
+<li>数据源如果返回多条记录，大概率就要生成多条告警事件，接下来要看持续时长，如果持续时长为 0，立马生成告警事件，如果持续时长大于 0，就要把这条记录放到一个缓存中，等到持续时长满足条件后，再生成告警事件，在持续时长过程中，如果后面的执行周期查不到数据了，就会把这条记录从缓存中删除，也就不会生成告警事件了。</li>
+</ul>
+<p>这里经常遇到的问题是，告警引擎在查询的时候没有查到数据，故而无法生成告警事件，但是后面排查的时候发现那个时间点却是有数据满足阈值的，百思不得其解，这种情况，可能的原因有两个：</p>
+<ul>
+<li>因为监控数据的上报有延迟导致的，在这里夜莺只是一个 client，数据源是 server，数据源没有返回数据，就要去看 server 侧的问题，看 server 侧的数据为啥没有返回，通常是数据有各种因素延迟了。</li>
+<li>查询超时了，日志文件里通常可以看到相关日志，可以在数据源配置页面调大查询超时时间，或者排查数据源为啥返回慢了，另外硬件方面也可能有问题，比如 client、server 两边是否有网卡丢包。超时的日志，可以检索关键字：<code>alert-$&#123;datasource-id&#125;-$&#123;alert-rule-id&#125;</code></li>
+</ul>
+<p>其中：</p>
+<ul>
+<li><code>$&#123;datasource-id&#125;</code> 是数据源的 ID，在数据源详情页面可以看到</li>
+<li><code>$&#123;alert-rule-id&#125;</code> 是告警规则的 ID，编辑告警规则时，在 URL 中可以看到</li>
+</ul>
+<p>告警问题排查时，首先要看是否产生了告警事件，如果产生了告警事件，说明告警规则没问题，接下来再排查后面通知相关的问题，如果告警事件都没有产生，那就是告警规则和数据源的问题，首先要确认告警规则的配置再谈其他。</p>
+<h2 id="事件持久化"><a href="#事件持久化" class="headerlink" title="事件持久化"></a>事件持久化</h2><p>告警事件产生后需要写入 DB（通常是 MySQL），于是你才能在告警事件列表中看到这个事件。有时会写失败，写失败的话在日志里通常会有体现，排查 WARNING 和 ERROR 日志即可。</p>
+<h2 id="告警规则关联通知规则"><a href="#告警规则关联通知规则" class="headerlink" title="告警规则关联通知规则"></a>告警规则关联通知规则</h2><p>告警事件产生之后，应该走后续的哪个通知规则？即告警规则和通知规则如何建立关联关系？有两个办法建立关联关系：</p>
+<ul>
+<li>告警规则里直接配置通知规则。即这个告警规则产生的所有告警事件，都要走这些通知规则。</li>
+<li>告警规则里不配通知规则，而是配置订阅规则，即：在订阅规则里按照各种条件筛选告警事件，筛选到的告警事件，走订阅规则里配置的通知规则。</li>
+</ul>
+<p>上面两种方式都可以，前者更直观，如果没有特殊需求，推荐使用前者。但是对于一些全局的事件处理，比如我想把夜莺监控中产生的所有告警事件都走一个 Callback 处理器，此时可以使用订阅规则，订阅所有的告警事件，统一关联一个全局通知规则，在这个全局通知规则里配置 Callback 处理器。</p>
+<h2 id="通知规则配置"><a href="#通知规则配置" class="headerlink" title="通知规则配置"></a>通知规则配置</h2><p>下图是通知规则的编辑页面，我在图中标注了各个区块的作用：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808181336029.png" alt="夜莺通知规则配置"></p>
+<p>大部分表单项的标题位置，都有一个小问号图标，鼠标悬停在上面会有提示信息，大家可以参考提示信息来配置。</p>
+<blockquote>
+<p>💡 这个页面里包含一些通知测试的按钮，点击之后，可以选择已生成的告警事件做通知规则的测试，便于您快速验证通知规则是否符合预期。另外要注意，告警事件持久化发生在通知规则之前，所以通知规则里的各个事件处理器，不会对 DB 中的告警事件产生修改。</p>
 </blockquote>
-<p>端口监控，是进程存活性探测的典型方式，相比统计进程数量，端口监控更为靠谱，因为进程有时会 hang 住，导致进程数量统计正常，但是端口无法正常响应。</p>
-<p>一般来说，端口探测分三种协议：</p>
+<h3 id="事件处理器"><a href="#事件处理器" class="headerlink" title="事件处理器"></a>事件处理器</h3><blockquote>
+<p>💡 事件 Pipeline 并没有一个单独的菜单入口，作为通知规则的一部分，是在通知规则的编辑页面里，点击「事件处理」区块的小齿轮图标可以展开事件处理器的配置侧拉板。</p>
+</blockquote>
+<p>事件处理器是一个高级机制，允许您对告警事件做各种处理，比如：</p>
 <ul>
-<li>TCP 协议</li>
-<li>UDP 协议</li>
-<li>HTTP 协议</li>
+<li>对告警事件做 relabel，拆分一些标签，修改一些标签等</li>
+<li>更新告警事件，夜莺把告警事件传给第三方（比如 CMDB ）接口，第三方可以对告警事件做修改，然后把修改之后的内容返回，继续走后续事件处理逻辑，方便与外部系统做打通</li>
+<li>丢弃告警事件，一些告警事件不需要通知，可以在这里做复杂的判断，符合条件的丢弃掉</li>
+<li>生成 AI 摘要，把告警事件传给 DeepSeek 等，让 AI 帮忙生成摘要和解法，把 AI 生成的内容放到事件中，后续通过通知媒介发出来</li>
 </ul>
-<p>依据服务监听的端口协议类型不同，使用的探测方式也不同。</p>
-<h2 id="TCP-UDP-协议"><a href="#TCP-UDP-协议" class="headerlink" title="TCP&#x2F;UDP 协议"></a>TCP&#x2F;UDP 协议</h2><p>TCP&#x2F;UDP 协议的端口监控，适合针对 RPC 类的服务，可以使用 Categraf 的 <code>net_response</code> 插件来实现。</p>
+<p>这里有两个概念要注意：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/flashcatcloud/categraf/blob/main/inputs/net_response/README.md">Categraf net_response 插件说明</a></li>
+<li>事件处理的 Pipeline，就是点击<code>通知规则-事件处理</code>右侧那个按钮展开的侧拉板，里边就是 Pipeline 的列表</li>
+<li>每个 Pipeline 可以包含多个 Processor（处理器），如果想提高复用性，也可以简单来搞，每个 Pipeline 只包含一个 Processor。</li>
 </ul>
-<p>这里最应该关注的指标是：<code>net_response_result_code</code>，如果这个指标的值是 0，表示一切正常，如果非 0 则表示异常，不同的值表示不同的异常类型。</p>
+<p>每个处理器，页面上都有一个文档说明链接，点击之后可以查看详细的文档说明。也可以参考下面两个链接的资料：</p>
 <ul>
-<li>0: Success</li>
-<li>1: Timeout</li>
-<li>2: ConnectionFailed</li>
-<li>3: ReadFailed</li>
-<li>4: StringMismatch</li>
+<li><a target="_blank" rel="noopener" href="https://n9e.github.io/zh/docs/usecase/processor/">事件处理器说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://n9e.github.io/zh/docs/usecase/media/">自定义通知媒介</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Of90imqi0T_fV1QGxAkR0Q">开源夜莺监控实现发版时告警静默</a></li>
 </ul>
-<p>在夜莺的<code>集成中心-模板中心</code>可以找到相关的仪表盘。</p>
-<h2 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h2><p>HTTP 协议的探测和 TCP&#x2F;UDP 协议类似，Categraf 也提供了 <code>http_response</code> 插件来实现。相比 TCP&#x2F;UDP 协议，HTTP 协议的端口监控可以更进一步，除了探测端口是否可用，还可以探测 HTTP 响应内容（返回的状态码、返回的 Response body）是否符合预期，如果是 HTTPS 站点，还可以探测证书过期时间。</p>
+<h3 id="通知配置"><a href="#通知配置" class="headerlink" title="通知配置"></a>通知配置</h3><p>这部分在前面已经讲解过，这里不再赘述，请参考：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/categraf/plugin/http-response/">Categraf http_response 插件说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://n9e.github.io/zh/docs/usage/notify-rules/">通知规则设计初衷和使用说明</a></li>
 </ul>
-<p>用于告警的指标是 http_response_result_code 只要这个指标是 0 就是正常的，如果这个指标非 0，就是异常的，不同的值代表不同的含义：</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">Success</span>          = <span class="number">0</span></span><br><span class="line"><span class="attr">ConnectionFailed</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">Timeout</span>          = <span class="number">2</span></span><br><span class="line"><span class="attr">DNSError</span>         = <span class="number">3</span></span><br><span class="line"><span class="attr">AddressError</span>     = <span class="number">4</span></span><br><span class="line"><span class="attr">BodyMismatch</span>     = <span class="number">5</span></span><br><span class="line"><span class="attr">CodeMismatch</span>     = <span class="number">6</span></span><br></pre></td></tr></table></figure>
-
-<p><code>http_response_cert_expire_timestamp</code> 是证书过期的时间戳，<code>http_response_cert_expire_timestamp - time()</code> 表示证书还有多久过期，单位是秒。</p>
-<p>在夜莺的<code>集成中心-模板中心</code>可以找到相关的仪表盘。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/practice/proc.html">5.2 进程监控</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/practice/exec.html">5.4 插件脚本</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/practice/java.html">5.8 Java 类程序</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/usecase/bizgroup.html">5.2 业务组</a></div></section></div>
 
 
 
@@ -139,7 +173,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%9B%91%E6%8E%A7"><span class="toc-text">端口监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-UDP-%E5%8D%8F%E8%AE%AE"><span class="toc-text">TCP&#x2F;UDP 协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E5%8D%8F%E8%AE%AE"><span class="toc-text">HTTP 协议</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%8A%E8%AD%A6%E5%8E%9F%E7%90%86%E5%92%8C%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E"><span class="toc-text">告警原理和流程说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8E%9F%E7%90%86%E6%A6%82%E8%BF%B0"><span class="toc-text">数据流原理概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%8A%E8%AD%A6%E8%A7%84%E5%88%99"><span class="toc-text">告警规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">事件持久化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%8A%E8%AD%A6%E8%A7%84%E5%88%99%E5%85%B3%E8%81%94%E9%80%9A%E7%9F%A5%E8%A7%84%E5%88%99"><span class="toc-text">告警规则关联通知规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%9F%A5%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE"><span class="toc-text">通知规则配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">事件处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE"><span class="toc-text">通知配置</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

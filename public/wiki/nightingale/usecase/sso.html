@@ -1,0 +1,797 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Nightingale：5.7 单点登录 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="单点登录（SSO）夜莺监控（Nightingale）支持单点登录（SSO）功能，支持 LDAP、CAS、OAuth2、OIDC 等多种协议。SSO 功能可以让用户通过统一的身份认证系统登录夜莺监控，简化用户管理和登录流程，也降低了安全风险。 对于 CAS、OAuth2、OIDC 三种方式，用户通过 SSO 登录夜莺之后，夜莺会判断当前登录的用户是否存在于夜莺的用户表中，如果不存在，则会自动创建一个">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.7 单点登录">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/usecase/sso.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="单点登录（SSO）夜莺监控（Nightingale）支持单点登录（SSO）功能，支持 LDAP、CAS、OAuth2、OIDC 等多种协议。SSO 功能可以让用户通过统一的身份认证系统登录夜莺监控，简化用户管理和登录流程，也降低了安全风险。 对于 CAS、OAuth2、OIDC 三种方式，用户通过 SSO 登录夜莺之后，夜莺会判断当前登录的用户是否存在于夜莺的用户表中，如果不存在，则会自动创建一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182040944.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182036665.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182111235.png">
+<meta property="article:published_time" content="2025-08-08T10:27:40.438Z">
+<meta property="article:modified_time" content="2025-08-08T10:27:40.438Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182040944.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/nightingale.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/nightingale/pre-intro/introduction.html"><div class="main" ff="title">Nightingale</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/nightingale/" placeholder="在Nightingale文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div><div class="widget-header dis-select"><span class="name">第6章 功能详解</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usecase/alerting.html"><span class="toc-text">5.1 告警原理和流程说明</span></a><a class="link" href="/wiki/nightingale/usecase/bizgroup.html"><span class="toc-text">5.2 业务组</span></a><a class="link" href="/wiki/nightingale/usecase/mute.html"><span class="toc-text">5.3 屏蔽规则</span></a><a class="link" href="/wiki/nightingale/usecase/subscribe.html"><span class="toc-text">5.4 订阅规则</span></a><a class="link" href="/wiki/nightingale/usecase/processor.html"><span class="toc-text">5.5 事件处理器</span></a><a class="link" href="/wiki/nightingale/usecase/media.html"><span class="toc-text">5.6 自定义通知媒介</span></a><a class="link active" href="/wiki/nightingale/usecase/sso.html"><span class="toc-text">5.7 单点登录</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/usecase/api.html"><span class="toc-text">5.8 API</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：监控</span></div><div class="widget-body"><a class="item wiki" href="/wiki/prometheus/introduction.html"><span class="title">Prometheus监控学习指南</span><span class="excerpt">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T10:27:40.438Z">2025-08-08</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.7 单点登录</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="单点登录（SSO）"><a href="#单点登录（SSO）" class="headerlink" title="单点登录（SSO）"></a>单点登录（SSO）</h1><p>夜莺监控（Nightingale）支持单点登录（SSO）功能，支持 LDAP、CAS、OAuth2、OIDC 等多种协议。SSO 功能可以让用户通过统一的身份认证系统登录夜莺监控，简化用户管理和登录流程，也降低了安全风险。</p>
+<p>对于 CAS、OAuth2、OIDC 三种方式，用户通过 SSO 登录夜莺之后，夜莺会判断当前登录的用户是否存在于夜莺的用户表中，如果不存在，则会自动创建一个用户，如果存在，夜莺会用 SSO 中的用户信息覆盖夜莺中已有用户的信息（前提是配置项 <code>CoverAttributes = true</code>，后文会介绍），这样的好处是用户只需要在 SSO 那里维护手机号、邮箱即可，夜莺会在用户登录时自动同步（当然，仅是在登录时同步，所以用户至少要通过 SSO 登录过一次夜莺，否则夜莺中没有这个用户的信息）。</p>
+<h2 id="配置-OIDC"><a href="#配置-OIDC" class="headerlink" title="配置 OIDC"></a>配置 OIDC</h2><p>这是最推荐的方式，如果你的 SSO 同时支持 OIDC 和 OAuth2，建议使用 OIDC。</p>
+<h3 id="配置项说明"><a href="#配置项说明" class="headerlink" title="配置项说明"></a>配置项说明</h3><p>下面是 OIDC 各个配置项的说明：</p>
+<figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 是否开启 OIDC 单点登录，夜莺可以同时开启多个 SSO 方式</span></span><br><span class="line"><span class="attr">Enable</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录页面会展示 SSO 登录地址的超链接，DisplayName 用于配置超链接的文本内容</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;OIDC&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># IDC 登录验证通过后，需要跳转到夜莺，下面是配置夜莺用于 OIDC 的回调地址</span></span><br><span class="line"><span class="comment"># 您需要把 n9e.com 替换为您的夜莺地址，/callback 是固定的路径</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://n9e.com/callback&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OIDC SSO 服务器根地址，换成您的 OIDC 服务器地址</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;http://sso.example.org&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OIDC SSO 服务器的登出地址，用户在夜莺中点击登出时会跳转到这个地址，即可完成夜莺和 SSO 的同步登出</span></span><br><span class="line"><span class="attr">SsoLogoutAddr</span> = <span class="string">&#x27;http://sso.example.org/session/end&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OIDC 给夜莺分配的 ClientId 和 ClientSecret，必须要配置，一般是在 SSO 服务器上注册应用时获取的</span></span><br><span class="line"><span class="attr">ClientId</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">ClientSecret</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺，夜莺发现用户在夜莺的用户表中不存在时，会自动创建一个用户</span></span><br><span class="line"><span class="comment"># 创建用户的时候，需要给这个用户一个角色，下面是配置默认角色的列表</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺时，夜莺会向 SSO 服务器请求用户信息，并将用户信息写入夜莺的用户表中</span></span><br><span class="line"><span class="comment"># 如果 CoverAttributes = true 则会覆盖夜莺中已有的用户信息，比如手机号、邮箱等。通常这里就是配置为 true 即可</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Scope 是 OIDC 协议中的一个概念，表示请求获取的用户信息字段列表，通常就是下面的这些字段</span></span><br><span class="line"><span class="attr">Scopes</span> = [<span class="string">&#x27;openid&#x27;</span>, <span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户在 OIDC 中信息字段和夜莺中的用户信息字段不是 100% 一一对应的</span></span><br><span class="line"><span class="comment"># 所以在下面配置：夜莺的各个字段对应 OIDC 中的哪些字段</span></span><br><span class="line"><span class="comment"># Username、Nickname、Phone、Email 就是夜莺中的用户信息字段</span></span><br><span class="line"><span class="comment"># 后面的 sub、nickname、phone_number、email 就是 OIDC 中的用户字段名</span></span><br><span class="line"><span class="comment"># 请根据您的 OIDC 服务器的用户信息字段进行调整</span></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;sub&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置项-FAQ"><a href="#配置项-FAQ" class="headerlink" title="配置项 FAQ"></a>配置项 FAQ</h3><p><strong>1. 用户使用 OIDC 可以登录成功，但是用户名、手机号等获取不到</strong></p>
+<p>可以调整夜莺的日志级别为 DEBUG（在 config.toml 中调整），然后重启夜莺，过滤日志关键字：<code>sso_exchange_user: oidc info</code>，再测试一遍登录，可以查看从单点登录系统获取到的用户信息有哪些，然后根据实际情况调整 <code>Attributes</code> 中的字段映射。</p>
+<h3 id="对接-Authing-演示"><a href="#对接-Authing-演示" class="headerlink" title="对接 Authing 演示"></a>对接 Authing 演示</h3><p>下面使用 <a target="_blank" rel="noopener" href="https://www.authing.com/">Authing</a> 作为 OIDC 的 SSO 服务器进行演示。首先，要在 Authing 上创建一个应用，获取 ClientId 和 ClientSecret。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182040944.png" alt="Authing OIDC"></p>
+<p>然后在夜莺中配置 OIDC 的相关信息：</p>
+<figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="attr">Enable</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;OIDC&#x27;</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://192.168.127.151:17000/callback&#x27;</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oidc&#x27;</span></span><br><span class="line"><span class="attr">SsoLoginOutAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oidc/session/end&#x27;</span></span><br><span class="line"><span class="attr">ClientId</span> = <span class="string">&#x27;65befb5b452d4854f9731b9b&#x27;</span></span><br><span class="line"><span class="attr">ClientSecret</span> = <span class="string">&#x27;0af4...&#x27;</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"><span class="attr">Scopes</span> = [<span class="string">&#x27;openid&#x27;</span>, <span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;username&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>192.168.127.151:17000</code> 是我这个测试环境的夜莺地址，您需要替换为自己的夜莺地址。</p>
+<h3 id="对接飞书演示"><a href="#对接飞书演示" class="headerlink" title="对接飞书演示"></a>对接飞书演示</h3><p>飞书也支持 OIDC 协议，我们对这种方式也做一个说明。参考飞书的官方文档创建应用：<a target="_blank" rel="noopener" href="https://anycross.feishu.cn/documentation/platform/configure-sso">配置应用单点登录</a>，相关配置：</p>
+<ul>
+<li>授权模式：可以把 authorization_code 和 refresh_token 都选上</li>
+<li>Scope：可以把 openid profile email phone offline_access 都选上</li>
+<li>回调地址：填写 <code>http://n9e.com/callback</code>，注意把 <code>n9e.com</code> 替换为您的夜莺地址，需要公网可达，除非您的飞书也是私有化内网部署的</li>
+</ul>
+<p>配置完成之后即可拿到 Issuer（即 SSO Server 地址）、ClientId 和 ClientSecret，配置到夜莺中。另外，也可以拿到 SSO Logout 地址，是一个类似这样的地址：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">https</span>:<span class="comment">//anycross.feishu.cn/sso/....../oidc/revoke</span></span><br></pre></td></tr></table></figure>
+
+<p>这个地址也配置到夜莺的 <code>SsoLogoutAddr</code> 中，虽然配置了这个地址，但是无法联动登出，下面是飞书文档的 <a target="_blank" rel="noopener" href="https://anycross.feishu.cn/documentation/platform/configure-sso">官方解释说明</a>：</p>
+<blockquote>
+<p>由于 SSO 应用的登录态是从飞书登录态派生出的，因此不支持单点登出，即在 SSO 应用登出的时候，不能同时登出飞书。虽然平台提供了单点登出的地址，但这个地址是为了防止三方系统将其设置为必填项，地址本身并不生效。</p>
+</blockquote>
+<p>最终夜莺中的配置如下：</p>
+<figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="attr">Enable</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;OIDC&#x27;</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://n9e.com/callback&#x27;</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://anycross.feishu.cn/sso/XXXXX&#x27;</span></span><br><span class="line"><span class="attr">SsoLoginOutAddr</span> = <span class="string">&#x27;https://anycross.feishu.cn/sso/XXXXX/oidc/revoke&#x27;</span></span><br><span class="line"><span class="attr">ClientId</span> = <span class="string">&#x27;xxx&#x27;</span></span><br><span class="line"><span class="attr">ClientSecret</span> = <span class="string">&#x27;xxx&#x27;</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"><span class="attr">Scopes</span> = [<span class="string">&#x27;openid&#x27;</span>, <span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;name&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;name&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面的 <code>n9e.com</code> 需要替换为您自己的夜莺地址，需要公网可达，除非您的飞书也是私有化内网部署的。</p>
+</blockquote>
+<h3 id="对接-Keycloak-演示"><a href="#对接-Keycloak-演示" class="headerlink" title="对接 Keycloak 演示"></a>对接 Keycloak 演示</h3><p>之前有网友写过一篇文章，讲解 Grafana 和夜莺一起对接 Keycloak，大家可以参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Bo386PKDULMLYuIPV1EkiA">Grafana 和夜莺通过 Keycloak 深度对接整合</a>。</p>
+<h2 id="配置-OAuth2"><a href="#配置-OAuth2" class="headerlink" title="配置 OAuth2"></a>配置 OAuth2</h2><p>如果您的 SSO 既支持 OIDC 又支持 OAuth2，建议使用 OIDC，实在没办法再使用 OAuth2，OAuth2 坑多。</p>
+<h3 id="配置项说明-1"><a href="#配置项说明-1" class="headerlink" title="配置项说明"></a>配置项说明</h3><figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 是否开启 OAuth2 单点登录，夜莺可以同时开启多个 SSO 方式</span></span><br><span class="line"><span class="attr">Enable</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录页面会展示 SSO 登录地址的超链接，DisplayName 用于配置超链接的文本内容</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;OAuth2&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># SSO 登录验证通过后，需要跳转到夜莺，下面是配置夜莺用于 OAuth2 的回调地址</span></span><br><span class="line"><span class="comment"># 您需要把 n9e.com 替换为您的夜莺地址，/callback/oauth 是固定的路径</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://n9e.com/callback/oauth&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OAuth2 SSO 服务器根地址，换成您的 OAuth2 服务器地址</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://sso.example.com/oauth2/authorize&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OAuth2 SSO 服务器的登出地址，用户在夜莺中点击登出时会跳转到这个地址，即可完成夜莺和 SSO 的同步登出</span></span><br><span class="line"><span class="attr">SsoLogoutAddr</span> = <span class="string">&#x27;https://sso.example.com/oauth2/authorize/session/end&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  获取 OAuth2 token 的地址</span></span><br><span class="line"><span class="attr">TokenAddr</span> = <span class="string">&#x27;https://sso.example.com/oauth2/token&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OAuth2 提供的用户信息地址，夜莺会通过这个地址获取用户信息</span></span><br><span class="line"><span class="attr">UserInfoAddr</span> = <span class="string">&#x27;https://sso.example.com/api/v1/user/info&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从 OAuth2 或许用户信息时，需要把上一步获取到的 token 放到请求头中</span></span><br><span class="line"><span class="comment"># token 可以放在 header 中，也可以放在 formdata 或 querystring 中，需要根据您的 OAuth2 服务器的要求进行配置</span></span><br><span class="line"><span class="attr">TranTokenMethod</span> = <span class="string">&#x27;header&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OAuth2 给夜莺分配的 ClientId 和 ClientSecret，必须要配置，一般是在 SSO 服务器上注册应用时获取的</span></span><br><span class="line"><span class="attr">ClientId</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">ClientSecret</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺，夜莺发现用户在夜莺的用户表中不存在时，会自动创建一个用户</span></span><br><span class="line"><span class="comment"># 创建用户的时候，需要给这个用户一个角色，下面是配置默认角色的列表</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺时，夜莺会向 SSO 服务器请求用户信息，并将用户信息写入夜莺的用户表中</span></span><br><span class="line"><span class="comment"># 如果 CoverAttributes = true 则会覆盖夜莺中已有的用户信息，比如手机号、邮箱等。通常这里就是配置为 true 即可</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从 OAuth2 中获取用户数据时，返回的 JSON 格式数据是否为数组，根据你们的 OAuth2 服务器的返回格式进行配置</span></span><br><span class="line"><span class="comment"># 如果是数组，夜莺会取第一个元素作为用户信息</span></span><br><span class="line"><span class="attr">UserinfoIsArray</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OAuth2 用户信息的前缀，通常是 &#x27;data&#x27;，即返回的 JSON 数据中会有一个 &#x27;data&#x27; 字段，里面是用户信息</span></span><br><span class="line"><span class="attr">UserinfoPrefix</span> = <span class="string">&#x27;data&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Scope 是 OAuth2 协议中的一个概念，表示请求获取的用户信息字段列表，通常就是下面的这些字段</span></span><br><span class="line"><span class="attr">Scopes</span> = [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户在 OAuth2 中信息字段和夜莺中的用户信息字段不是 100% 一一对应的</span></span><br><span class="line"><span class="comment"># 所以在下面配置：夜莺的各个字段对应 OAuth2 中的哪些字段</span></span><br><span class="line"><span class="comment"># Username、Nickname、Phone、Email 就是夜莺中的用户信息字段</span></span><br><span class="line"><span class="comment"># 后面的 sub、nickname、phone_number、email 就是 OAuth2 中的用户字段名</span></span><br><span class="line"><span class="comment"># 请根据您的 OAuth2 服务器的用户信息字段进行调整</span></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;sub&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="对接-Authing-演示-1"><a href="#对接-Authing-演示-1" class="headerlink" title="对接 Authing 演示"></a>对接 Authing 演示</h3><p>使用 <a target="_blank" rel="noopener" href="https://www.authing.com/">Authing</a> 作为 OAuth2 的 SSO 服务器进行演示。首先，要在 Authing 上启用 OAuth2。配置样例如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182036665.png" alt="Authing OAuth2"></p>
+<p>然后在夜莺中配置 OAuth2 的相关信息：</p>
+<figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="attr">Enable</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;OAuth2&#x27;</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://192.168.127.151:17000/callback/oauth&#x27;</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oauth/auth&#x27;</span></span><br><span class="line"><span class="attr">SsoLogoutAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oauth/session/end&#x27;</span></span><br><span class="line"><span class="attr">TokenAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oauth/token&#x27;</span></span><br><span class="line"><span class="attr">UserInfoAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/oauth/me&#x27;</span></span><br><span class="line"><span class="attr">TranTokenMethod</span> = <span class="string">&#x27;header&#x27;</span></span><br><span class="line"><span class="attr">ClientId</span> = <span class="string">&#x27;65befb5b452d4854f9731b9b&#x27;</span></span><br><span class="line"><span class="attr">ClientSecret</span> = <span class="string">&#x27;0af4...&#x27;</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"><span class="attr">UserinfoIsArray</span> = <span class="literal">false</span></span><br><span class="line"><span class="attr">UserinfoPrefix</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">Scopes</span> = [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;username&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>192.168.127.151:17000</code> 是我这个测试环境的夜莺地址，您需要替换为自己的夜莺地址。</p>
+<h2 id="配置-CAS"><a href="#配置-CAS" class="headerlink" title="配置 CAS"></a>配置 CAS</h2><p>夜莺监控（Nightingale）也支持 CAS 协议的单点登录。相比 OIDC，坑更多，慎用。</p>
+<h3 id="配置项说明-2"><a href="#配置项说明-2" class="headerlink" title="配置项说明"></a>配置项说明</h3><figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 是否开启 CAS 单点登录，夜莺可以同时开启多个 SSO 方式</span></span><br><span class="line"><span class="attr">Enable</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录页面会展示 SSO 登录地址的超链接，DisplayName 用于配置超链接的文本内容</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;CAS&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CAS 登录验证通过后，需要跳转到夜莺，下面是配置夜莺用于 CAS 的回调地址</span></span><br><span class="line"><span class="comment"># 您需要把 n9e.com 替换为您的夜莺地址，/callback/cas 是固定的路径</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://n9e.com/callback/cas&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CAS SSO 服务器根地址，换成您的 CAS 服务器地址</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://cas.example.com/cas&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CAS SSO 服务器的登出地址，用户在夜莺中点击登出时会跳转到这个地址，即可完成夜莺和 SSO 的同步登出</span></span><br><span class="line"><span class="attr">SsoLogoutAddr</span> = <span class="string">&#x27;https://cas.example.com/cas/session/end&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># LoginPath 这个配置项，是为了兼容不同的 CAS 版本，因为不同的 CAS 版本登录地址可能不同</span></span><br><span class="line"><span class="comment"># 如果您配置了 LoginPath，则夜莺会在 SsoAddr 的基础上拼接 LoginPath 作为登录地址</span></span><br><span class="line"><span class="comment"># 如果您没有配置 LoginPath，夜莺的逻辑是：</span></span><br><span class="line"><span class="comment"># 1. 如果发现 SsoAddr 中包含 p3 关键字，就设置 LoginPath = &#x27;/login&#x27;</span></span><br><span class="line"><span class="comment"># 2. 如果没有包含 p3 关键字，就设置 LoginPath = &#x27;/cas/login&#x27;</span></span><br><span class="line"><span class="attr">LoginPath</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺，夜莺发现用户在夜莺的用户表中不存在时，会自动创建一个用户</span></span><br><span class="line"><span class="comment"># 创建用户的时候，需要给这个用户一个角色，下面是配置默认角色的列表</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 SSO 登录夜莺时，夜莺会向 SSO 服务器请求用户信息，并将用户信息写入夜莺的用户表中</span></span><br><span class="line"><span class="comment"># 如果 CoverAttributes = true 则会覆盖夜莺中已有的用户信息，比如手机号、邮箱等。通常这里就是配置为 true 即可</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户在 CAS 中信息字段和夜莺中的用户信息字段不是 100% 一一对应的</span></span><br><span class="line"><span class="comment"># 所以在下面配置：夜莺的各个字段对应 CAS 中的哪些字段</span></span><br><span class="line"><span class="comment"># Username、Nickname、Phone、Email 就是夜莺中的用户信息字段</span></span><br><span class="line"><span class="comment"># 后面的 sub、nickname、phone_number、email 就是 CAS 中的用户字段名</span></span><br><span class="line"><span class="comment"># 请根据您的 CAS 服务器的用户信息字段进行调整</span></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;sub&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="对接-Authing-演示-2"><a href="#对接-Authing-演示-2" class="headerlink" title="对接 Authing 演示"></a>对接 Authing 演示</h3><p>使用 <a target="_blank" rel="noopener" href="https://www.authing.com/">Authing</a> 作为 CAS 的 SSO 服务器进行演示。首先，要在 Authing 上启用 CAS。配置样例如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808182111235.png" alt="Authing CAS"></p>
+<p>然后在夜莺中配置 CAS 的相关信息：</p>
+<figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="attr">Enable</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DisplayName</span> = <span class="string">&#x27;CAS&#x27;</span></span><br><span class="line"><span class="attr">RedirectURL</span> = <span class="string">&#x27;http://192.168.127.151:17000/callback/cas&#x27;</span></span><br><span class="line"><span class="attr">SsoAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/cas-idp/65befb5b452d4854f9731b9b&#x27;</span></span><br><span class="line"><span class="attr">SsoLogoutAddr</span> = <span class="string">&#x27;https://n9e.authing.cn/cas-idp/65befb5b452d4854f9731b9b/logout&#x27;</span></span><br><span class="line"><span class="attr">LoginPath</span> = <span class="string">&#x27;/login&#x27;</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;username&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;nickname&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;phone_number&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;email&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>192.168.127.151:17000</code> 是我这个测试环境的夜莺地址，您需要替换为自己的夜莺地址。</p>
+<h2 id="配置-LDAP"><a href="#配置-LDAP" class="headerlink" title="配置 LDAP"></a>配置 LDAP</h2><p>夜莺监控（Nightingale）也支持 LDAP 协议的认证登录。LDAP 是一种轻量级目录访问协议，通常用于企业内部的用户认证和授权。前面讲到的 SSO 机制（OIDC、OAuth2、CAS）都没法把用户信息周期性全量同步到夜莺中，而 LDAP 则可以做到这一点。</p>
+<p>LDAP 在页面上也没有单独的登录超链接入口，用户在输入用户名和密码登录夜莺时，夜莺首先去 DB 中查询用户信息，如果没有找到，则自动检查 LDAP 是否启用，如果启用了，就直接使用 LDAP 进行认证登录。</p>
+<h3 id="配置项说明-3"><a href="#配置项说明-3" class="headerlink" title="配置项说明"></a>配置项说明</h3><figure class="highlight toml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 是否开启 LDAP 单点登录，夜莺可以同时开启多个 SSO 方式</span></span><br><span class="line"><span class="attr">Enable</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># LDAP 服务器地址和端口、TLS、StartTLS 等配置</span></span><br><span class="line"><span class="comment"># 请根据您自己的环境进行配置</span></span><br><span class="line"><span class="attr">Host</span> = <span class="string">&#x27;ldap.example.org&#x27;</span></span><br><span class="line"><span class="attr">Port</span> = <span class="number">389</span></span><br><span class="line"><span class="attr">TLS</span> = <span class="literal">false</span></span><br><span class="line"><span class="attr">StartTLS</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># LDAP 服务器的根 DN，可以 Google、GPT 获取更多信息</span></span><br><span class="line"><span class="attr">BaseDn</span> = <span class="string">&#x27;dc=example,dc=org&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 管理员信息，这个账号需要具备查询所有用户信息的权限</span></span><br><span class="line"><span class="attr">BindUser</span> = <span class="string">&#x27;cn=manager,dc=example,dc=org&#x27;</span></span><br><span class="line"><span class="attr">BindPass</span> = <span class="string">&#x27;*******&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否同步 LDAP 中的创建用户至夜莺</span></span><br><span class="line"><span class="attr">SyncAddUsers</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否同步 LDAP 中的删除用户操作至夜莺</span></span><br><span class="line"><span class="attr">SyncDelUsers</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步频率，单位：秒</span></span><br><span class="line"><span class="attr">SyncInterval</span> = <span class="number">86400</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户登录时，检查用户是否存在于 LDAp 中的筛选条件</span></span><br><span class="line"><span class="comment"># openldap 和 AD 通常有不同的筛选格式</span></span><br><span class="line"><span class="comment"># openldap 的格式可能为： (&amp;(uid=%s))</span></span><br><span class="line"><span class="comment"># AD 的格式可能为 (&amp;(sAMAccountName=%s))</span></span><br><span class="line"><span class="comment"># 您需要根据您的 LDAP 服务器类型进行调整</span></span><br><span class="line"><span class="attr">AuthFilter</span> = <span class="string">&#x27;(&amp;(uid=%s))&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询 LDAP 中全量用户的筛选条件</span></span><br><span class="line"><span class="comment"># 根据您的 LDAP 服务器类型进行调整</span></span><br><span class="line"><span class="attr">UserFilter</span> = <span class="string">&#x27;(&amp;(uid=*))&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 LDAP 登录夜莺，夜莺发现用户在夜莺的用户表中不存在时，会自动创建一个用户</span></span><br><span class="line"><span class="comment"># 创建用户的时候，需要给这个用户一个角色，下面是配置默认角色的列表</span></span><br><span class="line"><span class="attr">DefaultRoles</span> = [<span class="string">&#x27;Standard&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户通过 LDAP 登录夜莺时，夜莺会向 LDAP 服务器请求用户信息，并将用户信息写入夜莺的用户表中</span></span><br><span class="line"><span class="comment"># 如果 CoverAttributes = true 则会覆盖夜莺中已有的用户信息，比如手机号、邮箱等。通常这里就是配置为 true 即可</span></span><br><span class="line"><span class="attr">CoverAttributes</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户在 LDAP 中信息字段和夜莺中的用户信息字段不是 100% 一一对应的</span></span><br><span class="line"><span class="comment"># 所以在下面配置：夜莺的各个字段对应 LDAP 中的哪些字段</span></span><br><span class="line"><span class="comment"># Username、Nickname、Phone、Email 就是夜莺中的用户信息字段</span></span><br><span class="line"><span class="comment"># 后面的 uid、cn、mobile、mail 就是 LDAP 中的用户字段名</span></span><br><span class="line"><span class="comment"># 请根据您的 LDAP 服务器的用户信息字段进行调整</span></span><br><span class="line"><span class="section">[Attributes]</span></span><br><span class="line"><span class="attr">Username</span> = <span class="string">&#x27;uid&#x27;</span></span><br><span class="line"><span class="attr">Nickname</span> = <span class="string">&#x27;cn&#x27;</span></span><br><span class="line"><span class="attr">Phone</span> = <span class="string">&#x27;mobile&#x27;</span></span><br><span class="line"><span class="attr">Email</span> = <span class="string">&#x27;mail&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的配置信息如果您看完注释还是不清楚如何配置，可以咨询贵司的 LDAP 管理员，他大概率是比较清楚的。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/usecase/media.html">5.6 自定义通知媒介</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/usecase/api.html">5.8 API</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%EF%BC%88SSO%EF%BC%89"><span class="toc-text">单点登录（SSO）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-OIDC"><span class="toc-text">配置 OIDC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E"><span class="toc-text">配置项说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9-FAQ"><span class="toc-text">配置项 FAQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%8E%A5-Authing-%E6%BC%94%E7%A4%BA"><span class="toc-text">对接 Authing 演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%8E%A5%E9%A3%9E%E4%B9%A6%E6%BC%94%E7%A4%BA"><span class="toc-text">对接飞书演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%8E%A5-Keycloak-%E6%BC%94%E7%A4%BA"><span class="toc-text">对接 Keycloak 演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-OAuth2"><span class="toc-text">配置 OAuth2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E-1"><span class="toc-text">配置项说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%8E%A5-Authing-%E6%BC%94%E7%A4%BA-1"><span class="toc-text">对接 Authing 演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-CAS"><span class="toc-text">配置 CAS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E-2"><span class="toc-text">配置项说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%8E%A5-Authing-%E6%BC%94%E7%A4%BA-2"><span class="toc-text">对接 Authing 演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-LDAP"><span class="toc-text">配置 LDAP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E-3"><span class="toc-text">配置项说明</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
