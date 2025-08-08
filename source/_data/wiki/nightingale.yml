@@ -17,17 +17,17 @@ leftbar:
 base_dir: /wiki/nightingale/
 tree:
   '第1章 前言':
-    - introduction
-    - contrast
-    - pre-learn
-    - architecture
-    - flashcat
-    - videos
+    - pre-intro/introduction
+    - pre-intro/contrast
+    - pre-intro/pre-learn
+    - pre-intro/architecture
+    - pre-intro/flashcat
+    - pre-intro/videos
   
   '第2章 安装':
-    - pre-intro
-    - upgrade
-    - binary
-    - compose
-    - helm
-    - configuration
+    - install/pre-intro
+    - install/upgrade
+    - install/binary
+    - install/compose
+    - install/helm
+    - install/configuration
