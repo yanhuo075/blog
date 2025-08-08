@@ -1,0 +1,26 @@
+name: Nightingale
+title: Nightingale监控项目
+subtitle: '数据库教程 | Designed by YanHuo075'
+tags: 监控
+icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/nightingale.svg
+cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/nightingale.svg
+coverpage: true
+description: Nightingale 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。
+repo: 
+search:
+  filter: /wiki/nightingale/
+  placeholder: 在Nightingale文档中搜索...
+leftbar: 
+  - tree
+  - timeline_stellar_releases
+  - related
+base_dir: /wiki/nightingale/
+tree:
+  '第1章 前言':
+    - introduction
+    - contrast
+    - pre-learn
+    - architecture
+    - flashcat
+    - videos
+  
