@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Prometheus：6.1 数据可视化简介 - 烟火075的博客</title>
+  <title>Prometheus：7.2 本地存储 - 烟火075的博客</title>
 
   
-    <meta name="description" content="数据可视化简介“You can’t fix what you can’t see”。可视化是监控的核心目标之一，在本章中我们将介绍Prometheus下的可视化技术。例如，Prometheus自身提供的Console Template能力以及Grafana这一可视化工具实现监控数据可视化。Prometheus UI提供了基本的数据可视化能力，可以帮助用户直接使用PromQL查询数据，并将数据通过可">
+    <meta name="description" content="Prometheus数据存储本地存储Prometheus 2.x 采用自定义的存储格式将样本数据保存在本地磁盘当中。如下所示，按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块(Block)中，每一个块中包含该时间窗口内的所有样本数据(chunks)，元数据文件(meta.json)以及索引文件(index)。 t0            t1             t2">
 <meta property="og:type" content="website">
-<meta property="og:title" content="6.1 数据可视化简介">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/dashboard-intro.html">
+<meta property="og:title" content="7.2 本地存储">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/local-storage.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="数据可视化简介“You can’t fix what you can’t see”。可视化是监控的核心目标之一，在本章中我们将介绍Prometheus下的可视化技术。例如，Prometheus自身提供的Console Template能力以及Grafana这一可视化工具实现监控数据可视化。Prometheus UI提供了基本的数据可视化能力，可以帮助用户直接使用PromQL查询数据，并将数据通过可">
+<meta property="og:description" content="Prometheus数据存储本地存储Prometheus 2.x 采用自定义的存储格式将样本数据保存在本地磁盘当中。如下所示，按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块(Block)中，每一个块中包含该时间窗口内的所有样本数据(chunks)，元数据文件(meta.json)以及索引文件(index)。 t0            t1             t2">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-08T01:03:25.669Z">
-<meta property="article:modified_time" content="2025-08-08T01:03:25.665Z">
+<meta property="article:published_time" content="2025-08-08T02:09:31.107Z">
+<meta property="article:modified_time" content="2025-08-08T02:09:31.107Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
   
@@ -65,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于路由标签</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Prometheus进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/advanced-exporter-intro.html"><span class="toc-text">5.1 Exporter进阶</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-desc.html"><span class="toc-text">5.2 Exporter详解</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-common.html"><span class="toc-text">5.3 常用Exporter</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-java.html"><span class="toc-text">5.4 使用Java自定义Exporter</span></a></div><div class="widget-header dis-select"><span class="name">第6章 数据可视化</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/prometheus/dashboard-intro.html"><span class="toc-text">6.1 数据可视化简介</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/dashboard-console.html"><span class="toc-text">6.2 使用Console Template</span></a><a class="link" href="/wiki/prometheus/grafana-intro.html"><span class="toc-text">6.3 Grafana 简介</span></a><a class="link" href="/wiki/prometheus/grafana-panels.html"><span class="toc-text">6.4 Grafana 与数据可视化</span></a><a class="link" href="/wiki/prometheus/graph_panel.html"><span class="toc-text">6.5 Graph面板</span></a><a class="link" href="/wiki/prometheus/heatmap-panel.html"><span class="toc-text">6.5 Heatmap面板</span></a><a class="link" href="/wiki/prometheus/singlestat-panel.html"><span class="toc-text">6.6 SingleStat面板</span></a><a class="link" href="/wiki/prometheus/dashboard-template.html"><span class="toc-text">6.7 模板化Dashboard</span></a></div><div class="widget-header dis-select"><span class="name">第7章 集群与高可用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/cluster-ha-intro.html"><span class="toc-text">7.1 集群与高可用</span></a><a class="link" href="/wiki/prometheus/local-storage.html"><span class="toc-text">7.2 本地存储</span></a><a class="link" href="/wiki/prometheus/remote-storage.html"><span class="toc-text">7.3 远程存储</span></a><a class="link" href="/wiki/prometheus/federation-cluster.html"><span class="toc-text">7.4 联邦集群</span></a><a class="link" href="/wiki/prometheus/prometheus-ha.html"><span class="toc-text">7.5 Prometheus高可用部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-ha.html"><span class="toc-text">7.6 Alertmanager高可用</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于路由标签</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Prometheus进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/advanced-exporter-intro.html"><span class="toc-text">5.1 Exporter进阶</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-desc.html"><span class="toc-text">5.2 Exporter详解</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-common.html"><span class="toc-text">5.3 常用Exporter</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-java.html"><span class="toc-text">5.4 使用Java自定义Exporter</span></a></div><div class="widget-header dis-select"><span class="name">第6章 数据可视化</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/dashboard-intro.html"><span class="toc-text">6.1 数据可视化简介</span></a><a class="link" href="/wiki/prometheus/dashboard-console.html"><span class="toc-text">6.2 使用Console Template</span></a><a class="link" href="/wiki/prometheus/grafana-intro.html"><span class="toc-text">6.3 Grafana 简介</span></a><a class="link" href="/wiki/prometheus/grafana-panels.html"><span class="toc-text">6.4 Grafana 与数据可视化</span></a><a class="link" href="/wiki/prometheus/graph_panel.html"><span class="toc-text">6.5 Graph面板</span></a><a class="link" href="/wiki/prometheus/heatmap-panel.html"><span class="toc-text">6.5 Heatmap面板</span></a><a class="link" href="/wiki/prometheus/singlestat-panel.html"><span class="toc-text">6.6 SingleStat面板</span></a><a class="link" href="/wiki/prometheus/dashboard-template.html"><span class="toc-text">6.7 模板化Dashboard</span></a></div><div class="widget-header dis-select"><span class="name">第7章 集群与高可用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/cluster-ha-intro.html"><span class="toc-text">7.1 集群与高可用</span></a><a class="link active" href="/wiki/prometheus/local-storage.html"><span class="toc-text">7.2 本地存储</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/prometheus/remote-storage.html"><span class="toc-text">7.3 远程存储</span></a><a class="link" href="/wiki/prometheus/federation-cluster.html"><span class="toc-text">7.4 联邦集群</span></a><a class="link" href="/wiki/prometheus/prometheus-ha.html"><span class="toc-text">7.5 Prometheus高可用部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-ha.html"><span class="toc-text">7.6 Alertmanager高可用</span></a></div></widget>
 
 
 </div>
@@ -80,27 +80,72 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T01:03:25.665Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T02:09:31.107Z">2025-08-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>6.1 数据可视化简介</span></h1>
+        <h1 class="text title"><span>7.2 本地存储</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="数据可视化简介"><a href="#数据可视化简介" class="headerlink" title="数据可视化简介"></a>数据可视化简介</h1><p>“You can’t fix what you can’t see”。可视化是监控的核心目标之一，在本章中我们将介绍Prometheus下的可视化技术。例如，Prometheus自身提供的Console Template能力以及Grafana这一可视化工具实现监控数据可视化。Prometheus UI提供了基本的数据可视化能力，可以帮助用户直接使用PromQL查询数据，并将数据通过可视化图表的方式进行展示，而实际的应用场景中往往不同的人对于可视化的需求不一样，关注的指标也不一样，因此我们需要能够有能力，构建出不同的可视化报表页面。 本章学习的内容就主要解决以上问题。</p>
-<p>本章的主要内容：</p>
-<ul>
-<li>使用Console Template创建可视化页面</li>
-<li>使用Grafana创建更精美的数据仪表盘</li>
-</ul>
+  </div><article class="md-text content"><h1 id="Prometheus数据存储"><a href="#Prometheus数据存储" class="headerlink" title="Prometheus数据存储"></a>Prometheus数据存储</h1><h2 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h2><p>Prometheus 2.x 采用自定义的存储格式将样本数据保存在本地磁盘当中。如下所示，按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块(Block)中，每一个块中包含该时间窗口内的所有样本数据(chunks)，元数据文件(meta.json)以及索引文件(index)。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">t0            t1             t2             now</span><br><span class="line"> ┌───────────┐  ┌───────────┐  ┌───────────┐</span><br><span class="line"> │           │  │           │  │           │                 ┌────────────┐</span><br><span class="line"> │           │  │           │  │  mutable  │ &lt;─── write ──── ┤ Prometheus │</span><br><span class="line"> │           │  │           │  │           │                 └────────────┘</span><br><span class="line"> └───────────┘  └───────────┘  └───────────┘                        ^</span><br><span class="line">       └──────────────┴───────┬──────┘                              │</span><br><span class="line">                              │                                   query</span><br><span class="line">                              │                                     │</span><br><span class="line">                            merge ──────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>当前时间窗口内正在收集的样本数据，Prometheus则会直接将数据保存在内存当中。为了确保此期间如果Prometheus发生崩溃或者重启时能够恢复数据，Prometheus启动时会从写入日志(WAL)进行重播，从而恢复数据。此期间如果通过API删除时间序列，删除记录也会保存在单独的逻辑文件当中(tombstone)。</p>
+<p>在文件系统中这些块保存在单独的目录当中，Prometheus保存块数据的目录结构如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./data </span><br><span class="line">   |- 01BKGV7JBM69T2G1BGBGM6KB12 # 块</span><br><span class="line">      |- meta.json  # 元数据</span><br><span class="line">      |- wal        # 写入日志</span><br><span class="line">        |- 000002</span><br><span class="line">        |- 000001</span><br><span class="line">   |- 01BKGTZQ1SYQJTR4PB43C8PD98  # 块</span><br><span class="line">      |- meta.json  #元数据</span><br><span class="line">      |- index   # 索引文件</span><br><span class="line">      |- chunks  # 样本数据</span><br><span class="line">        |- 000001</span><br><span class="line">      |- tombstones # 逻辑数据</span><br><span class="line">   |- 01BKGTZQ1HHWHV8FBJXW1Y3W0K</span><br><span class="line">      |- meta.json</span><br><span class="line">      |- wal</span><br><span class="line">        |-000001</span><br></pre></td></tr></table></figure>
+
+<p>通过时间窗口的形式保存所有的样本数据，可以明显提高Prometheus的查询效率，当查询一段时间范围内的所有样本数据时，只需要简单的从落在该范围内的块中查询数据即可。</p>
+<p>同时该存储方式可以简化历史数据的删除逻辑。只要一个块的时间范围落在了配置的保留范围之外，直接丢弃该块即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">                     |</span><br><span class="line">┌────────────┐  ┌────┼─────┐  ┌───────────┐  ┌───────────┐  </span><br><span class="line">│ 1          │  │ 2  |     │  │ 3         │  │ 4         │ . . .</span><br><span class="line">└────────────┘  └────┼─────┘  └───────────┘  └───────────┘  </span><br><span class="line">                     |</span><br><span class="line">                     |</span><br><span class="line">            retention boundary</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地存储配置"><a href="#本地存储配置" class="headerlink" title="本地存储配置"></a>本地存储配置</h2><p>用户可以通过命令行启动参数的方式修改本地存储的配置。</p>
+<table>
+<thead>
+<tr>
+<th>启动参数</th>
+<th>默认值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–storage.tsdb.path</td>
+<td>data&#x2F;</td>
+<td>Base path for metrics storage</td>
+</tr>
+<tr>
+<td>–storage.tsdb.retention</td>
+<td>15d</td>
+<td>How long to retain samples in the storage</td>
+</tr>
+<tr>
+<td>–storage.tsdb.min-block-duration</td>
+<td>2h</td>
+<td>The timestamp range of head blocks after which they get persisted</td>
+</tr>
+<tr>
+<td>–storage.tsdb.max-block-duration</td>
+<td>36h</td>
+<td>The maximum timestamp range of compacted blocks,It’s the minimum duration of any persisted block.</td>
+</tr>
+<tr>
+<td>–storage.tsdb.no-lockfile</td>
+<td>false</td>
+<td>Do not create lockfile in data directory</td>
+</tr>
+</tbody></table>
+<p>在一般情况下，Prometheus中存储的每一个样本大概占用1-2字节大小。如果需要对Prometheus Server的本地磁盘空间做容量规划时，可以通过以下公式计算：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">needed_disk_space = retention_time_seconds * ingested_samples_per_second * bytes_per_sample</span><br></pre></td></tr></table></figure>
+
+<p>从上面公式中可以看出在保留时间(retention_time_seconds)和样本大小(bytes_per_sample)不变的情况下，如果想减少本地磁盘的容量需求，只能通过减少每秒获取样本数(ingested_samples_per_second)的方式。因此有两种手段，一是减少时间序列的数量，二是增加采集样本的时间间隔。考虑到Prometheus会对时间序列进行压缩效率，减少时间序列的数量效果更明显。</p>
+<h3 id="从失败中恢复"><a href="#从失败中恢复" class="headerlink" title="从失败中恢复"></a>从失败中恢复</h3><p>如果本地存储由于某些原因出现了错误，最直接的方式就是停止Prometheus并且删除data目录中的所有记录。当然也可以尝试删除那些发生错误的块目录，不过相应的用户会丢失该块中保存的大概两个小时的监控记录。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/advanced-exporter-java.html">5.4 使用Java自定义Exporter</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/dashboard-console.html">6.2 使用Console Template</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/cluster-ha-intro.html">7.1 集群与高可用</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/prometheus/remote-storage.html">7.3 远程存储</a></div></section></div>
 
 
 
@@ -112,7 +157,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E4%BB%8B"><span class="toc-text">数据可视化简介</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prometheus%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="toc-text">Prometheus数据存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8"><span class="toc-text">本地存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E9%85%8D%E7%BD%AE"><span class="toc-text">本地存储配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E5%A4%B1%E8%B4%A5%E4%B8%AD%E6%81%A2%E5%A4%8D"><span class="toc-text">从失败中恢复</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

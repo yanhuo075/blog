@@ -64,3 +64,11 @@ tree:
     - heatmap-panel
     - singlestat-panel
     - dashboard-template
+  
+  '第7章 集群与高可用':
+    - cluster-ha-intro
+    - local-storage
+    - remote-storage
+    - federation-cluster
+    - prometheus-ha
+    - alertmanager-ha
