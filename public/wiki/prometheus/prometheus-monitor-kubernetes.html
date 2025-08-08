@@ -1,0 +1,905 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Prometheus：9.5 Prometheus监控Kubernetes集群 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="使用Prometheus监控Kubernetes集群上一小节中，我们介绍了Promtheus在Kubernetes下的服务发现能力，并且通过kubernetes_sd_config实现了对Kubernetes下各类资源的自动发现。在本小节中，我们将带领读者利用Promethues提供的服务发现能力，实现对Kubernetes集群以及其中部署的各类资源的自动化监控。 下表中，梳理了监控Kuberne">
+<meta property="og:type" content="website">
+<meta property="og:title" content="9.5 Prometheus监控Kubernetes集群">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/prometheus/prometheus-monitor-kubernetes.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="使用Prometheus监控Kubernetes集群上一小节中，我们介绍了Promtheus在Kubernetes下的服务发现能力，并且通过kubernetes_sd_config实现了对Kubernetes下各类资源的自动发现。在本小节中，我们将带领读者利用Promethues提供的服务发现能力，实现对Kubernetes集群以及其中部署的各类资源的自动化监控。 下表中，梳理了监控Kuberne">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111504657.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111536809.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111607649.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111637911.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111732710.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111759091.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111828561.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111855405.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111922983.png">
+<meta property="article:published_time" content="2025-08-08T03:20:57.812Z">
+<meta property="article:modified_time" content="2025-08-08T03:20:57.808Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111504657.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/prometheus.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/prometheus/introduction.html"><div class="main" ff="title">Prometheus</div><div class="sub normal cap">数据库教程</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/prometheus/" placeholder="在Prometheus文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 Prometheus基础知识</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/introduction.html#start"><span class="toc-text">1.1 Prometheus 简介</span></a><a class="link" href="/wiki/prometheus/arch.html"><span class="toc-text">1.2 Prometheus 组件</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Prometheus安装和使用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/describe.html"><span class="toc-text">2.1 初识 Prometheus</span></a><a class="link" href="/wiki/prometheus/install.html"><span class="toc-text">2.2 安装 Prometheus Server</span></a><a class="link" href="/wiki/prometheus/node.html"><span class="toc-text">2.3 使用Node Exporter采集数据</span></a><a class="link" href="/wiki/prometheus/promsql.html"><span class="toc-text">2.4 使用PromQL查询监控数据</span></a><a class="link" href="/wiki/prometheus/grafana.html"><span class="toc-text">2.5 使用Grafana创建可视化</span></a><a class="link" href="/wiki/prometheus/task.html"><span class="toc-text">2.6 Prometheus 任务和实例</span></a></div><div class="widget-header dis-select"><span class="name">第3章 探索PromQL</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/time-series.html"><span class="toc-text">3.1 理解时间序列</span></a><a class="link" href="/wiki/prometheus/metric-type.html"><span class="toc-text">3.2 Metric类型</span></a><a class="link" href="/wiki/prometheus/promql-learn.html"><span class="toc-text">3.3 初识 PromQL</span></a><a class="link" href="/wiki/prometheus/promql-symbol.html"><span class="toc-text">3.4 PromQL 操作符</span></a><a class="link" href="/wiki/prometheus/promql-aggregation.html"><span class="toc-text">3.5 PromQL 聚合操作</span></a><a class="link" href="/wiki/prometheus/promql-function.html"><span class="toc-text">3.6 PromQL 内置函数</span></a><a class="link" href="/wiki/prometheus/promql-httpapi.html"><span class="toc-text">3.7 PromQL 在HTTP-API使用</span></a><a class="link" href="/wiki/prometheus/promql-practices.html"><span class="toc-text">3.8 PromQL 最佳实践</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Prometheus告警处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/alert-intro.html"><span class="toc-text">4.1 Prometheus 告警简介</span></a><a class="link" href="/wiki/prometheus/alert-rules.html"><span class="toc-text">4.2 Prometheus 告警规则</span></a><a class="link" href="/wiki/prometheus/alertmanager-deploy.html"><span class="toc-text">4.3 Alertmanager 部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-config.html"><span class="toc-text">4.4 Alertmanager 配置概述</span></a><a class="link" href="/wiki/prometheus/alertmanager-route.html"><span class="toc-text">4.5 Alertmanager 基于路由标签</span></a><a class="link" href="/wiki/prometheus/alertmanager-receiver.html"><span class="toc-text">4.6 Alertmanager 内置告警接收器</span></a><a class="link" href="/wiki/prometheus/alertmanager-template.html"><span class="toc-text">4.7 Alertmanager 自定义告警模板</span></a><a class="link" href="/wiki/prometheus/alertmanager-slicense.html"><span class="toc-text">4.8 Alertmanager 屏蔽告警通知</span></a><a class="link" href="/wiki/prometheus/alertmanager-recoding.html"><span class="toc-text">4.9 使用Recoding Rules优化性能</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Prometheus进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/advanced-exporter-intro.html"><span class="toc-text">5.1 Exporter进阶</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-desc.html"><span class="toc-text">5.2 Exporter详解</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-common.html"><span class="toc-text">5.3 常用Exporter</span></a><a class="link" href="/wiki/prometheus/advanced-exporter-java.html"><span class="toc-text">5.4 使用Java自定义Exporter</span></a></div><div class="widget-header dis-select"><span class="name">第6章 数据可视化</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/dashboard-intro.html"><span class="toc-text">6.1 数据可视化简介</span></a><a class="link" href="/wiki/prometheus/dashboard-console.html"><span class="toc-text">6.2 使用Console Template</span></a><a class="link" href="/wiki/prometheus/grafana-intro.html"><span class="toc-text">6.3 Grafana 简介</span></a><a class="link" href="/wiki/prometheus/grafana-panels.html"><span class="toc-text">6.4 Grafana 与数据可视化</span></a><a class="link" href="/wiki/prometheus/graph_panel.html"><span class="toc-text">6.5 Graph面板</span></a><a class="link" href="/wiki/prometheus/heatmap-panel.html"><span class="toc-text">6.5 Heatmap面板</span></a><a class="link" href="/wiki/prometheus/singlestat-panel.html"><span class="toc-text">6.6 SingleStat面板</span></a><a class="link" href="/wiki/prometheus/dashboard-template.html"><span class="toc-text">6.7 模板化Dashboard</span></a></div><div class="widget-header dis-select"><span class="name">第7章 集群与高可用</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/cluster-ha-intro.html"><span class="toc-text">7.1 集群与高可用</span></a><a class="link" href="/wiki/prometheus/local-storage.html"><span class="toc-text">7.2 本地存储</span></a><a class="link" href="/wiki/prometheus/remote-storage.html"><span class="toc-text">7.3 远程存储</span></a><a class="link" href="/wiki/prometheus/federation-cluster.html"><span class="toc-text">7.4 联邦集群</span></a><a class="link" href="/wiki/prometheus/prometheus-ha.html"><span class="toc-text">7.5 Prometheus高可用部署</span></a><a class="link" href="/wiki/prometheus/alertmanager-ha.html"><span class="toc-text">7.6 Alertmanager高可用</span></a></div><div class="widget-header dis-select"><span class="name">第8章 Prometheus服务发现</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/service-discover-intro.html"><span class="toc-text">8.1 Prometheus服务发现概述</span></a><a class="link" href="/wiki/prometheus/service-discover-desc.html"><span class="toc-text">8.2 Prometheus与服务发现</span></a><a class="link" href="/wiki/prometheus/service-discover-with-file.html"><span class="toc-text">8.3 基于文件的服务发现</span></a><a class="link" href="/wiki/prometheus/service-discover-with-consul.html"><span class="toc-text">8.4 基于Consul的服务发现</span></a><a class="link" href="/wiki/prometheus/service-discover-with-relabel.html"><span class="toc-text">8.5 服务发现与Relabeling</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Kubernetes监控实战</span></div><div class="widget-body fs14"><a class="link" href="/wiki/prometheus/k8s-monitor.html"><span class="toc-text">9.1 Kubernetes监控实战</span></a><a class="link" href="/wiki/prometheus/kubernetes-with-minikube.html"><span class="toc-text">9.2 初识Kubernetes</span></a><a class="link" href="/wiki/prometheus/deploy-prometheus-in-kubernetes.html"><span class="toc-text">9.3 Kubernetes部署Prometheus</span></a><a class="link" href="/wiki/prometheus/service-discovery-with-kubernetes.html"><span class="toc-text">9.4 Kubernetes下的服务发现</span></a><a class="link active" href="/wiki/prometheus/prometheus-monitor-kubernetes.html"><span class="toc-text">9.5 Prometheus监控Kubernetes集群</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T03:20:57.808Z">2025-08-08</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>9.5 Prometheus监控Kubernetes集群</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="使用Prometheus监控Kubernetes集群"><a href="#使用Prometheus监控Kubernetes集群" class="headerlink" title="使用Prometheus监控Kubernetes集群"></a>使用Prometheus监控Kubernetes集群</h1><p>上一小节中，我们介绍了Promtheus在Kubernetes下的服务发现能力，并且通过kubernetes_sd_config实现了对Kubernetes下各类资源的自动发现。在本小节中，我们将带领读者利用Promethues提供的服务发现能力，实现对Kubernetes集群以及其中部署的各类资源的自动化监控。</p>
+<p>下表中，梳理了监控Kubernetes集群监控的各个维度以及策略：</p>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>服务发现模式</th>
+<th>监控方法</th>
+<th>数据源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>从集群各节点kubelet组件中获取节点kubelet的基本运行状态的监控指标</td>
+<td>node</td>
+<td>白盒监控</td>
+<td>kubelet</td>
+</tr>
+<tr>
+<td>从集群各节点kubelet内置的cAdvisor中获取，节点中运行的容器的监控指标</td>
+<td>node</td>
+<td>白盒监控</td>
+<td>kubelet</td>
+</tr>
+<tr>
+<td>从部署到各个节点的Node Exporter中采集主机资源相关的运行资源</td>
+<td>node</td>
+<td>白盒监控</td>
+<td>node exporter</td>
+</tr>
+<tr>
+<td>对于内置了Promthues支持的应用，需要从Pod实例中采集其自定义监控指标</td>
+<td>pod</td>
+<td>白盒监控</td>
+<td>custom pod</td>
+</tr>
+<tr>
+<td>获取API Server组件的访问地址，并从中获取Kubernetes集群相关的运行监控指标</td>
+<td>endpoints</td>
+<td>白盒监控</td>
+<td>api server</td>
+</tr>
+<tr>
+<td>获取集群中Service的访问地址，并通过Blackbox Exporter获取网络探测指标</td>
+<td>service</td>
+<td>黑盒监控</td>
+<td>blackbox exporter</td>
+</tr>
+<tr>
+<td>获取集群中Ingress的访问信息，并通过Blackbox Exporter获取网络探测指标</td>
+<td>ingress</td>
+<td>黑盒监控</td>
+<td>blackbox exporter</td>
+</tr>
+</tbody></table>
+<h2 id="从Kubelet获取节点运行状态"><a href="#从Kubelet获取节点运行状态" class="headerlink" title="从Kubelet获取节点运行状态"></a>从Kubelet获取节点运行状态</h2><p>Kubelet组件运行在Kubernetes集群的各个节点中，其负责维护和管理节点上Pod的运行状态。kubelet组件的正常运行直接关系到该节点是否能够正常的被Kubernetes集群正常使用。</p>
+<p>基于Node模式，Prometheus会自动发现Kubernetes中所有Node节点的信息并作为监控的目标Target。 而这些Target的访问地址实际上就是Kubelet的访问地址，并且Kubelet实际上直接内置了对Promtheus的支持。</p>
+<p>修改prometheus.yml配置文件，并添加以下采集任务配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-kubelet&#x27;</span><br><span class="line">  scheme: https</span><br><span class="line">  tls_config:</span><br><span class="line">  ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: node</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_node_label_(.+)</span><br></pre></td></tr></table></figure>
+
+<p>这里使用Node模式自动发现集群中所有Kubelet作为监控的数据采集目标，同时通过labelmap步骤，将Node节点上的标签，作为样本的标签保存到时间序列当中。</p>
+<p>重新加载promethues配置文件，并重建Promthues的Pod实例后，查看kubernetes-kubelet任务采集状态，我们会看到以下错误提示信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Get https://192.168.99.100:10250/metrics: x509: cannot validate certificate for 192.168.99.100 because it doesn&#x27;t contain any IP SANs</span><br></pre></td></tr></table></figure>
+
+<p>这是由于当前使用的ca证书中，并不包含192.168.99.100的地址信息。为了解决该问题，第一种方法是直接跳过ca证书校验过程，通过在tls_config中设置 insecure_skip_verify为true即可。 这样Promthues在采集样本数据时，将会自动跳过ca证书的校验过程，从而从kubelet采集到监控数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-kubelet&#x27;</span><br><span class="line">    scheme: https</span><br><span class="line">    tls_config:</span><br><span class="line">      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">      insecure_skip_verify: true</span><br><span class="line">    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">    kubernetes_sd_configs:</span><br><span class="line">    - role: node</span><br><span class="line">    relabel_configs:</span><br><span class="line">    - action: labelmap</span><br><span class="line">      regex: __meta_kubernetes_node_label_(.+)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111504657.png" alt="直接采集kubelet监控指标">直接采集kubelet监控指标</p>
+<p>第二种方式，不直接通过kubelet的metrics服务采集监控数据，而通过Kubernetes的api-server提供的代理API访问各个节点中kubelet的metrics服务，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-kubelet&#x27;</span><br><span class="line">    scheme: https</span><br><span class="line">    tls_config:</span><br><span class="line">      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">    kubernetes_sd_configs:</span><br><span class="line">    - role: node</span><br><span class="line">    relabel_configs:</span><br><span class="line">    - action: labelmap</span><br><span class="line">      regex: __meta_kubernetes_node_label_(.+)</span><br><span class="line">    - target_label: __address__</span><br><span class="line">      replacement: kubernetes.default.svc:443</span><br><span class="line">    - source_labels: [__meta_kubernetes_node_name]</span><br><span class="line">      regex: (.+)</span><br><span class="line">      target_label: __metrics_path__</span><br><span class="line">      replacement: /api/v1/nodes/$&#123;1&#125;/proxy/metrics</span><br></pre></td></tr></table></figure>
+
+<p>通过relabeling，将从Kubernetes获取到的默认地址<code>__address__</code>替换为kubernetes.default.svc:443。同时将<code>__metrics_path__</code>替换为api-server的代理地址&#x2F;api&#x2F;v1&#x2F;nodes&#x2F;${1}&#x2F;proxy&#x2F;metrics。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111536809.png" alt="通过api-server代理获取kubelet监控指标">通过api-server代理获取kubelet监控指标</p>
+<p>通过获取各个节点中kubelet的监控指标，用户可以评估集群中各节点的性能表现。例如,通过指标kubelet_pod_start_latency_microseconds可以获得当前节点中Pod启动时间相关的统计数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubelet_pod_start_latency_microseconds&#123;quantile=&quot;0.99&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111607649.png" alt="99%的Pod启动时间">99%的Pod启动时间</p>
+<p>Pod平均启动时间大致为42s左右（包含镜像下载时间）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubelet_pod_start_latency_microseconds_sum / kubelet_pod_start_latency_microseconds_count</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111637911.png" alt="Pod平均启动时间">Pod平均启动时间</p>
+<p>除此以外，监控指标kubelet*docker**还可以体现出kubelet与当前节点的docker服务的调用情况，从而可以反映出docker本身是否会影响kubelet的性能表现等问题。</p>
+<h2 id="从Kubelet获取节点容器资源使用情况"><a href="#从Kubelet获取节点容器资源使用情况" class="headerlink" title="从Kubelet获取节点容器资源使用情况"></a>从Kubelet获取节点容器资源使用情况</h2><p>各节点的kubelet组件中除了包含自身的监控指标信息以外，kubelet组件还内置了对cAdvisor的支持。cAdvisor能够获取当前节点上运行的所有容器的资源使用情况，通过访问kubelet的&#x2F;metrics&#x2F;cadvisor地址可以获取到cadvisor的监控指标，因此和获取kubelet监控指标类似，这里同样通过node模式自动发现所有的kubelet信息，并通过适当的relabel过程，修改监控采集任务的配置。 与采集kubelet自身监控指标相似，这里也有两种方式采集cadvisor中的监控指标：</p>
+<p>方式一：直接访问kubelet的&#x2F;metrics&#x2F;cadvisor地址，需要跳过ca证书认证：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-cadvisor&#x27;</span><br><span class="line">  scheme: https</span><br><span class="line">  tls_config:</span><br><span class="line">    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">    insecure_skip_verify: true</span><br><span class="line">  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: node</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - source_labels: [__meta_kubernetes_node_name]</span><br><span class="line">    regex: (.+)</span><br><span class="line">    target_label: __metrics_path__</span><br><span class="line">    replacement: metrics/cadvisor</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_node_label_(.+)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111732710.png" alt="直接访问kubelet">直接访问kubelet</p>
+<p>方式二：通过api-server提供的代理地址访问kubelet的&#x2F;metrics&#x2F;cadvisor地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-cadvisor&#x27;</span><br><span class="line">  scheme: https</span><br><span class="line">  tls_config:</span><br><span class="line">    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: node</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - target_label: __address__</span><br><span class="line">    replacement: kubernetes.default.svc:443</span><br><span class="line">  - source_labels: [__meta_kubernetes_node_name]</span><br><span class="line">    regex: (.+)</span><br><span class="line">    target_label: __metrics_path__</span><br><span class="line">    replacement: /api/v1/nodes/$&#123;1&#125;/proxy/metrics/cadvisor</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_node_label_(.+)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111759091.png" alt="使用api-server代理">使用api-server代理</p>
+<h2 id="使用NodeExporter监控集群资源使用情况"><a href="#使用NodeExporter监控集群资源使用情况" class="headerlink" title="使用NodeExporter监控集群资源使用情况"></a>使用NodeExporter监控集群资源使用情况</h2><p>为了能够采集集群中各个节点的资源使用情况，我们需要在各节点中部署一个Node Exporter实例。在本章的“部署Prometheus”小节，我们使用了Kubernetes内置的控制器之一Deployment。Deployment能够确保Prometheus的Pod能够按照预期的状态在集群中运行，而Pod实例可能随机运行在任意节点上。而与Prometheus的部署不同的是，对于Node Exporter而言每个节点只需要运行一个唯一的实例，此时，就需要使用Kubernetes的另外一种控制器Daemonset。顾名思义，Daemonset的管理方式类似于操作系统中的守护进程。Daemonset会确保在集群中所有（也可以指定）节点上运行一个唯一的Pod实例。</p>
+<p>创建node-exporter-daemonset.yml文件，并写入以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: DaemonSet</span><br><span class="line">metadata:</span><br><span class="line">  name: node-exporter</span><br><span class="line">spec:</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      annotations:</span><br><span class="line">        prometheus.io/scrape: &#x27;true&#x27;</span><br><span class="line">        prometheus.io/port: &#x27;9100&#x27;</span><br><span class="line">        prometheus.io/path: &#x27;metrics&#x27;</span><br><span class="line">      labels:</span><br><span class="line">        app: node-exporter</span><br><span class="line">      name: node-exporter</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - image: prom/node-exporter</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        name: node-exporter</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 9100</span><br><span class="line">          hostPort: 9100</span><br><span class="line">          name: scrape</span><br><span class="line">      hostNetwork: true</span><br><span class="line">      hostPID: true</span><br></pre></td></tr></table></figure>
+
+<p>由于Node Exporter需要能够访问宿主机，因此这里指定了hostNetwork和hostPID，让Pod实例能够以主机网络以及系统进程的形式运行。同时YAML文件中也创建了NodeExporter相应的Service。这样通过Service就可以访问到对应的NodeExporter实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ kubectl create -f node-exporter-daemonset.yml</span><br><span class="line">service &quot;node-exporter&quot; created</span><br><span class="line">daemonset &quot;node-exporter&quot; created</span><br></pre></td></tr></table></figure>
+
+<p>查看Daemonset以及Pod的运行状态</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ kubectl get daemonsets</span><br><span class="line">NAME            DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE</span><br><span class="line">node-exporter   1         1         1         1            1           &lt;none&gt;          15s</span><br><span class="line"></span><br><span class="line">$ kubectl get pods</span><br><span class="line">NAME                               READY     STATUS    RESTARTS   AGE</span><br><span class="line">...</span><br><span class="line">node-exporter-9h56z                1/1       Running   0          51s</span><br></pre></td></tr></table></figure>
+
+<p>由于Node Exporter是以主机网络的形式运行，因此直接访问MiniKube的虚拟机IP加上Pod的端口即可访问当前节点上运行的Node Exporter实例:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ minikube ip</span><br><span class="line">192.168.99.100</span><br><span class="line"></span><br><span class="line">$ curl http://192.168.99.100:9100/metrics</span><br><span class="line">...</span><br><span class="line">process_start_time_seconds 1.5251401593e+09</span><br><span class="line"># HELP process_virtual_memory_bytes Virtual memory size in bytes.</span><br><span class="line"># TYPE process_virtual_memory_bytes gauge</span><br><span class="line">process_virtual_memory_bytes 1.1984896e+08</span><br></pre></td></tr></table></figure>
+
+<p>目前为止，通过Daemonset的形式将Node Exporter部署到了集群中的各个节点中。接下来，我们只需要通过Prometheus的pod服务发现模式，找到当前集群中部署的Node Exporter实例即可。 需要注意的是，由于Kubernetes中并非所有的Pod都提供了对Prometheus的支持，有些可能只是一些简单的用户应用，为了区分哪些Pod实例是可以供Prometheus进行采集的，这里我们为Node Exporter添加了注解：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">prometheus.io/scrape: &#x27;true&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>由于Kubernetes中Pod可能会包含多个容器，还需要用户通过注解指定用户提供监控指标的采集端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">prometheus.io/port: &#x27;9100&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>而有些情况下，Pod中的容器可能并没有使用默认的&#x2F;metrics作为监控采集路径，因此还需要支持用户指定采集路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">prometheus.io/path: &#x27;metrics&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>为Prometheus创建监控采集任务kubernetes-pods，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-pods&#x27;</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: pod</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]</span><br><span class="line">    action: keep</span><br><span class="line">    regex: true</span><br><span class="line">  - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]</span><br><span class="line">    action: replace</span><br><span class="line">    target_label: __metrics_path__</span><br><span class="line">    regex: (.+)</span><br><span class="line">  - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]</span><br><span class="line">    action: replace</span><br><span class="line">    regex: ([^:]+)(?::\d+)?;(\d+)</span><br><span class="line">    replacement: $1:$2</span><br><span class="line">    target_label: __address__</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_pod_label_(.+)</span><br><span class="line">  - source_labels: [__meta_kubernetes_namespace]</span><br><span class="line">    action: replace</span><br><span class="line">    target_label: kubernetes_namespace</span><br><span class="line">  - source_labels: [__meta_kubernetes_pod_name]</span><br><span class="line">    action: replace</span><br><span class="line">    target_label: kubernetes_pod_name</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111828561.png" alt="通过Pod模式自动发现Node Exporter实例">通过Pod模式自动发现Node Exporter实例</p>
+<p>通过以上relabel过程实现对Pod实例的过滤，以及采集任务地址替换，从而实现对特定Pod实例监控指标的采集。需要说明的是kubernetes-pods并不是只针对Node Exporter而言，对于用户任意部署的Pod实例，只要其提供了对Prometheus的支持，用户都可以通过为Pod添加注解的形式为其添加监控指标采集的支持。</p>
+<h2 id="从kube-apiserver获取集群运行监控指标"><a href="#从kube-apiserver获取集群运行监控指标" class="headerlink" title="从kube-apiserver获取集群运行监控指标"></a>从kube-apiserver获取集群运行监控指标</h2><p>在开始正式内容之前，我们需要先了解一下Kubernetes中Service是如何实现负载均衡的，如下图所示，一般来说Service有两个主要的使用场景：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111855405.png" alt="Service负载均衡">Service负载均衡</p>
+<ul>
+<li>代理对集群内部应用Pod实例的请求：当创建Service时如果指定了标签选择器，Kubernetes会监听集群中所有的Pod变化情况，通过Endpoints自动维护满足标签选择器的Pod实例的访问信息；</li>
+<li>代理对集群外部服务的请求：当创建Service时如果不指定任何的标签选择器，此时需要用户手动创建Service对应的Endpoint资源。例如，一般来说，为了确保数据的安全，我们通常讲数据库服务部署到集群外。 这是为了避免集群内的应用硬编码数据库的访问信息，这是就可以通过在集群内创建Service，并指向外部的数据库服务实例。</li>
+</ul>
+<p>kube-apiserver扮演了整个Kubernetes集群管理的入口的角色，负责对外暴露Kubernetes API。kube-apiserver组件一般是独立部署在集群外的，为了能够让部署在集群内的应用（kubernetes插件或者用户应用）能够与kube-apiserver交互，Kubernetes会默认在命名空间下创建一个名为kubernetes的服务，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ kubectl get svc kubernetes -o wide</span><br><span class="line">NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE       SELECTOR</span><br><span class="line">kubernetes            ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP          166d      &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而该kubernetes服务代理的后端实际地址通过endpoints进行维护，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ kubectl get endpoints kubernetes</span><br><span class="line">NAME         ENDPOINTS        AGE</span><br><span class="line">kubernetes   10.0.2.15:8443   166d</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式集群内的应用或者系统主机就可以通过集群内部的DNS域名kubernetes.default.svc访问到部署外部的kube-apiserver实例。</p>
+<p>因此，如果我们想要监控kube-apiserver相关的指标，只需要通过endpoints资源找到kubernetes对应的所有后端地址即可。</p>
+<p>如下所示，创建监控任务kubernetes-apiservers，这里指定了服务发现模式为endpoints。Promtheus会查找当前集群中所有的endpoints配置，并通过relabel进行判断是否为apiserver对应的访问地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-apiservers&#x27;</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: endpoints</span><br><span class="line">  scheme: https</span><br><span class="line">  tls_config:</span><br><span class="line">    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt</span><br><span class="line">  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]</span><br><span class="line">    action: keep</span><br><span class="line">    regex: default;kubernetes;https</span><br><span class="line">  - target_label: __address__</span><br><span class="line">    replacement: kubernetes.default.svc:443</span><br></pre></td></tr></table></figure>
+
+<p>在relabel_configs配置中第一步用于判断当前endpoints是否为kube-apiserver对用的地址。第二步，替换监控采集地址到kubernetes.default.svc:443即可。重新加载配置文件，重建Promthues实例，得到以下结果。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808111922983.png" alt="apiserver任务状态">apiserver任务状态</p>
+<h2 id="对Ingress和Service进行网络探测"><a href="#对Ingress和Service进行网络探测" class="headerlink" title="对Ingress和Service进行网络探测"></a>对Ingress和Service进行网络探测</h2><p>为了能够对Ingress和Service进行探测，我们需要在集群部署Blackbox Exporter实例。 如下所示，创建blackbox-exporter.yaml用于描述部署相关的内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: blackbox-exporter</span><br><span class="line">  name: blackbox-exporter</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - name: blackbox</span><br><span class="line">    port: 9115</span><br><span class="line">    protocol: TCP</span><br><span class="line">  selector:</span><br><span class="line">    app: blackbox-exporter</span><br><span class="line">  type: ClusterIP</span><br><span class="line">---</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: blackbox-exporter</span><br><span class="line">  name: blackbox-exporter</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: blackbox-exporter</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: blackbox-exporter</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - image: prom/blackbox-exporter</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        name: blackbox-exporter</span><br></pre></td></tr></table></figure>
+
+<p>通过kubectl命令部署Blackbox Exporter实例，这里将部署一个Blackbox Exporter的Pod实例，同时通过服务blackbox-exporter在集群内暴露访问地址blackbox-exporter.default.svc.cluster.local，对于集群内的任意服务都可以通过该内部DNS域名访问Blackbox Exporter实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ kubectl get pods</span><br><span class="line">NAME                                        READY     STATUS        RESTARTS   AGE</span><br><span class="line">blackbox-exporter-f77fc78b6-72bl5           1/1       Running       0          4s</span><br><span class="line"></span><br><span class="line">$ kubectl get svc</span><br><span class="line">NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">blackbox-exporter           ClusterIP   10.109.144.192   &lt;none&gt;        9115/TCP         3m</span><br></pre></td></tr></table></figure>
+
+<p>为了能够让Prometheus能够自动的对Service进行探测，我们需要通过服务发现自动找到所有的Service信息。 如下所示，在Prometheus的配置文件中添加名为kubernetes-services的监控采集任务：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-services&#x27;</span><br><span class="line">  metrics_path: /probe</span><br><span class="line">  params:</span><br><span class="line">    module: [http_2xx]</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: service</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]</span><br><span class="line">    action: keep</span><br><span class="line">    regex: true</span><br><span class="line">  - source_labels: [__address__]</span><br><span class="line">    target_label: __param_target</span><br><span class="line">  - target_label: __address__</span><br><span class="line">    replacement: blackbox-exporter.default.svc.cluster.local:9115</span><br><span class="line">  - source_labels: [__param_target]</span><br><span class="line">    target_label: instance</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_service_label_(.+)</span><br><span class="line">  - source_labels: [__meta_kubernetes_namespace]</span><br><span class="line">    target_label: kubernetes_namespace</span><br><span class="line">  - source_labels: [__meta_kubernetes_service_name]</span><br><span class="line">    target_label: kubernetes_name</span><br></pre></td></tr></table></figure>
+
+<p>在该任务配置中，通过指定kubernetes_sd_config的role为service指定服务发现模式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubernetes_sd_configs:</span><br><span class="line">  - role: service</span><br></pre></td></tr></table></figure>
+
+<p>为了区分集群中需要进行探测的Service实例，我们通过标签‘prometheus.io&#x2F;probe: true’进行判断，从而过滤出需要探测的所有Service实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]</span><br><span class="line">  action: keep</span><br><span class="line">  regex: true</span><br></pre></td></tr></table></figure>
+
+<p>并且将通过服务发现获取到的Service实例地址<code>__address__</code>转换为获取监控数据的请求参数。同时将<code>__address</code>执行Blackbox Exporter实例的访问地址，并且重写了标签instance的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- source_labels: [__address__]</span><br><span class="line">  target_label: __param_target</span><br><span class="line">- target_label: __address__</span><br><span class="line">  replacement: blackbox-exporter.default.svc.cluster.local:9115</span><br><span class="line">- source_labels: [__param_target]</span><br><span class="line">  target_label: instance</span><br></pre></td></tr></table></figure>
+
+<p>最后，为监控样本添加了额外的标签信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- action: labelmap</span><br><span class="line">  regex: __meta_kubernetes_service_label_(.+)</span><br><span class="line">- source_labels: [__meta_kubernetes_namespace]</span><br><span class="line">  target_label: kubernetes_namespace</span><br><span class="line">- source_labels: [__meta_kubernetes_service_name]</span><br><span class="line">  target_label: kubernetes_name</span><br></pre></td></tr></table></figure>
+
+<p>对于Ingress而言，也是一个相对类似的过程，这里给出对Ingress探测的Promthues任务配置作为参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- job_name: &#x27;kubernetes-ingresses&#x27;</span><br><span class="line">  metrics_path: /probe</span><br><span class="line">  params:</span><br><span class="line">    module: [http_2xx]</span><br><span class="line">  kubernetes_sd_configs:</span><br><span class="line">  - role: ingress</span><br><span class="line">  relabel_configs:</span><br><span class="line">  - source_labels: [__meta_kubernetes_ingress_annotation_prometheus_io_probe]</span><br><span class="line">    action: keep</span><br><span class="line">    regex: true</span><br><span class="line">  - source_labels: [__meta_kubernetes_ingress_scheme,__address__,__meta_kubernetes_ingress_path]</span><br><span class="line">    regex: (.+);(.+);(.+)</span><br><span class="line">    replacement: $&#123;1&#125;://$&#123;2&#125;$&#123;3&#125;</span><br><span class="line">    target_label: __param_target</span><br><span class="line">  - target_label: __address__</span><br><span class="line">    replacement: blackbox-exporter.default.svc.cluster.local:9115</span><br><span class="line">  - source_labels: [__param_target]</span><br><span class="line">    target_label: instance</span><br><span class="line">  - action: labelmap</span><br><span class="line">    regex: __meta_kubernetes_ingress_label_(.+)</span><br><span class="line">  - source_labels: [__meta_kubernetes_namespace]</span><br><span class="line">    target_label: kubernetes_namespace</span><br><span class="line">  - source_labels: [__meta_kubernetes_ingress_name]</span><br><span class="line">    target_label: kubernetes_name</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/prometheus/service-discovery-with-kubernetes.html">9.4 Kubernetes下的服务发现</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Prometheus%E7%9B%91%E6%8E%A7Kubernetes%E9%9B%86%E7%BE%A4"><span class="toc-text">使用Prometheus监控Kubernetes集群</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8EKubelet%E8%8E%B7%E5%8F%96%E8%8A%82%E7%82%B9%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-text">从Kubelet获取节点运行状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8EKubelet%E8%8E%B7%E5%8F%96%E8%8A%82%E7%82%B9%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">从Kubelet获取节点容器资源使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8NodeExporter%E7%9B%91%E6%8E%A7%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">使用NodeExporter监控集群资源使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8Ekube-apiserver%E8%8E%B7%E5%8F%96%E9%9B%86%E7%BE%A4%E8%BF%90%E8%A1%8C%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="toc-text">从kube-apiserver获取集群运行监控指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9Ingress%E5%92%8CService%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E6%8E%A2%E6%B5%8B"><span class="toc-text">对Ingress和Service进行网络探测</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

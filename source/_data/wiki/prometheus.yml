@@ -79,3 +79,10 @@ tree:
     - service-discover-with-file
     - service-discover-with-consul
     - service-discover-with-relabel
+  
+  '第9章 Kubernetes监控实战':
+    - k8s-monitor
+    - kubernetes-with-minikube
+    - deploy-prometheus-in-kubernetes
+    - service-discovery-with-kubernetes
+    - prometheus-monitor-kubernetes
