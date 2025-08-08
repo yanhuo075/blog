@@ -1,6 +1,6 @@
 layout: wiki  # 使用wiki布局模板
 wiki: prometheus # 这是项目id，对应 /_data/wiki/prometheus.yml
-title: 10.3 使用Operator管理Prometheus
+title: 10.3 Operator管理Prometheus
 order: 55
 ---
 
