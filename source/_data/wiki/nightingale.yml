@@ -31,3 +31,9 @@ tree:
     - install/compose
     - install/helm
     - install/configuration
+
+  '第3章 采集器':
+    - agent/intro
+    - agent/categraf
+    - agent/telegraf
+    - agent/datadog-agent
