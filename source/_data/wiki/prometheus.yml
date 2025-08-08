@@ -86,3 +86,10 @@ tree:
     - deploy-prometheus-in-kubernetes
     - service-discovery-with-kubernetes
     - prometheus-monitor-kubernetes
+
+  '第10章 Prometheus Operator':
+    - prometheus-operator-desc
+    - prometheus-operator-arch
+    - operator-manage-prometheus
+    - operator-manage-alert
+    - operator-custom-configuration
