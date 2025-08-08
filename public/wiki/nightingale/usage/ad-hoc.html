@@ -17,20 +17,23 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Nightingale：1.5 夜莺商业版 - 烟火075的博客</title>
+  <title>Nightingale：4.2 即时查询 - 烟火075的博客</title>
 
   
-    <meta name="description" content="夜莺商业版夜莺监控（Nightingale）的主力开发人员是全职在做开源，如果没有收入养家糊口，项目也就无法持续了。所以他们创办了一家企业：北京快猫星云科技有限公司，简称“快猫”，推出了两款商业产品：  一站式智能观测平台Flashcat 一站式告警响应平台Flashduty  其中 Flashcat 可以看做是夜莺的商业版，定位是统一的观测平台，开源版则只是侧重在指标监控，二者的区别可以参考这篇">
+    <meta name="description" content="即时查询夜莺支持 Ad-hoc 查询，可以在界面上直接查询数据源的数据。菜单入口在 数据查询 下面，选择 指标 可以查询指标数据，选择 日志 可以查询日志数据。 指标查询下面是一个指标查询样例：  这个页面和 Prometheus 的 graph 页面类似，支持查询时序指标数据。当然也做了一些增强，增加了内置指标、历史记录等等一些能力。上图中是一个 range vector，且使用的 Table">
 <meta property="og:type" content="website">
-<meta property="og:title" content="1.5 夜莺商业版">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/pre-intro/flashcat.html">
+<meta property="og:title" content="4.2 即时查询">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/usage/ad-hoc.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="夜莺商业版夜莺监控（Nightingale）的主力开发人员是全职在做开源，如果没有收入养家糊口，项目也就无法持续了。所以他们创办了一家企业：北京快猫星云科技有限公司，简称“快猫”，推出了两款商业产品：  一站式智能观测平台Flashcat 一站式告警响应平台Flashduty  其中 Flashcat 可以看做是夜莺的商业版，定位是统一的观测平台，开源版则只是侧重在指标监控，二者的区别可以参考这篇">
+<meta property="og:description" content="即时查询夜莺支持 Ad-hoc 查询，可以在界面上直接查询数据源的数据。菜单入口在 数据查询 下面，选择 指标 可以查询指标数据，选择 日志 可以查询日志数据。 指标查询下面是一个指标查询样例：  这个页面和 Prometheus 的 graph 页面类似，支持查询时序指标数据。当然也做了一些增强，增加了内置指标、历史记录等等一些能力。上图中是一个 range vector，且使用的 Table">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-08T08:59:48.145Z">
-<meta property="article:modified_time" content="2025-08-08T08:49:34.095Z">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808173533355.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808173534320.png">
+<meta property="article:published_time" content="2025-08-08T09:37:06.623Z">
+<meta property="article:modified_time" content="2025-08-08T09:37:06.623Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808173533355.png">
   
   
   
@@ -65,7 +68,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link active" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link active" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：监控</span></div><div class="widget-body"><a class="item wiki" href="/wiki/prometheus/introduction.html"><span class="title">Prometheus监控学习指南</span><span class="excerpt">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</span></a></div></widget>
 </div>
@@ -80,29 +83,34 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T08:49:34.095Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T09:37:06.623Z">2025-08-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>1.5 夜莺商业版</span></h1>
+        <h1 class="text title"><span>4.2 即时查询</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="夜莺商业版"><a href="#夜莺商业版" class="headerlink" title="夜莺商业版"></a>夜莺商业版</h1><p>夜莺监控（Nightingale）的主力开发人员是全职在做开源，如果没有收入养家糊口，项目也就无法持续了。所以他们创办了一家企业：北京快猫星云科技有限公司，简称“快猫”，推出了两款商业产品：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/t2SgWFGBeiyJtJqvaQAkzw">一站式智能观测平台Flashcat</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZYLboMRpV4HM4aKVvNZ59w">一站式告警响应平台Flashduty</a></li>
-</ul>
-<p>其中 Flashcat 可以看做是夜莺的商业版，定位是统一的观测平台，开源版则只是侧重在指标监控，二者的区别可以参考这篇文章：《<a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/flashcat-vs-n9e/">夜莺开源版和商业版的区别</a>》。</p>
-<p>FlashDuty 则是类似 PagerDuty 的一站式告警响应平台（即 On-call 中心），支持对接 Zabbix、Prometheus、夜莺、各云监控、Elastalert 等各类监控系统，收拢告警事件到一个平台，统一对告警做收敛降噪、排班、认领升级、响应、派发等。可以免费<a target="_blank" rel="noopener" href="https://flashcat.cloud/product/flashduty/">注册试用</a>。</p>
-<p>监控、可观测性领域的知识确实非常驳杂，如果您有预算需要乙方协助，可以考虑快猫的产品，多方共赢 👉 <a target="_blank" rel="noopener" href="https://flashcat.cloud/contact/">免费与快猫做产品思路交流</a>。</p>
+  </div><article class="md-text content"><h1 id="即时查询"><a href="#即时查询" class="headerlink" title="即时查询"></a>即时查询</h1><p>夜莺支持 Ad-hoc 查询，可以在界面上直接查询数据源的数据。菜单入口在 <code>数据查询</code> 下面，选择 <code>指标</code> 可以查询指标数据，选择 <code>日志</code> 可以查询日志数据。</p>
+<h2 id="指标查询"><a href="#指标查询" class="headerlink" title="指标查询"></a>指标查询</h2><p>下面是一个指标查询样例：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808173533355.png" alt="指标查询"></p>
+<p>这个页面和 Prometheus 的 <code>graph</code> 页面类似，支持查询时序指标数据。当然也做了一些增强，增加了内置指标、历史记录等等一些能力。上图中是一个 range vector，且使用的 Table 视图，此时夜莺会多做一步，计算各个数据的时间差，就是最右侧那个 <code>+15</code>，方便我们排查是否有数据丢失的情况，比如大都是规律的时间差，和采集频率一致，但是突然发现有两个时间差比较大，是好几倍的采集频率，那就表示有数据采集或传输失败了。</p>
+<blockquote>
+<p>经常被新手询问的问题是，这个页面一进来为啥看不到任何数据。这是符合预期的，需要先输入 Promql 进行查询，然后才能看到数据。而非是说一进来这个页面就可以看到数据。Promql 是使用 Prometheus、Nightingale 的前置知识，建议先学习 Promql 的基础知识，资料参考：《<a target="_blank" rel="noopener" href="https://flashcat.cloud/tags/promql/">Promql系列教程</a>》</p>
+</blockquote>
+<p>如果使用的采集器是 Categraf，可以查询 <code>cpu_usage_active</code> 这个指标，如果能查到，说明数据源配置是 OK 的。如果使用的采集器是 Node-Exporter，那可以查询 <code>node_load1</code> 这个指标，如果能查到，说明数据源配置是 OK 的。</p>
+<h2 id="日志查询"><a href="#日志查询" class="headerlink" title="日志查询"></a>日志查询</h2><p>日志查询主要是支持的 ElasticSearch 数据源，配置 ElasticSearch 数据源的时候，有个版本字段很多人会有困惑，如果你是 <code>6.x</code> 版本的 ElasticSearch，那么就选择 <code>6.0+</code> 版本，如果是 <code>7.x</code> 版本的 ElasticSearch，就选择 <code>7.0+</code> 版本，如果是更高版本，也直接选择 <code>7.0+</code> 版本，如果遇到不兼容的情况，提 issues 反馈即可。</p>
+<p>配置完了数据源之后，可以在 <code>数据查询-日志</code> 页面进行查询，下面是一个日志查询样例：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808173534320.png" alt="日志查询"></p>
+<p>和 Kibana 的日志查询页面很像，夜莺这里既可以支持按照索引模式查询，也可以不创建索引模式，直接查询索引（支持通配符），不过直接查询索引不是一个好的实践，后面可能会下掉这个功能。另外查询语法支持 KQL 和 Lucene（即 query string）两种，对于 ElasticSearch 的玩家而言，这些概念都不陌生，这里就不赘述了。</p>
+<p>数据源配置成功之后，下一步就可以进入重头戏了，配置告警规则，体验夜莺的告警引擎能力。</p>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/pre-intro/architecture.html">1.4 夜莺架构设计</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/pre-intro/videos.html">1.6 入门视频教程</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/usage/datasource.html">4.1 数据源</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/usage/metric-alerting.html">4.3 指标告警</a></div></section></div>
 
 
 
@@ -114,7 +122,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9C%E8%8E%BA%E5%95%86%E4%B8%9A%E7%89%88"><span class="toc-text">夜莺商业版</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%B3%E6%97%B6%E6%9F%A5%E8%AF%A2"><span class="toc-text">即时查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E6%A0%87%E6%9F%A5%E8%AF%A2"><span class="toc-text">指标查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%9F%A5%E8%AF%A2"><span class="toc-text">日志查询</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

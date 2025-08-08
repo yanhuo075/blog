@@ -37,3 +37,11 @@ tree:
     - agent/categraf
     - agent/telegraf
     - agent/datadog-agent
+
+  '第4章 快速体验':
+    - usage/datasource
+    - usage/ad-hoc
+    - usage/metric-alerting
+    - usage/logs-alerting
+    - usage/notify-rules
+    - usage/dashboard
