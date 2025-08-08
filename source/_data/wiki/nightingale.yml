@@ -24,3 +24,10 @@ tree:
     - flashcat
     - videos
   
+  '第2章 安装':
+    - pre-intro
+    - upgrade
+    - binary
+    - compose
+    - helm
+    - configuration
