@@ -72,3 +72,10 @@ tree:
     - federation-cluster
     - prometheus-ha
     - alertmanager-ha
+  
+  '第8章 Prometheus服务发现':
+    - service-discover-intro
+    - service-discover-desc
+    - service-discover-with-file
+    - service-discover-with-consul
+    - service-discover-with-relabel
