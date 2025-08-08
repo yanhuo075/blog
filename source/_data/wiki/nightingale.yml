@@ -45,3 +45,13 @@ tree:
     - usage/logs-alerting
     - usage/notify-rules
     - usage/dashboard
+
+  '第5章 监控实践':
+    - practice/linux
+    - practice/proc
+    - practice/port
+    - practice/exec
+    - practice/mysql
+    - practice/redis
+    - practice/oracle
+    - practice/java

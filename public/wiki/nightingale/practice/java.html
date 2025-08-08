@@ -17,28 +17,20 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Nightingale：4.5 通知规则 - 烟火075的博客</title>
+  <title>Nightingale：5.8 Java 类程序 - 烟火075的博客</title>
 
   
-    <meta name="description" content="通知规则告警规则负责产生告警事件，通知规则负责把告警发送出去，不同的告警可以选择不同的通知媒介，比如高级别的告警打电话、发短信、发钉钉，低级别的告警发邮件等。 设计初衷老版本的夜莺没有通知规则的概念，是在告警规则里直接配置通知媒介和通知接收人，虽然直观，但是不够灵活，有如下问题：  告警规则中启用抑制之后，通知媒介仍然只能写死的问题。之前版本的告警规则中如果启用了抑制规则，通常意味着，不同的阈值想">
+    <meta name="description" content="Java 类程序 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  Java 类的程序如何监控？通常有如下几种方式：  Actuator Micrometer JMX 组件自身暴露指标  Actuator如果你是">
 <meta property="og:type" content="website">
-<meta property="og:title" content="4.5 通知规则">
-<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/usage/notify-rules.html">
+<meta property="og:title" content="5.8 Java 类程序">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/practice/java.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="通知规则告警规则负责产生告警事件，通知规则负责把告警发送出去，不同的告警可以选择不同的通知媒介，比如高级别的告警打电话、发短信、发钉钉，低级别的告警发邮件等。 设计初衷老版本的夜莺没有通知规则的概念，是在告警规则里直接配置通知媒介和通知接收人，虽然直观，但是不够灵活，有如下问题：  告警规则中启用抑制之后，通知媒介仍然只能写死的问题。之前版本的告警规则中如果启用了抑制规则，通常意味着，不同的阈值想">
+<meta property="og:description" content="Java 类程序 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。  Java 类的程序如何监控？通常有如下几种方式：  Actuator Micrometer JMX 组件自身暴露指标  Actuator如果你是">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174241299.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219619.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174254740.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219981.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219350.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219544.png">
-<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174222638.png">
-<meta property="article:published_time" content="2025-08-08T09:44:10.107Z">
-<meta property="article:modified_time" content="2025-08-08T09:44:10.107Z">
+<meta property="article:published_time" content="2025-08-08T10:08:48.358Z">
+<meta property="article:modified_time" content="2025-08-08T10:08:48.358Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174241299.png">
   
   
   
@@ -73,7 +65,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link active" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/pre-intro/introduction.html#start"><span class="toc-text">1.1 夜莺项目介绍</span></a><a class="link" href="/wiki/nightingale/pre-intro/contrast.html"><span class="toc-text">1.2 夜莺对比 Prometheus</span></a><a class="link" href="/wiki/nightingale/pre-intro/pre-learn.html"><span class="toc-text">1.3 学习夜莺的前置知识</span></a><a class="link" href="/wiki/nightingale/pre-intro/architecture.html"><span class="toc-text">1.4 夜莺架构设计</span></a><a class="link" href="/wiki/nightingale/pre-intro/flashcat.html"><span class="toc-text">1.5 夜莺商业版</span></a><a class="link" href="/wiki/nightingale/pre-intro/videos.html"><span class="toc-text">1.6 入门视频教程</span></a></div><div class="widget-header dis-select"><span class="name">第2章 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/install/pre-intro.html"><span class="toc-text">2.1 安装前置说明</span></a><a class="link" href="/wiki/nightingale/install/upgrade.html"><span class="toc-text">2.2 升级</span></a><a class="link" href="/wiki/nightingale/install/binary.html"><span class="toc-text">2.3 二进制部署</span></a><a class="link" href="/wiki/nightingale/install/compose.html"><span class="toc-text">2.4 Docker Compose部署</span></a><a class="link" href="/wiki/nightingale/install/helm.html"><span class="toc-text">2.5 Helm部署</span></a><a class="link" href="/wiki/nightingale/install/configuration.html"><span class="toc-text">2.6 配置文件讲解</span></a></div><div class="widget-header dis-select"><span class="name">第3章 采集器</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/agent/intro.html"><span class="toc-text">3.1 前置说明</span></a><a class="link" href="/wiki/nightingale/agent/categraf.html"><span class="toc-text">3.2 Categraf</span></a><a class="link" href="/wiki/nightingale/agent/telegraf.html"><span class="toc-text">3.3 Telegraf</span></a><a class="link" href="/wiki/nightingale/agent/datadog-agent.html"><span class="toc-text">3.4 Datadog-Agent</span></a></div><div class="widget-header dis-select"><span class="name">第4章 快速体验</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/usage/datasource.html"><span class="toc-text">4.1 数据源</span></a><a class="link" href="/wiki/nightingale/usage/ad-hoc.html"><span class="toc-text">4.2 即时查询</span></a><a class="link" href="/wiki/nightingale/usage/metric-alerting.html"><span class="toc-text">4.3 指标告警</span></a><a class="link" href="/wiki/nightingale/usage/logs-alerting.html"><span class="toc-text">4.4 日志告警</span></a><a class="link" href="/wiki/nightingale/usage/notify-rules.html"><span class="toc-text">4.5 通知规则</span></a><a class="link" href="/wiki/nightingale/usage/dashboard.html"><span class="toc-text">4.6 仪表盘</span></a></div><div class="widget-header dis-select"><span class="name">第5章 监控实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/nightingale/practice/linux.html"><span class="toc-text">5.1 Linux OS</span></a><a class="link" href="/wiki/nightingale/practice/proc.html"><span class="toc-text">5.2 进程监控</span></a><a class="link" href="/wiki/nightingale/practice/port.html"><span class="toc-text">5.3 端口监控</span></a><a class="link" href="/wiki/nightingale/practice/exec.html"><span class="toc-text">5.4 插件脚本</span></a><a class="link" href="/wiki/nightingale/practice/mysql.html"><span class="toc-text">5.5 MySQL监控</span></a><a class="link" href="/wiki/nightingale/practice/redis.html"><span class="toc-text">5.6 Redis监控</span></a><a class="link" href="/wiki/nightingale/practice/oracle.html"><span class="toc-text">5.7 Oracle监控</span></a><a class="link active" href="/wiki/nightingale/practice/java.html"><span class="toc-text">5.8 Java 类程序</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：监控</span></div><div class="widget-body"><a class="item wiki" href="/wiki/prometheus/introduction.html"><span class="title">Prometheus监控学习指南</span><span class="excerpt">Prometheus 是一套的开源云原生监控系统，以时序数据和 PromQL 为核心，支持动态拉取、告警与可视化。</span></a></div></widget>
 </div>
@@ -88,75 +80,99 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T09:44:10.107Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T10:08:48.358Z">2025-08-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>4.5 通知规则</span></h1>
+        <h1 class="text title"><span>5.8 Java 类程序</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="通知规则"><a href="#通知规则" class="headerlink" title="通知规则"></a>通知规则</h1><p>告警规则负责产生告警事件，通知规则负责把告警发送出去，不同的告警可以选择不同的通知媒介，比如高级别的告警打电话、发短信、发钉钉，低级别的告警发邮件等。</p>
-<h2 id="设计初衷"><a href="#设计初衷" class="headerlink" title="设计初衷"></a>设计初衷</h2><p>老版本的夜莺没有通知规则的概念，是在告警规则里直接配置通知媒介和通知接收人，虽然直观，但是不够灵活，有如下问题：</p>
+  </div><article class="md-text content"><h1 id="Java-类程序"><a href="#Java-类程序" class="headerlink" title="Java 类程序"></a>Java 类程序</h1><blockquote>
+<p>对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。</p>
+</blockquote>
+<p>Java 类的程序如何监控？通常有如下几种方式：</p>
 <ul>
-<li>告警规则中启用抑制之后，通知媒介仍然只能写死的问题。之前版本的告警规则中如果启用了抑制规则，通常意味着，不同的阈值想要使用不同的级别，进而使用不同的通知媒介发送告警，比如 Critical 级别的告警使用电话、短信，Info 级别的告警使用 Email。但是之前版本的告警规则中，通知媒介是写死的，无法做到不同的级别不同的媒介。</li>
-<li>接入电话、短信等通知方式不方便。这次我们提供了通用的 HTTP、脚本发送方式，HTTP 的参数、Header、Body 都可以自定义，这样一来，可以更方便接入不同通知媒介了。</li>
-<li>之前的通知方式和告警规则强耦合，不方便改动。新版本抽象了「通知规则」的概念，告警规则直接关联的是通知规则，通知规则中可以定义灵活的发送方式。每个小研发团队通常只需要定义一个通知规则，然后所有的告警规则都关联这个通知规则即可。后面改动通知规则也是非常方便的，改一个地方即可影响所有告警规则。</li>
-<li>之前版本消息模板比较死板，每个类型的通知媒介只能固定使用一个消息模板。新版本支持消息模板自定义，而且每个通知媒介可以关联不同的消息模板，比如 DBA 团队和 大数据 团队都要使用钉钉机器人发告警，但是希望使用不同的消息模板，现在就可以做到了。</li>
+<li>Actuator</li>
+<li>Micrometer</li>
+<li>JMX</li>
+<li>组件自身暴露指标</li>
 </ul>
-<h2 id="逻辑示意"><a href="#逻辑示意" class="headerlink" title="逻辑示意"></a>逻辑示意</h2><p>新版本的告警事件发送逻辑，整体流程变成如下这个样子：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174241299.png" alt="通知规则和告警规则的联动逻辑"></p>
-<p>之前的版本，是在告警规则里直接配置通知媒介+告警接收人，耦合严重。新版本是在告警规则里关联通知规则，具体如何发送是在通知规则里定义的，这样一来，告警规则和通知规则解耦，多个告警规则可以关联一个通知规则，如果想要改动通知方式，只需要改动通知规则即可。</p>
-<h2 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h2><p>通知规则可以支持不同的通知媒介，而且可以定义不同的媒介适用的范围，比如电话这个通知媒介，只适用于 Critical 的告警，而 Email 则适用于 Critical、Warning、Info 所有告警。下面是一个通知规则配置样例：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219619.png" alt="通知规则配置样例"></p>
-<p>对于通知媒介，我们会内置一些，方便大家开箱即用：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174254740.png" alt="内置媒介列表"></p>
-<p>打开通知媒介的配置，其中有个「变量配置」不太好理解。我说个场景：比如 DBA 团队和 BigData 团队都想使用企微这个通知媒介发告警，但是他们想使用不同的企微机器人，即 Webhook 地址基本相同，但是 URL 参数中的 Key 不同（不同的 Key 代表不同的机器人）。此时应该怎么做？</p>
-<p>在夜莺的设计里，不希望创建两个不同的通知媒介。还是希望只有企微一个通知媒介，但是这个通知媒介支持传参，DBA 同学在配置告警通知规则的时候，选择企微这个通知媒介的同时，要填写自己的机器人的 Key，BigData 同学也是一样，也是配置企微通知媒介 + BigData 的企微机器人 Key。这样一来，一个通知媒介就可以支持多个机器人了。</p>
-<p>如何让通知媒介支持参数呢？就是在媒介的变量配置中进行创建。内置的企微通知媒介就是创建了两个参数，一个 Key（表示企微机器人Key），一个 Bot Name（机器人名称，自定义的，纯粹是为了方便记忆，类似备注的效果）。进而，在企微媒介的 HTTP 配置中，就可以引用这个参数，比如：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219981.png" alt="通知媒介变量定义"></p>
-<p>这个场景相对简单，媒介通知的时候，获取用户填写的 Key 即可。还有更复杂的场景。比如发短信，此时媒介参数如何定义？如果直接定义成 Phone，然后让用户在通知规则中手写手机号，那就有点费劲了。而且用户的联系方式如果发生变化，除了要到个人中心修改自己的手机号，还要到通知规则里改，太过麻烦。而手机号已经在个人的联系方式中了，那直接把二者贯通即可。</p>
-<p>对于这类场景，可以概括为：媒介需要的参数来自用户的 Profile 信息。这个时候，就需要在媒介的变量配置中，引用用户的 Profile 信息。比如：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219350.png" alt="通知媒介管理用户 Profile"></p>
-<p>媒介变量这里，联系方式选择 Phone，然后就会有一系列的魔法，魔法效果是：</p>
+<h2 id="Actuator"><a href="#Actuator" class="headerlink" title="Actuator"></a>Actuator</h2><p>如果你是 Spring Boot 的 App，可以直接使用 Actuator 来暴露指标。可以使用如下提示词来提问 GPT：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如何开启 actuator，暴露 Prometheus 格式的监控指标？</span><br></pre></td></tr></table></figure>
+
+<p>我把 AI 的回复贴在这里，大概率应该是对的，你可以尝试，如果发现问题，欢迎提 issue 或 pr。</p>
+<p>要在 Spring Boot 项目中开启 Actuator 并暴露 Prometheus 监控指标，你需要完成以下几个步骤：</p>
+<h3 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1. 引入依赖"></a>1. 引入依赖</h3><p>在你的 <code>pom.xml</code> 中添加以下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.micrometer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>micrometer-registry-prometheus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你使用的是 Gradle：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">implementation <span class="string">&#x27;org.springframework.boot:spring-boot-starter-actuator&#x27;</span></span><br><span class="line">implementation <span class="string">&#x27;io.micrometer:micrometer-registry-prometheus&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-配置-application-properties-或-application-yml"><a href="#2-配置-application-properties-或-application-yml" class="headerlink" title="2. 配置 application.properties 或 application.yml"></a>2. 配置 application.properties 或 application.yml</h3><p>确保 Actuator 的端点和 Prometheus 指标端点是暴露的。例如：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">management.endpoints.web.exposure.include</span>=<span class="string">*</span></span><br><span class="line"><span class="attr">management.endpoint.prometheus.enabled</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">management.metrics.export.prometheus.enabled</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure>
+
+<p>或者 YAML 格式：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">prometheus:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">    <span class="attr">export:</span></span><br><span class="line">      <span class="attr">prometheus:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-启动应用"><a href="#3-启动应用" class="headerlink" title="3. 启动应用"></a>3. 启动应用</h3><p>启动你的 Spring Boot 应用后，Actuator 的 Prometheus 端点会默认暴露在 <code>/actuator/prometheus</code>。</p>
+<h3 id="4-验证指标端点"><a href="#4-验证指标端点" class="headerlink" title="4. 验证指标端点"></a>4. 验证指标端点</h3><p>用浏览器或 curl 访问：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://localhost:8080/actuator/prometheus</span><br></pre></td></tr></table></figure>
+
+<p>你将看到 Prometheus 格式的监控指标，使用 Prometheus 或 Categraf 来抓取即可。</p>
+<p><strong>注意：</strong></p>
 <ul>
-<li>通知规则那里，系统根据媒介里的 Phone 联系方式，知道用户想发通知给某些人，通知规则那里就可以选择联系人或团队了，而不是手写手机号。</li>
-<li>在 HTTP 的 request body 或 query string 中，可以引用一个魔法变量：<code>&#123;&#123; $sendto &#125;&#125;</code>，表示被通知对象的手机号。这样一来，通知媒介就可以根据这个变量，把告警通知发给正确的人了。<code>&#123;&#123; $sendto &#125;&#125;</code> 这个设计是从 Zabbix 学的，如果你用过 Zabbix，应该会很熟悉。</li>
+<li>如果你想只暴露部分端点，比如只暴露 <code>prometheus</code> 和 <code>health</code>，可以调整配置 <code>management.endpoints.web.exposure.include=prometheus,health</code></li>
+<li>如需更高级配置（自定义指标等），可以在代码中注入 <code>MeterRegistry</code> 并注册自定义指标。</li>
 </ul>
-<h2 id="具体配置举例"><a href="#具体配置举例" class="headerlink" title="具体配置举例"></a>具体配置举例</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/n9e-v8-notify-dingtalk/">对接钉钉告警</a></li>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/n9e-v8-notify-wecom/">对接企微告警</a></li>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/n9e-v8-notify-feishu/">对接飞书告警</a></li>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/n9e-v8-notify-dingtalk-ats/">对接钉钉告警，如何配置 at 人</a></li>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/blog/n9e-v8-notify-practice/">对接钉钉、飞书、企微通知</a></li>
-<li><a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/nightingale-v7/usage/notification/ali-sms/">对接阿里云短信</a></li>
-</ul>
-<p>另外，在微信视频号：SRETALK 上也放置了一个视频教程，演示如何接入飞书告警，您可以自行搜索查看。</p>
-<h2 id="邮件告警配置"><a href="#邮件告警配置" class="headerlink" title="邮件告警配置"></a>邮件告警配置</h2><p>上面给的文档链接讲解了常用的 IM 告警媒介，这里再补充一个邮件告警的配置说明。要想发送告警邮件，核心有三个地方需要注意：</p>
+<h2 id="Micrometer"><a href="#Micrometer" class="headerlink" title="Micrometer"></a>Micrometer</h2><p>如果你不是 Spring Boot 的 App，也可以使用 Micrometer 来暴露 Prometheus 格式的监控指标。Micrometer 是一个独立的库，可以与任何 Java 应用程序集成。Actuator 实际上是基于 Micrometer 的。你可以使用如下提示词来提问 GPT：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果没有使用 actuator，仅仅使用了 micrometer，应该如何把指标导出到 Prometheus？</span><br></pre></td></tr></table></figure>
+
+<p>我把 AI 的回复贴在这里，大概率应该是对的，你可以尝试，如果发现问题，欢迎提 issue 或 pr。</p>
+<h3 id="1-添加-Micrometer-和-Prometheus-依赖"><a href="#1-添加-Micrometer-和-Prometheus-依赖" class="headerlink" title="1. 添加 Micrometer 和 Prometheus 依赖"></a>1. 添加 Micrometer 和 Prometheus 依赖</h3><p>以 Maven 为例：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.micrometer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>micrometer-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.micrometer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>micrometer-registry-prometheus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-注册-PrometheusMeterRegistry"><a href="#2-注册-PrometheusMeterRegistry" class="headerlink" title="2. 注册 PrometheusMeterRegistry"></a>2. 注册 PrometheusMeterRegistry</h3><p>在你的应用代码中，手动创建并注册 <code>PrometheusMeterRegistry</code>，比如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> io.micrometer.prometheus.PrometheusMeterRegistry;</span><br><span class="line"><span class="keyword">import</span> io.micrometer.prometheus.PrometheusConfig;</span><br><span class="line"><span class="keyword">import</span> io.micrometer.core.instrument.MeterRegistry;</span><br><span class="line"></span><br><span class="line"><span class="type">PrometheusMeterRegistry</span> <span class="variable">prometheusRegistry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrometheusMeterRegistry</span>(PrometheusConfig.DEFAULT);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 你可以通过 MeterRegistry 来注册自定义指标</span></span><br><span class="line"><span class="comment">// prometheusRegistry.counter(&quot;my_custom_counter&quot;).increment();</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-暴露-Prometheus-指标-HTTP-接口"><a href="#3-暴露-Prometheus-指标-HTTP-接口" class="headerlink" title="3. 暴露 Prometheus 指标 HTTP 接口"></a>3. 暴露 Prometheus 指标 HTTP 接口</h3><p>Micrometer 并不会自动暴露 HTTP 接口，你需要<strong>自己实现一个 HTTP 端点</strong>，例如用 Spring MVC 或其他 Web 框架：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrometheusController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> PrometheusMeterRegistry prometheusRegistry;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">PrometheusController</span><span class="params">(PrometheusMeterRegistry prometheusRegistry)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.prometheusRegistry = prometheusRegistry;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/prometheus&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">scrape</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> prometheusRegistry.scrape();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者，如果不是 Spring 项目，可以用类似 Jetty、Undertow、Netty 等 WebServer 直接暴露 <code>/prometheus</code> 路径，将 <code>prometheusRegistry.scrape()</code> 的内容作为响应。最后使用 Prometheus 或 Categraf 来抓取这个端点即可。</p>
+<h2 id="JMX"><a href="#JMX" class="headerlink" title="JMX"></a>JMX</h2><p>如果你要监控的 Java 程序不是自研的程序，而是一个开源组件，比如 Tomcat、Kafka、Zookeeper 等，通常这些组件会通过 JMX 暴露监控指标。你可以使用如下提示词来提问 GPT：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">普通的 Java 中间件，比如 Tomcat、Kafka，应该如何采集其监控指标？</span><br></pre></td></tr></table></figure>
+
 <ol>
-<li>SMTP 发信服务器的配置</li>
-<li>告警接收人得配置个人收件箱</li>
-<li>邮件通知的消息模板</li>
+<li>推荐使用 <a target="_blank" rel="noopener" href="https://github.com/prometheus/jmx_exporter">JMX Exporter</a>，这是一个 jar 包，以 javaagent 的方式运行。</li>
+<li>下载 jmx_exporter 的 jar 包</li>
+<li>找到组件的启动命令，在启动参数中添加 javaagent 相关的参数，比如 <code>-javaagent:/path/to/jmx_prometheus_javaagent-&lt;version&gt;.jar=PORT:/path/to/config.yaml</code> 指定 jmx_exporter 的 jar 的路径、要暴露的指标端口以及配置文件的路径。</li>
 </ol>
-<h3 id="1-SMTP-发信服务器的配置"><a href="#1-SMTP-发信服务器的配置" class="headerlink" title="1. SMTP 发信服务器的配置"></a>1. SMTP 发信服务器的配置</h3><p>进入 <code>通知媒介</code> 菜单，找到内置的 Email 通知媒介，进去编辑，填写 SMTP 发信服务器的相关信息，比如我是这么配置的：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174219544.png" alt="邮件通知媒介配置"></p>
-<h3 id="2-用户在个人中心配置自己的收件邮箱地址"><a href="#2-用户在个人中心配置自己的收件邮箱地址" class="headerlink" title="2. 用户在个人中心配置自己的收件邮箱地址"></a>2. 用户在个人中心配置自己的收件邮箱地址</h3><p>点击右上角的头像，进入个人信息配置页面，填写自己的收件邮箱地址即可。</p>
-<h3 id="3-配置通知规则"><a href="#3-配置通知规则" class="headerlink" title="3. 配置通知规则"></a>3. 配置通知规则</h3><p>为了测试方便，我这里创建了一个全新的通知规则（你也可以在既有的通知规则上改动，增加邮件媒介），生效到所有级别的告警事件，即任一告警事件产生，都要走邮件通知给我。配置如下：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174222638.png" alt="邮件通知规则配置"></p>
-<p>我上面配置的是发给我个人，你也可以发给某个团队。然后点击通知测试，选择一个历史告警事件，就可以测试邮件通知了。最后，把通知规则配置到告警规则里就可以了。</p>
-<h3 id="4-邮件通知的消息模板"><a href="#4-邮件通知的消息模板" class="headerlink" title="4. 邮件通知的消息模板"></a>4. 邮件通知的消息模板</h3><p>在 <code>消息模板</code> 菜单下，找到 <code>Email</code> 消息模板，里边有两个变量：</p>
+<p>这样会在指定端口上暴露 Prometheus 指标（如 <code>http://localhost:PORT/metrics</code>）。然后使用 Prometheus 或 Categraf 来抓取这个端点即可。</p>
+<p>但是注意，不同的组件需要不同的配置文件，jmx_exporter 提供了很多例子，具体地址是：<a target="_blank" rel="noopener" href="https://github.com/prometheus/jmx_exporter/tree/main/examples%E3%80%82%E4%BD%A0%E5%8F%AF%E4%BB%A5%E5%90%91">https://github.com/prometheus/jmx_exporter/tree/main/examples。你可以向</a> AI 继续提问：</p>
 <ul>
-<li>content：邮件正文内容</li>
-<li>subject：邮件主题</li>
+<li>config.yaml 的配置项分别代表什么意思</li>
+<li>Java MBean 是个什么东西</li>
+<li>如何配置 JMX Exporter 采集某个特定的 MBean</li>
+<li>把 jmx_exporter 提供的样例配置扔给 AI，让 AI 帮你分析一下这个配置的具体含义</li>
 </ul>
-<p>这俩字段都使用 go template 语法，您可以根据自己的需求调整邮件内容和主题。</p>
+<h2 id="组件自身暴露指标"><a href="#组件自身暴露指标" class="headerlink" title="组件自身暴露指标"></a>组件自身暴露指标</h2><p>有些组件自身就内置了一些方式来暴露监控指标，比如 Tomcat，在 HTTP 端点 <code>/manager/status/all</code> 上可以看到各类监控指标。Categraf 提供的 tomcat 采集插件就是基于这个端点来采集监控指标的。配置方法是：</p>
+<p>1、修改 tomcat-users.xml ，增加下面的内容，相当于是创建了一个用户来访问 <code>/manager/status/all</code> 端点：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">&quot;admin-gui&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">&quot;tomcat&quot;</span> <span class="attr">password</span>=<span class="string">&quot;s3cret&quot;</span> <span class="attr">roles</span>=<span class="string">&quot;manager-gui&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、注释掉文件 <code>webapps/manager/META-INF/context.xml</code> 的以下内容：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">&quot;org.apache.catalina.valves.RemoteAddrValve&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">allow</span>=<span class="string">&quot;127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、在 Categraf 的 <code>conf/input.tomcat/tomcat.toml</code> 中配置 Tomcat 采集地址和认证信息即可。</p>
+<blockquote>
+<p>注意：JMX 方式是通用的，但是各个组件自身暴露指标的方式不尽相同，上面只是用 Tomcat 举例，其他的组件就需要分别查阅其文档了。</p>
+</blockquote>
 
 <div class="article-footer fs14"></div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/usage/logs-alerting.html">4.4 日志告警</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/nightingale/usage/dashboard.html">4.6 仪表盘</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/nightingale/practice/oracle.html">5.7 Oracle监控</a></div><div class="item" id="next"></div></section></div>
 
 
 
@@ -168,7 +184,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E7%9F%A5%E8%A7%84%E5%88%99"><span class="toc-text">通知规则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%88%9D%E8%A1%B7"><span class="toc-text">设计初衷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E7%A4%BA%E6%84%8F"><span class="toc-text">逻辑示意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-text">配置说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E9%85%8D%E7%BD%AE%E4%B8%BE%E4%BE%8B"><span class="toc-text">具体配置举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%AE%E4%BB%B6%E5%91%8A%E8%AD%A6%E9%85%8D%E7%BD%AE"><span class="toc-text">邮件告警配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-SMTP-%E5%8F%91%E4%BF%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">1. SMTP 发信服务器的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E6%88%B7%E5%9C%A8%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83%E9%85%8D%E7%BD%AE%E8%87%AA%E5%B7%B1%E7%9A%84%E6%94%B6%E4%BB%B6%E9%82%AE%E7%AE%B1%E5%9C%B0%E5%9D%80"><span class="toc-text">2. 用户在个人中心配置自己的收件邮箱地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E9%80%9A%E7%9F%A5%E8%A7%84%E5%88%99"><span class="toc-text">3. 配置通知规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%82%AE%E4%BB%B6%E9%80%9A%E7%9F%A5%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E6%9D%BF"><span class="toc-text">4. 邮件通知的消息模板</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E7%B1%BB%E7%A8%8B%E5%BA%8F"><span class="toc-text">Java 类程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Actuator"><span class="toc-text">Actuator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-text">1. 引入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-application-properties-%E6%88%96-application-yml"><span class="toc-text">2. 配置 application.properties 或 application.yml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%AF%E5%8A%A8%E5%BA%94%E7%94%A8"><span class="toc-text">3. 启动应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E6%8C%87%E6%A0%87%E7%AB%AF%E7%82%B9"><span class="toc-text">4. 验证指标端点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Micrometer"><span class="toc-text">Micrometer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0-Micrometer-%E5%92%8C-Prometheus-%E4%BE%9D%E8%B5%96"><span class="toc-text">1. 添加 Micrometer 和 Prometheus 依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B3%A8%E5%86%8C-PrometheusMeterRegistry"><span class="toc-text">2. 注册 PrometheusMeterRegistry</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9A%B4%E9%9C%B2-Prometheus-%E6%8C%87%E6%A0%87-HTTP-%E6%8E%A5%E5%8F%A3"><span class="toc-text">3. 暴露 Prometheus 指标 HTTP 接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMX"><span class="toc-text">JMX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E8%87%AA%E8%BA%AB%E6%9A%B4%E9%9C%B2%E6%8C%87%E6%A0%87"><span class="toc-text">组件自身暴露指标</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
