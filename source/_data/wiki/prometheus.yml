@@ -62,5 +62,5 @@ tree:
     - grafana-panels
     - graph_panel
     - heatmap-panel
-    - singlestat-pane
+    - singlestat-panel
     - dashboard-template
