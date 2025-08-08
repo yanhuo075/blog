@@ -54,3 +54,12 @@ tree:
     - advanced-exporter-desc
     - advanced-exporter-common
     - advanced-exporter-java
+  
+  '第6章 数据可视化':
+    - dashboard-intro
+    - dashboard-console
+    - grafana-intro
+    - grafana-panels
+    - graph_panel
+    - heatmap-panel
+    - dashboard-template
