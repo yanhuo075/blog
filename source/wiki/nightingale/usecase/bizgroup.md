@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: nightingale # 这是项目id，对应 /_data/wiki/nightingale.yml
-title: 5.2 业务组
+title: 6.2 业务组
 order: 1
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: nightingale # 这是项目id，对应 /_data/wiki/nightingale.yml
-title: 5.4 订阅规则
+title: 6.4 订阅规则
 order: 3
 ---
 
