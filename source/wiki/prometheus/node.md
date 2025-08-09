@@ -50,10 +50,10 @@ EOF
 sudo useradd --no-create-home --shell /bin/false node_exporter
 ```
 
-设置开启自启动配置
+重新加载systemd配置
 
 ```
-sudo systemctl enable node_exporter --now
+sudo systemctl daemon-reload
 ```
 
 启用Node Exporter服务，使其在系统启动时自动启动
