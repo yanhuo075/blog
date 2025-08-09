@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153428556.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153525654.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153631425.png">
-<meta property="article:published_time" content="2025-08-09T17:00:54.859Z">
-<meta property="article:modified_time" content="2025-08-09T17:00:54.859Z">
+<meta property="article:published_time" content="2025-08-09T17:09:18.642Z">
+<meta property="article:modified_time" content="2025-08-09T17:09:18.642Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153428556.png">
@@ -84,7 +84,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-09T17:00:54.859Z">2025-08-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-09T17:09:18.642Z">2025-08-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -107,8 +107,8 @@
 <p>创建一个名为<code>node_exporter</code>的系统用户，该用户无法登录系统。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo useradd --no-create-home --shell /bin/false node_exporter</span><br></pre></td></tr></table></figure>
 
-<p>重新加载systemd配置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<p>设置开启自启动配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable node_exporter --now</span><br></pre></td></tr></table></figure>
 
 <p>启用Node Exporter服务，使其在系统启动时自动启动</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> node_exporter --now</span><br></pre></td></tr></table></figure>
