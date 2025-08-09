@@ -18,7 +18,7 @@ order: 4
 Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。可以从https://prometheus.io/download/获取最新的node exporter版本的二进制包。
 
 ```
-curl -OL https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-arm64.tar.gz
+curl -OL https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
 tar -xzf node_exporter-1.9.1.linux-amd64.tar.gz
 sudo mv node_exporter-1.9.1.linux-amd64 /opt/node_exporter
 ```

@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153428556.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153525654.png">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153631425.png">
-<meta property="article:published_time" content="2025-08-07T08:02:52.546Z">
-<meta property="article:modified_time" content="2025-08-07T08:02:52.542Z">
+<meta property="article:published_time" content="2025-08-09T17:00:54.859Z">
+<meta property="article:modified_time" content="2025-08-09T17:00:54.859Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250807153428556.png">
@@ -84,7 +84,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/prometheus/introduction.html">Prometheus</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-07T08:02:52.542Z">2025-08-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-09T17:00:54.859Z">2025-08-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -99,7 +99,7 @@
 <p>从上面的描述中可以看出Exporter可以是一个相对开放的概念，其可以是一个独立运行的程序独立于监控目标以外，也可以是直接内置在监控目标中。只要能够向Prometheus提供标准格式的监控样本数据即可。</p>
 <p>这里为了能够采集到主机的运行指标如CPU, 内存，磁盘等信息。我们可以使用<a target="_blank" rel="noopener" href="https://github.com/prometheus/node_exporter">Node Exporter</a>。</p>
 <p>Node Exporter同样采用Golang编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。可以从<a target="_blank" rel="noopener" href="https://prometheus.io/download/%E8%8E%B7%E5%8F%96%E6%9C%80%E6%96%B0%E7%9A%84node">https://prometheus.io/download/获取最新的node</a> exporter版本的二进制包。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -OL https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-arm64.tar.gz</span><br><span class="line">tar -xzf node_exporter-1.9.1.linux-amd64.tar.gz</span><br><span class="line">sudo mv node_exporter-1.9.1.linux-amd64 /opt/node_exporter</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -OL https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz</span><br><span class="line">tar -xzf node_exporter-1.9.1.linux-amd64.tar.gz</span><br><span class="line">sudo mv node_exporter-1.9.1.linux-amd64 /opt/node_exporter</span><br></pre></td></tr></table></figure>
 
 <p>配置脚本</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/systemd/system/node_exporter.service &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">[Unit]</span></span><br><span class="line"><span class="string">Description=Node Exporter</span></span><br><span class="line"><span class="string">Documentation=https://github.com/prometheus/node_exporter</span></span><br><span class="line"><span class="string">After=network.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Service]</span></span><br><span class="line"><span class="string">User=node_exporter</span></span><br><span class="line"><span class="string">Group=node_exporter</span></span><br><span class="line"><span class="string">Type=simple</span></span><br><span class="line"><span class="string">ExecStart=/opt/node_exporter/node_exporter</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Install]</span></span><br><span class="line"><span class="string">WantedBy=default.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
