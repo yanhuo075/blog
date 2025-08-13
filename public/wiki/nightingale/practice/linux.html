@@ -20,19 +20,24 @@
   <title>Nightingale：5.1 Linux OS - 烟火075的博客</title>
 
   
-    <meta name="description" content="Linux OS 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。   Linux 主机监控最佳实践 透过 Node-Exporter 彻底搞懂机器监控  FAQ1. 我的机器列表里可以看到机器，也可以看到机器的CP">
+    <meta name="description" content="Linux主机监控最佳实践 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。   Linux 主机监控最佳实践  透过 Node-Exporter 彻底搞懂机器监控   本文会同时介绍使用 夜莺 或 Flashcat">
 <meta property="og:type" content="website">
 <meta property="og:title" content="5.1 Linux OS">
 <meta property="og:url" content="https://blog.zycloud.tk/wiki/nightingale/practice/linux.html">
 <meta property="og:site_name" content="烟火075的博客">
-<meta property="og:description" content="Linux OS 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。   Linux 主机监控最佳实践 透过 Node-Exporter 彻底搞懂机器监控  FAQ1. 我的机器列表里可以看到机器，也可以看到机器的CP">
+<meta property="og:description" content="Linux主机监控最佳实践 对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。   Linux 主机监控最佳实践  透过 Node-Exporter 彻底搞懂机器监控   本文会同时介绍使用 夜莺 或 Flashcat">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813144031628.webp">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948535.webp">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948494.webp">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948510.webp">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948526.webp">
 <meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174936950.png">
-<meta property="article:published_time" content="2025-08-08T09:50:34.099Z">
-<meta property="article:modified_time" content="2025-08-08T09:50:34.095Z">
+<meta property="article:published_time" content="2025-08-13T06:42:39.255Z">
+<meta property="article:modified_time" content="2025-08-13T06:42:39.255Z">
 <meta property="article:author" content="YanHuo075">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250808174936950.png">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813144031628.webp">
   
   
   
@@ -82,7 +87,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/nightingale/pre-intro/introduction.html">Nightingale</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-08T09:50:34.095Z">2025-08-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-13T06:42:39.255Z">2025-08-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -93,13 +98,150 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="Linux-OS"><a href="#Linux-OS" class="headerlink" title="Linux OS"></a>Linux OS</h1><blockquote>
+  </div><article class="md-text content"><h1 id="Linux主机监控最佳实践"><a href="#Linux主机监控最佳实践" class="headerlink" title="Linux主机监控最佳实践"></a>Linux主机监控最佳实践</h1><blockquote>
 <p>对于监控系统，基础功能的强弱确实非常关键，但是如何在不同的场景落地实践，则更为关键。在《监控实践》章节，搜罗各类监控实践经验，会以不同的组件分门别类，您如果对某个组件有好的实践经验，欢迎提 PR，把您的文章链接附到对应的组件目录下。</p>
 </blockquote>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y9iAhNa3ZhMG-h3W1Ah9UA">Linux 主机监控最佳实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/100787301">透过 Node-Exporter 彻底搞懂机器监控</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y9iAhNa3ZhMG-h3W1Ah9UA">Linux 主机监控最佳实践</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/100787301">透过 Node-Exporter 彻底搞懂机器监控</a></p>
+</li>
 </ul>
+<p>本文会同时介绍使用 <strong>夜莺</strong> 或 <strong>Flashcat</strong>（夜莺商业版）对 Linux 主机监控的最佳实践。涵盖内容：</p>
+<ul>
+<li>Agent 安装配置实践</li>
+<li>Agent 打标签</li>
+<li>业务组划分实践</li>
+<li>数据可视化仪表盘设计实践</li>
+<li>关键监控指标</li>
+<li>机器相关的告警规则配置</li>
+<li>采集规则中心化管理</li>
+</ul>
+<h2 id="🎯-Agent-安装配置"><a href="#🎯-Agent-安装配置" class="headerlink" title="🎯 Agent 安装配置"></a><strong>🎯 Agent 安装配置</strong></h2><p>虽然您可以使用市面上常见的采集器来对接夜莺和 Flashcat，不过要想有个丝滑的体验，机器监控的 Agent 首推 Categraf。</p>
+<p>Categraf 是快猫星云主导的一款 Agent，旨在解决常见的组件监控和日志监控。其资料地址如下：</p>
+<blockquote>
+<ul>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/flashcatcloud/categraf">https://github.com/flashcatcloud/categraf</a></li>
+<li>安装：<a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/categraf/2-installation/">https://flashcat.cloud/docs/content/flashcat-monitor/categraf/2-installation/</a></li>
+</ul>
+</blockquote>
+<p>上面的安装文档已经说的非常清楚，这里不再赘述，核心就是下载相关平台的包，然后 <code>sudo ./categraf --install</code> 即可安装。</p>
+<p>Categraf 要监控很多组件，所以有很多配置，其配置目录就是和二进制同级的 <code>conf</code> 目录。<code>conf</code> 内有一个主配置文件 <code>config.toml</code>，以及一堆 <code>input.</code> 打头的插件目录，主配置文件 <code>config.toml</code> 的说明文档如下，请一定要阅读：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/categraf/3-configuration/">https://flashcat.cloud/docs/content/flashcat-monitor/categraf/3-configuration/</a></p>
+</blockquote>
+<p>注意，即便您只需要其中一个插件，也一定要先阅读上面提到的主配置说明，那是前置知识。</p>
+<p>至于各个插件的能力和配置方式，有如下一些资料供您参考。</p>
+<h3 id="插件自身的配置注释"><a href="#插件自身的配置注释" class="headerlink" title="插件自身的配置注释"></a><strong>插件自身的配置注释</strong></h3><p><code>conf</code> 下面的 <code>input.</code> 打头的各个目录下就是插件的配置，有的插件有多个配置文件，大部分只有一个配置文件。</p>
+<p>注意，配置文件是可以切分的，对于某个插件而言，会把插件配置目录里的多个（如有）文件按照文件名排序，然后拼接在一起，当做一个大配置文件来读取，所以，插件目录里不能放置无关文件。</p>
+<p>每个插件的配置目录里都提供了默认配置以及详尽的注释，通常来讲，只通过阅读这些注释，就可以了解个七七八八了。</p>
+<h3 id="插件说明文档"><a href="#插件说明文档" class="headerlink" title="插件说明文档"></a><strong>插件说明文档</strong></h3><p>有些常用的插件，我们撰写了详细说明文档，地址如下：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://flashcat.cloud/docs/content/flashcat-monitor/categraf/plugin/introduction/">https://flashcat.cloud/docs/content/flashcat-monitor/categraf/plugin/introduction/</a></p>
+</blockquote>
+<p>如果上面两个资料仍然不够用，则需要阅读插件的 README 甚至代码了。</p>
+<h3 id="插件-README-和代码"><a href="#插件-README-和代码" class="headerlink" title="插件 README 和代码"></a><strong>插件 README 和代码</strong></h3><p>Categraf 的各个插件的代码在这个总目录下：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/flashcatcloud/categraf/tree/main/inputs">https://github.com/flashcatcloud/categraf/tree/main/inputs</a></p>
+</blockquote>
+<p>每个插件是一个子目录，通常每个插件代码目录里会有一个 README，您可以阅读其 README 说明了解更多知识。</p>
+<p>如果阅读了 README 还是不理解，那就需要阅读插件代码了，别怕，大部分插件的代码其实非常容易，只有一两个文件，交给 AI，很容易给你讲解透彻。</p>
+<h2 id="🎯-Agent-打标签"><a href="#🎯-Agent-打标签" class="headerlink" title="🎯 Agent 打标签"></a><strong>🎯 Agent 打标签</strong></h2><p>监控体系里，标签是一个非常关键的信息，用于做一些维度划分，除了 Zabbix、StatsD 这种非常老旧的监控系统，新的监控系统全部都可以很好的支持标签体系。</p>
+<p>我们可以为 Categraf 打上标签，这样一来，Categraf 采集的所有监控数据都会附有这些标签，方便您后续的筛选分析、数据串联。</p>
+<p><strong>机器的标签如何划分？</strong></p>
+<p>通常来讲，机器的标签有两类，一类不常改变，贯穿机器的整个生命周期，比如机器所在的机房信息、Region 信息甚至 ENV 信息，这类信息，建议直接配置到 Categraf 的 config.toml 中的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[global.labels]  </span><br><span class="line">region = &quot;shanghai&quot;</span><br><span class="line">env = &quot;prod&quot;</span><br></pre></td></tr></table></figure>
+
+<p>通常在使用 Ansible 批量安装 Categraf 的时候直接生成这个配置即可。</p>
+<p><code>global.labels</code> 中的标签支持 <code>$hostname</code> 和 <code>$ip</code> 两个特殊变量，如果在标签值的字符串中包含了这俩变量，运行时会被自动替换为本机的 Hostname 和 IP。</p>
+<p>除了 <code>global.labels</code> 中的不常变化的标签，机器还有一个 <code>hostname</code> 属性也极为关键，<code>hostname</code> 属性的值是作为机器的唯一标识来对待。</p>
+<p>在 config.toml 中，我们通过注释的方式详细解释了 hostname 字段的配置，这里不再赘述。</p>
+<p>hostname 字段也可以引用 <code>$hostname</code> 和 <code>$ip</code> 这两个特殊变量。那最佳配置实践是什么？</p>
+<p>我们的建议是直接配置 <code>hostname=&quot;$hostname-$ip&quot;</code>，确保各个机器的标识信息不同，且含义丰富。而 <code>global.labels</code> 中就不需要重复配置 Hostname 和 IP 相关的信息了。</p>
+<p><code>hostname</code> 信息也会被作为机器监控数据的一个标签，标签 Key 为 <code>agent_hostname</code>，比如通过测试模式（测试模式不会上报监控数据给服务端）我们来看一眼采集到的数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@dev-n9e-01 ~]# ./categraf --test --inputs mem | grep mem</span><br><span class="line">...</span><br><span class="line">1747359270 09:34:30 mem_cached agent_hostname=iZ2ze4oi71k3qgdxwsyn07Z-10.99.1.107 4188397568</span><br><span class="line">1747359270 09:34:30 mem_sunreclaim agent_hostname=iZ2ze4oi71k3qgdxwsyn07Z-10.99.1.107 109871104</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>从输出中可以看到，采集的监控指标中包含一个 agent_hostname 的标签，其值就是 config.toml 中的 hostname，我配置的 <code>hostname=$hostname-$ip</code>，所以拿到的最终结果是：<code>agent_hostname=iZ2ze4oi71k3qgdxwsyn07Z-10.99.1.107</code>。这个数据如果直接上报给 Prometheus 或 VictoriaMetrics 等 TSDB，这个 <code>agent_hostname</code> 标签会被原封不动保留，如果 Categraf 把数据推给夜莺服务端（或 Flashcat 服务端），再由服务端转存到时序库，服务端会提取 agent_hostname 的值作为机器标识写入 DB 中，进而你就可以在机器列表中看到这个机器了，同时服务端会把 agent_hostname 这个标签 rename 为 ident，后续查看监控数据时请注意。</p>
+<p>通常来讲，我们建议您让 Categraf 把数据推给夜莺或 Flashcat 的服务端，而非直接写入 TSDB。因为服务端生成机器列表之后，就可以对机器额外打标签、划分业务组，方便您管理。</p>
+<p>即，机器共有两种分类方式：</p>
+<ul>
+<li>标签。包括 config.toml 中打的一些相对固定的标签，以及页面上给机器打的一些标签。其实通常来讲，标签只是在 config.toml 中打，就足够用了，但是有些公司情况特殊，不方便登录机器，此时可以在页面上给机器打标签。不管是通过什么方式打的，标签都希望是一些不常变化的信息，因为标签一旦变化，就意味着时序数据的标签变化，时序数据是以标签为标识的，标签变了，就表示老数据断了，同时生成了新数据。</li>
+<li>业务组。相比标签，业务组对机器的分类可以变动更频繁，另外新版本支持把机器挂到多个业务组，也解决了多个服务混部在一台机器上想让机器同时属于多个业务组的场景。</li>
+</ul>
+<h2 id="🎯-业务组划分实践"><a href="#🎯-业务组划分实践" class="headerlink" title="🎯 业务组划分实践"></a><strong>🎯 业务组划分实践</strong></h2><p>业务组的划分，建议颗粒度到服务层级，同时业务组名称中体现组织架构层级。比如：</p>
+<p>hosta、hostb 两台机器，用于部署业务 A 的 MySQL 服务，hostc、hostd 两台机器，用于部署业务 B 的 MySQL 服务，则可以划分为两个业务组：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DBA/MySQL/BizA -&gt; [hosta、hostb]</span><br><span class="line">DBA/MySQL/BizB -&gt; [hostc、hostd]</span><br></pre></td></tr></table></figure>
+
+<p><code>DBA/MySQL/BizA</code> 这个业务组的名称相当于包含了三种信息：</p>
+<ul>
+<li>DBA：隶属于 DBA 大团队</li>
+<li>MySQL：部署的 MySQL</li>
+<li>BizA：用于 业务 A</li>
+</ul>
+<p>业务组名称中的这三个信息故意使用 <code>/</code> 分隔了一下，后面就可以让页面展示业务组的时候，展示为树形结构，更方便查看。分隔符推荐使用 <code>/</code>，但不是必须的，您可以选择其他分隔符，在站点设置中可以调整。</p>
+<p><strong>服务信息到底是通过标签体现还是通过业务组体现？</strong></p>
+<p>看起来，标签和业务组都可以体现分类信息，那服务信息为啥要用业务组体现？而非使用标签体现？</p>
+<p>其实关键决策因素是是否混部。如果你的机器上面混部了多个服务，就没法用标签了，比如某个机器混部了 n9e 和 mysql，你肯定想给机器打两个标签：</p>
+<ul>
+<li><code>service=n9e</code></li>
+<li><code>service=mysql</code></li>
+</ul>
+<p>但是这俩标签的 Key 相同，而标签信息是要附加到时序数据中的，在 Prometheus 中多个标签不允许出现同 Key 的情况。</p>
+<p>如果你的机器都是专用的，每个服务所用的机器不同，相互不影响，则亦可以使用标签分类，这种情况下你甚至全局只有一个业务组都是可以的。</p>
+<h2 id="🎯-可视化仪表盘"><a href="#🎯-可视化仪表盘" class="headerlink" title="🎯 可视化仪表盘"></a><strong>🎯 可视化仪表盘</strong></h2><p>机器列表里自带了一些基础信息，不过那个价值不太大，一般都是使用仪表盘查看详细数据。</p>
+<p>好的仪表盘设计，至少是一个总分结构，即：</p>
+<ul>
+<li>第一个仪表盘：呈现 Overview 信息，通常是一个表格，表格里放置了要监控的目标对象的关键指标，点击其中一个监控对象，跳转到详情页面，即第二个仪表盘</li>
+<li>第二个仪表盘：呈现监控对象的 Detail 信息</li>
+</ul>
+<p>下面是机器的 Overview 大盘：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813144031628.webp" alt="图片"></p>
+<p>大盘 JSON 链接：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ccfos/nightingale/blob/main/integrations/Linux/dashboards/categraf-overview.json">https://github.com/ccfos/nightingale/blob/main/integrations/Linux/dashboards/categraf-overview.json</a></p>
+</blockquote>
+<p>下面是机器的 Detail 大盘：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948535.webp" alt="图片"></p>
+<p>大盘 JSON 链接：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ccfos/nightingale/blob/main/integrations/Linux/dashboards/categraf-detail.json">https://github.com/ccfos/nightingale/blob/main/integrations/Linux/dashboards/categraf-detail.json</a></p>
+</blockquote>
+<h2 id="🎯-关键指标"><a href="#🎯-关键指标" class="headerlink" title="🎯 关键指标"></a><strong>🎯 关键指标</strong></h2><p>机器的关键指标其实都已经放到 Detail 大盘里了，无非就是：</p>
+<ul>
+<li>CPU、内存、IO、磁盘、inode 使用率</li>
+<li>OOM 次数（高版本内核才有这个指标）</li>
+<li>Swap 使用（通常生产环境不应该用 Swap）</li>
+<li>网卡错包、丢包（有时网络慢就是这个导致的）</li>
+<li>硬盘读写是否出错</li>
+<li>Conntrack 使用率（如果限制的太小，有时也会影响网络）</li>
+<li>文件句柄：一个是系统层面的限制，一个是进程的 ulimit，还有 systemd、supervisord 对进程的限制，都应该注意</li>
+<li>Processes 总量，比如 cron 写挫了，生成了很多进程都没退出</li>
+<li>NTP 时间偏移量，现在IT中分布式系统很多，对时间校准要求很高</li>
+</ul>
+<h2 id="🎯-告警规则"><a href="#🎯-告警规则" class="headerlink" title="🎯 告警规则"></a><strong>🎯 告警规则</strong></h2><p>Categraf 的常用机器告警规则，可以从下面找到：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ccfos/nightingale/blob/main/integrations/Linux/alerts/%E5%B8%B8%E7%94%A8%E4%B8%AD%E6%96%87%E5%91%8A%E8%AD%A6%E8%A7%84%E5%88%99-%E9%87%87%E9%9B%86%E5%99%A8Categraf.json">https://github.com/ccfos/nightingale/blob/main/integrations/Linux/alerts/%E5%B8%B8%E7%94%A8%E4%B8%AD%E6%96%87%E5%91%8A%E8%AD%A6%E8%A7%84%E5%88%99-%E9%87%87%E9%9B%86%E5%99%A8Categraf.json</a></p>
+</blockquote>
+<p>告警这里，会有一个实践问题。是各个团队自己管自己的机器告警？还是运维团队统一管理，各个团队分别订阅自己感兴趣的告警？</p>
+<p>其实都行，不同的公司会选择各自不同的实践。比如有些公司的某些研发团队，压根没有对口的运维人员，那就自己管理相关的机器告警规则了。创建一个独属于自己的业务组，然后编写独属于自己的告警规则即可。</p>
+<h3 id="各管各的"><a href="#各管各的" class="headerlink" title="各管各的"></a><strong>各管各的</strong></h3><p>比如下面的告警规则配置：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948494.webp" alt="图片"></p>
+<p>这里我启用了变量，配置了一个 ident 变量，类型是机器标识，变量值选择了两个业务组 test1 和 test2，在 promql 中引用了 <code>$ident</code> 作为筛选条件，最终达到的效果就是：只针对 test1 和 test2 这俩业务组内的机器，执行这个告警规则。</p>
+<p>还有另一个配置，promql 那里不启用变量，只是简单的配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cpu_usage_active &gt; 90</span><br></pre></td></tr></table></figure>
+
+<p>然后在规则下面有个 <code>仅在本业务组生效</code> 的配置，勾选之，则可以做到只对本业务组内的机器生效的效果。</p>
+<p>但是这里有个局限，就是 promql 生成的告警规则必须包含 ident 标签，否则系统无法判定告警事件跟哪个机器相关。</p>
+<h3 id="运维统一管"><a href="#运维统一管" class="headerlink" title="运维统一管"></a><strong>运维统一管</strong></h3><p>运维人员可以统一配置一套告警规则，对所有机器生效（ promql 不加任何筛选过滤条件，就是对 TSDB 中的所有监控数据生效）。</p>
+<p>告警的时候发给运维人员的统一的一个通知规则，运维人员作为 owner 去处理。</p>
+<p>如果某个研发团队也关注自己相关的机器，那就使用订阅规则，去订阅自己感兴趣的告警即可。当然，这需要告警事件中有一些区分信息，否则订阅规则里无法过滤自己感兴趣的告警事件。</p>
+<p>目前的版本，建议使用标签方式，给机器增加一些业务、服务信息，之后在订阅规则里，就可以根据标签来筛选自己感兴趣的机器的告警事件。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948510.webp" alt="图片"></p>
+<h2 id="🎯-采集规则中心化管理"><a href="#🎯-采集规则中心化管理" class="headerlink" title="🎯 采集规则中心化管理"></a><strong>🎯 采集规则中心化管理</strong></h2><p>最后简单讲讲 Categraf 的采集规则中心管理功能。对于开源版本，直接去修改 conf 目录下的各个插件的配置即可，几乎所有的开源 agent 都是提供的这种管理方式。</p>
+<p>如果有批量管理的需求，可以使用 Ansible 之类的批量管理。</p>
+<p>商业版做了一些增强，可以在 Web 上统一中心化管理采集规则，然后下发给指定的机器。这样可以更为方便。另外有些公司要求比较严格，登录机器都费劲，这种中心化管理采集规则的方式则比较实用。</p>
+<p>采集规则的配置样例如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250813143948526.webp" alt="图片"></p>
 <h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="1-我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据"><a href="#1-我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据" class="headerlink" title="1. 我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据"></a>1. 我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据</h3><blockquote>
 <p>💡 注意：机器列表里那些 CPU、内存等信息，不是存储在时序库的，而是存储在 Redis 中的，是 Categraf 调用夜莺的 heartbeat 接口时上报上来的，和 Remote write 走的是两个路径。</p>
 </blockquote>
@@ -144,7 +286,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-OS"><span class="toc-text">Linux OS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FAQ"><span class="toc-text">FAQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%88%91%E7%9A%84%E6%9C%BA%E5%99%A8%E5%88%97%E8%A1%A8%E9%87%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%9C%BA%E5%99%A8%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%9C%BA%E5%99%A8%E7%9A%84CPU%E3%80%81%E5%86%85%E5%AD%98%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BB%AA%E8%A1%A8%E7%9B%98%E6%9F%A5%E4%B8%8D%E5%88%B0%E6%95%B0%E6%8D%AE"><span class="toc-text">1. 我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%88%91%E5%8F%AF%E5%90%A6%E6%8A%8A%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E5%86%99%E5%88%B0-TDEngine-%E7%AD%89%E5%85%B6%E4%BB%96%E6%97%B6%E5%BA%8F%E5%BA%93"><span class="toc-text">2. 我可否把监控数据写到 TDEngine 等其他时序库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%BA%E5%99%A8%E5%A4%B1%E8%81%94%E7%9B%91%E6%8E%A7%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="toc-text">3. 机器失联监控怎么做？</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">Linux主机监控最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-Agent-%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">🎯 Agent 安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E8%87%AA%E8%BA%AB%E7%9A%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E9%87%8A"><span class="toc-text">插件自身的配置注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3"><span class="toc-text">插件说明文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6-README-%E5%92%8C%E4%BB%A3%E7%A0%81"><span class="toc-text">插件 README 和代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-Agent-%E6%89%93%E6%A0%87%E7%AD%BE"><span class="toc-text">🎯 Agent 打标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E4%B8%9A%E5%8A%A1%E7%BB%84%E5%88%92%E5%88%86%E5%AE%9E%E8%B7%B5"><span class="toc-text">🎯 业务组划分实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BB%AA%E8%A1%A8%E7%9B%98"><span class="toc-text">🎯 可视化仪表盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87"><span class="toc-text">🎯 关键指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E5%91%8A%E8%AD%A6%E8%A7%84%E5%88%99"><span class="toc-text">🎯 告警规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%AE%A1%E5%90%84%E7%9A%84"><span class="toc-text">各管各的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E7%BB%B4%E7%BB%9F%E4%B8%80%E7%AE%A1"><span class="toc-text">运维统一管</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E9%87%87%E9%9B%86%E8%A7%84%E5%88%99%E4%B8%AD%E5%BF%83%E5%8C%96%E7%AE%A1%E7%90%86"><span class="toc-text">🎯 采集规则中心化管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FAQ"><span class="toc-text">FAQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%88%91%E7%9A%84%E6%9C%BA%E5%99%A8%E5%88%97%E8%A1%A8%E9%87%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%9C%BA%E5%99%A8%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%9C%BA%E5%99%A8%E7%9A%84CPU%E3%80%81%E5%86%85%E5%AD%98%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BB%AA%E8%A1%A8%E7%9B%98%E6%9F%A5%E4%B8%8D%E5%88%B0%E6%95%B0%E6%8D%AE"><span class="toc-text">1. 我的机器列表里可以看到机器，也可以看到机器的CPU、内存等信息，但是仪表盘查不到数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%88%91%E5%8F%AF%E5%90%A6%E6%8A%8A%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E5%86%99%E5%88%B0-TDEngine-%E7%AD%89%E5%85%B6%E4%BB%96%E6%97%B6%E5%BA%8F%E5%BA%93"><span class="toc-text">2. 我可否把监控数据写到 TDEngine 等其他时序库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%BA%E5%99%A8%E5%A4%B1%E8%81%94%E7%9B%91%E6%8E%A7%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="toc-text">3. 机器失联监控怎么做？</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
