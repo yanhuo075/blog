@@ -1,0 +1,1072 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Ansible：3.1 构建清单 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="构建清单Ansible 使用称为清单的列表或列表组来自动化您基础设施中受管节点或“主机”上的任务。您可以在命令行上传递主机名，但大多数 Ansible 用户会创建清单文件。您的清单定义了您自动化的受管节点，并带有组，因此您可以同时在多个主机上运行自动化任务。定义清单后，您可以使用模式来选择您希望 Ansible 运行的主机或组。 最简单的清单是一个包含主机和组列表的单个文件。此文件的默认位置是 &amp;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="3.1 构建清单">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/ansible/inventory/inventory_guide.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="构建清单Ansible 使用称为清单的列表或列表组来自动化您基础设施中受管节点或“主机”上的任务。您可以在命令行上传递主机名，但大多数 Ansible 用户会创建清单文件。您的清单定义了您自动化的受管节点，并带有组，因此您可以同时在多个主机上运行自动化任务。定义清单后，您可以使用模式来选择您希望 Ansible 运行的主机或组。 最简单的清单是一个包含主机和组列表的单个文件。此文件的默认位置是 &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-21T07:38:55.078Z">
+<meta property="article:modified_time" content="2025-08-21T07:38:55.078Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ansible/intro/introduction.html"><div class="main" ff="title">Ansible</div><div class="sub normal cap">自动化运维</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ansible/" placeholder="在Ansible文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/introduction.html#start"><span class="toc-text">1.1 Ansible 简介</span></a><a class="link" href="/wiki/ansible/intro/arch.html"><span class="toc-text">1.2 Ansible 架构</span></a><a class="link" href="/wiki/ansible/intro/basic_concepts.html"><span class="toc-text">1.3 Ansible 基本要素</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Ansbile 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/install/installation-guide.html"><span class="toc-text">2.1 Ansible 安装</span></a><a class="link" href="/wiki/ansible/install/distros.html"><span class="toc-text">2.2 在特定操作系统上安装</span></a><a class="link" href="/wiki/ansible/install/container-build.html"><span class="toc-text">2.3 在容器中安装</span></a><a class="link" href="/wiki/ansible/install/pipx-and-pip.html"><span class="toc-text">2.4 使用pipx安装和升级</span></a><a class="link" href="/wiki/ansible/install/configuration.html"><span class="toc-text">2.5 配置 Ansible</span></a></div><div class="widget-header dis-select"><span class="name">第3章 Ansible 清单</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/ansible/inventory/inventory_guide.html"><span class="toc-text">3.1 构建清单</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ansible/inventory/dynamic_inventory.html"><span class="toc-text">3.2 动态清单</span></a><a class="link" href="/wiki/ansible/inventory/connection.html"><span class="toc-text">3.3 清单远程连接方式</span></a><a class="link" href="/wiki/ansible/inventory/using-patterns.html"><span class="toc-text">3.4 清单使用模式</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Ansible 命令行工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/command/command_cli.html"><span class="toc-text">4.1 使用 Ansible 命令行工具</span></a><a class="link" href="/wiki/ansible/command/ansible.html"><span class="toc-text">4.2 ansible</span></a><a class="link" href="/wiki/ansible/command/ansible-config.html"><span class="toc-text">4.3 ansible-config</span></a><a class="link" href="/wiki/ansible/command/ansible-console.html"><span class="toc-text">4.4 ansible-console</span></a><a class="link" href="/wiki/ansible/command/ansible-doc.html"><span class="toc-text">4.5 ansible-doc</span></a><a class="link" href="/wiki/ansible/command/ansible-galaxy.html"><span class="toc-text">4.5 ansible-galaxy</span></a><a class="link" href="/wiki/ansible/command/ansible-inventory.html"><span class="toc-text">4.6 ansible-inventory</span></a><a class="link" href="/wiki/ansible/command/ansible-playbook.html"><span class="toc-text">4.7 ansible-playbook</span></a><a class="link" href="/wiki/ansible/command/ansible-pull.html"><span class="toc-text">4.8 ansible-pull</span></a><a class="link" href="/wiki/ansible/command/ansible-vault.html"><span class="toc-text">4.9 ansible-vault</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Ansible 剧本入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-usage/playbook_guide.html"><span class="toc-text">5.1 使用 Ansible 剧本</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_intro.html"><span class="toc-text">5.2 Ansible 剧本简介</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_template.html"><span class="toc-text">5.3 模板引擎 (Jinja2)</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_filters.html"><span class="toc-text">5.4 使用过滤器处理数据</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_lookups.html"><span class="toc-text">5.6 查找语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_loops.html"><span class="toc-text">5.7 循环语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_delegation.html"><span class="toc-text">5.8 控制任务的运行位置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_condition.html"><span class="toc-text">5.9 条件语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_blocks.html"><span class="toc-text">5.10 块用法</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_handlers.html"><span class="toc-text">5.11 处理程序</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_error_handling.html"><span class="toc-text">5.12 错误处理</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_environment.html"><span class="toc-text">5.13 环境设置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_reuse.html"><span class="toc-text">5.14 剧本重用</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_roles.html"><span class="toc-text">5.15 剧本角色</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_module_defaults.html"><span class="toc-text">5.16 模块默认值</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_prompts.html"><span class="toc-text">5.17 交互提示</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_variables.html"><span class="toc-text">5.18 使用变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_vars_facts.html"><span class="toc-text">5.19 发现变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/rolling_upgrade.html"><span class="toc-text">5.20 持续交付和滚动升级</span></a></div><div class="widget-header dis-select"><span class="name">第6章 Ansible 剧本运行</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-exec/playbook_execution.html"><span class="toc-text">6.1 运行 Playbook</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_checkmode.html"><span class="toc-text">6.2 验证任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_privilege.html"><span class="toc-text">6.3 权限提升</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_tags.html"><span class="toc-text">6.4 标签</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_startnstep.html"><span class="toc-text">6.5 故障排除</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_debugger.html"><span class="toc-text">6.6 调试任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_async.html"><span class="toc-text">6.7 异步操作和轮询</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_strategies.html"><span class="toc-text">6.8 控制剧本执行策略</span></a></div><div class="widget-header dis-select"><span class="name">第7章 Ansible 进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/advanced/playbook_advanced_syntax.html"><span class="toc-text">7.1 高级剧本语法</span></a><a class="link" href="/wiki/ansible/advanced/complex_data_manipulation.html"><span class="toc-text">7.2 操作数据</span></a><a class="link" href="/wiki/ansible/advanced/vault_guide.html"><span class="toc-text">7.3 Ansible vault 保护敏感数据</span></a><a class="link" href="/wiki/ansible/advanced/module_guide.html"><span class="toc-text">7.4 Ansible 模块使用</span></a><a class="link" href="/wiki/ansible/advanced/plugin_guide.html"><span class="toc-text">7.5 Ansible 插件使用</span></a><a class="link" href="/wiki/ansible/advanced/collections_guide.html"><span class="toc-text">7.6 Ansible 集合使用</span></a><a class="link" href="/wiki/ansible/advanced/windows_and_bsd.html"><span class="toc-text">7.7 Ansible 在 Windows和BSD上使用</span></a><a class="link" href="/wiki/ansible/advanced/tips_tricks.html"><span class="toc-text">7.8 Ansible 技巧与窍门</span></a></div><div class="widget-header dis-select"><span class="name">第8章 最佳实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/apply/network_practices.html"><span class="toc-text">8.1 网络自动化实践</span></a><a class="link" href="/wiki/ansible/apply/basic_concepts.html"><span class="toc-text">8.2 基础概念</span></a><a class="link" href="/wiki/ansible/apply/network_differences.html"><span class="toc-text">8.3 网络自动化的不同之处</span></a><a class="link" href="/wiki/ansible/apply/first_playbook.html"><span class="toc-text">8.4 运行第一个Playbook</span></a><a class="link" href="/wiki/ansible/apply/first_inventory.html"><span class="toc-text">8.5 构建清单</span></a><a class="link" href="/wiki/ansible/apply/network_roles.html"><span class="toc-text">8.6 使用 Ansible 网络角色</span></a><a class="link" href="/wiki/ansible/apply/connection_options.html"><span class="toc-text">8.7 使用网络连接选项</span></a><a class="link" href="/wiki/ansible/apply/network_modules.html"><span class="toc-text">8.8 网络资源模块</span></a><a class="link" href="/wiki/ansible/apply/best_practices.html"><span class="toc-text">8.9 Ansible 网络自动化示例</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Galaxy 入门指南</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/galaxy/galaxy_guide.html"><span class="toc-text">9.1 Galaxy 用户指南</span></a><a class="link" href="/wiki/ansible/galaxy/galaxy_devel.html"><span class="toc-text">9.2 Galaxy 开发者指南</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/getting-example.html"><span class="toc-text">1.4 Ansible 使用示例</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_tests.html"><span class="toc-text">5.5 语法测试</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ansible/intro/introduction.html">Ansible</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-21T07:38:55.078Z">2025-08-21</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>3.1 构建清单</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="构建清单"><a href="#构建清单" class="headerlink" title="构建清单"></a>构建清单</h1><p>Ansible 使用称为清单的列表或列表组来自动化您基础设施中受管节点或“主机”上的任务。您可以在命令行上传递主机名，但大多数 Ansible 用户会创建清单文件。您的清单定义了您自动化的受管节点，并带有组，因此您可以同时在多个主机上运行自动化任务。定义清单后，您可以使用模式来选择您希望 Ansible 运行的主机或组。</p>
+<p>最简单的清单是一个包含主机和组列表的单个文件。此文件的默认位置是 &#x2F;etc&#x2F;ansible&#x2F;hosts。您可以使用 -i <path> 选项在命令行上或使用 inventory 在配置中指定不同的清单文件。</p>
+<p>Ansible 清单插件支持一系列格式和来源，使您的清单灵活且可自定义。随着清单的扩展，您可能需要多个文件来组织主机和组。以下是除 &#x2F;etc&#x2F;ansible&#x2F;hosts 文件之外的三个选项</p>
+<ul>
+<li>您可以创建一个包含多个清单文件的目录。请参阅在目录中组织清单。这些可以使用不同的格式（YAML、ini 等）。</li>
+<li>您可以动态拉取清单。例如，您可以使用动态清单插件来列出一个或多个云提供商中的资源。请参阅使用动态清单。</li>
+<li>您可以将多个源用于清单，包括动态清单和静态文件。请参阅传递多个清单源。</li>
+</ul>
+<h2 id="清单基础：格式、主机和组"><a href="#清单基础：格式、主机和组" class="headerlink" title="清单基础：格式、主机和组"></a>清单基础：格式、主机和组</h2><p>您可以根据您拥有的清单插件，以多种格式之一创建清单文件。最常见的格式是 INI 和 YAML。基本的 INI &#x2F;etc&#x2F;ansible&#x2F;hosts 可能如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mail.example.com</span><br><span class="line"></span><br><span class="line">[webservers]</span><br><span class="line">foo.example.com</span><br><span class="line">bar.example.com</span><br><span class="line"></span><br><span class="line">[dbservers]</span><br><span class="line">one.example.com</span><br><span class="line">two.example.com</span><br><span class="line">three.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>方括号中的标题是组名称，用于对主机进行分类，并决定您在什么时间以及出于什么目的控制哪些主机。组名称应遵循与创建有效的变量名称相同的准则。</p>
+<p>这是 YAML 格式的相同基本清单文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ungrouped:</span><br><span class="line">  hosts:</span><br><span class="line">    mail.example.com:</span><br><span class="line">webservers:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    bar.example.com:</span><br><span class="line">dbservers:</span><br><span class="line">  hosts:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">    three.example.com:</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="默认组"><a href="#默认组" class="headerlink" title="默认组"></a>默认组</h3><p>即使您未在清单文件中定义任何组，Ansible 也会创建两个默认组：all 和 ungrouped。all 组包含每个主机。ungrouped 组包含除 all 之外没有其他组的所有主机。每个主机将始终属于至少 2 个组（all 和 ungrouped 或 all 和其他一些组）。例如，在上面的基本清单中，主机 mail.example.com 属于 all 组和 ungrouped 组；主机 two.example.com 属于 all 组和 dbservers 组。尽管 all 和 ungrouped 始终存在，但它们可以是隐式的，并且不会出现在 group_names 之类的组列表中。</p>
+<h3 id="多个组中的主机"><a href="#多个组中的主机" class="headerlink" title="多个组中的主机"></a>多个组中的主机</h3><p>您可以将每个主机放在多个组中。例如，亚特兰大数据中心中的一台生产 Web 服务器可能会包含在名为 [prod]、[atlanta] 和 [webservers] 的组中。您可以创建跟踪以下内容的组</p>
+<ul>
+<li>什么 - 应用程序、堆栈或微服务（例如，数据库服务器、Web 服务器等）。</li>
+<li>哪里 - 数据中心或区域，以与本地 DNS、存储等通信（例如，东、西）。</li>
+<li>何时 - 开发阶段，以避免在生产资源上进行测试（例如，prod、test）。</li>
+</ul>
+<p>扩展之前的 YAML 清单以包含什么、何时和何地，如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ungrouped:</span><br><span class="line">  hosts:</span><br><span class="line">    mail.example.com:</span><br><span class="line">webservers:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    bar.example.com:</span><br><span class="line">dbservers:</span><br><span class="line">  hosts:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">    three.example.com:</span><br><span class="line">east:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">west:</span><br><span class="line">  hosts:</span><br><span class="line">    bar.example.com:</span><br><span class="line">    three.example.com:</span><br><span class="line">prod:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">test:</span><br><span class="line">  hosts:</span><br><span class="line">    bar.example.com:</span><br><span class="line">    three.example.com:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以看到 one.example.com 存在于 dbservers、east 和 prod 组中。</p>
+<h3 id="分组组：父-子组关系"><a href="#分组组：父-子组关系" class="headerlink" title="分组组：父&#x2F;子组关系"></a>分组组：父&#x2F;子组关系</h3><p>您可以在组之间创建父&#x2F;子关系。父组也称为嵌套组或组的组。例如，如果您的所有生产主机已经位于诸如 atlanta_prod 和 denver_prod 之类的组中，则可以创建一个包含这些较小组的 production 组。这种方法减少了维护工作，因为您可以通过编辑子组来向父组添加或删除主机。</p>
+<p>要为组创建父&#x2F;子关系</p>
+<ul>
+<li>在 INI 格式中，使用 :children 后缀</li>
+<li>在 YAML 格式中，使用 children: 条目</li>
+</ul>
+<p>这里展示了与上面相同的清单，但为了 prod 和 test 组进行了简化，使用了父组。这两个清单文件会产生相同的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ungrouped:</span><br><span class="line">  hosts:</span><br><span class="line">    mail.example.com:</span><br><span class="line">webservers:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    bar.example.com:</span><br><span class="line">dbservers:</span><br><span class="line">  hosts:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">    three.example.com:</span><br><span class="line">east:</span><br><span class="line">  hosts:</span><br><span class="line">    foo.example.com:</span><br><span class="line">    one.example.com:</span><br><span class="line">    two.example.com:</span><br><span class="line">west:</span><br><span class="line">  hosts:</span><br><span class="line">    bar.example.com:</span><br><span class="line">    three.example.com:</span><br><span class="line">prod:</span><br><span class="line">  children:</span><br><span class="line">    east:</span><br><span class="line">test:</span><br><span class="line">  children:</span><br><span class="line">    west:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>子组有一些需要注意的属性</p>
+<ul>
+<li>任何属于子组的 host 都会自动成为父组的成员。</li>
+<li>组可以有多个父组和子组，但不能有循环关系。</li>
+<li>Host 也可以属于多个组，但在运行时，一个 host 只有一个实例。Ansible 会合并来自多个组的数据。</li>
+</ul>
+<h3 id="添加主机范围"><a href="#添加主机范围" class="headerlink" title="添加主机范围"></a>添加主机范围</h3><p>如果你有很多具有相似模式的 host，你可以添加一个范围而不是单独列出每个主机名。</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[webservers]</span><br><span class="line">www[01:50].example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># ...</span><br><span class="line">  webservers:</span><br><span class="line">    hosts:</span><br><span class="line">      www[01:50].example.com:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在定义数字范围的 host 时，你可以指定一个步长（序列号之间的增量）。</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[webservers]</span><br><span class="line">www[01:50:2].example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># ...</span><br><span class="line">  webservers:</span><br><span class="line">    hosts:</span><br><span class="line">      www[01:50:2].example.com:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面的示例将匹配子域名 www01、www03、www05、…、www49，但不匹配 www00、www02、www50 等，因为步长（增量）是每个步骤 2 个单位。</p>
+<p>对于数字模式，可以根据需要包含或删除前导零。范围是包含的。你还可以定义字母范围</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[databases]</span><br><span class="line">db-[a:f].example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="传递多个清单源"><a href="#传递多个清单源" class="headerlink" title="传递多个清单源"></a>传递多个清单源</h2><p>你可以通过命令行传递多个清单参数，或者配置 ANSIBLE_INVENTORY，来同时定位多个清单源（目录、动态清单脚本或清单插件支持的文件）。当你希望同时针对通常分离的环境（如 staging 和 production）执行特定操作时，这会很有用。</p>
+<p>从命令行定位两个清单源：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook get_logs.yml -i staging -i production</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="在目录中组织清单"><a href="#在目录中组织清单" class="headerlink" title="在目录中组织清单"></a>在目录中组织清单</h2><p>你可以将多个清单源整合到一个目录中。最简单的形式是使用包含多个文件的目录，而不是单个清单文件。当单个文件变得太长时，维护起来会变得困难。如果你有多个团队和多个自动化项目，为每个团队或项目创建一个清单文件可以让每个人轻松找到对他们重要的 host 和组。</p>
+<p>你还可以在清单目录中组合多个清单源类型。这对于组合静态和动态 host 并将它们作为一个清单进行管理很有用。以下清单目录组合了一个清单插件源、一个动态清单脚本和一个包含静态 host 的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">inventory/</span><br><span class="line">  openstack.yml          # configure inventory plugin to get hosts from OpenStack cloud</span><br><span class="line">  dynamic-inventory.py   # add additional hosts with dynamic inventory script</span><br><span class="line">  on-prem                # add static hosts and groups</span><br><span class="line">  parent-groups          # add static hosts and groups</span><br></pre></td></tr></table></figure>
+
+
+
+<p>你可以按如下方式定位此清单目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook example.yml -i inventory</span><br></pre></td></tr></table></figure>
+
+
+
+<p>你还可以在你的 ansible.cfg 文件中配置清单目录。有关更多详细信息，请参阅 配置 Ansible。</p>
+<h3 id="管理清单加载顺序"><a href="#管理清单加载顺序" class="headerlink" title="管理清单加载顺序"></a>管理清单加载顺序</h3><p>Ansible 会按照文件名以 ASCII 顺序加载清单源。如果你在一个文件或目录中定义了父组，在其他文件或目录中定义了子组，则必须先加载定义子组的文件。如果先加载父组，你将看到错误 Unable to parse &#x2F;path&#x2F;to&#x2F;source_of_parent_groups as an inventory source。</p>
+<p>例如，如果你有一个名为 groups-of-groups 的文件定义了一个 production 组，其中子组定义在名为 on-prem 的文件中，则 Ansible 无法解析 production 组。要避免此问题，你可以通过向文件添加前缀来控制加载顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">inventory/</span><br><span class="line">  01-openstack.yml          # configure inventory plugin to get hosts from OpenStack cloud</span><br><span class="line">  02-dynamic-inventory.py   # add additional hosts with dynamic inventory script</span><br><span class="line">  03-on-prem                # add static hosts and groups</span><br><span class="line">  04-groups-of-groups       # add parent groups</span><br></pre></td></tr></table></figure>
+
+
+
+<p>你可以在 清单设置示例中找到如何组织你的清单和分组你的 host 的示例。</p>
+<h2 id="向清单添加变量"><a href="#向清单添加变量" class="headerlink" title="向清单添加变量"></a>向清单添加变量</h2><p>你可以在清单中存储与特定 host 或组相关的变量值。首先，你可以直接将变量添加到你的主清单文件中的 host 和组中。</p>
+<p>为了简单起见，我们记录了在主清单文件中添加变量的方法。但是，将变量存储在单独的 host 和组变量文件中是一种更健壮的方法来描述你的系统策略。在主清单文件中设置变量只是一种简写方式。有关在 ‘host_vars’ 目录中的单独文件中存储变量值的指南，请参阅 组织 host 和组变量。有关详细信息，请参阅 组织 host 和组变量。</p>
+<h2 id="为一个机器分配变量：host-变量"><a href="#为一个机器分配变量：host-变量" class="headerlink" title="为一个机器分配变量：host 变量"></a>为一个机器分配变量：host 变量</h2><p>你可以轻松地为单个 host 分配一个变量，然后在 playbook 中使用它。你可以在你的清单文件中直接执行此操作。</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1 http_port=80 maxRequestsPerChild=808</span><br><span class="line">host2 http_port=303 maxRequestsPerChild=909</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">atlanta:</span><br><span class="line">  hosts:</span><br><span class="line">    host1:</span><br><span class="line">      http_port: 80</span><br><span class="line">      maxRequestsPerChild: 808</span><br><span class="line">    host2:</span><br><span class="line">      http_port: 303</span><br><span class="line">      maxRequestsPerChild: 909</span><br></pre></td></tr></table></figure>
+
+
+
+<p>非标准的 SSH 端口等唯一值可以很好地用作 host 变量。你可以通过在主机名后添加端口号和冒号将它们添加到你的 Ansible 清单中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">badwolf.example.com:5309</span><br></pre></td></tr></table></figure>
+
+
+
+<p>连接变量也可以很好地用作 host 变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[targets]</span><br><span class="line"></span><br><span class="line">localhost              ansible_connection=local</span><br><span class="line">other1.example.com     ansible_connection=ssh        ansible_user=myuser</span><br><span class="line">other2.example.com     ansible_connection=ssh        ansible_user=myotheruser</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="清单别名"><a href="#清单别名" class="headerlink" title="清单别名"></a>清单别名</h3><p>你还可以使用 host 变量在清单中定义别名</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jumper ansible_port=5555 ansible_host=192.0.2.50</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># ...</span><br><span class="line">  hosts:</span><br><span class="line">    jumper:</span><br><span class="line">      ansible_port: 5555</span><br><span class="line">      ansible_host: 192.0.2.50</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在此示例中，针对主机别名“jumper”运行 Ansible 将连接到端口 5555 上的 192.0.2.50。请参阅 行为清单参数，以进一步自定义与主机的连接。</p>
+<h2 id="以-INI-格式定义变量"><a href="#以-INI-格式定义变量" class="headerlink" title="以 INI 格式定义变量"></a>以 INI 格式定义变量</h2><p>使用 key&#x3D;value 语法以 INI 格式传递的值，根据它们声明的位置，会有不同的解释</p>
+<ul>
+<li>当与 host 内联声明时，INI 值被解释为 Python 字面结构（字符串、数字、元组、列表、字典、布尔值、None）。Host 行每行接受多个 key&#x3D;value 参数。因此，它们需要一种方法来指示空格是值的一部分，而不是分隔符。包含空格的值可以用引号（单引号或双引号）引起来。有关详细信息，请参阅 Python shlex 解析规则。</li>
+<li>当在 :vars 部分中声明时，INI 值被解释为字符串。例如，var&#x3D;FALSE 将创建一个等于 ‘FALSE’ 的字符串。与 host 行不同，:vars 部分每行只接受一个条目，因此 &#x3D; 之后的所有内容必须是该条目的值。</li>
+</ul>
+<p>如果 INI 清单中设置的变量值必须是某种类型（例如，字符串或布尔值），请始终在你的任务中使用过滤器指定类型。当使用变量时，不要依赖 INI 清单中设置的类型。</p>
+<p>考虑使用 YAML 格式进行清单源以避免对变量的实际类型产生混淆。YAML 清单插件会一致且正确地处理变量值。</p>
+<h2 id="为多个机器分配变量：组变量"><a href="#为多个机器分配变量：组变量" class="headerlink" title="为多个机器分配变量：组变量"></a>为多个机器分配变量：组变量</h2><p>如果组中的所有 host 共享一个变量值，则你可以一次将该变量应用于整个组。</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1</span><br><span class="line">host2</span><br><span class="line"></span><br><span class="line">[atlanta:vars]</span><br><span class="line">ntp_server=ntp.atlanta.example.com</span><br><span class="line">proxy=proxy.atlanta.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">atlanta:</span><br><span class="line">  hosts:</span><br><span class="line">    host1:</span><br><span class="line">    host2:</span><br><span class="line">  vars:</span><br><span class="line">    ntp_server: ntp.atlanta.example.com</span><br><span class="line">    proxy: proxy.atlanta.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>组变量是一种一次将变量应用于多个 host 的便捷方法。但是，在执行之前，Ansible 总是将变量（包括清单变量）展平到 host 级别。如果一个 host 是多个组的成员，则 Ansible 会从所有这些组中读取变量值。如果在不同的组中为同一变量分配了不同的值，则 Ansible 会根据内部的 合并规则选择要使用的值。</p>
+<h3 id="继承变量值：用于组的组的组变量"><a href="#继承变量值：用于组的组的组变量" class="headerlink" title="继承变量值：用于组的组的组变量"></a>继承变量值：用于组的组的组变量</h3><p>你可以将变量应用于父组（嵌套组或组的组）以及子组。语法相同：INI 格式为 :vars，YAML 格式为 vars:</p>
+<p>在 INI 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1</span><br><span class="line">host2</span><br><span class="line"></span><br><span class="line">[raleigh]</span><br><span class="line">host2</span><br><span class="line">host3</span><br><span class="line"></span><br><span class="line">[southeast:children]</span><br><span class="line">atlanta</span><br><span class="line">raleigh</span><br><span class="line"></span><br><span class="line">[southeast:vars]</span><br><span class="line">some_server=foo.southeast.example.com</span><br><span class="line">halon_system_timeout=30</span><br><span class="line">self_destruct_countdown=60</span><br><span class="line">escape_pods=2</span><br><span class="line"></span><br><span class="line">[usa:children]</span><br><span class="line">southeast</span><br><span class="line">northeast</span><br><span class="line">southwest</span><br><span class="line">northwest</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在 YAML 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">usa:</span><br><span class="line">  children:</span><br><span class="line">    southeast:</span><br><span class="line">      children:</span><br><span class="line">        atlanta:</span><br><span class="line">          hosts:</span><br><span class="line">            host1:</span><br><span class="line">            host2:</span><br><span class="line">        raleigh:</span><br><span class="line">          hosts:</span><br><span class="line">            host2:</span><br><span class="line">            host3:</span><br><span class="line">      vars:</span><br><span class="line">        some_server: foo.southeast.example.com</span><br><span class="line">        halon_system_timeout: 30</span><br><span class="line">        self_destruct_countdown: 60</span><br><span class="line">        escape_pods: 2</span><br><span class="line">    northeast:</span><br><span class="line">    northwest:</span><br><span class="line">    southwest:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>子组的变量将具有更高的优先级（覆盖）父组的变量。</p>
+<h2 id="组织-host-和组变量"><a href="#组织-host-和组变量" class="headerlink" title="组织 host 和组变量"></a>组织 host 和组变量</h2><p>虽然你可以将变量存储在主清单文件中，但存储单独的 host 和组变量文件可能有助于你更轻松地组织变量值。你还可以在 host 和组变量文件中使用列表和哈希数据，这是你在主清单文件中无法做到的。</p>
+<p>Host 和组变量文件必须使用 YAML 语法。有效的文件扩展名包括 ‘.yml’、‘.yaml’、‘.json’ 或没有文件扩展名。如果你不熟悉 YAML，请参阅 YAML 语法。</p>
+<p>Ansible 通过搜索相对于清单文件或 playbook 文件的路径来加载主机和组变量文件。如果您的清单文件位于 &#x2F;etc&#x2F;ansible&#x2F;hosts，其中包含一个名为 ‘foosball’ 的主机，该主机属于 ‘raleigh’ 和 ‘webservers’ 两个组，那么该主机将使用以下位置的 YAML 文件中的变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/ansible/group_vars/raleigh # can optionally end in &#x27;.yml&#x27;, &#x27;.yaml&#x27;, or &#x27;.json&#x27;</span><br><span class="line">/etc/ansible/group_vars/webservers</span><br><span class="line">/etc/ansible/host_vars/foosball</span><br></pre></td></tr></table></figure>
+
+
+
+<p>例如，如果您按照数据中心对清单中的主机进行分组，并且每个数据中心都使用自己的 NTP 服务器和数据库服务器，则可以创建一个名为 &#x2F;etc&#x2F;ansible&#x2F;group_vars&#x2F;raleigh 的文件来存储 raleigh 组的变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">ntp_server: acme.example.org</span><br><span class="line">database_server: storage.example.org</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您还可以创建以组或主机命名的目录。Ansible 将按字典顺序读取这些目录中的所有文件。以下是 ‘raleigh’ 组的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/ansible/group_vars/raleigh/db_settings</span><br><span class="line">/etc/ansible/group_vars/raleigh/cluster_settings</span><br></pre></td></tr></table></figure>
+
+
+
+<p>‘raleigh’ 组中的所有主机都将可以使用这些文件中定义的变量。当单个文件变得太大，或者您想在某些组变量上使用 Ansible Vault 时，这非常有用，可以保持变量的组织性。</p>
+<p>对于 ansible-playbook，您还可以将 group_vars&#x2F; 和 host_vars&#x2F; 目录添加到您的 playbook 目录中。其他 Ansible 命令（例如，ansible、ansible-console 等）只会查找清单目录中的 group_vars&#x2F; 和 host_vars&#x2F;。如果您希望其他命令从 playbook 目录加载组和主机变量，则必须在命令行上提供 –playbook-dir 选项。如果您从 playbook 目录和清单目录加载清单文件，则 playbook 目录中的变量将覆盖清单目录中设置的变量。</p>
+<p>将您的清单文件和变量保存在 Git 仓库（或其他版本控制）中是跟踪您的清单和主机变量更改的绝佳方法。</p>
+<h2 id="变量如何合并"><a href="#变量如何合并" class="headerlink" title="变量如何合并"></a>变量如何合并</h2><p>默认情况下，变量在运行 playbook 之前会合并&#x2F;展平到特定主机。这使 Ansible 专注于主机和任务，因此组不会在清单和主机匹配之外存在。默认情况下，Ansible 会覆盖变量，包括为组和&#x2F;或主机定义的变量（请参阅 DEFAULT_HASH_BEHAVIOUR）。顺序&#x2F;优先级为（从最低到最高）</p>
+<ul>
+<li>所有组（因为它是所有其他组的“父级”）</li>
+<li>父组</li>
+<li>子组</li>
+<li>主机</li>
+</ul>
+<p>默认情况下，Ansible 按 ASCII 顺序合并同一父&#x2F;子级别的组，并且最后一个加载的组的变量将覆盖之前组的变量。例如，a_group 将与 b_group 合并，并且匹配的 b_group 变量将覆盖 a_group 中的变量。</p>
+<p>您可以通过设置组变量 ansible_group_priority 来更改同一级别组的合并顺序（在父&#x2F;子顺序解析后）。数字越大，合并的时间越晚，优先级越高。如果未设置，则此变量默认为 1。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a_group:</span><br><span class="line">  vars:</span><br><span class="line">    testvar: a</span><br><span class="line">    ansible_group_priority: 10</span><br><span class="line">b_group:</span><br><span class="line">  vars:</span><br><span class="line">    testvar: b</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在此示例中，如果两个组具有相同的优先级，则结果通常为 testvar &#x3D;&#x3D; b，但由于我们为 a_group 赋予了更高的优先级，因此结果将为 testvar &#x3D;&#x3D; a。</p>
+<h3 id="管理清单变量加载顺序"><a href="#管理清单变量加载顺序" class="headerlink" title="管理清单变量加载顺序"></a>管理清单变量加载顺序</h3><p>当使用多个清单源时，请记住，任何变量冲突都会根据 变量如何合并 和 变量优先级：我应该将变量放在哪里？ 中描述的规则进行解决。您可以控制清单源中变量的合并顺序，以获取您需要的变量值。</p>
+<p>当您在命令行上传递多个清单源时，Ansible 会按照您传递这些参数的顺序合并变量。如果在暂存清单中的 [all:vars] 定义了 myvar &#x3D; 1，而生产清单定义了 myvar &#x3D; 2，那么</p>
+<ul>
+<li>传递 -i staging -i production 以使用 myvar &#x3D; 2 运行 playbook。</li>
+<li>传递 -i production -i staging 以使用 myvar &#x3D; 1 运行 playbook。</li>
+</ul>
+<p>当您将多个清单源放在一个目录中时，Ansible 会按照文件名的 ASCII 顺序合并它们。您可以通过向文件添加前缀来控制加载顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">inventory/</span><br><span class="line">  01-openstack.yml          # configure inventory plugin to get hosts from Openstack cloud</span><br><span class="line">  02-dynamic-inventory.py   # add additional hosts with dynamic inventory script</span><br><span class="line">  03-static-inventory       # add static hosts</span><br><span class="line">  group_vars/</span><br><span class="line">    all.yml                 # assign variables to all hosts</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果 01-openstack.yml 为组 all 定义了 myvar &#x3D; 1，02-dynamic-inventory.py 定义了 myvar &#x3D; 2，而 03-static-inventory 定义了 myvar &#x3D; 3，则 playbook 将使用 myvar &#x3D; 3 运行。</p>
+<p>有关清单插件和动态清单脚本的更多详细信息，请参阅 清单插件 和 使用动态清单。</p>
+<h2 id="连接到主机：行为清单参数"><a href="#连接到主机：行为清单参数" class="headerlink" title="连接到主机：行为清单参数"></a>连接到主机：行为清单参数</h2><p>如上所述，设置以下变量将控制 Ansible 如何与远程主机交互。</p>
+<p>主机连接</p>
+<ul>
+<li><p>ansible_connection</p>
+<p>与主机的连接类型。这可以是任何 Ansible 连接插件的名称。SSH 协议类型为 ssh 或 paramiko。默认值为 ssh。</p>
+</li>
+</ul>
+<p>所有连接的通用设置</p>
+<ul>
+<li><p>ansible_host</p>
+<p>要连接的主机名称，如果与您要为其提供的别名不同。如果您使用委派，请勿将其设置为依赖 inventory_hostname。</p>
+</li>
+<li><p>ansible_port</p>
+<p>连接端口号，如果不是默认端口号（ssh 为 22）</p>
+</li>
+<li><p>ansible_user</p>
+<p>连接到主机时使用的用户名</p>
+</li>
+<li><p>ansible_password</p>
+<p>用于对主机进行身份验证的密码（永远不要以纯文本形式存储此变量；始终使用 vault。请参阅 安全可见的 Vaulted 变量）</p>
+</li>
+</ul>
+<p>SSH 连接的特定设置</p>
+<ul>
+<li><p>ansible_ssh_private_key_file</p>
+<p>SSH 使用的私钥文件。如果使用多个密钥并且您不想使用 SSH 代理，则非常有用。</p>
+</li>
+<li><p>ansible_ssh_common_args</p>
+<p>此设置始终附加到 sftp、scp 和 ssh 的默认命令行。用于为特定主机（或组）配置 ProxyCommand。</p>
+</li>
+<li><p>ansible_sftp_extra_args</p>
+<p>此设置始终附加到默认的 sftp 命令行。</p>
+</li>
+<li><p>ansible_scp_extra_args</p>
+<p>此设置始终附加到默认的 scp 命令行。</p>
+</li>
+<li><p>ansible_ssh_extra_args</p>
+<p>此设置始终附加到默认的 ssh 命令行。</p>
+</li>
+<li><p>ansible_ssh_pipelining</p>
+<p>确定是否使用 SSH 管道。这会覆盖 ansible.cfg 中的 pipelining 设置。</p>
+</li>
+<li><p>ansible_ssh_executable (版本 2.2 中新增)</p>
+<p>此设置会覆盖使用系统 ssh 的默认行为。这会覆盖 ansible.cfg 中 ssh_connection 下的 ssh_executable 设置。</p>
+</li>
+</ul>
+<p>权限提升（有关详细信息，请参阅 Ansible 权限提升）</p>
+<ul>
+<li><p>ansible_become</p>
+<p>等同于 ansible_sudo 或 ansible_su，允许强制执行权限提升。</p>
+</li>
+<li><p>ansible_become_method</p>
+<p>允许设置权限提升方法。</p>
+</li>
+<li><p>ansible_become_user</p>
+<p>等同于 ansible_sudo_user 或 ansible_su_user，允许您设置通过权限提升成为的用户。</p>
+</li>
+<li><p>ansible_become_password</p>
+<p>等同于 ansible_sudo_password 或 ansible_su_password，允许您设置权限提升密码（永远不要以纯文本形式存储此变量；始终使用 Vault。请参阅 安全地保持 Vault 变量可见）</p>
+</li>
+<li><p>ansible_become_exe</p>
+<p>等同于 ansible_sudo_exe 或 ansible_su_exe，允许您为所选的提升方法设置可执行文件。</p>
+</li>
+<li><p>ansible_become_flags</p>
+<p>等同于 ansible_sudo_flags 或 ansible_su_flags，允许您设置传递给所选提升方法的标志。也可以在 ansible.cfg 中 privilege_escalation 下的 become_flags 选项中全局设置此项。</p>
+</li>
+</ul>
+<p>远程主机环境参数</p>
+<ul>
+<li><p>ansible_shell_type</p>
+<p>目标系统的 shell 类型。除非您已将 ansible_shell_executable 设置为非 Bourne (sh) 兼容的 shell，否则不应使用此设置。默认情况下，命令使用 sh 样式的语法格式化。将其设置为 csh 或 fish 将导致在目标系统上执行的命令遵循这些 shell 的语法。</p>
+</li>
+<li><p>ansible_python_interpreter</p>
+<p>目标主机 Python 路径。这对于具有多个 Python 或 Python 不位于 &#x2F;usr&#x2F;bin&#x2F;python 的系统（如 *BSD）或者 &#x2F;usr&#x2F;bin&#x2F;python 不是 2.X 系列 Python 的系统非常有用。我们不使用 &#x2F;usr&#x2F;bin&#x2F;env 机制，因为这需要正确设置远程用户的路径，并且还假设 python 可执行文件名为 python，而该可执行文件可能被命名为 python2.6 之类的名称。</p>
+</li>
+<li><p>ansible*interpreter</p>
+<p>适用于 ruby 或 perl 之类的任何内容，其工作方式与 ansible_python_interpreter 相同。这将替换将在该主机上运行的模块的 shebang。</p>
+</li>
+</ul>
+<p>2.1 版本中新增。</p>
+<ul>
+<li><p>ansible_shell_executable</p>
+<p>此设置 Ansible 控制节点将在目标计算机上使用的 shell，覆盖 ansible.cfg 中的 executable，该默认值为 &#x2F;bin&#x2F;sh。仅当无法使用 &#x2F;bin&#x2F;sh 时才应更改此值（换句话说，如果目标计算机上未安装 &#x2F;bin&#x2F;sh 或无法从 sudo 运行）。</p>
+</li>
+</ul>
+<p>来自 Ansible-INI 主机文件的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">some_host         ansible_port=2222     ansible_user=manager</span><br><span class="line">aws_host          ansible_ssh_private_key_file=/home/example/.ssh/aws.pem</span><br><span class="line">freebsd_host      ansible_python_interpreter=/usr/local/bin/python</span><br><span class="line">ruby_module_host  ansible_ruby_interpreter=/usr/bin/ruby.1.9.3</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="非-SSH-连接类型"><a href="#非-SSH-连接类型" class="headerlink" title="非 SSH 连接类型"></a>非 SSH 连接类型</h3><p>如上一节所述，Ansible 通过 SSH 执行 playbook，但不仅限于此连接类型。通过特定于主机的参数 ansible_connection&#x3D;<connector>，可以更改连接类型。有关可用插件和示例的完整列表，请参阅 插件列表。</p>
+<h2 id="清单设置示例"><a href="#清单设置示例" class="headerlink" title="清单设置示例"></a>清单设置示例</h2><p>另请参阅 Ansible 设置示例，其中显示了清单以及 playbook 和其他 Ansible 工件。</p>
+<h3 id="示例：每个环境一个清单"><a href="#示例：每个环境一个清单" class="headerlink" title="示例：每个环境一个清单"></a>示例：每个环境一个清单</h3><p>如果需要管理多个环境，有时最好每个清单只定义一个环境的主机。这样，例如，当您想要更新一些“staging”服务器时，就更难意外地更改“test”环境内的节点状态。</p>
+<p>对于上述示例，您可以拥有一个 inventory_test 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[dbservers]</span><br><span class="line">db01.test.example.com</span><br><span class="line">db02.test.example.com</span><br><span class="line"></span><br><span class="line">[appservers]</span><br><span class="line">app01.test.example.com</span><br><span class="line">app02.test.example.com</span><br><span class="line">app03.test.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>该文件仅包含属于“test”环境的主机。在另一个名为 inventory_staging 的文件中定义“staging”计算机</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[dbservers]</span><br><span class="line">db01.staging.example.com</span><br><span class="line">db02.staging.example.com</span><br><span class="line"></span><br><span class="line">[appservers]</span><br><span class="line">app01.staging.example.com</span><br><span class="line">app02.staging.example.com</span><br><span class="line">app03.staging.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要将名为 site.yml 的 playbook 应用于测试环境中的所有应用服务器，请使用以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i inventory_test -l appservers site.yml</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="示例：按功能分组"><a href="#示例：按功能分组" class="headerlink" title="示例：按功能分组"></a>示例：按功能分组</h3><p>在上一节中，您已经看到了使用组来聚集具有相同功能的主机的示例。例如，这允许您在仅影响数据库服务器的 playbook 或角色中定义防火墙规则</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- hosts: dbservers</span><br><span class="line">  tasks:</span><br><span class="line">  - name: Allow access from 10.0.0.1</span><br><span class="line">    ansible.builtin.iptables:</span><br><span class="line">      chain: INPUT</span><br><span class="line">      jump: ACCEPT</span><br><span class="line">      source: 10.0.0.1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="示例：按位置分组"><a href="#示例：按位置分组" class="headerlink" title="示例：按位置分组"></a>示例：按位置分组</h3><p>其他任务可能侧重于特定主机的位置。假设 db01.test.example.com 和 app01.test.example.com 位于 DC1 中，而 db02.test.example.com 位于 DC2 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[dc1]</span><br><span class="line">db01.test.example.com</span><br><span class="line">app01.test.example.com</span><br><span class="line"></span><br><span class="line">[dc2]</span><br><span class="line">db02.test.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>实际上，您甚至可能最终混合使用所有这些设置，因为您可能需要在一天更新特定数据中心中的所有节点，而在另一天更新所有应用程序服务器，而无论其位置如何。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ansible/install/configuration.html">2.5 配置 Ansible</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ansible/inventory/dynamic_inventory.html">3.2 动态清单</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E6%B8%85%E5%8D%95"><span class="toc-text">构建清单</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E5%8D%95%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%A0%BC%E5%BC%8F%E3%80%81%E4%B8%BB%E6%9C%BA%E5%92%8C%E7%BB%84"><span class="toc-text">清单基础：格式、主机和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BB%84"><span class="toc-text">默认组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E7%BB%84%E4%B8%AD%E7%9A%84%E4%B8%BB%E6%9C%BA"><span class="toc-text">多个组中的主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E7%BB%84%EF%BC%9A%E7%88%B6-%E5%AD%90%E7%BB%84%E5%85%B3%E7%B3%BB"><span class="toc-text">分组组：父&#x2F;子组关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%BB%E6%9C%BA%E8%8C%83%E5%9B%B4"><span class="toc-text">添加主机范围</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%A4%9A%E4%B8%AA%E6%B8%85%E5%8D%95%E6%BA%90"><span class="toc-text">传递多个清单源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%BB%84%E7%BB%87%E6%B8%85%E5%8D%95"><span class="toc-text">在目录中组织清单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%B8%85%E5%8D%95%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F"><span class="toc-text">管理清单加载顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E6%B8%85%E5%8D%95%E6%B7%BB%E5%8A%A0%E5%8F%98%E9%87%8F"><span class="toc-text">向清单添加变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%9C%BA%E5%99%A8%E5%88%86%E9%85%8D%E5%8F%98%E9%87%8F%EF%BC%9Ahost-%E5%8F%98%E9%87%8F"><span class="toc-text">为一个机器分配变量：host 变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E5%8D%95%E5%88%AB%E5%90%8D"><span class="toc-text">清单别名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5-INI-%E6%A0%BC%E5%BC%8F%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-text">以 INI 格式定义变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E5%A4%9A%E4%B8%AA%E6%9C%BA%E5%99%A8%E5%88%86%E9%85%8D%E5%8F%98%E9%87%8F%EF%BC%9A%E7%BB%84%E5%8F%98%E9%87%8F"><span class="toc-text">为多个机器分配变量：组变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%8F%98%E9%87%8F%E5%80%BC%EF%BC%9A%E7%94%A8%E4%BA%8E%E7%BB%84%E7%9A%84%E7%BB%84%E7%9A%84%E7%BB%84%E5%8F%98%E9%87%8F"><span class="toc-text">继承变量值：用于组的组的组变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E7%BB%87-host-%E5%92%8C%E7%BB%84%E5%8F%98%E9%87%8F"><span class="toc-text">组织 host 和组变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6"><span class="toc-text">变量如何合并</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%B8%85%E5%8D%95%E5%8F%98%E9%87%8F%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F"><span class="toc-text">管理清单变量加载顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0%E4%B8%BB%E6%9C%BA%EF%BC%9A%E8%A1%8C%E4%B8%BA%E6%B8%85%E5%8D%95%E5%8F%82%E6%95%B0"><span class="toc-text">连接到主机：行为清单参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E-SSH-%E8%BF%9E%E6%8E%A5%E7%B1%BB%E5%9E%8B"><span class="toc-text">非 SSH 连接类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E5%8D%95%E8%AE%BE%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-text">清单设置示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%AF%8F%E4%B8%AA%E7%8E%AF%E5%A2%83%E4%B8%80%E4%B8%AA%E6%B8%85%E5%8D%95"><span class="toc-text">示例：每个环境一个清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%8C%89%E5%8A%9F%E8%83%BD%E5%88%86%E7%BB%84%EF%83%81"><span class="toc-text">示例：按功能分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%8C%89%E4%BD%8D%E7%BD%AE%E5%88%86%E7%BB%84"><span class="toc-text">示例：按位置分组</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

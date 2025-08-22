@@ -1,0 +1,966 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Ansible：5.15 剧本角色 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="角色角色允许您根据已知的目录结构自动加载相关的变量、文件、任务、处理器和其他 Ansible 工件。将内容分组到角色后，您可以轻松地重用它们并与其他用户共享。  角色目录结构 存储和查找角色 使用角色 在剧本级别使用角色 包含角色：动态重用 导入角色：静态重用   角色参数验证 规范格式 示例规范   在一个剧本中多次运行角色 传递不同的参数 使用 allow_duplicates: true">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.15 剧本角色">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/ansible/playbook-usage/playbook_roles.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="角色角色允许您根据已知的目录结构自动加载相关的变量、文件、任务、处理器和其他 Ansible 工件。将内容分组到角色后，您可以轻松地重用它们并与其他用户共享。  角色目录结构 存储和查找角色 使用角色 在剧本级别使用角色 包含角色：动态重用 导入角色：静态重用   角色参数验证 规范格式 示例规范   在一个剧本中多次运行角色 传递不同的参数 使用 allow_duplicates: true">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-21T08:31:15.274Z">
+<meta property="article:modified_time" content="2025-08-21T08:31:15.270Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ansible/intro/introduction.html"><div class="main" ff="title">Ansible</div><div class="sub normal cap">自动化运维</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ansible/" placeholder="在Ansible文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/introduction.html#start"><span class="toc-text">1.1 Ansible 简介</span></a><a class="link" href="/wiki/ansible/intro/arch.html"><span class="toc-text">1.2 Ansible 架构</span></a><a class="link" href="/wiki/ansible/intro/basic_concepts.html"><span class="toc-text">1.3 Ansible 基本要素</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Ansbile 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/install/installation-guide.html"><span class="toc-text">2.1 Ansible 安装</span></a><a class="link" href="/wiki/ansible/install/distros.html"><span class="toc-text">2.2 在特定操作系统上安装</span></a><a class="link" href="/wiki/ansible/install/container-build.html"><span class="toc-text">2.3 在容器中安装</span></a><a class="link" href="/wiki/ansible/install/pipx-and-pip.html"><span class="toc-text">2.4 使用pipx安装和升级</span></a><a class="link" href="/wiki/ansible/install/configuration.html"><span class="toc-text">2.5 配置 Ansible</span></a></div><div class="widget-header dis-select"><span class="name">第3章 Ansible 清单</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/inventory/inventory_guide.html"><span class="toc-text">3.1 构建清单</span></a><a class="link" href="/wiki/ansible/inventory/dynamic_inventory.html"><span class="toc-text">3.2 动态清单</span></a><a class="link" href="/wiki/ansible/inventory/connection.html"><span class="toc-text">3.3 清单远程连接方式</span></a><a class="link" href="/wiki/ansible/inventory/using-patterns.html"><span class="toc-text">3.4 清单使用模式</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Ansible 命令行工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/command/command_cli.html"><span class="toc-text">4.1 使用 Ansible 命令行工具</span></a><a class="link" href="/wiki/ansible/command/ansible.html"><span class="toc-text">4.2 ansible</span></a><a class="link" href="/wiki/ansible/command/ansible-config.html"><span class="toc-text">4.3 ansible-config</span></a><a class="link" href="/wiki/ansible/command/ansible-console.html"><span class="toc-text">4.4 ansible-console</span></a><a class="link" href="/wiki/ansible/command/ansible-doc.html"><span class="toc-text">4.5 ansible-doc</span></a><a class="link" href="/wiki/ansible/command/ansible-galaxy.html"><span class="toc-text">4.5 ansible-galaxy</span></a><a class="link" href="/wiki/ansible/command/ansible-inventory.html"><span class="toc-text">4.6 ansible-inventory</span></a><a class="link" href="/wiki/ansible/command/ansible-playbook.html"><span class="toc-text">4.7 ansible-playbook</span></a><a class="link" href="/wiki/ansible/command/ansible-pull.html"><span class="toc-text">4.8 ansible-pull</span></a><a class="link" href="/wiki/ansible/command/ansible-vault.html"><span class="toc-text">4.9 ansible-vault</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Ansible 剧本入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-usage/playbook_guide.html"><span class="toc-text">5.1 使用 Ansible 剧本</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_intro.html"><span class="toc-text">5.2 Ansible 剧本简介</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_template.html"><span class="toc-text">5.3 模板引擎 (Jinja2)</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_filters.html"><span class="toc-text">5.4 使用过滤器处理数据</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_lookups.html"><span class="toc-text">5.6 查找语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_loops.html"><span class="toc-text">5.7 循环语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_delegation.html"><span class="toc-text">5.8 控制任务的运行位置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_condition.html"><span class="toc-text">5.9 条件语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_blocks.html"><span class="toc-text">5.10 块用法</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_handlers.html"><span class="toc-text">5.11 处理程序</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_error_handling.html"><span class="toc-text">5.12 错误处理</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_environment.html"><span class="toc-text">5.13 环境设置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_reuse.html"><span class="toc-text">5.14 剧本重用</span></a><a class="link active" href="/wiki/ansible/playbook-usage/playbook_roles.html"><span class="toc-text">5.15 剧本角色</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_module_defaults.html"><span class="toc-text">5.16 模块默认值</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_prompts.html"><span class="toc-text">5.17 交互提示</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_variables.html"><span class="toc-text">5.18 使用变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_vars_facts.html"><span class="toc-text">5.19 发现变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/rolling_upgrade.html"><span class="toc-text">5.20 持续交付和滚动升级</span></a></div><div class="widget-header dis-select"><span class="name">第6章 Ansible 剧本运行</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-exec/playbook_execution.html"><span class="toc-text">6.1 运行 Playbook</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_checkmode.html"><span class="toc-text">6.2 验证任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_privilege.html"><span class="toc-text">6.3 权限提升</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_tags.html"><span class="toc-text">6.4 标签</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_startnstep.html"><span class="toc-text">6.5 故障排除</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_debugger.html"><span class="toc-text">6.6 调试任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_async.html"><span class="toc-text">6.7 异步操作和轮询</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_strategies.html"><span class="toc-text">6.8 控制剧本执行策略</span></a></div><div class="widget-header dis-select"><span class="name">第7章 Ansible 进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/advanced/playbook_advanced_syntax.html"><span class="toc-text">7.1 高级剧本语法</span></a><a class="link" href="/wiki/ansible/advanced/complex_data_manipulation.html"><span class="toc-text">7.2 操作数据</span></a><a class="link" href="/wiki/ansible/advanced/vault_guide.html"><span class="toc-text">7.3 Ansible vault 保护敏感数据</span></a><a class="link" href="/wiki/ansible/advanced/module_guide.html"><span class="toc-text">7.4 Ansible 模块使用</span></a><a class="link" href="/wiki/ansible/advanced/plugin_guide.html"><span class="toc-text">7.5 Ansible 插件使用</span></a><a class="link" href="/wiki/ansible/advanced/collections_guide.html"><span class="toc-text">7.6 Ansible 集合使用</span></a><a class="link" href="/wiki/ansible/advanced/windows_and_bsd.html"><span class="toc-text">7.7 Ansible 在 Windows和BSD上使用</span></a><a class="link" href="/wiki/ansible/advanced/tips_tricks.html"><span class="toc-text">7.8 Ansible 技巧与窍门</span></a></div><div class="widget-header dis-select"><span class="name">第8章 最佳实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/apply/network_practices.html"><span class="toc-text">8.1 网络自动化实践</span></a><a class="link" href="/wiki/ansible/apply/basic_concepts.html"><span class="toc-text">8.2 基础概念</span></a><a class="link" href="/wiki/ansible/apply/network_differences.html"><span class="toc-text">8.3 网络自动化的不同之处</span></a><a class="link" href="/wiki/ansible/apply/first_playbook.html"><span class="toc-text">8.4 运行第一个Playbook</span></a><a class="link" href="/wiki/ansible/apply/first_inventory.html"><span class="toc-text">8.5 构建清单</span></a><a class="link" href="/wiki/ansible/apply/network_roles.html"><span class="toc-text">8.6 使用 Ansible 网络角色</span></a><a class="link" href="/wiki/ansible/apply/connection_options.html"><span class="toc-text">8.7 使用网络连接选项</span></a><a class="link" href="/wiki/ansible/apply/network_modules.html"><span class="toc-text">8.8 网络资源模块</span></a><a class="link" href="/wiki/ansible/apply/best_practices.html"><span class="toc-text">8.9 Ansible 网络自动化示例</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Galaxy 入门指南</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/galaxy/galaxy_guide.html"><span class="toc-text">9.1 Galaxy 用户指南</span></a><a class="link" href="/wiki/ansible/galaxy/galaxy_devel.html"><span class="toc-text">9.2 Galaxy 开发者指南</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/getting-example.html"><span class="toc-text">1.4 Ansible 使用示例</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_tests.html"><span class="toc-text">5.5 语法测试</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ansible/intro/introduction.html">Ansible</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-21T08:31:15.270Z">2025-08-21</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.15 剧本角色</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h1><p>角色允许您根据已知的目录结构自动加载相关的变量、文件、任务、处理器和其他 Ansible 工件。将内容分组到角色后，您可以轻松地重用它们并与其他用户共享。</p>
+<ul>
+<li>角色目录结构</li>
+<li>存储和查找角色</li>
+<li>使用角色<ul>
+<li>在剧本级别使用角色</li>
+<li>包含角色：动态重用</li>
+<li>导入角色：静态重用</li>
+</ul>
+</li>
+<li>角色参数验证<ul>
+<li>规范格式</li>
+<li>示例规范</li>
+</ul>
+</li>
+<li>在一个剧本中多次运行角色<ul>
+<li>传递不同的参数</li>
+<li>使用 allow_duplicates: true</li>
+</ul>
+</li>
+<li>使用角色依赖项<ul>
+<li>在一个剧本中多次运行角色依赖项</li>
+</ul>
+</li>
+<li>在角色中嵌入模块和插件</li>
+<li>共享角色：Ansible Galaxy</li>
+</ul>
+<h2 id="角色目录结构"><a href="#角色目录结构" class="headerlink" title="角色目录结构"></a>角色目录结构</h2><p>Ansible 角色具有定义的目录结构，其中包含七个主要的标准目录。每个角色必须至少包含这些目录中的一个。您可以省略角色不使用的任何目录。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># playbooks</span><br><span class="line">site.yml</span><br><span class="line">webservers.yml</span><br><span class="line">fooservers.yml</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">roles/</span><br><span class="line">    common/               # this hierarchy represents a &quot;role&quot;</span><br><span class="line">        tasks/            #</span><br><span class="line">            main.yml      #  &lt;-- tasks file can include smaller files if warranted</span><br><span class="line">        handlers/         #</span><br><span class="line">            main.yml      #  &lt;-- handlers file</span><br><span class="line">        templates/        #  &lt;-- files for use with the template resource</span><br><span class="line">            ntp.conf.j2   #  &lt;------- templates end in .j2</span><br><span class="line">        files/            #</span><br><span class="line">            bar.txt       #  &lt;-- files for use with the copy resource</span><br><span class="line">            foo.sh        #  &lt;-- script files for use with the script resource</span><br><span class="line">        vars/             #</span><br><span class="line">            main.yml      #  &lt;-- variables associated with this role</span><br><span class="line">        defaults/         #</span><br><span class="line">            main.yml      #  &lt;-- default lower priority variables for this role</span><br><span class="line">        meta/             #</span><br><span class="line">            main.yml      #  &lt;-- role dependencies</span><br><span class="line">        library/          # roles can also include custom modules</span><br><span class="line">        module_utils/     # roles can also include custom module_utils</span><br><span class="line">        lookup_plugins/   # or other types of plugins, like lookup in this case</span><br><span class="line"></span><br><span class="line">    webtier/              # same kind of structure as &quot;common&quot; was above, done for the webtier role</span><br><span class="line">    monitoring/           # &quot;&quot;</span><br><span class="line">    fooapp/               # &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>默认情况下，Ansible 将在大多数角色目录中查找 main.yml 文件以获取相关内容（也包括 main.yaml 和 main）</p>
+<ul>
+<li>tasks&#x2F;main.yml - 角色提供给剧本以执行的任务列表。</li>
+<li>handlers&#x2F;main.yml - 导入到父剧本中的处理器，供角色或剧本中的其他角色和任务使用。</li>
+<li>defaults&#x2F;main.yml - 角色提供的变量的非常低的优先级值（有关更多信息，请参见 使用变量）。角色自身的默认值将优先于其他角色的默认值，但任何&#x2F;所有其他变量来源都将覆盖此值。</li>
+<li>vars&#x2F;main.yml - 角色提供给剧本的高优先级变量（有关更多信息，请参见 使用变量）。</li>
+<li>files&#x2F;stuff.txt - 角色及其子角色可用的一个或多个文件。</li>
+<li>templates&#x2F;something.j2 - 角色或子角色中使用的模板。</li>
+<li>meta&#x2F;main.yml - 角色的元数据，包括角色依赖项和可选的 Galaxy 元数据（例如支持的平台）。这是作为独立角色上传到 Galaxy 所必需的，但对于在您的剧本中使用角色则不是必需的。</li>
+</ul>
+<p>您可以在某些目录中添加其他 YAML 文件，但默认情况下不会使用它们。它们可以直接包含&#x2F;导入，或者在使用 include_role&#x2F;import_role 时指定。例如，您可以将特定于平台的任务放在单独的文件中，并在 tasks&#x2F;main.yml 文件中引用它们。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># roles/example/tasks/main.yml</span><br><span class="line">- name: Install the correct web server for RHEL</span><br><span class="line">  import_tasks: redhat.yml</span><br><span class="line">  when: ansible_facts[&#x27;os_family&#x27;]|lower == &#x27;redhat&#x27;</span><br><span class="line"></span><br><span class="line">- name: Install the correct web server for Debian</span><br><span class="line">  import_tasks: debian.yml</span><br><span class="line">  when: ansible_facts[&#x27;os_family&#x27;]|lower == &#x27;debian&#x27;</span><br><span class="line"></span><br><span class="line"># roles/example/tasks/redhat.yml</span><br><span class="line">- name: Install web server</span><br><span class="line">  ansible.builtin.yum:</span><br><span class="line">    name: &quot;httpd&quot;</span><br><span class="line">    state: present</span><br><span class="line"></span><br><span class="line"># roles/example/tasks/debian.yml</span><br><span class="line">- name: Install web server</span><br><span class="line">  ansible.builtin.apt:</span><br><span class="line">    name: &quot;apache2&quot;</span><br><span class="line">    state: present</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者在加载角色时直接调用这些任务，这将绕过 main.yml 文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: include apt tasks</span><br><span class="line">  include_role:</span><br><span class="line">      name: package_manager_bootstrap</span><br><span class="line">      tasks_from: apt.yml</span><br><span class="line">  when: ansible_facts[&#x27;os_family&#x27;] == &#x27;Debian&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>目录 defaults 和 vars 也可能包含 嵌套目录。如果您的变量文件是一个目录，Ansible 将按字母顺序读取该目录内的所有变量文件和目录。如果嵌套目录包含变量文件和目录，Ansible 将首先读取目录。下面是一个 vars&#x2F;main 目录的示例。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">roles/</span><br><span class="line">    common/          # this hierarchy represents a &quot;role&quot;</span><br><span class="line">        vars/</span><br><span class="line">            main/    #  &lt;-- variables associated with this role</span><br><span class="line">                first_nested_directory/</span><br><span class="line">                    first_variables_file.yml</span><br><span class="line">                second_nested_directory/</span><br><span class="line">                    second_variables_file.yml</span><br><span class="line">                third_variables_file.yml</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="存储和查找角色"><a href="#存储和查找角色" class="headerlink" title="存储和查找角色"></a>存储和查找角色</h2><p>默认情况下，Ansible 在以下位置查找角色：</p>
+<ul>
+<li>如果您正在使用集合，则在集合中。</li>
+<li>在名为 roles&#x2F; 的目录中，相对于剧本文件。</li>
+<li>在已配置的 roles_path 中。默认搜索路径是 ~&#x2F;.ansible&#x2F;roles:&#x2F;usr&#x2F;share&#x2F;ansible&#x2F;roles:&#x2F;etc&#x2F;ansible&#x2F;roles。</li>
+<li>在剧本文件所在的目录中。</li>
+</ul>
+<p>如果您将角色存储在其他位置，请设置 roles_path 配置选项，以便 Ansible 可以找到您的角色。将共享角色检入到单个位置可以更轻松地在多个剧本中使用它们。有关在 ansible.cfg 中管理设置的详细信息，请参见 配置 Ansible。</p>
+<p>或者，您可以使用完全限定路径调用角色。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - role: &#x27;/path/to/my/roles/common&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用角色"><a href="#使用角色" class="headerlink" title="使用角色"></a>使用角色</h2><p>您可以通过以下方式使用角色：</p>
+<ul>
+<li>在剧本级别使用 roles 选项：这是在剧本中使用角色的经典方法。</li>
+<li>在任务级别使用 include_role：您可以使用 include_role 在剧本的 tasks 部分中的任何位置动态重用角色。</li>
+<li>在任务级别使用 import_role：您可以使用 import_role 在剧本的 tasks 部分中的任何位置静态重用角色。</li>
+<li>作为另一个角色的依赖项（请参见此页面中 meta&#x2F;main.yml 中的 dependencies 关键字）。</li>
+</ul>
+<h3 id="在剧本级别使用角色"><a href="#在剧本级别使用角色" class="headerlink" title="在剧本级别使用角色"></a>在剧本级别使用角色</h3><p>使用角色的经典（原始）方法是使用给定剧本的 roles 选项。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - common</span><br><span class="line">    - webservers</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当您在剧本级别使用 roles 选项时，每个角色“x”都会在以下目录中查找 main.yml（也包括 main.yaml 和 main）：</p>
+<ul>
+<li>roles&#x2F;x&#x2F;tasks&#x2F;</li>
+<li>roles&#x2F;x&#x2F;handlers&#x2F;</li>
+<li>roles&#x2F;x&#x2F;vars&#x2F;</li>
+<li>roles&#x2F;x&#x2F;defaults&#x2F;</li>
+<li>roles&#x2F;x&#x2F;meta&#x2F;</li>
+<li>任何复制、脚本、模板或包含任务（在角色中）都可以引用 roles&#x2F;x&#x2F;{files,templates,tasks&#x2F;} 中的文件（目录取决于任务），而无需相对或绝对地对其进行路径设置。</li>
+</ul>
+<p>在 Play 级别使用 roles 选项时，Ansible 将角色视为静态导入并在剧本解析期间处理它们。Ansible 按以下顺序执行每个 Play：</p>
+<ul>
+<li>Play 中定义的任何 pre_tasks。</li>
+<li>由 pre_tasks 触发的任何处理器。</li>
+<li>列在 roles: 中的每个角色，按照列出的顺序。角色的 meta&#x2F;main.yml 中定义的任何角色依赖项将首先运行，但需遵守标签过滤和条件判断。更多详情，请参见 使用角色依赖项。</li>
+<li>Play 中定义的任何 tasks。</li>
+<li>由角色或任务触发的任何处理器。</li>
+<li>Play 中定义的任何 post_tasks。</li>
+<li>由 post_tasks 触发的任何处理器。</li>
+</ul>
+<p>您可以将其他关键字传递给 roles 选项。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - common</span><br><span class="line">    - role: foo_app_instance</span><br><span class="line">      vars:</span><br><span class="line">        dir: &#x27;/opt/a&#x27;</span><br><span class="line">        app_port: 5000</span><br><span class="line">      tags: typeA</span><br><span class="line">    - role: foo_app_instance</span><br><span class="line">      vars:</span><br><span class="line">        dir: &#x27;/opt/b&#x27;</span><br><span class="line">        app_port: 5001</span><br><span class="line">      tags: typeB</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当您向 role 选项添加标签时，Ansible 会将该标签应用于角色中的所有任务。</p>
+<h3 id="包含角色：动态重用"><a href="#包含角色：动态重用" class="headerlink" title="包含角色：动态重用"></a>包含角色：动态重用</h3><p>您可以使用 include_role 在 Play 的 tasks 部分的任何位置动态重用角色。在 roles 部分中添加的角色在 Play 中任何其他任务之前运行，而包含的角色则按定义的顺序运行。如果在 include_role 任务之前还有其他任务，则其他任务将首先运行。</p>
+<p>要包含角色：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  tasks:</span><br><span class="line">    - name: Print a message</span><br><span class="line">      ansible.builtin.debug:</span><br><span class="line">        msg: &quot;this task runs before the example role&quot;</span><br><span class="line"></span><br><span class="line">    - name: Include the example role</span><br><span class="line">      include_role:</span><br><span class="line">        name: example</span><br><span class="line"></span><br><span class="line">    - name: Print a message</span><br><span class="line">      ansible.builtin.debug:</span><br><span class="line">        msg: &quot;this task runs after the example role&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>包含角色时，您可以传递其他关键字，包括变量和标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  tasks:</span><br><span class="line">    - name: Include the foo_app_instance role</span><br><span class="line">      include_role:</span><br><span class="line">        name: foo_app_instance</span><br><span class="line">      vars:</span><br><span class="line">        dir: &#x27;/opt/a&#x27;</span><br><span class="line">        app_port: 5000</span><br><span class="line">      tags: typeA</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当您向 include_role 任务添加 标签 时，Ansible 将该标签仅应用于 include 本身。这意味着您可以传递 –tags 来仅运行角色中选定的任务（如果这些任务本身具有与 include 语句相同的标签）。有关详细信息，请参见 选择性地运行可重用文件中的带标签的任务。</p>
+<p>您可以有条件地包含角色。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  tasks:</span><br><span class="line">    - name: Include the some_role role</span><br><span class="line">      include_role:</span><br><span class="line">        name: some_role</span><br><span class="line">      when: &quot;ansible_facts[&#x27;os_family&#x27;] == &#x27;RedHat&#x27;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="导入角色：静态重用"><a href="#导入角色：静态重用" class="headerlink" title="导入角色：静态重用"></a>导入角色：静态重用</h3><p>您可以使用 import_role 在 Play 的 tasks 部分的任何位置静态重用角色。其行为与使用 roles 关键字相同。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  tasks:</span><br><span class="line">    - name: Print a message</span><br><span class="line">      ansible.builtin.debug:</span><br><span class="line">        msg: &quot;before we run our role&quot;</span><br><span class="line"></span><br><span class="line">    - name: Import the example role</span><br><span class="line">      import_role:</span><br><span class="line">        name: example</span><br><span class="line"></span><br><span class="line">    - name: Print a message</span><br><span class="line">      ansible.builtin.debug:</span><br><span class="line">        msg: &quot;after we ran our role&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>导入角色时，您可以传递其他关键字，包括变量和标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  tasks:</span><br><span class="line">    - name: Import the foo_app_instance role</span><br><span class="line">      import_role:</span><br><span class="line">        name: foo_app_instance</span><br><span class="line">      vars:</span><br><span class="line">        dir: &#x27;/opt/a&#x27;</span><br><span class="line">        app_port: 5000</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当您向 import_role 语句添加标签时，Ansible 会将该标签应用于角色中的所有任务。有关详细信息，请参见 标签继承：向多个任务添加标签。</p>
+<h2 id="角色参数验证"><a href="#角色参数验证" class="headerlink" title="角色参数验证"></a>角色参数验证</h2><p>从 2.11 版本开始，您可以选择根据参数规范启用角色参数验证。此规范在 meta&#x2F;argument_specs.yml 文件（或使用 .yaml 文件扩展名）中定义。当定义此参数规范时，会在角色执行的开头插入一个新任务，该任务会根据规范验证为角色提供的参数。如果参数验证失败，则角色将执行失败。</p>
+<h3 id="规范格式"><a href="#规范格式" class="headerlink" title="规范格式"></a>规范格式</h3><p>角色参数规范必须在角色 meta&#x2F;argument_specs.yml 文件中的顶级 argument_specs 块中定义。所有字段都小写。</p>
+<ul>
+<li><p>entry-point-name：</p>
+<p>角色入口点的名称。如果未指定入口点，则应为 main。这将是待执行的任务文件的基名称，没有 .yml 或 .yaml 文件扩展名。short_description：入口点的简短单行描述。理想情况下，它是一个短语而不是句子。short_description 由 ansible-doc -t role -l 显示。它也成为文档中角色页面标题的一部分。简短描述应始终为字符串，切勿为列表，也不应以句点结尾。description：可以包含多行的较长描述。这可以是单个字符串或字符串列表。如果这是一个字符串列表，则每个列表元素都是一个新段落。version_added：添加入口点时角色的版本。这是一个字符串，而不是浮点数，例如 version_added: ‘2.1’。在集合中，这必须是添加入口点的集合版本。例如，version_added: 1.0.0。author：入口点作者的姓名。这可以是单个字符串或字符串列表。每个作者使用一个列表条目。如果只有一个作者，则使用字符串或单元素列表。options：选项通常称为“参数”。本节定义这些选项。对于每个角色选项（参数），您可以包含：option-name：选项&#x2F;参数的名称。description：此选项作用的详细说明。它应该用完整的句子写成。这可以是单个字符串或字符串列表。如果这是一个字符串列表，则每个列表元素都是一个新段落。version_added：仅当此选项在初始角色&#x2F;入口点发布后添加时才需要。换句话说，它大于顶级 version_added 字段。这是一个字符串，而不是浮点数，例如 version_added: ‘2.1’。在集合中，这必须是添加选项的集合版本。例如，version_added: 1.0.0。type：选项的数据类型。有关 type 的允许值，请参见 参数规范。默认为 str。如果选项的类型为 list，则应指定 elements。required：仅当 true 时才需要。如果缺失，则该选项不是必需的。default：如果 required 为 false&#x2F;缺失，则可以指定 default（如果缺失，则假定为 null）。确保文档中的默认值与代码中的默认值匹配。角色变量的实际默认值将始终来自角色默认值（如 角色目录结构 中所定义）。除非默认值需要其他信息或条件，否则默认字段不得列为描述的一部分。如果选项是布尔值，为了兼容ansible-lint，你应该使用true&#x2F;false。choices:选项值的列表。如果为空，则应省略。elements:当类型为list时，指定列表元素的数据类型。options：如果此选项接受字典或字典列表，你可以在此处定义其结构。</p>
+</li>
+</ul>
+<h3 id="示例规范"><a href="#示例规范" class="headerlink" title="示例规范"></a>示例规范</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># roles/myapp/meta/argument_specs.yml</span><br><span class="line">---</span><br><span class="line">argument_specs:</span><br><span class="line">  # roles/myapp/tasks/main.yml entry point</span><br><span class="line">  main:</span><br><span class="line">    short_description: Main entry point for the myapp role</span><br><span class="line">    description:</span><br><span class="line">      - This is the main entrypoint for the C(myapp) role.</span><br><span class="line">      - Here we can describe what this entrypoint does in lengthy words.</span><br><span class="line">      - Every new list item is a new paragraph. You can have multiple sentences</span><br><span class="line">        per paragraph.</span><br><span class="line">    author:</span><br><span class="line">      - Daniel Ziegenberg</span><br><span class="line">    options:</span><br><span class="line">      myapp_int:</span><br><span class="line">        type: &quot;int&quot;</span><br><span class="line">        required: false</span><br><span class="line">        default: 42</span><br><span class="line">        description:</span><br><span class="line">          - &quot;The integer value, defaulting to 42.&quot;</span><br><span class="line">          - &quot;This is a second paragraph.&quot;</span><br><span class="line"></span><br><span class="line">      myapp_str:</span><br><span class="line">        type: &quot;str&quot;</span><br><span class="line">        required: true</span><br><span class="line">        description: &quot;The string value&quot;</span><br><span class="line"></span><br><span class="line">      myapp_list:</span><br><span class="line">        type: &quot;list&quot;</span><br><span class="line">        elements: &quot;str&quot;</span><br><span class="line">        required: true</span><br><span class="line">        description: &quot;A list of string values.&quot;</span><br><span class="line">        version_added: 1.3.0</span><br><span class="line"></span><br><span class="line">      myapp_list_with_dicts:</span><br><span class="line">        type: &quot;list&quot;</span><br><span class="line">        elements: &quot;dict&quot;</span><br><span class="line">        required: false</span><br><span class="line">        default:</span><br><span class="line">          - myapp_food_kind: &quot;meat&quot;</span><br><span class="line">            myapp_food_boiling_required: true</span><br><span class="line">            myapp_food_preparation_time: 60</span><br><span class="line">          - myapp_food_kind: &quot;fruits&quot;</span><br><span class="line">            myapp_food_preparation_time: 5</span><br><span class="line">        description: &quot;A list of dicts with a defined structure and with default a value.&quot;</span><br><span class="line">        options:</span><br><span class="line">          myapp_food_kind:</span><br><span class="line">            type: &quot;str&quot;</span><br><span class="line">            choices:</span><br><span class="line">              - &quot;vegetables&quot;</span><br><span class="line">              - &quot;fruits&quot;</span><br><span class="line">              - &quot;grains&quot;</span><br><span class="line">              - &quot;meat&quot;</span><br><span class="line">            required: false</span><br><span class="line">            description: &quot;A string value with a limited list of allowed choices.&quot;</span><br><span class="line"></span><br><span class="line">          myapp_food_boiling_required:</span><br><span class="line">            type: &quot;bool&quot;</span><br><span class="line">            required: false</span><br><span class="line">            default: false</span><br><span class="line">            description: &quot;Whether the kind of food requires boiling before consumption.&quot;</span><br><span class="line"></span><br><span class="line">          myapp_food_preparation_time:</span><br><span class="line">            type: int</span><br><span class="line">            required: true</span><br><span class="line">            description: &quot;Time to prepare a dish in minutes.&quot;</span><br><span class="line"></span><br><span class="line">      myapp_dict_with_suboptions:</span><br><span class="line">        type: &quot;dict&quot;</span><br><span class="line">        required: false</span><br><span class="line">        default:</span><br><span class="line">          myapp_host: &quot;bar.foo&quot;</span><br><span class="line">          myapp_exclude_host: true</span><br><span class="line">          myapp_path: &quot;/etc/myapp&quot;</span><br><span class="line">        description: &quot;A dict with a defined structure and default values.&quot;</span><br><span class="line">        options:</span><br><span class="line">          myapp_host:</span><br><span class="line">            type: &quot;str&quot;</span><br><span class="line">            choices:</span><br><span class="line">              - &quot;foo.bar&quot;</span><br><span class="line">              - &quot;bar.foo&quot;</span><br><span class="line">              - &quot;ansible.foo.bar&quot;</span><br><span class="line">            required: true</span><br><span class="line">            description: &quot;A string value with a limited list of allowed choices.&quot;</span><br><span class="line"></span><br><span class="line">          myapp_exclude_host:</span><br><span class="line">            type: &quot;bool&quot;</span><br><span class="line">            required: true</span><br><span class="line">            description: &quot;A boolean value.&quot;</span><br><span class="line"></span><br><span class="line">          myapp_path:</span><br><span class="line">            type: &quot;path&quot;</span><br><span class="line">            required: true</span><br><span class="line">            description: &quot;A path value.&quot;</span><br><span class="line"></span><br><span class="line">          original_name:</span><br><span class="line">            type: list</span><br><span class="line">            elements: &quot;str&quot;</span><br><span class="line">            required: false</span><br><span class="line">            description: &quot;An optional list of string values.&quot;</span><br><span class="line"></span><br><span class="line">  # roles/myapp/tasks/alternate.yml entry point</span><br><span class="line">  alternate:</span><br><span class="line">    short_description: Alternate entry point for the myapp role</span><br><span class="line">    description:</span><br><span class="line">      - This is the alternate entrypoint for the C(myapp) role.</span><br><span class="line">    version_added: 1.2.0</span><br><span class="line">    options:</span><br><span class="line">      myapp_int:</span><br><span class="line">        type: &quot;int&quot;</span><br><span class="line">        required: false</span><br><span class="line">        default: 1024</span><br><span class="line">        description: &quot;The integer value, defaulting to 1024.&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="在一个剧本中多次运行一个角色"><a href="#在一个剧本中多次运行一个角色" class="headerlink" title="在一个剧本中多次运行一个角色"></a>在一个剧本中多次运行一个角色</h2><p>Ansible在一个剧本中只执行每个角色一次，即使你多次定义它，除非为每个定义定义了不同的参数。例如，Ansible只在像这样的剧本中运行一次角色foo</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - foo</span><br><span class="line">    - bar</span><br><span class="line">    - foo</span><br></pre></td></tr></table></figure>
+
+
+
+<p>你有两种方法可以强制 Ansible 多次运行一个角色。</p>
+<h3 id="传递不同的参数"><a href="#传递不同的参数" class="headerlink" title="传递不同的参数"></a>传递不同的参数</h3><p>如果你在每个角色定义中传递不同的参数，Ansible 将多次运行该角色。提供不同的变量值与传递不同的角色参数不同。你必须为此行为使用roles关键字，因为import_role和include_role不接受角色参数。</p>
+<p>此剧本将foo角色运行两次</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - &#123; role: foo, message: &quot;first&quot; &#125;</span><br><span class="line">    - &#123; role: foo, message: &quot;second&quot; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>此语法也会将foo角色运行两次；</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - role: foo</span><br><span class="line">      message: &quot;first&quot;</span><br><span class="line">    - role: foo</span><br><span class="line">      message: &quot;second&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这些示例中，Ansible运行foo两次，因为每个角色定义都有不同的参数。</p>
+<h3 id="使用allow-duplicates-true"><a href="#使用allow-duplicates-true" class="headerlink" title="使用allow_duplicates: true"></a>使用allow_duplicates: true</h3><p>将allow_duplicates: true添加到角色的meta&#x2F;main.yml文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># playbook.yml</span><br><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - foo</span><br><span class="line">    - foo</span><br><span class="line"></span><br><span class="line"># roles/foo/meta/main.yml</span><br><span class="line">---</span><br><span class="line">allow_duplicates: true</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这个例子中，Ansible运行foo两次，因为我们已经明确地启用了它。</p>
+<h2 id="使用角色依赖"><a href="#使用角色依赖" class="headerlink" title="使用角色依赖"></a>使用角色依赖</h2><p>角色依赖允许你在使用角色时自动引入其他角色。</p>
+<p>角色依赖是先决条件，而不是真正的依赖关系。角色之间没有父子关系。Ansible加载所有列出的角色，首先运行在dependencies下列出的角色，然后运行列出它们的的。剧本对象是所有角色的父对象，包括由dependencies列表调用的角色。</p>
+<p>角色依赖存储在角色目录中的meta&#x2F;main.yml文件中。此文件应包含角色列表以及在指定角色之前插入的参数。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># roles/myapp/meta/main.yml</span><br><span class="line">---</span><br><span class="line">dependencies:</span><br><span class="line">  - role: common</span><br><span class="line">    vars:</span><br><span class="line">      some_parameter: 3</span><br><span class="line">  - role: apache</span><br><span class="line">    vars:</span><br><span class="line">      apache_port: 80</span><br><span class="line">  - role: postgres</span><br><span class="line">    vars:</span><br><span class="line">      dbname: blarg</span><br><span class="line">      other_parameter: 12</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible总是先执行在dependencies中列出的角色，然后再执行列出它们的那些角色。当你使用roles关键字时，Ansible会递归地执行此模式。例如，如果你在roles:下列出角色foo，角色foo在其meta&#x2F;main.yml文件中在dependencies下列出角色bar，而角色bar在其meta&#x2F;main.yml文件中在dependencies下列出角色baz，则Ansible将按顺序执行baz、bar和foo。</p>
+<h3 id="在一个剧本中多次运行角色依赖"><a href="#在一个剧本中多次运行角色依赖" class="headerlink" title="在一个剧本中多次运行角色依赖"></a>在一个剧本中多次运行角色依赖</h3><p>Ansible 将重复的角色依赖视为在roles:下列出的重复角色：Ansible 只执行一次角色依赖，即使多次定义也是如此，除非角色上定义的参数、标签或 when 子句对于每个定义都不同。如果一个剧本中的两个角色都将第三个角色列为依赖项，Ansible 只运行一次该角色依赖项，除非你传递不同的参数、标签、when 子句，或在要多次运行的角色中使用allow_duplicates: true。有关更多详细信息，请参阅Galaxy 角色依赖项。</p>
+<p>例如，名为car的角色依赖于名为wheel的角色，如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">dependencies:</span><br><span class="line">  - role: wheel</span><br><span class="line">    n: 1</span><br><span class="line">  - role: wheel</span><br><span class="line">    n: 2</span><br><span class="line">  - role: wheel</span><br><span class="line">    n: 3</span><br><span class="line">  - role: wheel</span><br><span class="line">    n: 4</span><br></pre></td></tr></table></figure>
+
+
+
+<p>而wheel角色依赖于两个角色：tire和brake。wheel的meta&#x2F;main.yml将包含以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">dependencies:</span><br><span class="line">  - role: tire</span><br><span class="line">  - role: brake</span><br></pre></td></tr></table></figure>
+
+
+
+<p>而tire和brake的meta&#x2F;main.yml将包含以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">allow_duplicates: true</span><br></pre></td></tr></table></figure>
+
+
+
+<p>最终的执行顺序如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tire(n=1)</span><br><span class="line">brake(n=1)</span><br><span class="line">wheel(n=1)</span><br><span class="line">tire(n=2)</span><br><span class="line">brake(n=2)</span><br><span class="line">wheel(n=2)</span><br><span class="line">...</span><br><span class="line">car</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要在角色依赖项中使用allow_duplicates: true，必须为在dependencies下列出的角色指定它，而不是为列出它的角色指定它。在上面的示例中，allow_duplicates: true出现在tire和brake角色的meta&#x2F;main.yml中。wheel角色不需要allow_duplicates: true，因为car定义的每个实例都使用不同的参数值。</p>
+<h2 id="在角色中嵌入模块和插件"><a href="#在角色中嵌入模块和插件" class="headerlink" title="在角色中嵌入模块和插件"></a>在角色中嵌入模块和插件</h2><p>如果你编写自定义模块（请参阅你应该开发模块吗？）或插件（请参阅开发插件），你可能希望将其作为角色的一部分进行分发。例如，如果你编写了一个模块来帮助配置你公司的内部软件，并且你希望组织中的其他人使用此模块，但又不想告诉每个人如何配置他们的 Ansible 库路径，你可以将该模块包含在你的internal_config角色中。</p>
+<p>要将模块或插件添加到角色：在角色的“tasks”和“handlers”结构旁边，添加一个名为“library”的目录，然后将模块直接包含在“library”目录内。</p>
+<p>假设你有这个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">roles/</span><br><span class="line">    my_custom_modules/</span><br><span class="line">        library/</span><br><span class="line">            module1</span><br><span class="line">            module2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>该模块可以在角色本身中使用，也可以在之后调用的任何角色中使用，如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">    - my_custom_modules</span><br><span class="line">    - some_other_role_using_my_custom_modules</span><br><span class="line">    - yet_another_role_using_my_custom_modules</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如有必要，你还可以将模块嵌入到角色中以修改 Ansible 核心发行版中的模块。例如，你可以在生产版本发布之前使用特定模块的开发版本，方法是复制该模块并将副本嵌入到角色中。谨慎使用此方法，因为核心组件的 API 签名可能会发生更改，并且此解决方法不能保证有效。</p>
+<p>可以使用相同的机制将插件嵌入到角色中并进行分发，使用相同的模式。例如，对于过滤器插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">roles/</span><br><span class="line">    my_custom_filter/</span><br><span class="line">        filter_plugins</span><br><span class="line">            filter1</span><br><span class="line">            filter2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后可以在“my_custom_filter”之后调用的任何角色中的 Jinja 模板中使用这些过滤器。</p>
+<h2 id="共享角色：Ansible-Galaxy"><a href="#共享角色：Ansible-Galaxy" class="headerlink" title="共享角色：Ansible Galaxy"></a>共享角色：Ansible Galaxy</h2><p>Ansible Galaxy 是一个免费网站，用于查找、下载、评价和审查各种社区开发的 Ansible 角色，可以帮助你快速启动自动化项目。</p>
+<p>客户端ansible-galaxy包含在 Ansible 中。Galaxy 客户端允许你从 Ansible Galaxy 下载角色，并为创建你自己的角色提供了一个优秀的默认框架。</p>
+<p>阅读<a target="_blank" rel="noopener" href="https://readthedocs.ansible.org.cn/projects/galaxy-ng/en/latest/">Ansible Galaxy 文档</a>页面以了解更多信息。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ansible/playbook-usage/playbook_reuse.html">5.14 剧本重用</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ansible/playbook-usage/playbook_module_defaults.html">5.16 模块默认值</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-text">角色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">角色目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%92%8C%E6%9F%A5%E6%89%BE%E8%A7%92%E8%89%B2"><span class="toc-text">存储和查找角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%92%E8%89%B2"><span class="toc-text">使用角色</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%89%A7%E6%9C%AC%E7%BA%A7%E5%88%AB%E4%BD%BF%E7%94%A8%E8%A7%92%E8%89%B2"><span class="toc-text">在剧本级别使用角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%85%E5%90%AB%E8%A7%92%E8%89%B2%EF%BC%9A%E5%8A%A8%E6%80%81%E9%87%8D%E7%94%A8"><span class="toc-text">包含角色：动态重用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A7%92%E8%89%B2%EF%BC%9A%E9%9D%99%E6%80%81%E9%87%8D%E7%94%A8"><span class="toc-text">导入角色：静态重用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%E5%8F%82%E6%95%B0%E9%AA%8C%E8%AF%81"><span class="toc-text">角色参数验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E8%8C%83%E6%A0%BC%E5%BC%8F"><span class="toc-text">规范格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%A7%84%E8%8C%83"><span class="toc-text">示例规范</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%89%A7%E6%9C%AC%E4%B8%AD%E5%A4%9A%E6%AC%A1%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E8%A7%92%E8%89%B2"><span class="toc-text">在一个剧本中多次运行一个角色</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E4%B8%8D%E5%90%8C%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">传递不同的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8allow-duplicates-true"><span class="toc-text">使用allow_duplicates: true</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%92%E8%89%B2%E4%BE%9D%E8%B5%96"><span class="toc-text">使用角色依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%89%A7%E6%9C%AC%E4%B8%AD%E5%A4%9A%E6%AC%A1%E8%BF%90%E8%A1%8C%E8%A7%92%E8%89%B2%E4%BE%9D%E8%B5%96"><span class="toc-text">在一个剧本中多次运行角色依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E8%A7%92%E8%89%B2%E4%B8%AD%E5%B5%8C%E5%85%A5%E6%A8%A1%E5%9D%97%E5%92%8C%E6%8F%92%E4%BB%B6"><span class="toc-text">在角色中嵌入模块和插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E8%A7%92%E8%89%B2%EF%BC%9AAnsible-Galaxy"><span class="toc-text">共享角色：Ansible Galaxy</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

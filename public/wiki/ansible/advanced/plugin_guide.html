@@ -1,0 +1,1221 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Ansible：7.5 Ansible 插件使用 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="使用插件插件是增强 Ansible 核心功能的代码片段。Ansible 使用插件架构来实现丰富、灵活和可扩展的功能集。 Ansible 附带许多方便的插件，您可以轻松编写自己的插件。 本节介绍 Ansible 中包含的各种类型的插件。  动作插件 Become 插件 缓存插件 回调插件 Cliconf 插件 连接插件 文档片段 过滤器插件 Httpapi 插件 清单插件 查找插件 模块 模块实用程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="7.5 Ansible 插件使用">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/ansible/advanced/plugin_guide.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="使用插件插件是增强 Ansible 核心功能的代码片段。Ansible 使用插件架构来实现丰富、灵活和可扩展的功能集。 Ansible 附带许多方便的插件，您可以轻松编写自己的插件。 本节介绍 Ansible 中包含的各种类型的插件。  动作插件 Become 插件 缓存插件 回调插件 Cliconf 插件 连接插件 文档片段 过滤器插件 Httpapi 插件 清单插件 查找插件 模块 模块实用程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-21T09:10:26.360Z">
+<meta property="article:modified_time" content="2025-08-21T09:10:26.360Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ansible/intro/introduction.html"><div class="main" ff="title">Ansible</div><div class="sub normal cap">自动化运维</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ansible/" placeholder="在Ansible文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/introduction.html#start"><span class="toc-text">1.1 Ansible 简介</span></a><a class="link" href="/wiki/ansible/intro/arch.html"><span class="toc-text">1.2 Ansible 架构</span></a><a class="link" href="/wiki/ansible/intro/basic_concepts.html"><span class="toc-text">1.3 Ansible 基本要素</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Ansbile 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/install/installation-guide.html"><span class="toc-text">2.1 Ansible 安装</span></a><a class="link" href="/wiki/ansible/install/distros.html"><span class="toc-text">2.2 在特定操作系统上安装</span></a><a class="link" href="/wiki/ansible/install/container-build.html"><span class="toc-text">2.3 在容器中安装</span></a><a class="link" href="/wiki/ansible/install/pipx-and-pip.html"><span class="toc-text">2.4 使用pipx安装和升级</span></a><a class="link" href="/wiki/ansible/install/configuration.html"><span class="toc-text">2.5 配置 Ansible</span></a></div><div class="widget-header dis-select"><span class="name">第3章 Ansible 清单</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/inventory/inventory_guide.html"><span class="toc-text">3.1 构建清单</span></a><a class="link" href="/wiki/ansible/inventory/dynamic_inventory.html"><span class="toc-text">3.2 动态清单</span></a><a class="link" href="/wiki/ansible/inventory/connection.html"><span class="toc-text">3.3 清单远程连接方式</span></a><a class="link" href="/wiki/ansible/inventory/using-patterns.html"><span class="toc-text">3.4 清单使用模式</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Ansible 命令行工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/command/command_cli.html"><span class="toc-text">4.1 使用 Ansible 命令行工具</span></a><a class="link" href="/wiki/ansible/command/ansible.html"><span class="toc-text">4.2 ansible</span></a><a class="link" href="/wiki/ansible/command/ansible-config.html"><span class="toc-text">4.3 ansible-config</span></a><a class="link" href="/wiki/ansible/command/ansible-console.html"><span class="toc-text">4.4 ansible-console</span></a><a class="link" href="/wiki/ansible/command/ansible-doc.html"><span class="toc-text">4.5 ansible-doc</span></a><a class="link" href="/wiki/ansible/command/ansible-galaxy.html"><span class="toc-text">4.5 ansible-galaxy</span></a><a class="link" href="/wiki/ansible/command/ansible-inventory.html"><span class="toc-text">4.6 ansible-inventory</span></a><a class="link" href="/wiki/ansible/command/ansible-playbook.html"><span class="toc-text">4.7 ansible-playbook</span></a><a class="link" href="/wiki/ansible/command/ansible-pull.html"><span class="toc-text">4.8 ansible-pull</span></a><a class="link" href="/wiki/ansible/command/ansible-vault.html"><span class="toc-text">4.9 ansible-vault</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Ansible 剧本入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-usage/playbook_guide.html"><span class="toc-text">5.1 使用 Ansible 剧本</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_intro.html"><span class="toc-text">5.2 Ansible 剧本简介</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_template.html"><span class="toc-text">5.3 模板引擎 (Jinja2)</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_filters.html"><span class="toc-text">5.4 使用过滤器处理数据</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_lookups.html"><span class="toc-text">5.6 查找语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_loops.html"><span class="toc-text">5.7 循环语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_delegation.html"><span class="toc-text">5.8 控制任务的运行位置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_condition.html"><span class="toc-text">5.9 条件语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_blocks.html"><span class="toc-text">5.10 块用法</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_handlers.html"><span class="toc-text">5.11 处理程序</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_error_handling.html"><span class="toc-text">5.12 错误处理</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_environment.html"><span class="toc-text">5.13 环境设置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_reuse.html"><span class="toc-text">5.14 剧本重用</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_roles.html"><span class="toc-text">5.15 剧本角色</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_module_defaults.html"><span class="toc-text">5.16 模块默认值</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_prompts.html"><span class="toc-text">5.17 交互提示</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_variables.html"><span class="toc-text">5.18 使用变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_vars_facts.html"><span class="toc-text">5.19 发现变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/rolling_upgrade.html"><span class="toc-text">5.20 持续交付和滚动升级</span></a></div><div class="widget-header dis-select"><span class="name">第6章 Ansible 剧本运行</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-exec/playbook_execution.html"><span class="toc-text">6.1 运行 Playbook</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_checkmode.html"><span class="toc-text">6.2 验证任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_privilege.html"><span class="toc-text">6.3 权限提升</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_tags.html"><span class="toc-text">6.4 标签</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_startnstep.html"><span class="toc-text">6.5 故障排除</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_debugger.html"><span class="toc-text">6.6 调试任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_async.html"><span class="toc-text">6.7 异步操作和轮询</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_strategies.html"><span class="toc-text">6.8 控制剧本执行策略</span></a></div><div class="widget-header dis-select"><span class="name">第7章 Ansible 进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/advanced/playbook_advanced_syntax.html"><span class="toc-text">7.1 高级剧本语法</span></a><a class="link" href="/wiki/ansible/advanced/complex_data_manipulation.html"><span class="toc-text">7.2 操作数据</span></a><a class="link" href="/wiki/ansible/advanced/vault_guide.html"><span class="toc-text">7.3 Ansible vault 保护敏感数据</span></a><a class="link" href="/wiki/ansible/advanced/module_guide.html"><span class="toc-text">7.4 Ansible 模块使用</span></a><a class="link active" href="/wiki/ansible/advanced/plugin_guide.html"><span class="toc-text">7.5 Ansible 插件使用</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ansible/advanced/collections_guide.html"><span class="toc-text">7.6 Ansible 集合使用</span></a><a class="link" href="/wiki/ansible/advanced/windows_and_bsd.html"><span class="toc-text">7.7 Ansible 在 Windows和BSD上使用</span></a><a class="link" href="/wiki/ansible/advanced/tips_tricks.html"><span class="toc-text">7.8 Ansible 技巧与窍门</span></a></div><div class="widget-header dis-select"><span class="name">第8章 最佳实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/apply/network_practices.html"><span class="toc-text">8.1 网络自动化实践</span></a><a class="link" href="/wiki/ansible/apply/basic_concepts.html"><span class="toc-text">8.2 基础概念</span></a><a class="link" href="/wiki/ansible/apply/network_differences.html"><span class="toc-text">8.3 网络自动化的不同之处</span></a><a class="link" href="/wiki/ansible/apply/first_playbook.html"><span class="toc-text">8.4 运行第一个Playbook</span></a><a class="link" href="/wiki/ansible/apply/first_inventory.html"><span class="toc-text">8.5 构建清单</span></a><a class="link" href="/wiki/ansible/apply/network_roles.html"><span class="toc-text">8.6 使用 Ansible 网络角色</span></a><a class="link" href="/wiki/ansible/apply/connection_options.html"><span class="toc-text">8.7 使用网络连接选项</span></a><a class="link" href="/wiki/ansible/apply/network_modules.html"><span class="toc-text">8.8 网络资源模块</span></a><a class="link" href="/wiki/ansible/apply/best_practices.html"><span class="toc-text">8.9 Ansible 网络自动化示例</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Galaxy 入门指南</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/galaxy/galaxy_guide.html"><span class="toc-text">9.1 Galaxy 用户指南</span></a><a class="link" href="/wiki/ansible/galaxy/galaxy_devel.html"><span class="toc-text">9.2 Galaxy 开发者指南</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/getting-example.html"><span class="toc-text">1.4 Ansible 使用示例</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_tests.html"><span class="toc-text">5.5 语法测试</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ansible/intro/introduction.html">Ansible</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-21T09:10:26.360Z">2025-08-21</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>7.5 Ansible 插件使用</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h1><p>插件是增强 Ansible 核心功能的代码片段。Ansible 使用插件架构来实现丰富、灵活和可扩展的功能集。</p>
+<p>Ansible 附带许多方便的插件，您可以轻松编写自己的插件。</p>
+<p>本节介绍 Ansible 中包含的各种类型的插件。</p>
+<ul>
+<li>动作插件</li>
+<li>Become 插件</li>
+<li>缓存插件</li>
+<li>回调插件</li>
+<li>Cliconf 插件</li>
+<li>连接插件</li>
+<li>文档片段</li>
+<li>过滤器插件</li>
+<li>Httpapi 插件</li>
+<li>清单插件</li>
+<li>查找插件</li>
+<li>模块</li>
+<li>模块实用程序</li>
+<li>Netconf 插件</li>
+<li>Shell 插件</li>
+<li>策略插件</li>
+<li>终端插件</li>
+<li>测试插件</li>
+<li>变量插件</li>
+</ul>
+<h2 id="Action-插件"><a href="#Action-插件" class="headerlink" title="Action 插件"></a>Action 插件</h2><ul>
+<li>启用 Action 插件</li>
+<li>使用 Action 插件</li>
+<li>插件列表</li>
+</ul>
+<p>Action 插件与模块协同工作，以执行 playbook 任务所需的动作。它们通常在后台自动执行，在模块执行之前进行必要的预备工作。</p>
+<p>“normal” action 插件用于尚无 action 插件的模块。如有必要，您可以创建自定义 action 插件。</p>
+<h3 id="启用-Action-插件"><a href="#启用-Action-插件" class="headerlink" title="启用 Action 插件"></a>启用 Action 插件</h3><p>您可以通过将自定义 action 插件放入与您的 playbook 相邻的action_plugins目录、角色内部，或将其放入ansible.cfg中配置的 action 插件目录源之一来启用它。</p>
+<h3 id="使用-Action-插件"><a href="#使用-Action-插件" class="headerlink" title="使用 Action 插件"></a>使用 Action 插件</h3><p>使用关联模块时，Action 插件默认情况下会执行；无需其他操作。</p>
+<h3 id="插件列表"><a href="#插件列表" class="headerlink" title="插件列表"></a>插件列表</h3><p>您无法直接列出 action 插件，它们显示为其对应的模块。</p>
+<p>使用ansible-doc -l查看可用模块的列表。使用ansible-doc <name>查看特定插件的文档和示例。这应指出该模块是否具有相应的 action 插件。</p>
+<h2 id="Become-插件"><a href="#Become-插件" class="headerlink" title="Become 插件"></a>Become 插件</h2><ul>
+<li>启用 Become 插件</li>
+<li>使用 Become 插件</li>
+<li>插件列表</li>
+</ul>
+<p>2.8 版本新增。</p>
+<p>Become 插件确保 Ansible 在运行与目标机器交互的基本命令以及执行 playbook 中指定任务所需的模块时，可以使用某些权限提升系统。</p>
+<p>这些实用程序（sudo、su、doas 等）通常允许您“成为”另一个用户，以该用户的权限执行命令。</p>
+<h3 id="启用-Become-插件"><a href="#启用-Become-插件" class="headerlink" title="启用 Become 插件"></a>启用 Become 插件</h3><p>Ansible 附带的 Become 插件已启用。自定义插件可以通过将它们放置到 playbook 旁边的 become_plugins 目录中、角色内部，或者将它们放置到 ansible.cfg 中配置的某个 Become 插件目录源中来添加。</p>
+<h3 id="使用-Become-插件"><a href="#使用-Become-插件" class="headerlink" title="使用 Become 插件"></a>使用 Become 插件</h3><p>除了 Ansible 配置设置 中的默认配置设置或 –become-method 命令行选项之外，您还可以使用 playbook 中的 become_method 关键字，或者如果您需要“主机特定”设置，则可以使用连接变量 ansible_become_method 来选择要使用的插件。</p>
+<p>您可以使用插件本身中详细说明的其他配置选项（链接如下）进一步控制每个插件的设置。</p>
+<h3 id="插件列表-1"><a href="#插件列表-1" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t become -l 查看可用插件的列表。使用 ansible-doc -t become <plugin name> 查看特定插件的文档和示例。</p>
+<h2 id="缓存插件"><a href="#缓存插件" class="headerlink" title="缓存插件"></a>缓存插件</h2><ul>
+<li>启用事实缓存插件</li>
+<li>启用清单缓存插件</li>
+<li>使用缓存插件</li>
+<li>插件列表</li>
+</ul>
+<p>缓存插件允许 Ansible 存储收集到的事实或清单源数据，而不会因从源检索它们而导致性能下降。</p>
+<p>默认的缓存插件是 内存 插件，它只缓存 Ansible 当前执行的数据。其他具有持久存储的插件可用于跨运行缓存数据。一些缓存插件写入文件，另一些写入数据库。</p>
+<p>您可以对清单和事实使用不同的缓存插件。如果您启用清单缓存而没有设置特定于清单的缓存插件，Ansible 将事实缓存插件用于事实和清单。如有必要，您可以 创建自定义缓存插件。</p>
+<h3 id="启用事实缓存插件"><a href="#启用事实缓存插件" class="headerlink" title="启用事实缓存插件"></a>启用事实缓存插件</h3><p>事实缓存始终启用。但是，一次只能激活一个事实缓存插件。您可以在 Ansible 配置中选择用于事实缓存的缓存插件，方法是使用环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ANSIBLE_CACHE_PLUGIN=jsonfile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或在 ansible.cfg 文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">fact_caching=redis</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果缓存插件位于集合中，请使用完全限定名称</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">fact_caching = namespace.collection_name.cache_plugin_name</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要启用自定义缓存插件，请将其保存在 ansible.cfg 中配置的目录源之一或集合中，然后通过 FQCN 引用它。</p>
+<p>您还需要配置每个插件特有的其他设置。有关更多详细信息，请参阅各个插件文档或 Ansible 配置。</p>
+<h3 id="启用清单缓存插件"><a href="#启用清单缓存插件" class="headerlink" title="启用清单缓存插件"></a>启用清单缓存插件</h3><p>清单缓存默认情况下处于禁用状态。要缓存清单数据，您必须启用清单缓存，然后选择要使用的特定缓存插件。并非所有清单插件都支持缓存，因此请检查您要使用的清单插件的文档。您可以使用环境变量启用清单缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ANSIBLE_INVENTORY_CACHE=True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或在 ansible.cfg 文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">cache=True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者，如果清单插件接受 YAML 配置源，则在配置文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># dev.aws_ec2.yaml</span><br><span class="line">plugin: aws_ec2</span><br><span class="line">cache: True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一次只能激活一个清单缓存插件。您可以使用环境变量设置它</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ANSIBLE_INVENTORY_CACHE_PLUGIN=jsonfile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或在 ansible.cfg 文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">cache_plugin=jsonfile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者，如果清单插件接受 YAML 配置源，则在配置文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># dev.aws_ec2.yaml</span><br><span class="line">plugin: aws_ec2</span><br><span class="line">cache_plugin: jsonfile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要使用插件路径中的自定义插件缓存清单，请遵循 有关缓存插件的开发者指南。</p>
+<p>要使用集合中的缓存插件缓存清单，请使用 FQCN</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">cache_plugin=collection_namespace.collection_name.cache_plugin</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果您在没有选择特定于清单的缓存插件的情况下为清单插件启用缓存，Ansible 将回退到使用您配置的事实缓存插件缓存清单。有关更多详细信息，请参阅各个清单插件文档或 Ansible 配置。</p>
+<h3 id="使用缓存插件"><a href="#使用缓存插件" class="headerlink" title="使用缓存插件"></a>使用缓存插件</h3><p>启用缓存插件后，它们将自动使用。</p>
+<h3 id="插件列表-2"><a href="#插件列表-2" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t cache -l 查看可用插件的列表。使用 ansible-doc -t cache <plugin name> 查看特定于插件的文档和示例。</p>
+<h2 id="回调插件"><a href="#回调插件" class="headerlink" title="回调插件"></a>回调插件</h2><ul>
+<li>回调插件示例</li>
+<li>启用回调插件</li>
+<li>为 ansible-playbook 设置回调插件</li>
+<li>为临时命令设置回调插件</li>
+<li>回调插件类型</li>
+<li>插件列表</li>
+</ul>
+<p>回调插件允许在响应事件时向 Ansible 添加新行为。默认情况下，回调插件控制运行命令行程序时看到的大部分输出，但也可以用于添加其他输出、与其他工具集成以及将事件编组到存储后端。如有必要，您可以创建自定义回调插件。</p>
+<h3 id="回调插件示例"><a href="#回调插件示例" class="headerlink" title="回调插件示例"></a>回调插件示例</h3><p>log_plays 回调插件演示了如何将剧本事件记录到日志文件，而 mail 回调插件会在剧本失败时发送电子邮件。</p>
+<p>say 回调插件会根据剧本事件回应计算机合成的语音。</p>
+<h3 id="启用回调插件"><a href="#启用回调插件" class="headerlink" title="启用回调插件"></a>启用回调插件</h3><p>您可以根据插件的 NEEDS_ENABLED 属性，通过将其放入 ansible.cfg 中配置的回调目录源之一或放入集合中并在配置中通过 FQCN 引用它来激活自定义回调。</p>
+<p>插件按字母数字顺序加载。例如，在名为 1_first.py 的文件中实现的插件将在名为 2_second.py 的插件文件之前运行。</p>
+<p>Ansible 附带的大多数回调插件默认情况下都是禁用的，需要在您的 ansible.cfg 文件中启用才能正常工作。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#callbacks_enabled = timer, mail, profile_roles, collection_namespace.collection_name.custom_callback</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="为-ansible-playbook-设置回调插件"><a href="#为-ansible-playbook-设置回调插件" class="headerlink" title="为 ansible-playbook 设置回调插件"></a>为 ansible-playbook 设置回调插件</h3><p>您只能有一个插件作为控制台输出的主要管理器。如果要替换默认插件，应在子类中定义 CALLBACK_TYPE &#x3D; stdout，然后在 ansible.cfg 中配置 stdout 插件。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stdout_callback = dense</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者对于我的自定义回调：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stdout_callback = mycallback</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这默认情况下只影响 ansible-playbook。</p>
+<h3 id="为临时命令设置回调插件"><a href="#为临时命令设置回调插件" class="headerlink" title="为临时命令设置回调插件"></a>为临时命令设置回调插件</h3><p>临时命令 ansible 特别使用不同的 stdout 回调插件，因此在 Ansible 配置设置 中需要添加额外的设置才能使用上面定义的 stdout 回调插件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">bin_ansible_callbacks=True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您也可以将其设置为环境变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ANSIBLE_LOAD_CALLBACK_PLUGINS=1</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="回调插件类型"><a href="#回调插件类型" class="headerlink" title="回调插件类型"></a>回调插件类型</h3><p>有三种类型的回调插件：</p>
+<ul>
+<li><p>stdout 回调插件：</p>
+<p>这些插件处理主要的控制台输出。一次只能激活一个这样的插件。</p>
+</li>
+<li><p>聚合回调插件：</p>
+<p>聚合回调插件可以在 stdout 回调插件旁边添加额外的控制台输出。这可以是剧本运行结束时的聚合信息、每个任务的额外输出或其他任何内容。</p>
+</li>
+<li><p>通知回调插件：</p>
+<p>通知回调插件会通知其他应用程序、服务或系统。这可以是任何内容，从记录到数据库，到在即时消息应用程序中告知错误，或在服务器无法访问时发送电子邮件。</p>
+</li>
+</ul>
+<h3 id="插件列表-3"><a href="#插件列表-3" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t callback -l 查看可用的插件列表。使用 ansible-doc -t callback <plugin name> 查看特定插件的文档和示例。</p>
+<h2 id="Cliconf-插件"><a href="#Cliconf-插件" class="headerlink" title="Cliconf 插件"></a>Cliconf 插件</h2><ul>
+<li>添加 cliconf 插件</li>
+<li>使用 cliconf 插件</li>
+<li>查看 cliconf 插件</li>
+</ul>
+<p>Cliconf 插件是对网络设备 CLI 接口的抽象。它们为 Ansible 提供了一个标准接口，用于在这些网络设备上执行任务。</p>
+<p>这些插件通常与网络设备平台一一对应。Ansible 会根据ansible_network_os变量自动加载相应的 cliconf 插件。</p>
+<h3 id="添加-cliconf-插件"><a href="#添加-cliconf-插件" class="headerlink" title="添加 cliconf 插件"></a>添加 cliconf 插件</h3><p>您可以通过将自定义插件放入cliconf_plugins目录来扩展 Ansible 以支持其他网络设备。</p>
+<h3 id="使用-cliconf-插件"><a href="#使用-cliconf-插件" class="headerlink" title="使用 cliconf 插件"></a>使用 cliconf 插件</h3><p>要使用的 cliconf 插件将根据ansible_network_os变量自动确定。无需覆盖此功能。</p>
+<p>大多数 cliconf 插件无需配置即可运行。一些插件有一些额外的选项，可以设置这些选项来影响任务如何转换为 CLI 命令。</p>
+<p>插件是自文档化的。每个插件都应该记录其配置选项。</p>
+<h3 id="查看-cliconf-插件"><a href="#查看-cliconf-插件" class="headerlink" title="查看 cliconf 插件"></a>查看 cliconf 插件</h3><p>这些插件已迁移到 <a target="_blank" rel="noopener" href="https://galaxy.ansible.com/">Ansible Galaxy</a> 上的集合。如果您使用 <code>pip</code>安装了 Ansible 2.10 或更高版本，则可以使用多个 cliconf 插件。您可以使用 <code>ansible-doc -t cliconf -l</code> 查看可用插件列表。使用 <code>ansible-doc -t cliconf &lt;plugin name&gt;</code> 查看特定插件的文档和示例。</p>
+<h2 id="连接插件"><a href="#连接插件" class="headerlink" title="连接插件"></a>连接插件</h2><ul>
+<li>ssh 插件</li>
+<li>使用连接插件</li>
+<li>插件列表</li>
+</ul>
+<p>连接插件允许 Ansible 连接到目标主机，以便在其上执行任务。Ansible 自带许多连接插件，但每次只能为每个主机使用一个。</p>
+<p>默认情况下，Ansible 自带多个连接插件。最常用的包括 paramiko SSH、原生 ssh（简称 ssh）和 local 连接类型。所有这些都可以在 playbook 和 &#x2F;usr&#x2F;bin&#x2F;ansible 中使用，以决定如何与远程机器通信。如有必要，您可以 创建自定义连接插件。要更改任务的连接插件，可以使用 connection 关键字。</p>
+<p>这些连接类型的基础知识在 入门 部分进行了介绍。</p>
+<h3 id="ssh-插件"><a href="#ssh-插件" class="headerlink" title="ssh 插件"></a>ssh 插件</h3><p>由于 SSH 是系统管理中使用的默认协议，也是 Ansible 中使用最多的协议，因此命令行工具中包含了 SSH 选项。有关更多详细信息，请参阅 ansible-playbook。</p>
+<h3 id="使用连接插件"><a href="#使用连接插件" class="headerlink" title="使用连接插件"></a>使用连接插件</h3><p>您可以使用 配置 在全局范围内设置连接插件，在命令行 (-c, –connection) 中设置，作为 playbook 中的 关键字 设置，或者通过设置 变量（通常在清单中）来设置。例如，对于 Windows 机器，您可能希望将 winrm 插件设置为清单变量。</p>
+<p>大多数连接插件都可以使用最少的配置进行操作。默认情况下，它们使用 清单主机名 并使用默认值查找目标主机。</p>
+<p>插件具有自文档功能。每个插件都应记录其配置选项。以下是大多数连接插件通用的连接变量</p>
+<ul>
+<li><p>ansible_host</p>
+<p>要连接到的主机名，如果与 清单 主机名不同。</p>
+</li>
+<li><p>ansible_port</p>
+<p>ssh 端口号，对于 ssh 和 paramiko_ssh，默认为 22。</p>
+</li>
+<li><p>ansible_user</p>
+<p>用于登录的默认用户名。大多数插件默认为“运行 Ansible 的当前用户”。</p>
+</li>
+</ul>
+<p>每个插件也可能具有特定版本的变量，该变量会覆盖通用版本。例如，ansible_ssh_host 用于 ssh 插件。</p>
+<h3 id="插件列表-4"><a href="#插件列表-4" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t connection -l 查看可用插件的列表。使用 ansible-doc -t connection <plugin name> 查看特定插件的文档和示例。</p>
+<h2 id="文档片段"><a href="#文档片段" class="headerlink" title="文档片段"></a>文档片段</h2><ul>
+<li>启用文档片段</li>
+<li>使用文档片段</li>
+</ul>
+<p>文档片段允许您在一个地方记录多个插件或模块的常用参数。</p>
+<h3 id="启用文档片段"><a href="#启用文档片段" class="headerlink" title="启用文档片段"></a>启用文档片段</h3><p>您可以通过将自定义文档片段放入与您的集合或角色相邻的doc_fragments目录中来添加它，就像任何其他插件一样。</p>
+<h3 id="使用文档片段"><a href="#使用文档片段" class="headerlink" title="使用文档片段"></a>使用文档片段</h3><p>只有集合开发者和维护者使用文档片段。有关使用文档片段的更多信息，请参见<a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/dev_guide/developing_modules_documenting.html#module-docs-fragments">文档片段</a>或<a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/dev_guide/developing_collections_shared.html#docfragments-collections">在集合中使用文档片段</a>。</p>
+<h2 id="过滤器插件"><a href="#过滤器插件" class="headerlink" title="过滤器插件"></a>过滤器插件</h2><ul>
+<li>启用过滤器插件</li>
+<li>使用过滤器插件</li>
+<li>插件列表</li>
+</ul>
+<p>过滤器插件用于操作数据。使用正确的过滤器，您可以提取特定值、转换数据类型和格式、执行数学计算、拆分和连接字符串、插入日期和时间等等。Ansible 使用 Jinja2 附带的 标准过滤器，并添加了一些专门的过滤器插件。您可以创建自定义 Ansible 过滤器作为插件。</p>
+<h3 id="启用过滤器插件"><a href="#启用过滤器插件" class="headerlink" title="启用过滤器插件"></a>启用过滤器插件</h3><p>您可以通过将自定义过滤器插件放入与您的 playbook 相邻的 filter_plugins 目录中、角色内部，或者将其放入在 ansible.cfg 中配置的过滤器插件目录源之一中来添加它。</p>
+<h3 id="使用过滤器插件"><a href="#使用过滤器插件" class="headerlink" title="使用过滤器插件"></a>使用过滤器插件</h3><p>您可以在 Ansible 中可以使用模板的任何地方使用过滤器：在 playbook 中、在变量文件中，或者在 template 模块的 Jinja2 模板中。有关使用过滤器插件的更多信息，请参阅使用过滤器操作数据。过滤器可以返回任何类型的数据，但是如果您想始终返回布尔值（true 或 false），则应该查看测试。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vars:</span><br><span class="line">   yaml_string: &quot;&#123;&#123; some_variable|to_yaml &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>过滤器是在 Ansible 中操作数据的首选方式，您可以识别过滤器，因为它通常以 | 开头，其左侧的表达式是过滤器的第一个输入。其他参数可以像传递给大多数编程函数一样传递到过滤器本身。这些参数可以是 位置参数（按顺序传递）或 命名参数（以键&#x3D;值对传递）。当同时传递两种类型时，位置参数应放在前面。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">passing_positional: &#123;&#123; (x == 32) | ternary(&#x27;x is 32&#x27;, &#x27;x is not 32&#x27;) &#125;&#125;</span><br><span class="line">passing_extra_named_parameters: &#123;&#123; some_variable | to_yaml(indent=8, width=1337) &#125;&#125;</span><br><span class="line">passing_both: &#123;&#123; some_variable| ternary(&#x27;true value&#x27;, &#x27;false value&#x27;, none_val=&#x27;NULL&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在文档中，过滤器始终会有一个 C(_input) 选项，该选项对应于 c(|) 左侧的表达式。文档中的 C(位置:) 字段将显示哪些选项是位置的以及它们的必需顺序。</p>
+<h3 id="插件列表-5"><a href="#插件列表-5" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t filter -l 查看可用插件的列表。使用 ansible-doc -t filter &lt;插件名称&gt; 查看特定于插件的文档和示例。</p>
+<h2 id="Httpapi-插件"><a href="#Httpapi-插件" class="headerlink" title="Httpapi 插件"></a>Httpapi 插件</h2><ul>
+<li>添加 Httpapi 插件</li>
+<li>使用 Httpapi 插件</li>
+<li>查看 Httpapi 插件</li>
+</ul>
+<p>Httpapi 插件告诉 Ansible 如何与远程设备的基于 HTTP 的 API 交互并在设备上执行任务。</p>
+<p>每个插件代表一种特定的 API 方言。 一些是特定于平台的 (Arista eAPI、Cisco NXAPI)，而另一些可能适用于各种平台 (RESTCONF)。 Ansible 会根据 ansible_network_os 变量自动加载适当的 httpapi 插件。</p>
+<h3 id="添加-httpapi-插件"><a href="#添加-httpapi-插件" class="headerlink" title="添加 httpapi 插件"></a>添加 httpapi 插件</h3><p>您可以通过将自定义插件放入 httpapi_plugins 目录来扩展 Ansible 以支持其他 API。 有关详细信息，请参阅开发 httpapi 插件。</p>
+<h3 id="使用-httpapi-插件"><a href="#使用-httpapi-插件" class="headerlink" title="使用 httpapi 插件"></a>使用 httpapi 插件</h3><p>要使用的 httpapi 插件由 ansible_network_os 变量自动确定。</p>
+<p>大多数 httpapi 插件都可以在没有配置的情况下运行。 每个插件可能会定义其他选项。</p>
+<p>插件是自我记录的。 每个插件都应记录其配置选项。</p>
+<p>以下示例 playbook 显示了 Arista 网络设备的 httpapi 插件，假设库存变量设置为 ansible_network_os&#x3D;eos 以触发 httpapi 插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- hosts: leaf01</span><br><span class="line">  connection: httpapi</span><br><span class="line">  gather_facts: false</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: type a simple arista command</span><br><span class="line">      eos_command:</span><br><span class="line">        commands:</span><br><span class="line">          - show version | json</span><br><span class="line">      register: command_output</span><br><span class="line"></span><br><span class="line">    - name: print command output to terminal window</span><br><span class="line">      debug:</span><br><span class="line">        var: command_output.stdout[0][&quot;version&quot;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>请参阅 GitHub 上完整的运行示例。</p>
+<h3 id="查看-httpapi-插件"><a href="#查看-httpapi-插件" class="headerlink" title="查看 httpapi 插件"></a>查看 httpapi 插件</h3><p>这些插件已迁移到 Ansible Galaxy 上的集合。 如果您使用 pip 安装了 Ansible 2.10 或更高版本，则可以访问多个 httpapi 插件。 您可以使用 ansible-doc -t httpapi -l 查看可用插件列表。 使用 ansible-doc -t httpapi &lt;插件 名称&gt; 查看特定于插件的文档和示例。</p>
+<h2 id="清单插件"><a href="#清单插件" class="headerlink" title="清单插件"></a>清单插件</h2><ul>
+<li>启用清单插件</li>
+<li>使用清单插件</li>
+<li>插件列表</li>
+</ul>
+<p>清单插件允许用户指向数据源，以编译 Ansible 用于定位任务的主机清单，可以使用 -i &#x2F;path&#x2F;to&#x2F;file 和&#x2F;或 -i ‘host1, host2’ 命令行参数或来自其他配置源。如有必要，您可以创建自定义清单插件。</p>
+<h3 id="启用清单插件"><a href="#启用清单插件" class="headerlink" title="启用清单插件"></a>启用清单插件</h3><p>Ansible 附带的大多数清单插件默认启用，或可以通过 auto 插件使用。</p>
+<p>在某些情况下，例如，如果清单插件不使用 YAML 配置文件，您可能需要启用特定的插件。您可以通过在 ansible.cfg 文件中的 [inventory] 部分设置 enable_plugins 来完成此操作。修改此项将覆盖默认的已启用插件列表。以下是 Ansible 附带的默认已启用插件列表</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">enable_plugins = host_list, script, auto, yaml, ini, toml</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果插件位于集合中，并且未被 auto 语句选取，则可以追加完全限定的名称</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">enable_plugins = host_list, script, auto, yaml, ini, toml, namespace.collection_name.inventory_plugin_name</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者，如果它是本地插件，可能存储在 DEFAULT_INVENTORY_PLUGIN_PATH 设置的路径中，您可以按如下方式引用它</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[inventory]</span><br><span class="line">enable_plugins = host_list, script, auto, yaml, ini, toml, my_plugin</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果您使用支持 YAML 配置源的插件，请确保名称与清单源文件中 plugin 条目中提供的名称匹配。对于其他插件，您必须将其保存在 ansible.cfg 中配置的目录源之一中并启用它，或者添加到集合中，然后通过 FQCN 引用它。</p>
+<h3 id="使用清单插件"><a href="#使用清单插件" class="headerlink" title="使用清单插件"></a>使用清单插件</h3><p>要使用清单插件，您必须提供清单源。大多数情况下，这是一个包含主机信息的文件或带有插件选项的 YAML 配置文件。您可以使用 -i 标志来提供清单源或配置默认清单路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible hostname -i inventory_source -m ansible.builtin.ping</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要开始使用具有 YAML 配置源的清单插件，请创建一个具有针对所讨论插件记录的可接受文件名模式的文件，然后添加 plugin: plugin_name。如果插件在集合中，请使用完全限定的名称。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># demo.aws_ec2.yml</span><br><span class="line">plugin: amazon.aws.aws_ec2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>每个插件都应记录任何命名限制。此外，YAML 配置文件必须以扩展名 yml 或 yaml 结尾，才能默认使用 auto 插件启用（否则，请参阅上面关于启用插件的部分）。</p>
+<p>提供任何必需的选项后，您可以使用 ansible-inventory -i demo.aws_ec2.yml –graph 查看填充的清单</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@all:</span><br><span class="line">  |--@aws_ec2:</span><br><span class="line">  |  |--ec2-12-345-678-901.compute-1.amazonaws.com</span><br><span class="line">  |  |--ec2-98-765-432-10.compute-1.amazonaws.com</span><br><span class="line">  |--@ungrouped:</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果您在剧本相邻的集合中使用清单插件，并且想使用 ansible-inventory 测试您的设置，请使用 –playbook-dir 标志。</p>
+<p>您的清单源可能是清单配置文件的目录。构造的清单插件仅对清单中已有的主机进行操作，因此您可能希望在特定点（例如最后）解析构造的清单配置。Ansible 以递归方式按字母顺序解析目录。您无法配置解析方法，因此请命名您的文件以使其可预测地工作。直接扩展构造功能的清单插件可以通过添加构造选项以及清单插件选项来解决该限制。否则，您可以使用带有多个源的 -i 来强制执行特定顺序，例如 -i demo.aws_ec2.yml -i clouds.yml -i constructed.yml。</p>
+<p>您可以使用带有构造的 keyed_groups 选项的主机变量创建动态组。groups 选项也可用于创建组，compose 创建和修改主机变量。以下是利用构造功能的 aws_ec2 示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># demo.aws_ec2.yml</span><br><span class="line">plugin: amazon.aws.aws_ec2</span><br><span class="line">regions:</span><br><span class="line">  - us-east-1</span><br><span class="line">  - us-east-2</span><br><span class="line">keyed_groups:</span><br><span class="line">  # add hosts to tag_Name_value groups for each aws_ec2 host&#x27;s tags.Name variable</span><br><span class="line">  - key: tags.Name</span><br><span class="line">    prefix: tag_Name_</span><br><span class="line">    separator: &quot;&quot;</span><br><span class="line">  # If you have a tag called &quot;Role&quot; which has the value &quot;Webserver&quot;, this will add the group</span><br><span class="line">  # role_Webserver and add any hosts that have that tag assigned to it.</span><br><span class="line">  - key: tags.Role</span><br><span class="line">    prefix: role</span><br><span class="line">groups:</span><br><span class="line">  # add hosts to the group development if any of the dictionary&#x27;s keys or values is the word &#x27;devel&#x27;</span><br><span class="line">  development: &quot;&#x27;devel&#x27; in (tags|list)&quot;</span><br><span class="line">  # add hosts to the &quot;private_only&quot; group if the host doesn&#x27;t have a public IP associated to it</span><br><span class="line">  private_only: &quot;public_ip_address is not defined&quot;</span><br><span class="line">compose:</span><br><span class="line">  # use a private address where a public one isn&#x27;t assigned</span><br><span class="line">  ansible_host: public_ip_address|default(private_ip_address)</span><br><span class="line">  # alternatively, set the ansible_host variable to connect with the private IP address without changing the hostname</span><br><span class="line">  # ansible_host: private_ip_address</span><br><span class="line">  # if you *must* set a string here (perhaps to identify the inventory source if you have multiple</span><br><span class="line">  # accounts you want to use as sources), you need to wrap this in two sets of quotes, either &#x27; then &quot;</span><br><span class="line">  # or &quot; then &#x27;</span><br><span class="line">  some_inventory_wide_string: &#x27;&quot;Yes, you need both types of quotes here&quot;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>现在 ansible-inventory -i demo.aws_ec2.yml –graph 的输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@all:</span><br><span class="line">  |--@aws_ec2:</span><br><span class="line">  |  |--ec2-12-345-678-901.compute-1.amazonaws.com</span><br><span class="line">  |  |--ec2-98-765-432-10.compute-1.amazonaws.com</span><br><span class="line">  |  |--...</span><br><span class="line">  |--@development:</span><br><span class="line">  |  |--ec2-12-345-678-901.compute-1.amazonaws.com</span><br><span class="line">  |  |--ec2-98-765-432-10.compute-1.amazonaws.com</span><br><span class="line">  |--@role_Webserver</span><br><span class="line">  |  |--ec2-12-345-678-901.compute-1.amazonaws.com</span><br><span class="line">  |--@tag_Name_ECS_Instance:</span><br><span class="line">  |  |--ec2-98-765-432-10.compute-1.amazonaws.com</span><br><span class="line">  |--@tag_Name_Test_Server:</span><br><span class="line">  |  |--ec2-12-345-678-901.compute-1.amazonaws.com</span><br><span class="line">  |--@ungrouped</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果主机在上面的配置中没有变量（换句话说，tags.Name、tags、private_ip_address），则该主机将不会添加到清单插件创建的组之外的组，并且 ansible_host 主机变量将不会被修改。</p>
+<p>支持缓存的清单插件可以使用 ansible.cfg 文件的 [defaults] 部分中定义的 fact 缓存的常规设置，或者在 [inventory] 部分中定义特定于清单的设置。各个插件可以在其配置文件中定义特定于插件的缓存设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># demo.aws_ec2.yml</span><br><span class="line">plugin: amazon.aws.aws_ec2</span><br><span class="line">cache: true</span><br><span class="line">cache_plugin: ansible.builtin.jsonfile</span><br><span class="line">cache_timeout: 7200</span><br><span class="line">cache_connection: /tmp/aws_inventory</span><br><span class="line">cache_prefix: aws_ec2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>以下是在 ansible.cfg 文件中设置清单缓存以及用于缓存插件和超时的一些 fact 缓存默认值的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">fact_caching = ansible.builtin.jsonfile</span><br><span class="line">fact_caching_connection = /tmp/ansible_facts</span><br><span class="line">cache_timeout = 3600</span><br><span class="line"></span><br><span class="line">[inventory]</span><br><span class="line">cache = yes</span><br><span class="line">cache_connection = /tmp/ansible_inventory</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插件列表-6"><a href="#插件列表-6" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t inventory -l 查看可用插件的列表。使用 ansible-doc -t inventory <plugin name> 查看特定于插件的文档和示例。</p>
+<h2 id="查找插件"><a href="#查找插件" class="headerlink" title="查找插件"></a>查找插件</h2><ul>
+<li>启用查找插件</li>
+<li>使用查找插件</li>
+<li>强制查找返回列表：query 和 wantlist&#x3D;True</li>
+<li>插件列表</li>
+</ul>
+<p>查找插件是 Jinja2 模板语言的 Ansible 特定扩展。您可以使用查找插件来访问来自外部源（文件、数据库、键&#x2F;值存储、API 和其他服务）的数据，在您的 Playbook 中。与所有模板一样，查找在 Ansible 控制机器上执行和评估。Ansible 使用标准模板系统使查找插件返回的数据可用。您可以使用查找插件从外部源加载变量或模板信息。您可以创建自定义查找插件。</p>
+<h3 id="启用查找插件"><a href="#启用查找插件" class="headerlink" title="启用查找插件"></a>启用查找插件</h3><p>Ansible 会启用它可以找到的所有查找插件。您可以通过将自定义查找插件放到与您的 Play 相邻的 lookup_plugins 目录中，或者放在您已安装的集合的 plugins&#x2F;lookup&#x2F; 目录中，或者放在一个独立的 Role 中，或者在 ansible.cfg 中配置的查找目录源之一中来激活它。</p>
+<h3 id="使用查找插件"><a href="#使用查找插件" class="headerlink" title="使用查找插件"></a>使用查找插件</h3><p>您可以在 Ansible 中可以使用模板的任何地方使用查找插件：在 Play 中，在变量文件中，或者用于 模板 模块的 Jinja2 模板中。有关使用查找插件的更多信息，请参阅查找。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vars:</span><br><span class="line">  file_contents: &quot;&#123;&#123; lookup(&#x27;file&#x27;, &#x27;path/to/file.txt&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查找是循环的组成部分。无论您在哪里看到 with_，下划线后面的部分都是查找的名称。因此，查找预计会输出列表；例如，with_items 使用 items 查找</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: count to 3</span><br><span class="line">    debug: msg=&#123;&#123; item &#125;&#125;</span><br><span class="line">    with_items: [1, 2, 3]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以将查找与过滤器、测试 甚至彼此结合使用，以进行一些复杂的数据生成和操作。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Complicated chained lookups and filters</span><br><span class="line">    debug: msg=&quot;find the answer here:\n&#123;&#123; lookup(&#x27;url&#x27;, &#x27;https://google.com/search/?q=&#x27; + item|urlencode)|join(&#x27; &#x27;) &#125;&#125;&quot;</span><br><span class="line">    with_nested:</span><br><span class="line">      - &quot;&#123;&#123; lookup(&#x27;consul_kv&#x27;, &#x27;bcs/&#x27; + lookup(&#x27;file&#x27;, &#x27;/the/question&#x27;) + &#x27;, host=localhost, port=2000&#x27;)|shuffle &#125;&#125;&quot;</span><br><span class="line">      - &quot;&#123;&#123; lookup(&#x27;sequence&#x27;, &#x27;end=42 start=2 step=2&#x27;)|map(&#x27;log&#x27;, 4)|list) &#125;&#125;&quot;</span><br><span class="line">      - [&#x27;a&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;c&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.6 版本新增功能。</p>
+<p>您可以通过将 errors 设置为 ignore、warn 或 strict 来控制所有查找插件中错误的行为方式。默认设置为 strict，如果查找返回错误，则会导致任务失败。例如</p>
+<p>忽略查找错误</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: if this file does not exist, I do not care .. file plugin itself warns anyway ...</span><br><span class="line">  debug: msg=&quot;&#123;&#123; lookup(&#x27;file&#x27;, &#x27;/nosuchfile&#x27;, errors=&#x27;ignore&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[WARNING]: Unable to find &#x27;/nosuchfile&#x27; in expected paths (use -vvvvv to see paths)</span><br><span class="line"></span><br><span class="line">ok: [localhost] =&gt; &#123;</span><br><span class="line">    &quot;msg&quot;: &quot;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取警告而不是失败</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: if this file does not exist, let me know, but continue</span><br><span class="line">  debug: msg=&quot;&#123;&#123; lookup(&#x27;file&#x27;, &#x27;/nosuchfile&#x27;, errors=&#x27;warn&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[WARNING]: Unable to find &#x27;/nosuchfile&#x27; in expected paths (use -vvvvv to see paths)</span><br><span class="line"></span><br><span class="line">[WARNING]: An unhandled exception occurred while running the lookup plugin &#x27;file&#x27;. Error was a &lt;class &#x27;ansible.errors.AnsibleError&#x27;&gt;, original message: could not locate file in lookup: /nosuchfile</span><br><span class="line"></span><br><span class="line">ok: [localhost] =&gt; &#123;</span><br><span class="line">    &quot;msg&quot;: &quot;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取致命错误（默认）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: if this file does not exist, FAIL (this is the default)</span><br><span class="line">  debug: msg=&quot;&#123;&#123; lookup(&#x27;file&#x27;, &#x27;/nosuchfile&#x27;, errors=&#x27;strict&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[WARNING]: Unable to find &#x27;/nosuchfile&#x27; in expected paths (use -vvvvv to see paths)</span><br><span class="line"></span><br><span class="line">fatal: [localhost]: FAILED! =&gt; &#123;&quot;msg&quot;: &quot;An unhandled exception occurred while running the lookup plugin &#x27;file&#x27;. Error was a &lt;class &#x27;ansible.errors.AnsibleError&#x27;&gt;, original message: could not locate file in lookup: /nosuchfile&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="强制查找返回列表：query-和-wantlist-True"><a href="#强制查找返回列表：query-和-wantlist-True" class="headerlink" title="强制查找返回列表：query 和 wantlist&#x3D;True"></a>强制查找返回列表：query 和 wantlist&#x3D;True</h3><p>2.5 版本新增功能。</p>
+<p>在 Ansible 2.5 中，添加了一个名为 query 的新 Jinja2 函数，用于调用查找插件。lookup 和 query 之间的主要区别在于 query 始终返回一个列表。 lookup 的默认行为是返回一个逗号分隔的值的字符串。lookup 可以使用 wantlist&#x3D;True 显式配置为返回列表。</p>
+<p>此功能为与新的 loop 关键字交互提供了一个更简单、更一致的接口，同时保持与其他 lookup 用法的向后兼容性。</p>
+<p>以下示例等效</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lookup(&#x27;dict&#x27;, dict_variable, wantlist=True)</span><br><span class="line"></span><br><span class="line">query(&#x27;dict&#x27;, dict_variable)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如上所示，当使用 query 时，wantlist&#x3D;True 的行为是隐式的。</p>
+<p>此外，引入了 q 作为 query 的简写形式</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">q(&#x27;dict&#x27;, dict_variable)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插件列表-7"><a href="#插件列表-7" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t lookup -l 查看可用插件的列表。 使用 ansible-doc -t lookup &lt;插件 名称&gt; 查看插件特定的文档和示例。</p>
+<h2 id="Netconf-插件"><a href="#Netconf-插件" class="headerlink" title="Netconf 插件"></a>Netconf 插件</h2><ul>
+<li>添加 Netconf 插件</li>
+<li>使用 Netconf 插件</li>
+<li>列出 Netconf 插件</li>
+</ul>
+<p>Netconf 插件是对网络设备的 Netconf 接口的抽象。它们为 Ansible 提供了一个标准接口，以便在这些网络设备上执行任务。</p>
+<p>这些插件通常与网络设备平台一一对应。Ansible 根据 ansible_network_os 变量自动加载相应的 netconf 插件。如果该平台支持 Netconf RFC 规范中定义的标准 Netconf 实现，Ansible 将加载 default netconf 插件。如果该平台支持专有的 Netconf RPC，Ansible 将加载特定于平台的 netconf 插件。</p>
+<h3 id="添加-Netconf-插件"><a href="#添加-Netconf-插件" class="headerlink" title="添加 Netconf 插件"></a>添加 Netconf 插件</h3><p>您可以通过将自定义插件放入 netconf_plugins 目录来扩展 Ansible 以支持其他网络设备。</p>
+<h3 id="使用-Netconf-插件"><a href="#使用-Netconf-插件" class="headerlink" title="使用 Netconf 插件"></a>使用 Netconf 插件</h3><p>要使用的 netconf 插件由 ansible_network_os 变量自动确定。没有理由覆盖此功能。</p>
+<p>大多数 netconf 插件无需配置即可运行。少数插件具有额外的选项，可以设置这些选项来影响任务如何转换为 netconf 命令。可以在 netconf 插件中设置一个 ncclient 设备特定的处理程序名称，否则将按照 ncclient 设备处理程序使用 default 的值。</p>
+<p>插件是自文档化的。每个插件都应记录其配置选项。</p>
+<h3 id="列出-Netconf-插件"><a href="#列出-Netconf-插件" class="headerlink" title="列出 Netconf 插件"></a>列出 Netconf 插件</h3><p>这些插件已迁移到 Ansible Galaxy 上的集合。如果您使用 pip 安装了 Ansible 2.10 或更高版本，则可以访问多个 netconf 插件。您可以使用 ansible-doc -t netconf -l 查看可用插件的列表。使用 ansible-doc -t netconf &lt;插件名称&gt; 查看特定于插件的文档和示例。</p>
+<h2 id="Shell-插件"><a href="#Shell-插件" class="headerlink" title="Shell 插件"></a>Shell 插件</h2><ul>
+<li>启用 Shell 插件</li>
+<li>使用 Shell 插件</li>
+<li>插件列表</li>
+</ul>
+<p>Shell 插件的作用是确保 Ansible 运行的基本命令格式正确，以便与目标机器配合使用，并允许用户配置与 Ansible 执行任务方式相关的某些行为。</p>
+<h3 id="启用-Shell-插件"><a href="#启用-Shell-插件" class="headerlink" title="启用 Shell 插件"></a>启用 Shell 插件</h3><p>您可以通过将自定义 shell 插件放入与您的 playbook 相邻的 shell_plugins 目录中、放入角色中，或者将其放置在 ansible.cfg 中配置的 shell 插件目录源之一中来添加该插件。</p>
+<h3 id="使用-Shell-插件"><a href="#使用-Shell-插件" class="headerlink" title="使用 Shell 插件"></a>使用 Shell 插件</h3><p>除了 Ansible 配置设置中的默认配置设置外，您还可以使用连接变量 ansible_shell_type 来选择要使用的插件。 在这种情况下，您还需要更新 ansible_shell_executable 以匹配。</p>
+<h3 id="插件列表-8"><a href="#插件列表-8" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用插件本身中详细介绍的其他配置选项来进一步控制每个插件的设置。 您可以使用 <code>ansible-doc -t shell -l</code> 查看可用插件的列表。 使用 <code>ansible-doc -t shell &lt;插件名称&gt;</code> 查看特定于插件的文档和示例。</p>
+<h2 id="策略插件"><a href="#策略插件" class="headerlink" title="策略插件"></a>策略插件</h2><ul>
+<li>启用策略插件</li>
+<li>使用策略插件</li>
+<li>插件列表</li>
+</ul>
+<p>策略插件通过处理任务和主机调度来控制 Playbook 执行的流程。有关使用策略插件和其他控制执行顺序的方法的更多信息，请参阅控制 Playbook 执行：策略等等。</p>
+<h3 id="启用策略插件"><a href="#启用策略插件" class="headerlink" title="启用策略插件"></a>启用策略插件</h3><p>Ansible 随附的所有策略插件默认启用。 您可以通过将自定义策略插件放入在ansible.cfg中配置的查找目录源之一来启用它。</p>
+<h3 id="使用策略插件"><a href="#使用策略插件" class="headerlink" title="使用策略插件"></a>使用策略插件</h3><p>在一个 Play 中只能使用一个策略插件，但您可以在一个 Playbook 或 Ansible 运行中的每个 Play 中使用不同的插件。 默认情况下，Ansible 使用 linear 插件。您可以使用环境变量在 Ansible 配置中更改此默认设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ANSIBLE_STRATEGY=free</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或在 ansible.cfg 文件中更改</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">strategy=linear</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您还可以在 Play 中使用 strategy 关键字 来指定策略插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- hosts: all</span><br><span class="line">  strategy: debug</span><br><span class="line">  tasks:</span><br><span class="line">    - copy:</span><br><span class="line">        src: myhosts</span><br><span class="line">        dest: /etc/hosts</span><br><span class="line">      notify: restart_tomcat</span><br><span class="line"></span><br><span class="line">    - package:</span><br><span class="line">        name: tomcat</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">  handlers:</span><br><span class="line">    - name: restart_tomcat</span><br><span class="line">      service:</span><br><span class="line">        name: tomcat</span><br><span class="line">        state: restarted</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插件列表-9"><a href="#插件列表-9" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 ansible-doc -t strategy -l 来查看可用插件列表。使用 ansible-doc -t strategy &lt;插件名称&gt; 来查看插件的特定文档和示例。</p>
+<h2 id="终端插件"><a href="#终端插件" class="headerlink" title="终端插件"></a>终端插件</h2><ul>
+<li>添加终端插件</li>
+<li>使用终端插件</li>
+</ul>
+<p>终端插件包含如何确保特定网络设备的 SSH shell 正确初始化以与 Ansible 一起使用的信息。这通常包括禁用自动分页、检测输出中的错误，并在设备支持且需要时启用特权模式。</p>
+<p>这些插件与网络设备平台一一对应。Ansible 根据 ansible_network_os 变量自动加载相应的终端插件。</p>
+<h3 id="添加终端插件"><a href="#添加终端插件" class="headerlink" title="添加终端插件"></a>添加终端插件</h3><p>你可以通过将自定义插件放入 terminal_plugins 目录来扩展 Ansible 以支持其他网络设备。</p>
+<h3 id="使用终端插件"><a href="#使用终端插件" class="headerlink" title="使用终端插件"></a>使用终端插件</h3><p>Ansible 根据 <code>ansible_network_os</code> 变量自动确定要使用哪个终端插件。没有理由需要覆盖此功能。</p>
+<p>终端插件在没有配置的情况下运行。所有控制终端的选项都暴露在 <code>network_cli</code> 连接插件中。</p>
+<p>插件是自我文档化的。每个插件都应记录其配置选项。</p>
+<h2 id="测试插件"><a href="#测试插件" class="headerlink" title="测试插件"></a>测试插件</h2><ul>
+<li>启用测试插件</li>
+<li>使用测试插件<ul>
+<li>在列表上使用测试插件</li>
+</ul>
+</li>
+<li>插件列表</li>
+</ul>
+<p>测试插件评估模板表达式并返回 True 或 False。 使用测试插件，您可以创建 条件 来实现您的任务、块、剧本、playbook 和角色的逻辑。 Ansible 使用作为 Jinja 一部分提供的 标准测试，并添加了一些专门的测试插件。 您可以创建自定义 Ansible 测试插件。</p>
+<h3 id="启用测试插件"><a href="#启用测试插件" class="headerlink" title="启用测试插件"></a>启用测试插件</h3><p>您可以通过将自定义测试插件放入与您的剧本相邻的 test_plugins 目录、角色内部，或将其放入 ansible.cfg 中配置的测试插件目录源之一中来添加自定义测试插件。</p>
+<h3 id="使用测试插件"><a href="#使用测试插件" class="headerlink" title="使用测试插件"></a>使用测试插件</h3><p>您可以在 Ansible 中可以使用模板的任何地方使用测试：在剧本中、变量文件中或 template 模块的 Jinja2 模板中。 有关使用测试插件的更多信息，请参阅测试。</p>
+<p>测试总是返回 True 或 False，它们始终是布尔值，如果您需要不同的返回类型，则应该查看过滤器。</p>
+<p>您可以通过在模板中使用 is 语句来识别测试插件，它们也可以用作 select 系列过滤器的一部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vars:</span><br><span class="line">  is_ready: &#x27;&#123;&#123; task_result is success &#125;&#125;&#x27;</span><br><span class="line"></span><br><span class="line">tasks:</span><br><span class="line">- name: conditionals are always in &#x27;template&#x27; context</span><br><span class="line">  action: dostuff</span><br><span class="line">  when: task_result is failed</span><br></pre></td></tr></table></figure>
+
+
+
+<p>测试始终具有一个 _input，这通常是 is 左侧的内容。测试还可以像大多数编程函数一样采用其他参数。这些参数可以是 位置 的（按顺序传递）或 命名 的（作为键&#x3D;值对传递）。当传递两种类型时，位置参数应该放在前面。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">- name: pass a positional parameter to match test</span><br><span class="line">  action: dostuff</span><br><span class="line">  when: myurl is match(&quot;https://example.com/users/.*/resources&quot;)</span><br><span class="line"></span><br><span class="line">- name: pass named parameter to truthy test</span><br><span class="line">  action: dostuff</span><br><span class="line">  when: myvariable is truthy(convert_bool=True)</span><br><span class="line"></span><br><span class="line">- name: pass both types to &#x27;version&#x27; test</span><br><span class="line">  action: dostuff</span><br><span class="line">  when: sample_semver_var is version(&#x27;2.0.0-rc.1+build.123&#x27;, &#x27;lt&#x27;, version_type=&#x27;semver&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="在列表上使用测试插件"><a href="#在列表上使用测试插件" class="headerlink" title="在列表上使用测试插件"></a>在列表上使用测试插件</h3><p>如上所述，使用测试的一种方法是使用 select 系列过滤器 (select, reject, selectattr, rejectattr)。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># give me only defined variables from a list of variables, using &#x27;defined&#x27; test</span><br><span class="line">good_vars: &quot;&#123;&#123; all_vars|select(&#x27;defined&#x27;) &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># this uses the &#x27;equalto&#x27; test to filter out non &#x27;fixed&#x27; type of addresses from a list</span><br><span class="line">only_fixed_addresses:  &quot;&#123;&#123; all_addresses|selectattr(&#x27;type&#x27;, &#x27;equalto&#x27;, &#x27;fixed&#x27;) &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># this does the opposite of the previous one</span><br><span class="line">only_fixed_addresses:  &quot;&#123;&#123; all_addresses|rejectattr(&#x27;type&#x27;, &#x27;equalto&#x27;, &#x27;fixed&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插件列表-10"><a href="#插件列表-10" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 <code>ansible-doc -t test -l</code> 查看可用插件的列表。 使用 <code>ansible-doc -t test &lt;插件名称&gt;</code> 查看特定于插件的文档和示例。</p>
+<h2 id="Vars-插件"><a href="#Vars-插件" class="headerlink" title="Vars 插件"></a>Vars 插件</h2><ul>
+<li>启用 Vars 插件</li>
+<li>使用 Vars 插件</li>
+<li>插件列表</li>
+</ul>
+<p>Vars 插件将额外的变量数据注入到 Ansible 运行中，这些数据并非来自清单源、playbook 或命令行。像“host_vars”和“group_vars”这样的 playbook 结构使用 vars 插件工作。有关 Ansible 中变量的更多详细信息，请参见 使用变量。</p>
+<p>Vars 插件在 Ansible 2.0 中部分实现，并在 Ansible 2.4 开始完全重写。</p>
+<p>Ansible 附带的 host_group_vars 插件支持读取 为一台机器分配变量：主机变量 和 为多台机器分配变量：组变量 中的变量。</p>
+<h3 id="启用-Vars-插件"><a href="#启用-Vars-插件" class="headerlink" title="启用 Vars 插件"></a>启用 Vars 插件</h3><p>您可以通过将自定义 vars 插件放入 playbook 旁的 vars_plugins 目录、角色内部，或将其放入 ansible.cfg 中配置的目录源之一来激活它。为了使 vars 插件在清单构建期间运行，您不能在 playbook 或角色中启用它，因为这些直到稍后才会加载。如果它们仅在任务执行时运行，则对其提供位置没有限制。</p>
+<p>大多数 vars 插件默认情况下是禁用的。要启用 vars 插件，请在 ansible.cfg 的 defaults 部分设置 vars_plugins_enabled，或将 ANSIBLE_VARS_ENABLED 环境变量设置为要执行的 vars 插件列表。默认情况下，Ansible 附带的 host_group_vars 插件已启用。</p>
+<p>从 Ansible 2.10 开始，您可以在集合中使用 vars 插件。集合中的所有 vars 插件都必须显式启用，并且必须使用完全限定的集合名称，格式为 namespace.collection_name.vars_plugin_name。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">vars_plugins_enabled = host_group_vars,namespace.collection_name.vars_plugin_name</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用-Vars-插件"><a href="#使用-Vars-插件" class="headerlink" title="使用 Vars 插件"></a>使用 Vars 插件</h3><p>默认情况下，启用 vars 插件后，会根据需要自动使用它们。</p>
+<p>从 Ansible 2.10 开始，可以使 vars 插件在特定时间运行。ansible-inventory 不使用这些设置，并且始终加载 vars 插件。</p>
+<p>全局设置 RUN_VARS_PLUGINS 可以通过在 defaults 部分使用 run_vars_plugins 在 ansible.cfg 中设置，也可以通过 ANSIBLE_RUN_VARS_PLUGINS 环境变量设置。默认选项 demand 会在任务需要变量时运行与清单源相关的任何已启用的 vars 插件。您可以使用选项 start 来代替在导入该清单源后运行与清单源相关的任何已启用的 vars 插件。</p>
+<p>您还可以针对支持 stage 选项的 vars 插件，在每个插件的基础上控制 vars 插件的执行。要导入清单后运行 host_group_vars 插件，您可以将以下内容添加到 ansible.cfg</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[vars_host_group_vars]</span><br><span class="line">stage = inventory</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插件列表-11"><a href="#插件列表-11" class="headerlink" title="插件列表"></a>插件列表</h3><p>您可以使用 <code>ansible-doc -t vars -l</code> 查看可用的 vars 插件列表。使用 <code>ansible-doc -t vars &lt;plugin name&gt;</code> 查看特定插件的文档和示例。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ansible/advanced/module_guide.html">7.4 Ansible 模块使用</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ansible/advanced/collections_guide.html">7.6 Ansible 集合使用</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-text">使用插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Action-%E6%8F%92%E4%BB%B6"><span class="toc-text">Action 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8-Action-%E6%8F%92%E4%BB%B6"><span class="toc-text">启用 Action 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Action-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 Action 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Become-%E6%8F%92%E4%BB%B6"><span class="toc-text">Become 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8-Become-%E6%8F%92%E4%BB%B6"><span class="toc-text">启用 Become 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Become-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 Become 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-1"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6"><span class="toc-text">缓存插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E4%BA%8B%E5%AE%9E%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6"><span class="toc-text">启用事实缓存插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%B8%85%E5%8D%95%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6"><span class="toc-text">启用清单缓存插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6"><span class="toc-text">使用缓存插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-2"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6"><span class="toc-text">回调插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6%E7%A4%BA%E4%BE%8B"><span class="toc-text">回调插件示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6"><span class="toc-text">启用回调插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA-ansible-playbook-%E8%AE%BE%E7%BD%AE%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6"><span class="toc-text">为 ansible-playbook 设置回调插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%B8%B4%E6%97%B6%E5%91%BD%E4%BB%A4%E8%AE%BE%E7%BD%AE%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6"><span class="toc-text">为临时命令设置回调插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%8F%92%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-text">回调插件类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-3"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cliconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">Cliconf 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-cliconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">添加 cliconf 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-cliconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 cliconf 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-cliconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">查看 cliconf 插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%8F%92%E4%BB%B6"><span class="toc-text">连接插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ssh-%E6%8F%92%E4%BB%B6"><span class="toc-text">ssh 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%8F%92%E4%BB%B6"><span class="toc-text">使用连接插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-4"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E7%89%87%E6%AE%B5"><span class="toc-text">文档片段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%96%87%E6%A1%A3%E7%89%87%E6%AE%B5"><span class="toc-text">启用文档片段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3%E7%89%87%E6%AE%B5"><span class="toc-text">使用文档片段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E6%8F%92%E4%BB%B6"><span class="toc-text">过滤器插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E6%8F%92%E4%BB%B6"><span class="toc-text">启用过滤器插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E6%8F%92%E4%BB%B6"><span class="toc-text">使用过滤器插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-5"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Httpapi-%E6%8F%92%E4%BB%B6"><span class="toc-text">Httpapi 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-httpapi-%E6%8F%92%E4%BB%B6"><span class="toc-text">添加 httpapi 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-httpapi-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 httpapi 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-httpapi-%E6%8F%92%E4%BB%B6"><span class="toc-text">查看 httpapi 插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E5%8D%95%E6%8F%92%E4%BB%B6"><span class="toc-text">清单插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%B8%85%E5%8D%95%E6%8F%92%E4%BB%B6"><span class="toc-text">启用清单插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B8%85%E5%8D%95%E6%8F%92%E4%BB%B6"><span class="toc-text">使用清单插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-6"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%8F%92%E4%BB%B6"><span class="toc-text">查找插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%9F%A5%E6%89%BE%E6%8F%92%E4%BB%B6"><span class="toc-text">启用查找插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%9F%A5%E6%89%BE%E6%8F%92%E4%BB%B6"><span class="toc-text">使用查找插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%9F%A5%E6%89%BE%E8%BF%94%E5%9B%9E%E5%88%97%E8%A1%A8%EF%BC%9Aquery-%E5%92%8C-wantlist-True"><span class="toc-text">强制查找返回列表：query 和 wantlist&#x3D;True</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-7"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Netconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">Netconf 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-Netconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">添加 Netconf 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Netconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 Netconf 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E5%87%BA-Netconf-%E6%8F%92%E4%BB%B6"><span class="toc-text">列出 Netconf 插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-%E6%8F%92%E4%BB%B6"><span class="toc-text">Shell 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8-Shell-%E6%8F%92%E4%BB%B6"><span class="toc-text">启用 Shell 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Shell-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 Shell 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-8"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%8F%92%E4%BB%B6"><span class="toc-text">策略插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E7%AD%96%E7%95%A5%E6%8F%92%E4%BB%B6"><span class="toc-text">启用策略插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%8F%92%E4%BB%B6"><span class="toc-text">使用策略插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-9"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%88%E7%AB%AF%E6%8F%92%E4%BB%B6"><span class="toc-text">终端插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%BB%88%E7%AB%AF%E6%8F%92%E4%BB%B6"><span class="toc-text">添加终端插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E6%8F%92%E4%BB%B6"><span class="toc-text">使用终端插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6"><span class="toc-text">测试插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6"><span class="toc-text">启用测试插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6%EF%83%81"><span class="toc-text">使用测试插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%88%97%E8%A1%A8%E4%B8%8A%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6"><span class="toc-text">在列表上使用测试插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-10"><span class="toc-text">插件列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vars-%E6%8F%92%E4%BB%B6"><span class="toc-text">Vars 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8-Vars-%E6%8F%92%E4%BB%B6"><span class="toc-text">启用 Vars 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Vars-%E6%8F%92%E4%BB%B6"><span class="toc-text">使用 Vars 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8-11"><span class="toc-text">插件列表</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

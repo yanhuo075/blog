@@ -1,0 +1,105 @@
+name: Ansible
+title: Ansible自动化运维
+subtitle: '自动化运维 | Designed by YanHuo075'
+tags: 自动化
+icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg
+cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg
+coverpage: true
+description: Ansible 是一个通过简洁的 YAML 配置和自动化脚本，实现跨平台 IT 基础设施配置管理、应用部署与任务编排的开源工具。
+repo: 
+search:
+  filter: /wiki/ansible/
+  placeholder: 在Ansible文档中搜索...
+leftbar: 
+  - tree
+  - timeline_stellar_releases
+  - related
+base_dir: /wiki/ansible/
+tree:
+  '第1章 前言':
+    - intro/introduction
+    - intro/arch
+    - intro/basic_concepts
+    - intro/getting_example
+  
+  '第2章 Ansbile 安装':
+    - install/installation-guide
+    - install/distros
+    - install/container-build
+    - install/pipx-and-pip
+    - install/configuration
+
+  '第3章 Ansible 清单':
+    - inventory/inventory_guide
+    - inventory/dynamic_inventory
+    - inventory/connection
+    - inventory/using-patterns
+
+  '第4章 Ansible 命令行工具':
+    - command/command_cli
+    - command/ansible
+    - command/ansible-config
+    - command/ansible-console
+    - command/ansible-doc
+    - command/ansible-galaxy
+    - command/ansible-inventory
+    - command/ansible-playbook
+    - command/ansible-pull
+    - command/ansible-vault
+
+  '第5章 Ansible 剧本入门':
+    - playbook-usage/playbook_guide
+    - playbook-usage/playbook_intro
+    - playbook-usage/playbook_template
+    - playbook-usage/playbook_filters
+    - playbook-usage/playbook_lookups
+    - playbook-usage/playbook_loops
+    - playbook-usage/playbook_delegation
+    - playbook-usage/playbook_condition
+    - playbook-usage/playbook_blocks
+    - playbook-usage/playbook_handlers
+    - playbook-usage/playbook_error_handling
+    - playbook-usage/playbook_environment
+    - playbook-usage/playbook_reuse
+    - playbook-usage/playbook_roles
+    - playbook-usage/playbook_module_defaults
+    - playbook-usage/playbook_prompts
+    - playbook-usage/playbook_variables
+    - playbook-usage/playbook_vars_facts
+    - playbook-usage/rolling_upgrade
+
+  '第6章 Ansible 剧本运行':
+    - playbook-exec/playbook_execution
+    - playbook-exec/playbook_checkmode
+    - playbook-exec/playbook_privilege
+    - playbook-exec/playbook_tags
+    - playbook-exec/playbook_startnstep
+    - playbook-exec/playbook_debugger
+    - playbook-exec/playbook_async
+    - playbook-exec/playbook_strategies
+
+  '第7章 Ansible 进阶':
+    - advanced/playbook_advanced_syntax
+    - advanced/complex_data_manipulation
+    - advanced/vault_guide
+    - advanced/module_guide
+    - advanced/plugin_guide
+    - advanced/collections_guide
+    - advanced/windows_and_bsd
+    - advanced/tips_tricks
+
+
+  '第8章 最佳实践':
+    - apply/network_practices
+    - apply/basic_concepts
+    - apply/network_differences
+    - apply/first_playbook
+    - apply/first_inventory
+    - apply/network_roles
+    - apply/connection_options
+    - apply/network_modules
+    - apply/best_practices
+
+  '第9章 Galaxy 入门指南':
+    - galaxy/galaxy_guide
+    - galaxy/galaxy_devel

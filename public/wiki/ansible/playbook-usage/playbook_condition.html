@@ -1,0 +1,972 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Ansible：5.9 条件语句 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="条件语句在 playbook 中，您可能希望根据事实（关于远程系统的数据）、变量或先前任务的结果来执行不同的任务或拥有不同的目标。您可能希望某些变量的值取决于其他变量的值。或者，您可能希望根据主机是否与其他条件匹配来创建其他主机组。您可以使用条件语句来完成所有这些操作。 Ansible 在条件语句中使用 Jinja2 测试 和 过滤器。Ansible 支持所有标准测试和过滤器，并添加了一些独特的测">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.9 条件语句">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/ansible/playbook-usage/playbook_condition.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="条件语句在 playbook 中，您可能希望根据事实（关于远程系统的数据）、变量或先前任务的结果来执行不同的任务或拥有不同的目标。您可能希望某些变量的值取决于其他变量的值。或者，您可能希望根据主机是否与其他条件匹配来创建其他主机组。您可以使用条件语句来完成所有这些操作。 Ansible 在条件语句中使用 Jinja2 测试 和 过滤器。Ansible 支持所有标准测试和过滤器，并添加了一些独特的测">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-21T08:20:07.043Z">
+<meta property="article:modified_time" content="2025-08-21T08:20:07.039Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ansible/intro/introduction.html"><div class="main" ff="title">Ansible</div><div class="sub normal cap">自动化运维</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ansible/" placeholder="在Ansible文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/introduction.html#start"><span class="toc-text">1.1 Ansible 简介</span></a><a class="link" href="/wiki/ansible/intro/arch.html"><span class="toc-text">1.2 Ansible 架构</span></a><a class="link" href="/wiki/ansible/intro/basic_concepts.html"><span class="toc-text">1.3 Ansible 基本要素</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Ansbile 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/install/installation-guide.html"><span class="toc-text">2.1 Ansible 安装</span></a><a class="link" href="/wiki/ansible/install/distros.html"><span class="toc-text">2.2 在特定操作系统上安装</span></a><a class="link" href="/wiki/ansible/install/container-build.html"><span class="toc-text">2.3 在容器中安装</span></a><a class="link" href="/wiki/ansible/install/pipx-and-pip.html"><span class="toc-text">2.4 使用pipx安装和升级</span></a><a class="link" href="/wiki/ansible/install/configuration.html"><span class="toc-text">2.5 配置 Ansible</span></a></div><div class="widget-header dis-select"><span class="name">第3章 Ansible 清单</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/inventory/inventory_guide.html"><span class="toc-text">3.1 构建清单</span></a><a class="link" href="/wiki/ansible/inventory/dynamic_inventory.html"><span class="toc-text">3.2 动态清单</span></a><a class="link" href="/wiki/ansible/inventory/connection.html"><span class="toc-text">3.3 清单远程连接方式</span></a><a class="link" href="/wiki/ansible/inventory/using-patterns.html"><span class="toc-text">3.4 清单使用模式</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Ansible 命令行工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/command/command_cli.html"><span class="toc-text">4.1 使用 Ansible 命令行工具</span></a><a class="link" href="/wiki/ansible/command/ansible.html"><span class="toc-text">4.2 ansible</span></a><a class="link" href="/wiki/ansible/command/ansible-config.html"><span class="toc-text">4.3 ansible-config</span></a><a class="link" href="/wiki/ansible/command/ansible-console.html"><span class="toc-text">4.4 ansible-console</span></a><a class="link" href="/wiki/ansible/command/ansible-doc.html"><span class="toc-text">4.5 ansible-doc</span></a><a class="link" href="/wiki/ansible/command/ansible-galaxy.html"><span class="toc-text">4.5 ansible-galaxy</span></a><a class="link" href="/wiki/ansible/command/ansible-inventory.html"><span class="toc-text">4.6 ansible-inventory</span></a><a class="link" href="/wiki/ansible/command/ansible-playbook.html"><span class="toc-text">4.7 ansible-playbook</span></a><a class="link" href="/wiki/ansible/command/ansible-pull.html"><span class="toc-text">4.8 ansible-pull</span></a><a class="link" href="/wiki/ansible/command/ansible-vault.html"><span class="toc-text">4.9 ansible-vault</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Ansible 剧本入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-usage/playbook_guide.html"><span class="toc-text">5.1 使用 Ansible 剧本</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_intro.html"><span class="toc-text">5.2 Ansible 剧本简介</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_template.html"><span class="toc-text">5.3 模板引擎 (Jinja2)</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_filters.html"><span class="toc-text">5.4 使用过滤器处理数据</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_lookups.html"><span class="toc-text">5.6 查找语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_loops.html"><span class="toc-text">5.7 循环语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_delegation.html"><span class="toc-text">5.8 控制任务的运行位置</span></a><a class="link active" href="/wiki/ansible/playbook-usage/playbook_condition.html"><span class="toc-text">5.9 条件语句</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_blocks.html"><span class="toc-text">5.10 块用法</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_handlers.html"><span class="toc-text">5.11 处理程序</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_error_handling.html"><span class="toc-text">5.12 错误处理</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_environment.html"><span class="toc-text">5.13 环境设置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_reuse.html"><span class="toc-text">5.14 剧本重用</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_roles.html"><span class="toc-text">5.15 剧本角色</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_module_defaults.html"><span class="toc-text">5.16 模块默认值</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_prompts.html"><span class="toc-text">5.17 交互提示</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_variables.html"><span class="toc-text">5.18 使用变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_vars_facts.html"><span class="toc-text">5.19 发现变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/rolling_upgrade.html"><span class="toc-text">5.20 持续交付和滚动升级</span></a></div><div class="widget-header dis-select"><span class="name">第6章 Ansible 剧本运行</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-exec/playbook_execution.html"><span class="toc-text">6.1 运行 Playbook</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_checkmode.html"><span class="toc-text">6.2 验证任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_privilege.html"><span class="toc-text">6.3 权限提升</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_tags.html"><span class="toc-text">6.4 标签</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_startnstep.html"><span class="toc-text">6.5 故障排除</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_debugger.html"><span class="toc-text">6.6 调试任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_async.html"><span class="toc-text">6.7 异步操作和轮询</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_strategies.html"><span class="toc-text">6.8 控制剧本执行策略</span></a></div><div class="widget-header dis-select"><span class="name">第7章 Ansible 进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/advanced/playbook_advanced_syntax.html"><span class="toc-text">7.1 高级剧本语法</span></a><a class="link" href="/wiki/ansible/advanced/complex_data_manipulation.html"><span class="toc-text">7.2 操作数据</span></a><a class="link" href="/wiki/ansible/advanced/vault_guide.html"><span class="toc-text">7.3 Ansible vault 保护敏感数据</span></a><a class="link" href="/wiki/ansible/advanced/module_guide.html"><span class="toc-text">7.4 Ansible 模块使用</span></a><a class="link" href="/wiki/ansible/advanced/plugin_guide.html"><span class="toc-text">7.5 Ansible 插件使用</span></a><a class="link" href="/wiki/ansible/advanced/collections_guide.html"><span class="toc-text">7.6 Ansible 集合使用</span></a><a class="link" href="/wiki/ansible/advanced/windows_and_bsd.html"><span class="toc-text">7.7 Ansible 在 Windows和BSD上使用</span></a><a class="link" href="/wiki/ansible/advanced/tips_tricks.html"><span class="toc-text">7.8 Ansible 技巧与窍门</span></a></div><div class="widget-header dis-select"><span class="name">第8章 最佳实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/apply/network_practices.html"><span class="toc-text">8.1 网络自动化实践</span></a><a class="link" href="/wiki/ansible/apply/basic_concepts.html"><span class="toc-text">8.2 基础概念</span></a><a class="link" href="/wiki/ansible/apply/network_differences.html"><span class="toc-text">8.3 网络自动化的不同之处</span></a><a class="link" href="/wiki/ansible/apply/first_playbook.html"><span class="toc-text">8.4 运行第一个Playbook</span></a><a class="link" href="/wiki/ansible/apply/first_inventory.html"><span class="toc-text">8.5 构建清单</span></a><a class="link" href="/wiki/ansible/apply/network_roles.html"><span class="toc-text">8.6 使用 Ansible 网络角色</span></a><a class="link" href="/wiki/ansible/apply/connection_options.html"><span class="toc-text">8.7 使用网络连接选项</span></a><a class="link" href="/wiki/ansible/apply/network_modules.html"><span class="toc-text">8.8 网络资源模块</span></a><a class="link" href="/wiki/ansible/apply/best_practices.html"><span class="toc-text">8.9 Ansible 网络自动化示例</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Galaxy 入门指南</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/galaxy/galaxy_guide.html"><span class="toc-text">9.1 Galaxy 用户指南</span></a><a class="link" href="/wiki/ansible/galaxy/galaxy_devel.html"><span class="toc-text">9.2 Galaxy 开发者指南</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/getting-example.html"><span class="toc-text">1.4 Ansible 使用示例</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_tests.html"><span class="toc-text">5.5 语法测试</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ansible/intro/introduction.html">Ansible</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-21T08:20:07.039Z">2025-08-21</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.9 条件语句</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h1><p>在 playbook 中，您可能希望根据事实（关于远程系统的数据）、变量或先前任务的结果来执行不同的任务或拥有不同的目标。您可能希望某些变量的值取决于其他变量的值。或者，您可能希望根据主机是否与其他条件匹配来创建其他主机组。您可以使用条件语句来完成所有这些操作。</p>
+<p>Ansible 在条件语句中使用 Jinja2 测试 和 过滤器。Ansible 支持所有标准测试和过滤器，并添加了一些独特的测试和过滤器。</p>
+<ul>
+<li>使用 when 的基本条件语句<ul>
+<li>基于 ansible_facts 的条件语句</li>
+<li>基于已注册变量的条件语句</li>
+<li>基于变量的条件语句</li>
+<li>在循环中使用条件语句</li>
+<li>加载自定义事实</li>
+<li>带有重用的条件语句<ul>
+<li>带有导入的条件语句</li>
+<li>带有包含的条件语句</li>
+<li>带有角色的条件语句</li>
+</ul>
+</li>
+<li>根据事实选择变量、文件或模板<ul>
+<li>根据事实选择变量文件</li>
+<li>根据事实选择文件和模板</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>调试条件语句</li>
+<li>常用事实<ul>
+<li>[ansible_facts’distribution’]</li>
+<li>[ansible_facts’distribution_major_version’]</li>
+<li>[ansible_facts’os_family’]</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用-when-的基本条件语句"><a href="#使用-when-的基本条件语句" class="headerlink" title="使用 when 的基本条件语句"></a>使用 when 的基本条件语句</h2><p>最简单的条件语句适用于单个任务。创建任务，然后添加一个 when 语句来应用测试。when 子句是一个原始的 Jinja2 表达式，没有双大括号 (参见 引用简单变量)。运行任务或 playbook 时，Ansible 会针对所有主机评估测试。在测试通过（返回 True 值）的任何主机上，Ansible 都会运行该任务。例如，如果您在某些启用了 SELinux 的多台机器上安装 mysql，您可能需要一个任务来配置 SELinux 以允许 mysql 运行。您只希望在启用了 SELinux 的机器上运行该任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Configure SELinux to start mysql on any port</span><br><span class="line">    ansible.posix.seboolean:</span><br><span class="line">      name: mysql_connect_any</span><br><span class="line">      state: true</span><br><span class="line">      persistent: true</span><br><span class="line">    when: ansible_selinux.status == &quot;enabled&quot;</span><br><span class="line">    # all variables can be used directly in conditionals without double curly braces</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="基于-ansible-facts-的条件语句"><a href="#基于-ansible-facts-的条件语句" class="headerlink" title="基于 ansible_facts 的条件语句"></a>基于 ansible_facts 的条件语句</h3><p>通常，您希望根据事实来执行或跳过任务。事实是单个主机的属性，包括 IP 地址、操作系统、文件系统的状态等等。使用基于事实的条件语句：</p>
+<blockquote>
+<ul>
+<li>只有当操作系统是特定版本时，才能安装特定软件包。</li>
+<li>您可以跳过对具有内部 IP 地址的主机配置防火墙。</li>
+<li>只有当文件系统即将满时，才能执行清理任务。</li>
+</ul>
+</blockquote>
+<p>请参见 常用事实，了解在条件语句中经常出现的事实列表。并非所有事实都存在于所有主机中。例如，下面示例中使用的“lsb_major_release”事实仅在目标主机上安装了 lsb_release package 时才存在。要查看系统上可用的事实，请将调试任务添加到您的 playbook 中。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Show facts available on the system</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: ansible_facts</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这是一个基于事实的条件语句示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Shut down Debian flavored systems</span><br><span class="line">    ansible.builtin.command: /sbin/shutdown -t now</span><br><span class="line">    when: ansible_facts[&#x27;os_family&#x27;] == &quot;Debian&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果有多个条件，可以使用括号将它们组合在一起。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Shut down CentOS 6 and Debian 7 systems</span><br><span class="line">    ansible.builtin.command: /sbin/shutdown -t now</span><br><span class="line">    when: (ansible_facts[&#x27;distribution&#x27;] == &quot;CentOS&quot; and ansible_facts[&#x27;distribution_major_version&#x27;] == &quot;6&quot;) or</span><br><span class="line">          (ansible_facts[&#x27;distribution&#x27;] == &quot;Debian&quot; and ansible_facts[&#x27;distribution_major_version&#x27;] == &quot;7&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以使用 逻辑运算符 来组合条件。当您有多个需要全部为真的条件（即逻辑 and）时，可以将其指定为列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Shut down CentOS 6 systems</span><br><span class="line">    ansible.builtin.command: /sbin/shutdown -t now</span><br><span class="line">    when:</span><br><span class="line">      - ansible_facts[&#x27;distribution&#x27;] == &quot;CentOS&quot;</span><br><span class="line">      - ansible_facts[&#x27;distribution_major_version&#x27;] == &quot;6&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果事实或变量是字符串，并且您需要对其进行数学比较，请使用过滤器确保 Ansible 将值读取为整数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - ansible.builtin.shell: echo &quot;only on Red Hat 6, derivatives, and later&quot;</span><br><span class="line">    when: ansible_facts[&#x27;os_family&#x27;] == &quot;RedHat&quot; and ansible_facts[&#x27;lsb&#x27;][&#x27;major_release&#x27;] | int &gt;= 6</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以将 Ansible 事实存储为变量，以用于条件逻辑，如下例所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">    - name: Get the CPU temperature</span><br><span class="line">      set_fact:</span><br><span class="line">        temperature: &quot;&#123;&#123; ansible_facts[&#x27;cpu_temperature&#x27;] &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">    - name: Restart the system if the temperature is too high</span><br><span class="line">      when: temperature | float &gt; 90</span><br><span class="line">      shell: &quot;reboot&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="基于已注册变量的条件语句"><a href="#基于已注册变量的条件语句" class="headerlink" title="基于已注册变量的条件语句"></a>基于已注册变量的条件语句</h3><p>通常，在 playbook 中，您希望根据先前任务的结果来执行或跳过任务。例如，您可能希望在先前的任务升级服务后配置服务。要创建基于已注册变量的条件语句：</p>
+<blockquote>
+<ol>
+<li>将先前任务的结果注册为变量。</li>
+<li>创建基于已注册变量的条件测试。</li>
+</ol>
+</blockquote>
+<p>您可以使用 register 关键字创建已注册变量的名称。已注册变量始终包含创建它的任务的状态以及任务生成的任何输出。您可以在模板和操作行以及条件 when 语句中使用已注册变量。您可以使用 variable.stdout 访问已注册变量的字符串内容。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Test play</span><br><span class="line">  hosts: all</span><br><span class="line"></span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">      - name: Register a variable</span><br><span class="line">        ansible.builtin.shell: cat /etc/motd</span><br><span class="line">        register: motd_contents</span><br><span class="line"></span><br><span class="line">      - name: Use the variable in conditional statement</span><br><span class="line">        ansible.builtin.shell: echo &quot;motd contains the word hi&quot;</span><br><span class="line">        when: motd_contents.stdout.find(&#x27;hi&#x27;) != -1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果变量是列表，则可以在任务循环中使用已注册的结果。如果变量不是列表，则可以使用 stdout_lines 或 variable.stdout.split() 将其转换为列表。您也可以按其他字段拆分行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Registered variable usage as a loop list</span><br><span class="line">  hosts: all</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: Retrieve the list of home directories</span><br><span class="line">      ansible.builtin.command: ls /home</span><br><span class="line">      register: home_dirs</span><br><span class="line"></span><br><span class="line">    - name: Add home dirs to the backup spooler</span><br><span class="line">      ansible.builtin.file:</span><br><span class="line">        path: /mnt/bkspool/&#123;&#123; item &#125;&#125;</span><br><span class="line">        src: /home/&#123;&#123; item &#125;&#125;</span><br><span class="line">        state: link</span><br><span class="line">      loop: &quot;&#123;&#123; home_dirs.stdout_lines &#125;&#125;&quot;</span><br><span class="line">      # same as loop: &quot;&#123;&#123; home_dirs.stdout.split() &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>已注册变量的字符串内容可能是空的。如果您只想在已注册变量的标准输出为空的主机上运行另一个任务，请检查已注册变量的字符串内容是否为空。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: check registered variable for emptiness</span><br><span class="line">  hosts: all</span><br><span class="line"></span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">      - name: List contents of directory</span><br><span class="line">        ansible.builtin.command: ls mydir</span><br><span class="line">        register: contents</span><br><span class="line"></span><br><span class="line">      - name: Check contents for emptiness</span><br><span class="line">        ansible.builtin.debug:</span><br><span class="line">          msg: &quot;Directory is empty&quot;</span><br><span class="line">        when: contents.stdout == &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible 始终为每个主机在已注册变量中注册某些内容，即使在任务失败或 Ansible 由于条件未满足而跳过任务的主机上也是如此。要在这些主机上运行后续任务，请查询已注册变量的 is skipped（而不是“undefined”或“default”）。有关详细信息，请参见 注册变量。以下是基于任务成功或失败的条件语句示例。如果希望 Ansible 在发生错误时继续在主机上执行，请记住忽略错误。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Register a variable, ignore errors and continue</span><br><span class="line">    ansible.builtin.command: /bin/false</span><br><span class="line">    register: result</span><br><span class="line">    ignore_errors: true</span><br><span class="line"></span><br><span class="line">  - name: Run only if the task that registered the &quot;result&quot; variable fails</span><br><span class="line">    ansible.builtin.command: /bin/something</span><br><span class="line">    when: result is failed</span><br><span class="line"></span><br><span class="line">  - name: Run only if the task that registered the &quot;result&quot; variable succeeds</span><br><span class="line">    ansible.builtin.command: /bin/something_else</span><br><span class="line">    when: result is succeeded</span><br><span class="line"></span><br><span class="line">  - name: Run only if the task that registered the &quot;result&quot; variable is skipped</span><br><span class="line">    ansible.builtin.command: /bin/still/something_else</span><br><span class="line">    when: result is skipped</span><br><span class="line"></span><br><span class="line">  - name: Run only if the task that registered the &quot;result&quot; variable changed something.</span><br><span class="line">    ansible.builtin.command: /bin/still/something_else</span><br><span class="line">    when: result is changed</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="基于变量的条件语句"><a href="#基于变量的条件语句" class="headerlink" title="基于变量的条件语句"></a>基于变量的条件语句</h3><p>您还可以根据在 playbook 或清单中定义的变量创建条件语句。因为条件语句需要布尔输入（测试必须评估为 True 才能触发条件），所以您必须将 | bool 过滤器应用于非布尔变量，例如包含“yes”、“on”、“1”或“true”之类的内容的字符串变量。您可以像这样定义变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vars:</span><br><span class="line">  epic: true</span><br><span class="line">  monumental: &quot;yes&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用上面的变量，Ansible 将运行其中一个任务并跳过另一个任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">    - name: Run the command if &quot;epic&quot; or &quot;monumental&quot; is true</span><br><span class="line">      ansible.builtin.shell: echo &quot;This certainly is epic!&quot;</span><br><span class="line">      when: epic or monumental | bool</span><br><span class="line"></span><br><span class="line">    - name: Run the command if &quot;epic&quot; is false</span><br><span class="line">      ansible.builtin.shell: echo &quot;This certainly isn&#x27;t epic!&quot;</span><br><span class="line">      when: not epic</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果未设置所需的变量，您可以使用 Jinja2 的 defined 测试来跳过或失败。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">    - name: Run the command if &quot;foo&quot; is defined</span><br><span class="line">      ansible.builtin.shell: echo &quot;I&#x27;ve got &#x27;&#123;&#123; foo &#125;&#125;&#x27; and am not afraid to use it!&quot;</span><br><span class="line">      when: foo is defined</span><br><span class="line"></span><br><span class="line">    - name: Fail if &quot;bar&quot; is undefined</span><br><span class="line">      ansible.builtin.fail: msg=&quot;Bailing out. This play requires &#x27;bar&#x27;&quot;</span><br><span class="line">      when: bar is undefined</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这与 vars 文件的条件导入（见下文）结合使用特别有用。如示例所示，您无需使用 {{ }} 来在条件语句中使用变量，因为这些变量已经隐含。</p>
+<h3 id="在循环中使用条件语句"><a href="#在循环中使用条件语句" class="headerlink" title="在循环中使用条件语句"></a>在循环中使用条件语句</h3><p>如果将 when 语句与 循环 结合使用，Ansible 会分别处理每个项目的条件。这是设计使然，因此您可以对循环中的某些项目执行任务，而跳过其他项目。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">    - name: Run with items greater than 5</span><br><span class="line">      ansible.builtin.command: echo &#123;&#123; item &#125;&#125;</span><br><span class="line">      loop: [ 0, 2, 4, 6, 8, 10 ]</span><br><span class="line">      when: item &gt; 5</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果需要在循环变量未定义时跳过整个任务，请使用 |default 过滤器提供一个空的迭代器。例如，在循环遍历列表时：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Skip the whole task when a loop variable is undefined</span><br><span class="line">  ansible.builtin.command: echo &#123;&#123; item &#125;&#125;</span><br><span class="line">  loop: &quot;&#123;&#123; mylist|default([]) &#125;&#125;&quot;</span><br><span class="line">  when: item &gt; 5</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在循环遍历字典时，也可以执行相同的操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: The same as above using a dict</span><br><span class="line">  ansible.builtin.command: echo &#123;&#123; item.key &#125;&#125;</span><br><span class="line">  loop: &quot;&#123;&#123; query(&#x27;dict&#x27;, mydict|default(&#123;&#125;)) &#125;&#125;&quot;</span><br><span class="line">  when: item.value &gt; 5</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="加载自定义事实"><a href="#加载自定义事实" class="headerlink" title="加载自定义事实"></a>加载自定义事实</h3><p>您可以提供自己的事实，如 您是否应该开发模块？ 中所述。要运行它们，只需在任务列表的顶部调用您自己的自定义事实收集模块，然后可以访问此处返回的变量以用于将来的任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">    - name: Gather site specific fact data</span><br><span class="line">      action: site_facts</span><br><span class="line"></span><br><span class="line">    - name: Use a custom fact</span><br><span class="line">      ansible.builtin.command: /usr/bin/thingy</span><br><span class="line">      when: my_custom_fact_just_retrieved_from_the_remote_system == &#x27;1234&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="带有重用的条件语句"><a href="#带有重用的条件语句" class="headerlink" title="带有重用的条件语句"></a>带有重用的条件语句</h3><p>您可以在可重用的任务文件、剧本或角色中使用条件语句。Ansible 对动态重用（includes）和静态重用（imports）的条件语句执行方式不同。有关 Ansible 中重用的更多信息，请参阅重用 Ansible 工件。</p>
+<h4 id="使用-import-的条件语句"><a href="#使用-import-的条件语句" class="headerlink" title="使用 import 的条件语句"></a>使用 import 的条件语句</h4><p>当您向 import 语句添加条件语句时，Ansible 会将此条件应用于导入文件中所有任务。此行为等效于标签继承：向多个任务添加标签。Ansible 将条件应用于每个任务并分别评估每个任务。例如，如果您想定义然后显示一个以前未定义的变量，您可能有一个名为main.yml的剧本和一个名为other_tasks.yml的任务文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># all tasks within an imported file inherit the condition from the import statement</span><br><span class="line"># main.yml</span><br><span class="line">- hosts: all</span><br><span class="line">  tasks:</span><br><span class="line">  - import_tasks: other_tasks.yml # note &quot;import&quot;</span><br><span class="line">    when: x is not defined</span><br><span class="line"></span><br><span class="line"># other_tasks.yml</span><br><span class="line">- name: Set a variable</span><br><span class="line">  ansible.builtin.set_fact:</span><br><span class="line">    x: foo</span><br><span class="line"></span><br><span class="line">- name: Print a variable</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: x</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible 在执行时将其扩展为等效于以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Set a variable if not defined</span><br><span class="line">  ansible.builtin.set_fact:</span><br><span class="line">    x: foo</span><br><span class="line">  when: x is not defined</span><br><span class="line">  # this task sets a value for x</span><br><span class="line"></span><br><span class="line">- name: Do the task if &quot;x&quot; is not defined</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: x</span><br><span class="line">  when: x is not defined</span><br><span class="line">  # Ansible skips this task, because x is now defined</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果x最初已定义，则两个任务都将按预期跳过。但如果x最初未定义，则调试任务将被跳过，因为条件是针对每个导入的任务进行评估的。对于set_fact任务，条件将评估为true，这将定义变量并导致debug条件评估为false。</p>
+<p>如果这不是您想要的行为，请使用include_*语句仅将条件应用于该语句本身。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># using a conditional on include_* only applies to the include task itself</span><br><span class="line"># main.yml</span><br><span class="line">- hosts: all</span><br><span class="line">  tasks:</span><br><span class="line">  - include_tasks: other_tasks.yml # note &quot;include&quot;</span><br><span class="line">    when: x is not defined</span><br></pre></td></tr></table></figure>
+
+
+
+<p>现在，如果x最初未定义，则调试任务不会被跳过，因为条件是在 include 时进行评估的，并且不适用于各个任务。</p>
+<p>您可以将条件应用于import_playbook以及其他import_*语句。当您使用此方法时，Ansible 会针对每个与条件不匹配的主机上的每个任务返回“已跳过”消息，从而产生重复的输出。在许多情况下，group_by 模块 可以成为实现相同目标的更简化方法；请参阅处理操作系统和发行版差异。</p>
+<h4 id="使用-include-的条件语句"><a href="#使用-include-的条件语句" class="headerlink" title="使用 include 的条件语句"></a>使用 include 的条件语句</h4><p>当您在include_*语句上使用条件语句时，该条件仅应用于 include 任务本身，而不应用于包含文件中的任何其他任务。为了与上面关于 import 条件语句的示例形成对比，请查看相同的剧本和任务文件，但使用 include 而不是 import。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Includes let you reuse a file to define a variable when it is not already defined</span><br><span class="line"></span><br><span class="line"># main.yml</span><br><span class="line">- include_tasks: other_tasks.yml</span><br><span class="line">  when: x is not defined</span><br><span class="line"></span><br><span class="line"># other_tasks.yml</span><br><span class="line">- name: Set a variable</span><br><span class="line">  ansible.builtin.set_fact:</span><br><span class="line">    x: foo</span><br><span class="line"></span><br><span class="line">- name: Print a variable</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: x</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible 在执行时将其扩展为等效于以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># main.yml</span><br><span class="line">- include_tasks: other_tasks.yml</span><br><span class="line">  when: x is not defined</span><br><span class="line">  # if condition is met, Ansible includes other_tasks.yml</span><br><span class="line"></span><br><span class="line"># other_tasks.yml</span><br><span class="line">- name: Set a variable</span><br><span class="line">  ansible.builtin.set_fact:</span><br><span class="line">    x: foo</span><br><span class="line">  # no condition applied to this task, Ansible sets the value of x to foo</span><br><span class="line"></span><br><span class="line">- name: Print a variable</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: x</span><br><span class="line">  # no condition applied to this task, Ansible prints the debug statement</span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过使用include_tasks而不是import_tasks，将按预期执行other_tasks.yml中的两个任务。有关include与import之间差异的更多信息，请参阅重用 Ansible 工件。</p>
+<h4 id="使用角色的条件语句"><a href="#使用角色的条件语句" class="headerlink" title="使用角色的条件语句"></a>使用角色的条件语句</h4><p>有三种方法可以将条件应用于角色</p>
+<blockquote>
+<ul>
+<li>通过将您的when语句放在roles关键字下，将相同的条件应用于角色中的所有任务。请参阅本节中的示例。</li>
+<li>通过将您的when语句放在剧本中的静态import_role上，将相同的条件应用于角色中的所有任务。</li>
+<li>向角色本身内的各个任务或块添加条件。这是唯一允许您根据when语句选择或跳过角色中某些任务的方法。要选择或跳过角色中的任务，您必须在各个任务或块上设置条件，在您的剧本中使用动态include_role，并将条件添加到 include。当您使用此方法时，Ansible 会将条件应用于 include 本身以及角色中也具有该when语句的任何任务。</li>
+</ul>
+</blockquote>
+<p>当您使用roles关键字在剧本中静态地包含角色时，Ansible 会将您定义的条件添加到角色中的所有任务。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">     - role: debian_stock_config</span><br><span class="line">       when: ansible_facts[&#x27;os_family&#x27;] == &#x27;Debian&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="根据事实选择变量、文件或模板"><a href="#根据事实选择变量、文件或模板" class="headerlink" title="根据事实选择变量、文件或模板"></a>根据事实选择变量、文件或模板</h3><p>有时，主机的事实决定了您想要用于某些变量的值，甚至是您想要为该主机选择的变量或模板。例如，CentOS 和 Debian 上的软件包名称不同。常用服务的配置文件在不同的操作系统版本和类型上也各不相同。要根据主机的事实加载不同的变量文件、模板或其他文件：</p>
+<blockquote>
+<ol>
+<li>将您的变量文件、模板或文件命名为与区分它们的 Ansible 事实相匹配。</li>
+<li>使用基于该 Ansible 事实的变量为每个主机选择正确的变量文件、模板或文件。</li>
+</ol>
+</blockquote>
+<p>Ansible 将变量与任务分开，防止您的剧本变成包含嵌套条件语句的任意代码。这种方法会产生更简洁且更易于审核的配置规则，因为需要跟踪的决策点更少。</p>
+<h4 id="根据事实选择变量文件"><a href="#根据事实选择变量文件" class="headerlink" title="根据事实选择变量文件"></a>根据事实选择变量文件</h4><p>您可以创建一个在多个平台和操作系统版本上工作的剧本，只需最少的语法即可将您的变量值放在变量文件中并有条件地导入它们。如果您想在一些 CentOS 和一些 Debian 服务器上安装 Apache，请创建具有 YAML 密钥和值的变量文件。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line"># for vars/RedHat.yml</span><br><span class="line">apache: httpd</span><br><span class="line">somethingelse: 42</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后根据您在剧本中收集的主机事实导入这些变量文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  remote_user: root</span><br><span class="line">  vars_files:</span><br><span class="line">    - &quot;vars/common.yml&quot;</span><br><span class="line">    - [ &quot;vars/&#123;&#123; ansible_facts[&#x27;os_family&#x27;] &#125;&#125;.yml&quot;, &quot;vars/os_defaults.yml&quot; ]</span><br><span class="line">  tasks:</span><br><span class="line">  - name: Make sure apache is started</span><br><span class="line">    ansible.builtin.service:</span><br><span class="line">      name: &#x27;&#123;&#123; apache &#125;&#125;&#x27;</span><br><span class="line">      state: started</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible 收集 webservers 组中主机的相关事实，然后将变量“ansible_facts[‘os_family’]”插入到文件名列表中。如果您有使用 Red Hat 操作系统（例如 CentOS）的主机，Ansible 将查找“vars&#x2F;RedHat.yml”。如果该文件不存在，Ansible 将尝试加载“vars&#x2F;os_defaults.yml”。对于 Debian 主机，Ansible 将首先查找“vars&#x2F;Debian.yml”，然后再回退到“vars&#x2F;os_defaults.yml”。如果找不到列表中的任何文件，Ansible 将引发错误。</p>
+<h4 id="根据事实选择文件和模板"><a href="#根据事实选择文件和模板" class="headerlink" title="根据事实选择文件和模板"></a>根据事实选择文件和模板</h4><p>当不同的操作系统版本或类型需要不同的配置文件或模板时，您可以使用相同的方法。根据分配给每个主机的变量选择相应的文件或模板。这种方法通常比在单个模板中放置大量条件语句来涵盖多个操作系统或软件包版本要简洁得多。</p>
+<p>例如，您可以为 CentOS 和 Debian 之间的配置文件创建不同的模板。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Template a file</span><br><span class="line">  ansible.builtin.template:</span><br><span class="line">    src: &quot;&#123;&#123; item &#125;&#125;&quot;</span><br><span class="line">    dest: /etc/myapp/foo.conf</span><br><span class="line">  loop: &quot;&#123;&#123; query(&#x27;first_found&#x27;, &#123; &#x27;files&#x27;: myfiles, &#x27;paths&#x27;: mypaths&#125;) &#125;&#125;&quot;</span><br><span class="line">  vars:</span><br><span class="line">    myfiles:</span><br><span class="line">      - &quot;&#123;&#123; ansible_facts[&#x27;distribution&#x27;] &#125;&#125;.conf&quot;</span><br><span class="line">      -  default.conf</span><br><span class="line">    mypaths: [&#x27;search_location_one/somedir/&#x27;, &#x27;/opt/other_location/somedir/&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="调试条件语句"><a href="#调试条件语句" class="headerlink" title="调试条件语句"></a>调试条件语句</h2><p>如果您的条件语句when的行为与您预期不符，您可以添加debug语句来确定条件是否评估为true或false。条件语句中意外行为的一个常见原因是将整数作为字符串或将字符串作为整数进行测试。要调试条件语句，请将整个语句作为debug任务中的var:值添加。然后，Ansible 将显示测试以及语句的评估方式。例如，这是一组任务和示例输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: check value of return code</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: bar_status.rc</span><br><span class="line"></span><br><span class="line">- name: check test for rc value as string</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: bar_status.rc == &quot;127&quot;</span><br><span class="line"></span><br><span class="line">- name: check test for rc value as integer</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: bar_status.rc == 127</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TASK [check value of return code] *********************************************************************************</span><br><span class="line">ok: [foo-1] =&gt; &#123;</span><br><span class="line">    &quot;bar_status.rc&quot;: &quot;127&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TASK [check test for rc value as string] **************************************************************************</span><br><span class="line">ok: [foo-1] =&gt; &#123;</span><br><span class="line">    &quot;bar_status.rc == \&quot;127\&quot;&quot;: false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TASK [check test for rc value as integer] *************************************************************************</span><br><span class="line">ok: [foo-1] =&gt; &#123;</span><br><span class="line">    &quot;bar_status.rc == 127&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="常用事实"><a href="#常用事实" class="headerlink" title="常用事实"></a>常用事实</h2><p>以下 Ansible 事实经常用于条件语句中。</p>
+<h3 id="ansible-facts’distribution’"><a href="#ansible-facts’distribution’" class="headerlink" title="[ansible_facts’distribution’]"></a>[ansible_facts’distribution’]</h3><p>可能的值（示例，并非完整列表）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Alpine</span><br><span class="line">Altlinux</span><br><span class="line">Amazon</span><br><span class="line">Archlinux</span><br><span class="line">ClearLinux</span><br><span class="line">Coreos</span><br><span class="line">CentOS</span><br><span class="line">Debian</span><br><span class="line">Fedora</span><br><span class="line">Gentoo</span><br><span class="line">Mandriva</span><br><span class="line">NA</span><br><span class="line">OpenWrt</span><br><span class="line">OracleLinux</span><br><span class="line">RedHat</span><br><span class="line">Slackware</span><br><span class="line">SLES</span><br><span class="line">SMGL</span><br><span class="line">SUSE</span><br><span class="line">Ubuntu</span><br><span class="line">VMwareESX</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="ansible-facts’distribution-major-version’"><a href="#ansible-facts’distribution-major-version’" class="headerlink" title="[ansible_facts’distribution_major_version’]"></a>[ansible_facts’distribution_major_version’]</h3><p>操作系统的 major 版本。例如，Ubuntu 16.04 的值为16。</p>
+<h3 id="ansible-facts’os-family’"><a href="#ansible-facts’os-family’" class="headerlink" title="[ansible_facts’os_family’]"></a>[ansible_facts’os_family’]</h3><p>可能的值（示例，并非完整列表）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AIX</span><br><span class="line">Alpine</span><br><span class="line">Altlinux</span><br><span class="line">Archlinux</span><br><span class="line">Darwin</span><br><span class="line">Debian</span><br><span class="line">FreeBSD</span><br><span class="line">Gentoo</span><br><span class="line">HP-UX</span><br><span class="line">Mandrake</span><br><span class="line">RedHat</span><br><span class="line">SMGL</span><br><span class="line">Slackware</span><br><span class="line">Solaris</span><br><span class="line">Suse</span><br><span class="line">Windows</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ansible/playbook-usage/playbook_delegation.html">5.8 控制任务的运行位置</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ansible/playbook-usage/playbook_blocks.html">5.10 块用法</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">条件语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-when-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">使用 when 的基本条件语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E-ansible-facts-%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">基于 ansible_facts 的条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%B7%B2%E6%B3%A8%E5%86%8C%E5%8F%98%E9%87%8F%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">基于已注册变量的条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%98%E9%87%8F%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">基于变量的条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%BE%AA%E7%8E%AF%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">在循环中使用条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E5%AE%9E"><span class="toc-text">加载自定义事实</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E6%9C%89%E9%87%8D%E7%94%A8%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">带有重用的条件语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-import-%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">使用 import 的条件语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-include-%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">使用 include 的条件语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%92%E8%89%B2%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">使用角色的条件语句</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%BA%8B%E5%AE%9E%E9%80%89%E6%8B%A9%E5%8F%98%E9%87%8F%E3%80%81%E6%96%87%E4%BB%B6%E6%88%96%E6%A8%A1%E6%9D%BF"><span class="toc-text">根据事实选择变量、文件或模板</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%BA%8B%E5%AE%9E%E9%80%89%E6%8B%A9%E5%8F%98%E9%87%8F%E6%96%87%E4%BB%B6"><span class="toc-text">根据事实选择变量文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%BA%8B%E5%AE%9E%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%92%8C%E6%A8%A1%E6%9D%BF"><span class="toc-text">根据事实选择文件和模板</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">调试条件语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E4%BA%8B%E5%AE%9E"><span class="toc-text">常用事实</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ansible-facts%E2%80%99distribution%E2%80%99"><span class="toc-text">[ansible_facts’distribution’]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ansible-facts%E2%80%99distribution-major-version%E2%80%99"><span class="toc-text">[ansible_facts’distribution_major_version’]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ansible-facts%E2%80%99os-family%E2%80%99"><span class="toc-text">[ansible_facts’os_family’]</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

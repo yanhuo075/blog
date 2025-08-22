@@ -1,0 +1,1830 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Ansible：5.4 使用过滤器处理数据 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="使用过滤器处理数据过滤器允许您将JSON数据转换为YAML数据，分割URL以提取主机名，获取字符串的SHA1哈希值，添加或乘以整数等等。您可以使用此处记录的Ansible特定过滤器来处理您的数据，或者使用Jinja2附带的任何标准过滤器 - 请参阅官方Jinja2模板文档中内置过滤器列表。您还可以使用Python方法来转换数据。您可以创建自定义Ansible过滤器作为插件，尽管我们通常欢迎将新的过">
+<meta property="og:type" content="website">
+<meta property="og:title" content="5.4 使用过滤器处理数据">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/ansible/playbook-usage/playbook_filters.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="使用过滤器处理数据过滤器允许您将JSON数据转换为YAML数据，分割URL以提取主机名，获取字符串的SHA1哈希值，添加或乘以整数等等。您可以使用此处记录的Ansible特定过滤器来处理您的数据，或者使用Jinja2附带的任何标准过滤器 - 请参阅官方Jinja2模板文档中内置过滤器列表。您还可以使用Python方法来转换数据。您可以创建自定义Ansible过滤器作为插件，尽管我们通常欢迎将新的过">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-21T08:08:03.445Z">
+<meta property="article:modified_time" content="2025-08-21T08:08:03.445Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/ansible.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ansible/intro/introduction.html"><div class="main" ff="title">Ansible</div><div class="sub normal cap">自动化运维</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ansible/" placeholder="在Ansible文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/introduction.html#start"><span class="toc-text">1.1 Ansible 简介</span></a><a class="link" href="/wiki/ansible/intro/arch.html"><span class="toc-text">1.2 Ansible 架构</span></a><a class="link" href="/wiki/ansible/intro/basic_concepts.html"><span class="toc-text">1.3 Ansible 基本要素</span></a></div><div class="widget-header dis-select"><span class="name">第2章 Ansbile 安装</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/install/installation-guide.html"><span class="toc-text">2.1 Ansible 安装</span></a><a class="link" href="/wiki/ansible/install/distros.html"><span class="toc-text">2.2 在特定操作系统上安装</span></a><a class="link" href="/wiki/ansible/install/container-build.html"><span class="toc-text">2.3 在容器中安装</span></a><a class="link" href="/wiki/ansible/install/pipx-and-pip.html"><span class="toc-text">2.4 使用pipx安装和升级</span></a><a class="link" href="/wiki/ansible/install/configuration.html"><span class="toc-text">2.5 配置 Ansible</span></a></div><div class="widget-header dis-select"><span class="name">第3章 Ansible 清单</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/inventory/inventory_guide.html"><span class="toc-text">3.1 构建清单</span></a><a class="link" href="/wiki/ansible/inventory/dynamic_inventory.html"><span class="toc-text">3.2 动态清单</span></a><a class="link" href="/wiki/ansible/inventory/connection.html"><span class="toc-text">3.3 清单远程连接方式</span></a><a class="link" href="/wiki/ansible/inventory/using-patterns.html"><span class="toc-text">3.4 清单使用模式</span></a></div><div class="widget-header dis-select"><span class="name">第4章 Ansible 命令行工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/command/command_cli.html"><span class="toc-text">4.1 使用 Ansible 命令行工具</span></a><a class="link" href="/wiki/ansible/command/ansible.html"><span class="toc-text">4.2 ansible</span></a><a class="link" href="/wiki/ansible/command/ansible-config.html"><span class="toc-text">4.3 ansible-config</span></a><a class="link" href="/wiki/ansible/command/ansible-console.html"><span class="toc-text">4.4 ansible-console</span></a><a class="link" href="/wiki/ansible/command/ansible-doc.html"><span class="toc-text">4.5 ansible-doc</span></a><a class="link" href="/wiki/ansible/command/ansible-galaxy.html"><span class="toc-text">4.5 ansible-galaxy</span></a><a class="link" href="/wiki/ansible/command/ansible-inventory.html"><span class="toc-text">4.6 ansible-inventory</span></a><a class="link" href="/wiki/ansible/command/ansible-playbook.html"><span class="toc-text">4.7 ansible-playbook</span></a><a class="link" href="/wiki/ansible/command/ansible-pull.html"><span class="toc-text">4.8 ansible-pull</span></a><a class="link" href="/wiki/ansible/command/ansible-vault.html"><span class="toc-text">4.9 ansible-vault</span></a></div><div class="widget-header dis-select"><span class="name">第5章 Ansible 剧本入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-usage/playbook_guide.html"><span class="toc-text">5.1 使用 Ansible 剧本</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_intro.html"><span class="toc-text">5.2 Ansible 剧本简介</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_template.html"><span class="toc-text">5.3 模板引擎 (Jinja2)</span></a><a class="link active" href="/wiki/ansible/playbook-usage/playbook_filters.html"><span class="toc-text">5.4 使用过滤器处理数据</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_lookups.html"><span class="toc-text">5.6 查找语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_loops.html"><span class="toc-text">5.7 循环语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_delegation.html"><span class="toc-text">5.8 控制任务的运行位置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_condition.html"><span class="toc-text">5.9 条件语句</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_blocks.html"><span class="toc-text">5.10 块用法</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_handlers.html"><span class="toc-text">5.11 处理程序</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_error_handling.html"><span class="toc-text">5.12 错误处理</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_environment.html"><span class="toc-text">5.13 环境设置</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_reuse.html"><span class="toc-text">5.14 剧本重用</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_roles.html"><span class="toc-text">5.15 剧本角色</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_module_defaults.html"><span class="toc-text">5.16 模块默认值</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_prompts.html"><span class="toc-text">5.17 交互提示</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_variables.html"><span class="toc-text">5.18 使用变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_vars_facts.html"><span class="toc-text">5.19 发现变量</span></a><a class="link" href="/wiki/ansible/playbook-usage/rolling_upgrade.html"><span class="toc-text">5.20 持续交付和滚动升级</span></a></div><div class="widget-header dis-select"><span class="name">第6章 Ansible 剧本运行</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/playbook-exec/playbook_execution.html"><span class="toc-text">6.1 运行 Playbook</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_checkmode.html"><span class="toc-text">6.2 验证任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_privilege.html"><span class="toc-text">6.3 权限提升</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_tags.html"><span class="toc-text">6.4 标签</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_startnstep.html"><span class="toc-text">6.5 故障排除</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_debugger.html"><span class="toc-text">6.6 调试任务</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_async.html"><span class="toc-text">6.7 异步操作和轮询</span></a><a class="link" href="/wiki/ansible/playbook-exec/playbook_strategies.html"><span class="toc-text">6.8 控制剧本执行策略</span></a></div><div class="widget-header dis-select"><span class="name">第7章 Ansible 进阶</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/advanced/playbook_advanced_syntax.html"><span class="toc-text">7.1 高级剧本语法</span></a><a class="link" href="/wiki/ansible/advanced/complex_data_manipulation.html"><span class="toc-text">7.2 操作数据</span></a><a class="link" href="/wiki/ansible/advanced/vault_guide.html"><span class="toc-text">7.3 Ansible vault 保护敏感数据</span></a><a class="link" href="/wiki/ansible/advanced/module_guide.html"><span class="toc-text">7.4 Ansible 模块使用</span></a><a class="link" href="/wiki/ansible/advanced/plugin_guide.html"><span class="toc-text">7.5 Ansible 插件使用</span></a><a class="link" href="/wiki/ansible/advanced/collections_guide.html"><span class="toc-text">7.6 Ansible 集合使用</span></a><a class="link" href="/wiki/ansible/advanced/windows_and_bsd.html"><span class="toc-text">7.7 Ansible 在 Windows和BSD上使用</span></a><a class="link" href="/wiki/ansible/advanced/tips_tricks.html"><span class="toc-text">7.8 Ansible 技巧与窍门</span></a></div><div class="widget-header dis-select"><span class="name">第8章 最佳实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/apply/network_practices.html"><span class="toc-text">8.1 网络自动化实践</span></a><a class="link" href="/wiki/ansible/apply/basic_concepts.html"><span class="toc-text">8.2 基础概念</span></a><a class="link" href="/wiki/ansible/apply/network_differences.html"><span class="toc-text">8.3 网络自动化的不同之处</span></a><a class="link" href="/wiki/ansible/apply/first_playbook.html"><span class="toc-text">8.4 运行第一个Playbook</span></a><a class="link" href="/wiki/ansible/apply/first_inventory.html"><span class="toc-text">8.5 构建清单</span></a><a class="link" href="/wiki/ansible/apply/network_roles.html"><span class="toc-text">8.6 使用 Ansible 网络角色</span></a><a class="link" href="/wiki/ansible/apply/connection_options.html"><span class="toc-text">8.7 使用网络连接选项</span></a><a class="link" href="/wiki/ansible/apply/network_modules.html"><span class="toc-text">8.8 网络资源模块</span></a><a class="link" href="/wiki/ansible/apply/best_practices.html"><span class="toc-text">8.9 Ansible 网络自动化示例</span></a></div><div class="widget-header dis-select"><span class="name">第9章 Galaxy 入门指南</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/galaxy/galaxy_guide.html"><span class="toc-text">9.1 Galaxy 用户指南</span></a><a class="link" href="/wiki/ansible/galaxy/galaxy_devel.html"><span class="toc-text">9.2 Galaxy 开发者指南</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ansible/intro/getting-example.html"><span class="toc-text">1.4 Ansible 使用示例</span></a><a class="link" href="/wiki/ansible/playbook-usage/playbook_tests.html"><span class="toc-text">5.5 语法测试</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ansible/intro/introduction.html">Ansible</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-21T08:08:03.445Z">2025-08-21</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>5.4 使用过滤器处理数据</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="使用过滤器处理数据"><a href="#使用过滤器处理数据" class="headerlink" title="使用过滤器处理数据"></a>使用过滤器处理数据</h1><p>过滤器允许您将JSON数据转换为YAML数据，分割URL以提取主机名，获取字符串的SHA1哈希值，添加或乘以整数等等。您可以使用此处记录的Ansible特定过滤器来处理您的数据，或者使用Jinja2附带的任何标准过滤器 - 请参阅官方Jinja2模板文档中内置过滤器列表。您还可以使用Python方法来转换数据。您可以创建自定义Ansible过滤器作为插件，尽管我们通常欢迎将新的过滤器添加到ansible-core存储库中，以便每个人都可以使用它们。</p>
+<p>因为模板化发生在Ansible控制节点上，而不是目标主机上，所以过滤器在控制节点上执行并在本地转换数据。</p>
+<ul>
+<li>处理未定义变量<ul>
+<li>提供默认值</li>
+<li>使变量可选</li>
+<li>定义必填值</li>
+</ul>
+</li>
+<li>定义true&#x2F;false&#x2F;null的不同值（三元运算）</li>
+<li>管理数据类型<ul>
+<li>发现数据类型</li>
+<li>将字符串转换为列表</li>
+<li>将字典转换为列表</li>
+<li>将列表转换为字典</li>
+<li>强制数据类型</li>
+</ul>
+</li>
+<li>数据格式化：YAML和JSON<ul>
+<li>过滤器to_json和Unicode支持</li>
+</ul>
+</li>
+<li>组合和选择数据<ul>
+<li>组合来自多个列表的项目：zip和zip_longest</li>
+<li>组合对象和子元素</li>
+<li>组合哈希表&#x2F;字典</li>
+<li>从数组或哈希表中选择值</li>
+<li>组合列表<ul>
+<li>排列</li>
+<li>组合</li>
+<li>乘积</li>
+</ul>
+</li>
+<li>选择JSON数据：JSON查询</li>
+</ul>
+</li>
+<li>随机化数据<ul>
+<li>随机MAC地址</li>
+<li>随机项目或数字</li>
+<li>洗牌列表</li>
+</ul>
+</li>
+<li>管理列表变量</li>
+<li>从集合或列表中选择（集合论）</li>
+<li>计算数字（数学）</li>
+<li>管理网络交互<ul>
+<li>IP地址过滤器</li>
+<li>网络CLI过滤器</li>
+<li>网络XML过滤器</li>
+<li>网络VLAN过滤器</li>
+</ul>
+</li>
+<li>散列和加密字符串和密码</li>
+<li>处理文本<ul>
+<li>向文件添加注释</li>
+<li>URLEncode变量</li>
+<li>分割URL</li>
+<li>使用正则表达式搜索字符串</li>
+<li>管理文件名和路径名</li>
+</ul>
+</li>
+<li>处理字符串</li>
+<li>管理UUID</li>
+<li>处理日期和时间</li>
+<li>获取Kubernetes资源名称</li>
+</ul>
+<h2 id="处理未定义变量"><a href="#处理未定义变量" class="headerlink" title="处理未定义变量"></a>处理未定义变量</h2><p>过滤器可以通过提供默认值或使某些变量可选来帮助您管理丢失或未定义的变量。如果您将Ansible配置为忽略大多数未定义变量，则可以使用mandatory过滤器将某些变量标记为需要值。</p>
+<h3 id="提供默认值"><a href="#提供默认值" class="headerlink" title="提供默认值"></a>提供默认值</h3><p>您可以使用Jinja2的“default”过滤器直接在模板中为变量提供默认值。这通常比在未定义变量时失败更好的方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | default(5) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在上面的示例中，如果变量“some_variable”未定义，Ansible将使用默认值5，而不是引发“未定义变量”错误并失败。如果您在角色中工作，还可以添加角色默认值来定义角色中变量的默认值。要了解有关角色默认值的更多信息，请参阅角色目录结构。</p>
+<p>从2.8版本开始，尝试访问Jinja中Undefined值的属性将返回另一个Undefined值，而不是立即抛出错误。这意味着您现在可以简单地在嵌套数据结构中使用带有值的默认值（换句话说，DEFAULT），而无需知道中间值是否已定义。</p>
+<p>如果要在变量计算结果为false或空字符串时使用默认值，则必须将第二个参数设置为true</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; lookup(&#x27;env&#x27;, &#x27;MY_USER&#x27;) | default(&#x27;admin&#x27;, true) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="使变量可选"><a href="#使变量可选" class="headerlink" title="使变量可选"></a>使变量可选</h3><p>默认情况下，Ansible要求模板表达式中的所有变量都具有值。但是，您可以使特定模块变量可选。例如，您可能希望使用系统默认值来处理一些项目并控制其他项目的值。要使模块变量可选，请将默认值设置为特殊变量omit</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Touch files with an optional mode</span><br><span class="line">  ansible.builtin.file:</span><br><span class="line">    dest: &quot;&#123;&#123; item.path &#125;&#125;&quot;</span><br><span class="line">    state: touch</span><br><span class="line">    mode: &quot;&#123;&#123; item.mode | default(omit) &#125;&#125;&quot;</span><br><span class="line">  loop:</span><br><span class="line">    - path: /tmp/foo</span><br><span class="line">    - path: /tmp/bar</span><br><span class="line">    - path: /tmp/baz</span><br><span class="line">      mode: &quot;0444&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在此示例中，文件&#x2F;tmp&#x2F;foo和&#x2F;tmp&#x2F;bar的默认模式由系统的umask决定。Ansible不会为mode发送值。只有第三个文件&#x2F;tmp&#x2F;baz收到mode&#x3D;0444选项。</p>
+<h3 id="定义必填值"><a href="#定义必填值" class="headerlink" title="定义必填值"></a>定义必填值</h3><p>如果您将Ansible配置为忽略未定义的变量，则可能需要将某些值定义为必填值。默认情况下，如果您的playbook或命令中的变量未定义，Ansible将失败。您可以通过将DEFAULT_UNDEFINED_VAR_BEHAVIOR设置为false来配置Ansible以允许未定义的变量。在这种情况下，您可能希望要求定义某些变量。您可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; variable | mandatory &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>变量值将按原样使用，但如果变量未定义，则模板评估将引发错误。</p>
+<p>一种方便的需要覆盖变量的方法是使用undef()函数为其提供未定义的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">galaxy_url: &quot;https://galaxy.ansible.com&quot;</span><br><span class="line">galaxy_api_key: &quot;&#123;&#123; undef(hint=&#x27;You must specify your Galaxy API key&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="定义true-false-null的不同值（三元运算）"><a href="#定义true-false-null的不同值（三元运算）" class="headerlink" title="定义true&#x2F;false&#x2F;null的不同值（三元运算）"></a>定义true&#x2F;false&#x2F;null的不同值（三元运算）</h2><p>您可以创建一个测试，然后定义一个值在测试返回true时使用，另一个值在测试返回false时使用（1.9版新增）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; (status == &#x27;needs_restart&#x27;) | ternary(&#x27;restart&#x27;, &#x27;continue&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>此外，您可以定义一个值用于true，一个值用于false，以及一个值用于null（2.8版新增）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; enabled | ternary(&#x27;no shutdown&#x27;, &#x27;shutdown&#x27;, omit) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="管理数据类型"><a href="#管理数据类型" class="headerlink" title="管理数据类型"></a>管理数据类型</h2><p>您可能需要了解、更改或设置变量的数据类型。例如，已注册的变量在您的下一个任务需要列表时可能包含字典，或者用户提示在您的剧本需要布尔值时可能返回字符串。使用ansible.builtin.type_debug、ansible.builtin.dict2items和ansible.builtin.items2dict过滤器来管理数据类型。您也可以使用数据类型本身将值强制转换为特定数据类型。</p>
+<h3 id="发现数据类型"><a href="#发现数据类型" class="headerlink" title="发现数据类型"></a>发现数据类型</h3><p>2.3 版本新增。</p>
+<p>如果您不确定变量的底层 Python 类型，可以使用ansible.builtin.type_debug过滤器来显示它。这在需要特定类型变量的调试时非常有用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; myvar | type_debug &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您应该注意，虽然这看起来像是一个用于检查变量中是否具有正确数据类型的有用过滤器，但您通常应该更倾向于使用类型测试，它允许您测试特定数据类型。</p>
+<h3 id="将字符串转换为列表"><a href="#将字符串转换为列表" class="headerlink" title="将字符串转换为列表"></a>将字符串转换为列表</h3><p>使用ansible.builtin.split过滤器将字符&#x2F;字符串分隔的字符串转换为适合循环的项目列表。例如，如果您想用逗号分割字符串变量fruits，您可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; fruits | split(&#x27;,&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>字符串数据（应用ansible.builtin.split过滤器之前）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fruits: apple,banana,orange</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表数据（应用ansible.builtin.split过滤器之后）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- apple</span><br><span class="line">- banana</span><br><span class="line">- orange</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="将字典转换为列表"><a href="#将字典转换为列表" class="headerlink" title="将字典转换为列表"></a>将字典转换为列表</h3><p>2.6 版本新增。</p>
+<p>使用ansible.builtin.dict2items过滤器将字典转换为适合循环的项目列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; dict | dict2items &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>字典数据（应用ansible.builtin.dict2items过滤器之前）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tags:</span><br><span class="line">  Application: payment</span><br><span class="line">  Environment: dev</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表数据（应用ansible.builtin.dict2items过滤器之后）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- key: Application</span><br><span class="line">  value: payment</span><br><span class="line">- key: Environment</span><br><span class="line">  value: dev</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.8 版本新增。</p>
+<p>ansible.builtin.dict2items过滤器是ansible.builtin.items2dict过滤器的反向操作。</p>
+<p>如果您想配置键的名称，ansible.builtin.dict2items过滤器接受2个关键字参数。传递**<a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/dict2items_filter.html#ansible-collections-ansible-builtin-dict2items-filter-parameter-key-name">key_name</a><strong>和</strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/dict2items_filter.html#ansible-collections-ansible-builtin-dict2items-filter-parameter-value-name">value_name</a>**参数来配置列表输出中键的名称。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; files | dict2items(key_name=&#x27;file&#x27;, value_name=&#x27;path&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>字典数据（应用ansible.builtin.dict2items过滤器之前）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">files:</span><br><span class="line">  users: /etc/passwd</span><br><span class="line">  groups: /etc/group</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表数据（应用ansible.builtin.dict2items过滤器之后）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- file: users</span><br><span class="line">  path: /etc/passwd</span><br><span class="line">- file: groups</span><br><span class="line">  path: /etc/group</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="将列表转换为字典"><a href="#将列表转换为字典" class="headerlink" title="将列表转换为字典"></a>将列表转换为字典</h3><p>2.7 版本新增。</p>
+<p>使用ansible.builtin.items2dict过滤器将列表转换为字典，并将内容映射到key: value对。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; tags | items2dict &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表数据（应用ansible.builtin.items2dict过滤器之前）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tags:</span><br><span class="line">  - key: Application</span><br><span class="line">    value: payment</span><br><span class="line">  - key: Environment</span><br><span class="line">    value: dev</span><br></pre></td></tr></table></figure>
+
+
+
+<p>字典数据（应用ansible.builtin.items2dict过滤器之后）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Application: payment</span><br><span class="line">Environment: dev</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.builtin.items2dict过滤器是ansible.builtin.dict2items过滤器的反向操作。</p>
+<p>并非所有列表都使用key来指定键和value来指定值。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fruits:</span><br><span class="line">  - fruit: apple</span><br><span class="line">    color: red</span><br><span class="line">  - fruit: pear</span><br><span class="line">    color: yellow</span><br><span class="line">  - fruit: grapefruit</span><br><span class="line">    color: yellow</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在此示例中，您必须传递**<a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/items2dict_filter.html#ansible-collections-ansible-builtin-items2dict-filter-parameter-key-name">key_name</a><strong>和</strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/items2dict_filter.html#ansible-collections-ansible-builtin-items2dict-filter-parameter-value-name">value_name</a>**参数来配置转换。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; fruits | items2dict(key_name=&#x27;fruit&#x27;, value_name=&#x27;color&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果您不传递这些参数，或者没有为您的列表传递正确的值，您将看到KeyError: key或KeyError: my_typo。</p>
+<h3 id="强制数据类型"><a href="#强制数据类型" class="headerlink" title="强制数据类型"></a>强制数据类型</h3><p>您可以将值强制转换为某些类型。例如，如果您期望从vars_prompt输入“True”，并且您希望 Ansible 将其识别为布尔值而不是字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- ansible.builtin.debug:</span><br><span class="line">     msg: test</span><br><span class="line">  when: some_string_value | bool</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果您想对事实进行数学比较，并且您希望 Ansible 将其识别为整数而不是字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- shell: echo &quot;only on Red Hat 6, derivatives, and later&quot;</span><br><span class="line">  when: ansible_facts[&#x27;os_family&#x27;] == &quot;RedHat&quot; and ansible_facts[&#x27;lsb&#x27;][&#x27;major_release&#x27;] | int &gt;= 6</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1.6 版本新增。</p>
+<h2 id="数据格式：YAML-和-JSON"><a href="#数据格式：YAML-和-JSON" class="headerlink" title="数据格式：YAML 和 JSON"></a>数据格式：YAML 和 JSON</h2><p>您可以使用模板将数据结构在 JSON 或 YAML 格式之间切换，并提供格式化、缩进和加载数据的选项。这些基本过滤器偶尔可用于调试。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | to_json &#125;&#125;</span><br><span class="line">&#123;&#123; some_variable | to_yaml &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>有关这些过滤器的文档，请参阅ansible.builtin.to_json和ansible.builtin.to_yaml。</p>
+<p>对于易于阅读的输出，您可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | to_nice_json &#125;&#125;</span><br><span class="line">&#123;&#123; some_variable | to_nice_yaml &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>有关这些过滤器的文档，请参阅ansible.builtin.to_nice_json和ansible.builtin.to_nice_yaml。</p>
+<p>您可以更改任一格式的缩进：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | to_nice_json(indent=2) &#125;&#125;</span><br><span class="line">&#123;&#123; some_variable | to_nice_yaml(indent=8) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.builtin.to_yaml和ansible.builtin.to_nice_yaml过滤器使用PyYAML 库，该库具有默认的 80 个字符字符串长度限制。这会导致在第 80 个字符后出现意外换行符（如果第 80 个字符后有空格）。为了避免这种行为并生成长行，请使用<strong>width</strong>选项。您必须使用硬编码数字来定义宽度，而不是像float(“inf”)这样的结构，因为过滤器不支持代理 Python 函数。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | to_yaml(indent=8, width=1337) &#125;&#125;</span><br><span class="line">&#123;&#123; some_variable | to_nice_yaml(indent=8, width=1337) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>该过滤器支持传递其他 YAML 参数。有关完整列表，请参阅PyYAML 文档中的dump()。</p>
+<p>如果您正在读取一些已格式化的数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; some_variable | from_json &#125;&#125;</span><br><span class="line">&#123;&#123; some_variable | from_yaml &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Register JSON output as a variable</span><br><span class="line">    ansible.builtin.shell: cat /some/path/to/file.json</span><br><span class="line">    register: result</span><br><span class="line"></span><br><span class="line">  - name: Set a variable</span><br><span class="line">    ansible.builtin.set_fact:</span><br><span class="line">      myvar: &quot;&#123;&#123; result.stdout | from_json &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="过滤器to-json和Unicode支持"><a href="#过滤器to-json和Unicode支持" class="headerlink" title="过滤器to_json和Unicode支持"></a>过滤器to_json和Unicode支持</h3><p>默认情况下，ansible.builtin.to_json和ansible.builtin.to_nice_json会将接收到的数据转换为 ASCII，因此：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;München&#x27;| to_json &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>将返回：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27;M\u00fcnchen&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要保留 Unicode 字符，请将参数ensure_ascii&#x3D;False传递给过滤器。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;München&#x27;| to_json(ensure_ascii=False) &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#x27;München&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.7 版本新增。</p>
+<p>为了解析多文档 YAML 字符串，提供了ansible.builtin.from_yaml_all过滤器。ansible.builtin.from_yaml_all过滤器将返回解析的 YAML 文档的生成器。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: Register a file content as a variable</span><br><span class="line">    ansible.builtin.shell: cat /some/path/to/multidoc-file.yaml</span><br><span class="line">    register: result</span><br><span class="line"></span><br><span class="line">  - name: Print the transformed variable</span><br><span class="line">    ansible.builtin.debug:</span><br><span class="line">      msg: &#x27;&#123;&#123; item &#125;&#125;&#x27;</span><br><span class="line">    loop: &#x27;&#123;&#123; result.stdout | from_yaml_all | list &#125;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="组合和选择数据"><a href="#组合和选择数据" class="headerlink" title="组合和选择数据"></a>组合和选择数据</h2><p>您可以组合来自多个来源和类型的數據，并从大型数据结构中选择值，从而精确控制复杂数据。</p>
+<h3 id="组合来自多个列表的项目：zip-和-zip-longest"><a href="#组合来自多个列表的项目：zip-和-zip-longest" class="headerlink" title="组合来自多个列表的项目：zip 和 zip_longest"></a>组合来自多个列表的项目：zip 和 zip_longest</h3><p>2.3 版本新增。</p>
+<p>要获取组合其他列表元素的列表，请使用ansible.builtin.zip</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Give me list combo of two lists</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3,4,5,6] | zip([&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;,&#x27;f&#x27;]) | list &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># =&gt; [[1, &quot;a&quot;], [2, &quot;b&quot;], [3, &quot;c&quot;], [4, &quot;d&quot;], [5, &quot;e&quot;], [6, &quot;f&quot;]]</span><br><span class="line"></span><br><span class="line">- name: Give me the shortest combo of two lists</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3] | zip([&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;,&#x27;f&#x27;]) | list &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># =&gt; [[1, &quot;a&quot;], [2, &quot;b&quot;], [3, &quot;c&quot;]]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要始终遍历所有列表，请使用ansible.builtin.zip_longest</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Give me the longest combo of three lists, fill with X</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3] | zip_longest([&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;,&#x27;f&#x27;], [21, 22, 23], fillvalue=&#x27;X&#x27;) | list &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># =&gt; [[1, &quot;a&quot;, 21], [2, &quot;b&quot;, 22], [3, &quot;c&quot;, 23], [&quot;X&quot;, &quot;d&quot;, &quot;X&quot;], [&quot;X&quot;, &quot;e&quot;, &quot;X&quot;], [&quot;X&quot;, &quot;f&quot;, &quot;X&quot;]]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>与上面提到的ansible.builtin.items2dict 过滤器输出类似，这些过滤器可用于构建dict</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; dict(keys_list | zip(values_list)) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表数据（应用ansible.builtin.zip 过滤器之前）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">keys_list:</span><br><span class="line">  - one</span><br><span class="line">  - two</span><br><span class="line">values_list:</span><br><span class="line">  - apple</span><br><span class="line">  - orange</span><br></pre></td></tr></table></figure>
+
+
+
+<p>字典数据（应用ansible.builtin.zip 过滤器之后）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">one: apple</span><br><span class="line">two: orange</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组合对象和子元素"><a href="#组合对象和子元素" class="headerlink" title="组合对象和子元素"></a>组合对象和子元素</h3><p>2.7 版本新增。</p>
+<p>ansible.builtin.subelements 过滤器生成对象及其子元素值的乘积，类似于ansible.builtin.subelements 查询。这允许您指定要在模板中使用的各个子元素。例如，此表达式</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; users | subelements(&#x27;groups&#x27;, skip_missing=True) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>应用ansible.builtin.subelements 过滤器之前的數據</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">users:</span><br><span class="line">- name: alice</span><br><span class="line">  authorized:</span><br><span class="line">  - /tmp/alice/onekey.pub</span><br><span class="line">  - /tmp/alice/twokey.pub</span><br><span class="line">  groups:</span><br><span class="line">  - wheel</span><br><span class="line">  - docker</span><br><span class="line">- name: bob</span><br><span class="line">  authorized:</span><br><span class="line">  - /tmp/bob/id_rsa.pub</span><br><span class="line">  groups:</span><br><span class="line">  - docker</span><br></pre></td></tr></table></figure>
+
+
+
+<p>应用ansible.builtin.subelements 过滤器之后的數據</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-</span><br><span class="line">  - name: alice</span><br><span class="line">    groups:</span><br><span class="line">    - wheel</span><br><span class="line">    - docker</span><br><span class="line">    authorized:</span><br><span class="line">    - /tmp/alice/onekey.pub</span><br><span class="line">    - /tmp/alice/twokey.pub</span><br><span class="line">  - wheel</span><br><span class="line">-</span><br><span class="line">  - name: alice</span><br><span class="line">    groups:</span><br><span class="line">    - wheel</span><br><span class="line">    - docker</span><br><span class="line">    authorized:</span><br><span class="line">    - /tmp/alice/onekey.pub</span><br><span class="line">    - /tmp/alice/twokey.pub</span><br><span class="line">  - docker</span><br><span class="line">-</span><br><span class="line">  - name: bob</span><br><span class="line">    authorized:</span><br><span class="line">    - /tmp/bob/id_rsa.pub</span><br><span class="line">    groups:</span><br><span class="line">    - docker</span><br><span class="line">  - docker</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以将转换后的数据与loop一起使用，以迭代多个对象的相同子元素</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Set authorized ssh key, extracting just that data from &#x27;users&#x27;</span><br><span class="line">  ansible.posix.authorized_key:</span><br><span class="line">    user: &quot;&#123;&#123; item.0.name &#125;&#125;&quot;</span><br><span class="line">    key: &quot;&#123;&#123; lookup(&#x27;file&#x27;, item.1) &#125;&#125;&quot;</span><br><span class="line">  loop: &quot;&#123;&#123; users | subelements(&#x27;authorized&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="组合哈希-字典"><a href="#组合哈希-字典" class="headerlink" title="组合哈希&#x2F;字典"></a>组合哈希&#x2F;字典</h3><p>2.0 版本中的新功能。</p>
+<p>ansible.builtin.combine 过滤器允许合并哈希。例如，以下操作将覆盖一个哈希中的键</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#123;&#x27;a&#x27;:1, &#x27;b&#x27;:2&#125; | combine(&#123;&#x27;b&#x27;:3&#125;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>生成的哈希将是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#x27;a&#x27;:1, &#x27;b&#x27;:3&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>过滤器还可以接受多个参数进行合并</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; a | combine(b, c, d) &#125;&#125;</span><br><span class="line">&#123;&#123; [a, b, c, d] | combine &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这种情况下，d中的键将覆盖c中的键，后者将覆盖b中的键，依此类推。</p>
+<p>该过滤器还接受两个可选参数：<strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/combine_filter.html#ansible-collections-ansible-builtin-combine-filter-parameter-recursive">recursive</a></strong> 和 <strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/combine_filter.html#ansible-collections-ansible-builtin-combine-filter-parameter-list-merge">list_merge</a></strong>。</p>
+<ul>
+<li><p>recursive</p>
+<p>是一个布尔值，默认为False。ansible.builtin.combine 是否应递归合并嵌套哈希。注意：它不依赖于ansible.cfg中hash_behaviour设置的值。</p>
+</li>
+<li><p>list_merge</p>
+<p>是一个字符串，其可能的值为replace（默认）、keep、append、prepend、append_rp 或 prepend_rp。当要合并的哈希包含数组&#x2F;列表时，它会修改ansible.builtin.combine 的行为。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">default:</span><br><span class="line">  a:</span><br><span class="line">    x: default</span><br><span class="line">    y: default</span><br><span class="line">  b: default</span><br><span class="line">  c: default</span><br><span class="line">patch:</span><br><span class="line">  a:</span><br><span class="line">    y: patch</span><br><span class="line">    z: patch</span><br><span class="line">  b: patch</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果recursive&#x3D;False（默认值），则不会合并嵌套哈希</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  y: patch</span><br><span class="line">  z: patch</span><br><span class="line">b: patch</span><br><span class="line">c: default</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果recursive&#x3D;True，则递归进入嵌套哈希并合并它们的键</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, recursive=True) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  x: default</span><br><span class="line">  y: patch</span><br><span class="line">  z: patch</span><br><span class="line">b: patch</span><br><span class="line">c: default</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’replace’（默认值），则右侧哈希中的数组将“替换”左侧哈希中的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">default:</span><br><span class="line">  a:</span><br><span class="line">    - default</span><br><span class="line">patch:</span><br><span class="line">  a:</span><br><span class="line">    - patch</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - patch</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’keep’，则将保留左侧哈希中的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, list_merge=&#x27;keep&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - default</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’append’，则右侧哈希中的数组将附加到左侧哈希中的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, list_merge=&#x27;append&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - default</span><br><span class="line">  - patch</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’prepend’，则右侧哈希中的数组将添加到左侧哈希中的数组前面</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, list_merge=&#x27;prepend&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - patch</span><br><span class="line">  - default</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’append_rp’，则右侧哈希中的数组将附加到左侧哈希中的数组。左侧哈希中也出现在右侧哈希相应数组中的数组元素将被删除（“rp”代表“remove present”）。哈希中都不存在的重复元素将被保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">default:</span><br><span class="line">  a:</span><br><span class="line">    - 1</span><br><span class="line">    - 1</span><br><span class="line">    - 2</span><br><span class="line">    - 3</span><br><span class="line">patch:</span><br><span class="line">  a:</span><br><span class="line">    - 3</span><br><span class="line">    - 4</span><br><span class="line">    - 5</span><br><span class="line">    - 5</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, list_merge=&#x27;append_rp&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - 1</span><br><span class="line">  - 1</span><br><span class="line">  - 2</span><br><span class="line">  - 3</span><br><span class="line">  - 4</span><br><span class="line">  - 5</span><br><span class="line">  - 5</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果list_merge&#x3D;’prepend_rp’，则行为类似于append_rp，但右侧哈希中的数组元素将被添加到前面</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, list_merge=&#x27;prepend_rp&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  - 3</span><br><span class="line">  - 4</span><br><span class="line">  - 5</span><br><span class="line">  - 5</span><br><span class="line">  - 1</span><br><span class="line">  - 1</span><br><span class="line">  - 2</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/combine_filter.html#ansible-collections-ansible-builtin-combine-filter-parameter-recursive">recursive</a></strong> 和 <strong><a target="_blank" rel="noopener" href="https://docs.ansible.org.cn/ansible/latest/collections/ansible/builtin/combine_filter.html#ansible-collections-ansible-builtin-combine-filter-parameter-list-merge">list_merge</a></strong> 可以一起使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">default:</span><br><span class="line">  a:</span><br><span class="line">    a&#x27;:</span><br><span class="line">      x: default_value</span><br><span class="line">      y: default_value</span><br><span class="line">      list:</span><br><span class="line">        - default_value</span><br><span class="line">  b:</span><br><span class="line">    - 1</span><br><span class="line">    - 1</span><br><span class="line">    - 2</span><br><span class="line">    - 3</span><br><span class="line">patch:</span><br><span class="line">  a:</span><br><span class="line">    a&#x27;:</span><br><span class="line">      y: patch_value</span><br><span class="line">      z: patch_value</span><br><span class="line">      list:</span><br><span class="line">        - patch_value</span><br><span class="line">  b:</span><br><span class="line">    - 3</span><br><span class="line">    - 4</span><br><span class="line">    - 4</span><br><span class="line">    - key: value</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; default | combine(patch, recursive=True, list_merge=&#x27;append_rp&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:</span><br><span class="line">  a&#x27;:</span><br><span class="line">    x: default_value</span><br><span class="line">    y: patch_value</span><br><span class="line">    z: patch_value</span><br><span class="line">    list:</span><br><span class="line">      - default_value</span><br><span class="line">      - patch_value</span><br><span class="line">b:</span><br><span class="line">  - 1</span><br><span class="line">  - 1</span><br><span class="line">  - 2</span><br><span class="line">  - 3</span><br><span class="line">  - 4</span><br><span class="line">  - 4</span><br><span class="line">  - key: value</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="从数组或哈希表中选择值"><a href="#从数组或哈希表中选择值" class="headerlink" title="从数组或哈希表中选择值"></a>从数组或哈希表中选择值</h3><p>2.1 版本中的新功能。</p>
+<p>使用extract 过滤器将索引列表映射到容器（哈希或数组）中的值列表</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [0,2] | map(&#x27;extract&#x27;, [&#x27;x&#x27;,&#x27;y&#x27;,&#x27;z&#x27;]) | list &#125;&#125;</span><br><span class="line">&#123;&#123; [&#x27;x&#x27;,&#x27;y&#x27;] | map(&#x27;extract&#x27;, &#123;&#x27;x&#x27;: 42, &#x27;y&#x27;: 31&#125;) | list &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上述表达式的结果将是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[&#x27;x&#x27;, &#x27;z&#x27;]</span><br><span class="line">[42, 31]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>过滤器可以接受另一个参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; groups[&#x27;x&#x27;] | map(&#x27;extract&#x27;, hostvars, &#x27;ec2_ip_address&#x27;) | list &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将获取“x”组中的主机列表，在hostvars中查找它们，然后查找结果的ec2_ip_address。“x”组中主机的最终结果是 IP 地址列表。</p>
+<p>过滤器的第三个参数也可以是列表，用于在容器内进行递归查找</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [&#x27;a&#x27;] | map(&#x27;extract&#x27;, b, [&#x27;x&#x27;,&#x27;y&#x27;]) | list &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将返回一个包含b’a’[‘y’]值的列表。</p>
+<h3 id="组合列表"><a href="#组合列表" class="headerlink" title="组合列表"></a>组合列表</h3><p>这组过滤器返回组合列表的列表。</p>
+<h4 id="排列"><a href="#排列" class="headerlink" title="排列"></a>排列</h4><p>要获取列表的排列</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Give me the largest permutations (order matters)</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3,4,5] | ansible.builtin.permutations | list &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">- name: Give me permutations of sets of three</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3,4,5] | ansible.builtin.permutations(3) | list &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4><p>组合始终需要一个集合大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Give me combinations for sets of two</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [1,2,3,4,5] | ansible.builtin.combinations(2) | list &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>另请参见zip_filter</p>
+<h4 id="乘积"><a href="#乘积" class="headerlink" title="乘积"></a>乘积</h4><p>乘积过滤器返回输入可迭代对象的笛卡尔积。这大致相当于生成器表达式中的嵌套 for 循环。</p>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Generate multiple hostnames</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; [&#x27;foo&#x27;, &#x27;bar&#x27;] | product([&#x27;com&#x27;]) | map(&#x27;join&#x27;, &#x27;.&#x27;) | join(&#x27;,&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将导致</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; &quot;msg&quot;: &quot;foo.com,bar.com&quot; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="选择-JSON-数据：JSON-查询"><a href="#选择-JSON-数据：JSON-查询" class="headerlink" title="选择 JSON 数据：JSON 查询"></a>选择 JSON 数据：JSON 查询</h3><p>要从 JSON 格式的复杂数据结构（例如 Ansible facts）中选择单个元素或数据子集，请使用community.general.json_query 过滤器。community.general.json_query 过滤器允许您查询复杂的 JSON 结构并使用循环结构对其进行迭代。</p>
+<p>考虑以下数据结构</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;domain&quot;: &#123;</span><br><span class="line">        &quot;cluster&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;cluster1&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;cluster2&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;server&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;server11&quot;,</span><br><span class="line">                &quot;cluster&quot;: &quot;cluster1&quot;,</span><br><span class="line">                &quot;port&quot;: &quot;8080&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;server12&quot;,</span><br><span class="line">                &quot;cluster&quot;: &quot;cluster1&quot;,</span><br><span class="line">                &quot;port&quot;: &quot;8090&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;server21&quot;,</span><br><span class="line">                &quot;cluster&quot;: &quot;cluster2&quot;,</span><br><span class="line">                &quot;port&quot;: &quot;9080&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;server22&quot;,</span><br><span class="line">                &quot;cluster&quot;: &quot;cluster2&quot;,</span><br><span class="line">                &quot;port&quot;: &quot;9090&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;library&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;lib1&quot;,</span><br><span class="line">                &quot;target&quot;: &quot;cluster1&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;lib2&quot;,</span><br><span class="line">                &quot;target&quot;: &quot;cluster2&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要从此结构中提取所有集群，可以使用以下查询</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all cluster names</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: item</span><br><span class="line">  loop: &quot;&#123;&#123; domain_definition | community.general.json_query(&#x27;domain.cluster[*].name&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要提取所有服务器名称</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all server names</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: item</span><br><span class="line">  loop: &quot;&#123;&#123; domain_definition | community.general.json_query(&#x27;domain.server[*].name&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要从 cluster1 提取端口</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all ports from cluster1</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: item</span><br><span class="line">  loop: &quot;&#123;&#123; domain_definition | community.general.json_query(server_name_cluster1_query) &#125;&#125;&quot;</span><br><span class="line">  vars:</span><br><span class="line">    server_name_cluster1_query: &quot;domain.server[?cluster==&#x27;cluster1&#x27;].port&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要以逗号分隔的字符串形式打印 cluster1 的端口</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all ports from cluster1 as a string</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; domain_definition | community.general.json_query(&#x27;domain.server[?cluster==`cluster1`].port&#x27;) | join(&#x27;, &#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以使用 YAML 单引号转义</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all ports from cluster1</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: item</span><br><span class="line">  loop: &quot;&#123;&#123; domain_definition | community.general.json_query(&#x27;domain.server[?cluster==&#x27;&#x27;cluster1&#x27;&#x27;].port&#x27;) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取包含集群所有端口和名称的哈希映射</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display all server ports and names from cluster1</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    var: item</span><br><span class="line">  loop: &quot;&#123;&#123; domain_definition | community.general.json_query(server_name_cluster1_query) &#125;&#125;&quot;</span><br><span class="line">  vars:</span><br><span class="line">    server_name_cluster1_query: &quot;domain.server[?cluster==&#x27;cluster1&#x27;].&#123;name: name, port: port&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要提取名称以“server1”开头的所有集群的端口</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display ports from all clusters with the name starting with &#x27;server1&#x27;</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; domain_definition | to_json | from_json | community.general.json_query(server_name_query) &#125;&#125;&quot;</span><br><span class="line">  vars:</span><br><span class="line">    server_name_query: &quot;domain.server[?starts_with(name,&#x27;server1&#x27;)].port&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要提取名称包含“server1”的所有集群的端口</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Display ports from all clusters with the name containing &#x27;server1&#x27;</span><br><span class="line">  ansible.builtin.debug:</span><br><span class="line">    msg: &quot;&#123;&#123; domain_definition | to_json | from_json | community.general.json_query(server_name_query) &#125;&#125;&quot;</span><br><span class="line">  vars:</span><br><span class="line">    server_name_query: &quot;domain.server[?contains(name,&#x27;server1&#x27;)].port&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="随机化数据"><a href="#随机化数据" class="headerlink" title="随机化数据"></a>随机化数据</h2><p>当您需要随机生成的值时，请使用以下过滤器之一。</p>
+<h3 id="随机-MAC-地址"><a href="#随机-MAC-地址" class="headerlink" title="随机 MAC 地址"></a>随机 MAC 地址</h3><p>2.6 版本新增。</p>
+<p>此过滤器可用于根据字符串前缀生成随机 MAC 地址。</p>
+<p>要从以“52:54:00”开头的字符串前缀获取随机 MAC 地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123; &#x27;52:54:00&#x27; | community.general.random_mac &#125;&#125;&quot;</span><br><span class="line"># =&gt; &#x27;52:54:00:ef:1c:03&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>请注意，如果前缀字符串有任何错误，过滤器将发出错误。</p>
+<blockquote>
+<p>2.9 版中的新增功能。</p>
+</blockquote>
+<p>从 Ansible 2.9 版开始，您还可以从种子初始化随机数生成器以创建随机但幂等的 MAC 地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123; &#x27;52:54:00&#x27; | community.general.random_mac(seed=inventory_hostname) &#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="随机项目或数字"><a href="#随机项目或数字" class="headerlink" title="随机项目或数字"></a>随机项目或数字</h3><p>Ansible 中的 ansible.builtin.random 过滤器是默认 Jinja2 随机过滤器的扩展，可用于从一系列项目中返回随机项目或根据范围生成随机数。</p>
+<p>要从列表中获取随机项目</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123; [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;] | random &#125;&#125;&quot;</span><br><span class="line"># =&gt; &#x27;c&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取 0（包含）到指定整数（不包含）之间的随机数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123; 60 | random &#125;&#125; * * * * root /script/from/cron&quot;</span><br><span class="line"># =&gt; &#x27;21 * * * * root /script/from/cron&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取 0 到 100 之间的随机数，但步长为 10</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 101 | random(step=10) &#125;&#125;</span><br><span class="line"># =&gt; 70</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取 1 到 100 之间的随机数，但步长为 10</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 101 | random(1, 10) &#125;&#125;</span><br><span class="line"># =&gt; 31</span><br><span class="line">&#123;&#123; 101 | random(start=1, step=10) &#125;&#125;</span><br><span class="line"># =&gt; 51</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以从种子初始化随机数生成器以创建随机但幂等的数字</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123; 60 | random(seed=inventory_hostname) &#125;&#125; * * * * root /script/from/cron&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="随机排列列表"><a href="#随机排列列表" class="headerlink" title="随机排列列表"></a>随机排列列表</h3><p>ansible.builtin.shuffle 过滤器会随机化现有列表，每次调用都会给出不同的顺序。</p>
+<p>要从现有列表中获取随机列表</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;] | shuffle &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;c&#x27;,&#x27;a&#x27;,&#x27;b&#x27;]</span><br><span class="line">&#123;&#123; [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;] | shuffle &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;b&#x27;,&#x27;c&#x27;,&#x27;a&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以从种子初始化随机排列生成器以生成随机但幂等的顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;] | shuffle(seed=inventory_hostname) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;b&#x27;,&#x27;a&#x27;,&#x27;c&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>shuffle 过滤器尽可能返回列表。如果将其与非“列表化”项目一起使用，则过滤器将不执行任何操作。</p>
+<h2 id="管理列表变量"><a href="#管理列表变量" class="headerlink" title="管理列表变量"></a>管理列表变量</h2><p>您可以搜索列表中的最小值或最大值，或展平多级列表。</p>
+<p>要从数字列表中获取最小值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; list1 | min &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.11 版中的新增功能。</p>
+<p>要获取对象列表中的最小值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [&#123;&#x27;val&#x27;: 1&#125;, &#123;&#x27;val&#x27;: 2&#125;] | min(attribute=&#x27;val&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要从数字列表中获取最大值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [3, 4, 2] | max &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.11 版中的新增功能。</p>
+<p>要获取对象列表中的最大值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [&#123;&#x27;val&#x27;: 1&#125;, &#123;&#x27;val&#x27;: 2&#125;] | max(attribute=&#x27;val&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.5 版中的新增功能。</p>
+<p>展平列表（与 flatten 查找执行的操作相同）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [3, [4, 2] ] | flatten &#125;&#125;</span><br><span class="line"># =&gt; [3, 4, 2]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>仅展平列表的第一级（类似于 items 查找）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [3, [4, [2]] ] | flatten(levels=1) &#125;&#125;</span><br><span class="line"># =&gt; [3, 4, [2]]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.11 版中的新增功能。</p>
+<p>保留列表中的空值，默认情况下，flatten 会移除它们。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [3, None, [4, [2]] ] | flatten(levels=1, skip_nulls=False) &#125;&#125;</span><br><span class="line"># =&gt; [3, None, 4, [2]]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="从集合或列表中选择（集合论）"><a href="#从集合或列表中选择（集合论）" class="headerlink" title="从集合或列表中选择（集合论）"></a>从集合或列表中选择（集合论）</h2><p>您可以从集合或列表中选择或组合项目。</p>
+<p>1.4 版中的新增功能。</p>
+<p>要从列表中获取唯一集合</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># list1: [1, 2, 5, 1, 3, 4, 10]</span><br><span class="line">&#123;&#123; list1 | unique &#125;&#125;</span><br><span class="line"># =&gt; [1, 2, 5, 3, 4, 10]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取两个列表的并集</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># list1: [1, 2, 5, 1, 3, 4, 10]</span><br><span class="line"># list2: [1, 2, 3, 4, 5, 11, 99]</span><br><span class="line">&#123;&#123; list1 | union(list2) &#125;&#125;</span><br><span class="line"># =&gt; [1, 2, 5, 1, 3, 4, 10, 11, 99]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取两个列表的交集（两个列表中所有项目的唯一列表）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># list1: [1, 2, 5, 3, 4, 10]</span><br><span class="line"># list2: [1, 2, 3, 4, 5, 11, 99]</span><br><span class="line">&#123;&#123; list1 | intersect(list2) &#125;&#125;</span><br><span class="line"># =&gt; [1, 2, 5, 3, 4]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取两个列表的差集（列表 1 中不存在于列表 2 中的项目）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># list1: [1, 2, 5, 1, 3, 4, 10]</span><br><span class="line"># list2: [1, 2, 3, 4, 5, 11, 99]</span><br><span class="line">&#123;&#123; list1 | difference(list2) &#125;&#125;</span><br><span class="line"># =&gt; [10]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取两个列表的对称差集（每个列表独有的项目）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># list1: [1, 2, 5, 1, 3, 4, 10]</span><br><span class="line"># list2: [1, 2, 3, 4, 5, 11, 99]</span><br><span class="line">&#123;&#123; list1 | symmetric_difference(list2) &#125;&#125;</span><br><span class="line"># =&gt; [10, 11, 99]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="计算数字（数学）"><a href="#计算数字（数学）" class="headerlink" title="计算数字（数学）"></a>计算数字（数学）</h2><p>1.9 版中的新增功能。</p>
+<p>您可以使用 Ansible 过滤器计算数字的对数、幂和根。Jinja2 提供其他数学函数，例如 abs() 和 round()。</p>
+<p>获取对数（默认为 e）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 8 | log &#125;&#125;</span><br><span class="line"># =&gt; 2.0794415416798357</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取以 10 为底的对数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 8 | log(10) &#125;&#125;</span><br><span class="line"># =&gt; 0.9030899869919435</span><br></pre></td></tr></table></figure>
+
+
+
+<p>给我 2 的幂！（或 5）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 8 | pow(5) &#125;&#125;</span><br><span class="line"># =&gt; 32768.0</span><br></pre></td></tr></table></figure>
+
+
+
+<p>平方根或 5 次方根</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; 8 | root &#125;&#125;</span><br><span class="line"># =&gt; 2.8284271247461903</span><br><span class="line"></span><br><span class="line">&#123;&#123; 8 | root(5) &#125;&#125;</span><br><span class="line"># =&gt; 1.5157165665103982</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="管理网络交互"><a href="#管理网络交互" class="headerlink" title="管理网络交互"></a>管理网络交互</h2><p>这些过滤器可以帮助您完成常见的网络任务。</p>
+<h3 id="IP-地址过滤器"><a href="#IP-地址过滤器" class="headerlink" title="IP 地址过滤器"></a>IP 地址过滤器</h3><p>1.9 版中的新增功能。</p>
+<p>测试字符串是否为有效的 IP 地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; myvar | ansible.utils.ipaddr &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您还可以要求特定的 IP 协议版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; myvar | ansible.utils.ipv4 &#125;&#125;</span><br><span class="line">&#123;&#123; myvar | ansible.utils.ipv6 &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>IP 地址过滤器还可以用于从 IP 地址中提取特定信息。例如，要从 CIDR 获取 IP 地址本身，可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;192.0.2.1/24&#x27; | ansible.utils.ipaddr(&#x27;address&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; 192.0.2.1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>有关 ansible.utils.ipaddr 过滤器的更多信息和完整的用法指南，请参见 Ansible.Utils。</p>
+<h3 id="网络-CLI-过滤器"><a href="#网络-CLI-过滤器" class="headerlink" title="网络 CLI 过滤器"></a>网络 CLI 过滤器</h3><p>2.4 版中的新增功能。</p>
+<p>要将网络设备 CLI 命令的输出转换为结构化的 JSON 输出，请使用 ansible.netcommon.parse_cli 过滤器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; output | ansible.netcommon.parse_cli(&#x27;path/to/spec&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.netcommon.parse_cli 过滤器将加载规范文件并将命令输出传递到该文件中，返回 JSON 输出。YAML 规范文件定义了如何解析 CLI 输出。</p>
+<p>规范文件应为格式正确的 YAML 文件。它定义了如何解析 CLI 输出并返回 JSON 数据。下面是一个有效的规范文件示例，它将解析 show vlan 命令的输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">vars:</span><br><span class="line">  vlan:</span><br><span class="line">    vlan_id: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">    name: &quot;&#123;&#123; item.name &#125;&#125;&quot;</span><br><span class="line">    enabled: &quot;&#123;&#123; item.state != &#x27;act/lshut&#x27; &#125;&#125;&quot;</span><br><span class="line">    state: &quot;&#123;&#123; item.state &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">keys:</span><br><span class="line">  vlans:</span><br><span class="line">    value: &quot;&#123;&#123; vlan &#125;&#125;&quot;</span><br><span class="line">    items: &quot;^(?P&lt;vlan_id&gt;\\d+)\\s+(?P&lt;name&gt;\\w+)\\s+(?P&lt;state&gt;active|act/lshut|suspended)&quot;</span><br><span class="line">  state_static:</span><br><span class="line">    value: present</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面的规范文件将返回一个 JSON 数据结构，该结构是包含已解析 VLAN 信息的哈希列表。</p>
+<p>可以使用 key 和 values 指令将相同的命令解析为哈希。以下是如何使用相同的 show vlan 命令将输出解析为哈希值的一个示例。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">vars:</span><br><span class="line">  vlan:</span><br><span class="line">    key: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">    values:</span><br><span class="line">      vlan_id: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">      name: &quot;&#123;&#123; item.name &#125;&#125;&quot;</span><br><span class="line">      enabled: &quot;&#123;&#123; item.state != &#x27;act/lshut&#x27; &#125;&#125;&quot;</span><br><span class="line">      state: &quot;&#123;&#123; item.state &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">keys:</span><br><span class="line">  vlans:</span><br><span class="line">    value: &quot;&#123;&#123; vlan &#125;&#125;&quot;</span><br><span class="line">    items: &quot;^(?P&lt;vlan_id&gt;\\d+)\\s+(?P&lt;name&gt;\\w+)\\s+(?P&lt;state&gt;active|act/lshut|suspended)&quot;</span><br><span class="line">  state_static:</span><br><span class="line">    value: present</span><br></pre></td></tr></table></figure>
+
+
+
+<p>解析 CLI 命令的另一个常见用例是将大型命令分解为可以解析的块。这可以使用 start_block 和 end_block 指令来完成，将命令分解为可以解析的块。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">vars:</span><br><span class="line">  interface:</span><br><span class="line">    name: &quot;&#123;&#123; item[0].match[0] &#125;&#125;&quot;</span><br><span class="line">    state: &quot;&#123;&#123; item[1].state &#125;&#125;&quot;</span><br><span class="line">    mode: &quot;&#123;&#123; item[2].match[0] &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">keys:</span><br><span class="line">  interfaces:</span><br><span class="line">    value: &quot;&#123;&#123; interface &#125;&#125;&quot;</span><br><span class="line">    start_block: &quot;^Ethernet.*$&quot;</span><br><span class="line">    end_block: &quot;^$&quot;</span><br><span class="line">    items:</span><br><span class="line">      - &quot;^(?P&lt;name&gt;Ethernet\\d\\/\\d*)&quot;</span><br><span class="line">      - &quot;admin state is (?P&lt;state&gt;.+),&quot;</span><br><span class="line">      - &quot;Port mode is (.+)&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面的示例将 show interface 的输出解析为哈希列表。</p>
+<p>网络过滤器还支持使用 TextFSM 库解析 CLI 命令的输出。要使用 TextFSM 解析 CLI 输出，请使用以下过滤器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; output.stdout[0] | ansible.netcommon.parse_cli_textfsm(&#x27;path/to/fsm&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用 TextFSM 过滤器需要安装 TextFSM 库。</p>
+<h3 id="网络-XML-过滤器"><a href="#网络-XML-过滤器" class="headerlink" title="网络 XML 过滤器"></a>网络 XML 过滤器</h3><p>2.5 版中的新增功能。</p>
+<p>要将网络设备命令的 XML 输出转换为结构化的 JSON 输出，请使用 ansible.netcommon.parse_xml 过滤器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; output | ansible.netcommon.parse_xml(&#x27;path/to/spec&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.netcommon.parse_xml 过滤器将加载规范文件并将命令输出传递到格式化为 JSON 的文件中。</p>
+<p>规范文件应为格式正确的 YAML 文件。它定义了如何解析 XML 输出并返回 JSON 数据。</p>
+<p>下面是一个有效的规范文件示例，它将解析 show vlan | display xml 命令的输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">vars:</span><br><span class="line">  vlan:</span><br><span class="line">    vlan_id: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">    name: &quot;&#123;&#123; item.name &#125;&#125;&quot;</span><br><span class="line">    desc: &quot;&#123;&#123; item.desc &#125;&#125;&quot;</span><br><span class="line">    enabled: &quot;&#123;&#123; item.state.get(&#x27;inactive&#x27;) != &#x27;inactive&#x27; &#125;&#125;&quot;</span><br><span class="line">    state: &quot;&#123;% if item.state.get(&#x27;inactive&#x27;) == &#x27;inactive&#x27;%&#125; inactive &#123;% else %&#125; active &#123;% endif %&#125;&quot;</span><br><span class="line"></span><br><span class="line">keys:</span><br><span class="line">  vlans:</span><br><span class="line">    value: &quot;&#123;&#123; vlan &#125;&#125;&quot;</span><br><span class="line">    top: configuration/vlans/vlan</span><br><span class="line">    items:</span><br><span class="line">      vlan_id: vlan-id</span><br><span class="line">      name: name</span><br><span class="line">      desc: description</span><br><span class="line">      state: &quot;.[@inactive=&#x27;inactive&#x27;]&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面的规范文件将返回一个 JSON 数据结构，该结构是包含已解析 VLAN 信息的哈希列表。</p>
+<p>可以使用 key 和 values 指令将相同的命令解析为哈希。以下是如何使用相同的 show vlan | display xml 命令将输出解析为哈希值的一个示例。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">vars:</span><br><span class="line">  vlan:</span><br><span class="line">    key: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">    values:</span><br><span class="line">        vlan_id: &quot;&#123;&#123; item.vlan_id &#125;&#125;&quot;</span><br><span class="line">        name: &quot;&#123;&#123; item.name &#125;&#125;&quot;</span><br><span class="line">        desc: &quot;&#123;&#123; item.desc &#125;&#125;&quot;</span><br><span class="line">        enabled: &quot;&#123;&#123; item.state.get(&#x27;inactive&#x27;) != &#x27;inactive&#x27; &#125;&#125;&quot;</span><br><span class="line">        state: &quot;&#123;% if item.state.get(&#x27;inactive&#x27;) == &#x27;inactive&#x27;%&#125; inactive &#123;% else %&#125; active &#123;% endif %&#125;&quot;</span><br><span class="line"></span><br><span class="line">keys:</span><br><span class="line">  vlans:</span><br><span class="line">    value: &quot;&#123;&#123; vlan &#125;&#125;&quot;</span><br><span class="line">    top: configuration/vlans/vlan</span><br><span class="line">    items:</span><br><span class="line">      vlan_id: vlan-id</span><br><span class="line">      name: name</span><br><span class="line">      desc: description</span><br><span class="line">      state: &quot;.[@inactive=&#x27;inactive&#x27;]&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>top的值是相对于XML根节点的XPath表达式。在下面的示例XML输出中，top的值为configuration&#x2F;vlans&#x2F;vlan，这是一个相对于根节点（<code>）的XPath表达式。top值中的configuration是最外层的容器节点，vlan</code>是最内层的容器节点。</p>
+<p>items是一个键值对字典，它将用户定义的名称映射到选择元素的XPath表达式。XPath表达式相对于top中包含的XPath值。例如，规范文件中的vlan_id是用户定义的名称，其值vlan-id是相对于top中XPath值的相对路径。</p>
+<p>可以使用XPath表达式提取XML标签的属性。规范中state的值是一个XPath表达式，用于获取输出XML中vlan标签的属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;rpc-reply&gt;</span><br><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;vlans&gt;</span><br><span class="line">      &lt;vlan inactive=&quot;inactive&quot;&gt;</span><br><span class="line">       &lt;name&gt;vlan-1&lt;/name&gt;</span><br><span class="line">       &lt;vlan-id&gt;200&lt;/vlan-id&gt;</span><br><span class="line">       &lt;description&gt;This is vlan-1&lt;/description&gt;</span><br><span class="line">      &lt;/vlan&gt;</span><br><span class="line">    &lt;/vlans&gt;</span><br><span class="line">  &lt;/configuration&gt;</span><br><span class="line">&lt;/rpc-reply&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="网络VLAN过滤器"><a href="#网络VLAN过滤器" class="headerlink" title="网络VLAN过滤器"></a>网络VLAN过滤器</h3><p>2.8 版本新增。</p>
+<p>使用ansible.netcommon.vlan_parser过滤器将VLAN整数的无序列表转换为根据类似IOS的VLAN列表规则排序的整数字符串列表。此列表具有以下属性：</p>
+<ul>
+<li>VLAN按升序排列。</li>
+<li>三个或更多连续的VLAN用短横线列出。</li>
+<li>列表的第一行可以是first_line_len个字符长。</li>
+<li>后续列表行可以是other_line_len个字符长。</li>
+</ul>
+<p>要排序VLAN列表：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; [3003, 3004, 3005, 100, 1688, 3002, 3999] | ansible.netcommon.vlan_parser &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>此示例呈现以下排序列表：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[&#x27;100,1688,3002-3005,3999&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>另一个Jinja模板示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% set parsed_vlans = vlans | ansible.netcommon.vlan_parser %&#125;</span><br><span class="line">switchport trunk allowed vlan &#123;&#123; parsed_vlans[0] &#125;&#125;</span><br><span class="line">&#123;% for i in range (1, parsed_vlans | count) %&#125;</span><br><span class="line">switchport trunk allowed vlan add &#123;&#123; parsed_vlans[i] &#125;&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这允许在Cisco IOS标记接口上动态生成VLAN列表。您可以存储接口所需确切VLAN的详尽原始列表，然后将其与将实际为配置生成的已解析IOS输出进行比较。</p>
+<h2 id="字符串和密码的哈希和加密"><a href="#字符串和密码的哈希和加密" class="headerlink" title="字符串和密码的哈希和加密"></a>字符串和密码的哈希和加密</h2><p>1.9 版中的新增功能。</p>
+<p>要获取字符串的sha1哈希值：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;test1&#x27; | hash(&#x27;sha1&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &quot;b444ac06613fc8d63795be9ad0beaf55011936ac&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取字符串的md5哈希值：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;test1&#x27; | hash(&#x27;md5&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &quot;5a105e8b9d40e1329780d62ea2265d8a&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取字符串校验和：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;test2&#x27; | checksum &#125;&#125;</span><br><span class="line"># =&gt; &quot;109f4b3c50d7b0df729d299bc6f8e9ef9066971f&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>其他哈希（依赖于平台）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;test2&#x27; | hash(&#x27;blowfish&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取sha512密码哈希（随机盐）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;passwordsaresecret&#x27; | password_hash(&#x27;sha512&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$6$UIv3676O/ilZzWEE$ktEfFF19NQPF2zyxqxGkAceTnbEgpEKuGBtk6MlU4v2ZorWaVQUMyurgmHCh2Fr4wpmQ/Y.AlXMJkRnIS4RfH/&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取具有特定盐的sha256密码哈希：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;secretpassword&#x27; | password_hash(&#x27;sha256&#x27;, &#x27;mysecretsalt&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$5$mysecretsalt$ReKNyDYjkKNqRVwouShhsEqZ3VOE8eoVO4exihOfvG4&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一种生成每个系统唯一哈希的幂等方法是使用在运行之间一致的盐。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;secretpassword&#x27; | password_hash(&#x27;sha512&#x27;, 65534 | random(seed=inventory_hostname) | string) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$6$43927$lQxPKz2M2X.NWO.gK.t7phLwOKQMcSq72XxDZQ0XzYV6DlL1OD72h417aj16OnHTGxNzhftXJQBcjbunLEepM0&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>可用的哈希类型取决于运行Ansible的控制系统，ansible.builtin.hash依赖于hashlib，ansible.builtin.password_hash依赖于passlib。crypt用作回退，如果未安装passlib。</p>
+<p>2.7 版本新增。</p>
+<p>某些哈希类型允许提供rounds参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;secretpassword&#x27; | password_hash(&#x27;sha256&#x27;, &#x27;mysecretsalt&#x27;, rounds=10000) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$5$rounds=10000$mysecretsalt$Tkm80llAxD4YHll6AgNIztKn0vzAACsuuEfYeGP7tm7&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>过滤器password_hash产生的结果取决于您是否安装了passlib。</p>
+<p>为了确保幂等性，请指定rounds既不是crypt的默认值也不是passlib的默认值，对于crypt是5000，对于passlib是可变值（sha256为535000，sha512为656000）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;secretpassword&#x27; | password_hash(&#x27;sha256&#x27;, &#x27;mysecretsalt&#x27;, rounds=5001) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$5$rounds=5001$mysecretsalt$wXcTWWXbfcR8er5IVf7NuquLvnUA6s8/qdtOhAZ.xN.&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>哈希类型“blowfish”（BCrypt）提供了指定BCrypt算法版本的功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;secretpassword&#x27; | password_hash(&#x27;blowfish&#x27;, &#x27;1234567890123456789012&#x27;, ident=&#x27;2b&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &quot;$2b$12$123456789012345678901uuJ4qFdej6xnWjOQT.FStqfdoY8dYUPC&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.12版本的新增功能。</p>
+<p>您还可以使用Ansible ansible.builtin.vault过滤器加密数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># simply encrypt my key in a vault</span><br><span class="line">vars:</span><br><span class="line">  myvaultedkey: &quot;&#123;&#123; keyrawdata|vault(passphrase) &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">- name: save templated vaulted data</span><br><span class="line">  template: src=dump_template_data.j2 dest=/some/key/vault.txt</span><br><span class="line">  vars:</span><br><span class="line">    mysalt: &#x27;&#123;&#123; 2**256|random(seed=inventory_hostname) &#125;&#125;&#x27;</span><br><span class="line">    template_data: &#x27;&#123;&#123; secretdata|vault(vaultsecret, salt=mysalt) &#125;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后使用unvault过滤器解密它。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># simply decrypt my key from a vault</span><br><span class="line">vars:</span><br><span class="line">  mykey: &quot;&#123;&#123; myvaultedkey|unvault(passphrase) &#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">- name: save templated unvaulted data</span><br><span class="line">  template: src=dump_template_data.j2 dest=/some/key/clear.txt</span><br><span class="line">  vars:</span><br><span class="line">    template_data: &#x27;&#123;&#123; secretdata|unvault(vaultsecret) &#125;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="操作文本"><a href="#操作文本" class="headerlink" title="操作文本"></a>操作文本</h2><p>几个过滤器可用于处理文本，包括URL、文件名和路径名。</p>
+<h3 id="向文件添加注释"><a href="#向文件添加注释" class="headerlink" title="向文件添加注释"></a>向文件添加注释</h3><p>ansible.builtin.comment过滤器允许您使用各种注释样式从模板中的文本创建文件中的注释。默认情况下，Ansible 使用# 来开始注释行，并在注释文本的上方和下方添加一个空注释行。例如，以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &quot;Plain style (default)&quot; | comment &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>产生以下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#</span><br><span class="line"># Plain style (default)</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Ansible 提供了 C (&#x2F;&#x2F;…)、C 块 (&#x2F;<em>…</em>&#x2F;)、Erlang (%…) 和 XML (<!--...-->) 注释样式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &quot;C style&quot; | comment(&#x27;c&#x27;) &#125;&#125;</span><br><span class="line">&#123;&#123; &quot;C block style&quot; | comment(&#x27;cblock&#x27;) &#125;&#125;</span><br><span class="line">&#123;&#123; &quot;Erlang style&quot; | comment(&#x27;erlang&#x27;) &#125;&#125;</span><br><span class="line">&#123;&#123; &quot;XML style&quot; | comment(&#x27;xml&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以定义自定义注释字符。此过滤器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &quot;My Special Case&quot; | comment(decoration=&quot;! &quot;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>产生：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!</span><br><span class="line">! My Special Case</span><br><span class="line">!</span><br></pre></td></tr></table></figure>
+
+
+
+<p>您可以完全自定义注释样式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &quot;Custom style&quot; | comment(&#x27;plain&#x27;, prefix=&#x27;#######\n#&#x27;, postfix=&#x27;#\n#######\n   ###\n    #&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将创建以下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#######</span><br><span class="line">#</span><br><span class="line"># Custom style</span><br><span class="line">#</span><br><span class="line">#######</span><br><span class="line">   ###</span><br><span class="line">    #</span><br></pre></td></tr></table></figure>
+
+
+
+<p>该过滤器还可以应用于任何Ansible变量。例如，为了使ansible_managed变量的输出更易读，我们可以在ansible.cfg文件中将其定义更改为此：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[defaults]</span><br><span class="line"></span><br><span class="line">ansible_managed = This file is managed by Ansible.%n</span><br><span class="line">  template: &#123;file&#125;</span><br><span class="line">  date: %Y-%m-%d %H:%M:%S</span><br><span class="line">  user: &#123;uid&#125;</span><br><span class="line">  host: &#123;host&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后使用带有comment过滤器的变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; ansible_managed | comment &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这将产生以下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#</span><br><span class="line"># This file is managed by Ansible.</span><br><span class="line">#</span><br><span class="line"># template: /home/ansible/env/dev/ansible_managed/roles/role1/templates/test.j2</span><br><span class="line"># date: 2015-09-10 11:02:58</span><br><span class="line"># user: ansible</span><br><span class="line"># host: myhost</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="URL编码变量"><a href="#URL编码变量" class="headerlink" title="URL编码变量"></a>URL编码变量</h3><p>urlencode过滤器使用UTF-8对数据进行引用，以便在URL路径或查询中使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;Trollhättan&#x27; | urlencode &#125;&#125;</span><br><span class="line"># =&gt; &#x27;Trollh%C3%A4ttan&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="拆分URL"><a href="#拆分URL" class="headerlink" title="拆分URL"></a>拆分URL</h3><p>2.4 版中的新增功能。</p>
+<p>ansible.builtin.urlsplit过滤器从URL中提取片段、主机名、netloc、密码、路径、端口、查询、方案和用户名。没有参数时，返回所有字段的字典。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;hostname&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;www.acme.com&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;netloc&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;user:[email protected]:9000&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;username&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;user&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;password&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;password&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;path&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;/dir/index.html&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;port&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;9000&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;scheme&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;http&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;query&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;query=term&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit(&#x27;fragment&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;fragment&#x27;</span><br><span class="line"></span><br><span class="line">&#123;&#123; &quot;http://user:[email protected]:9000/dir/index.html?query=term#fragment&quot; | urlsplit &#125;&#125;</span><br><span class="line"># =&gt;</span><br><span class="line">#   &#123;</span><br><span class="line">#       &quot;fragment&quot;: &quot;fragment&quot;,</span><br><span class="line">#       &quot;hostname&quot;: &quot;www.acme.com&quot;,</span><br><span class="line">#       &quot;netloc&quot;: &quot;user:[email protected]:9000&quot;,</span><br><span class="line">#       &quot;password&quot;: &quot;password&quot;,</span><br><span class="line">#       &quot;path&quot;: &quot;/dir/index.html&quot;,</span><br><span class="line">#       &quot;port&quot;: 9000,</span><br><span class="line">#       &quot;query&quot;: &quot;query=term&quot;,</span><br><span class="line">#       &quot;scheme&quot;: &quot;http&quot;,</span><br><span class="line">#       &quot;username&quot;: &quot;user&quot;</span><br><span class="line">#   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用正则表达式搜索字符串"><a href="#使用正则表达式搜索字符串" class="headerlink" title="使用正则表达式搜索字符串"></a>使用正则表达式搜索字符串</h3><p>要使用正则表达式在字符串中搜索或提取字符串的部分，请使用ansible.builtin.regex_search过滤器。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Extracts the database name from a string</span><br><span class="line">&#123;&#123; &#x27;server1/database42&#x27; | regex_search(&#x27;database[0-9]+&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;database42&#x27;</span><br><span class="line"></span><br><span class="line"># Example for a case insensitive search in multiline mode</span><br><span class="line">&#123;&#123; &#x27;foo\nBAR&#x27; | regex_search(&#x27;^bar&#x27;, multiline=True, ignorecase=True) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;BAR&#x27;</span><br><span class="line"></span><br><span class="line"># Example for a case insensitive search in multiline mode using inline regex flags</span><br><span class="line">&#123;&#123; &#x27;foo\nBAR&#x27; | regex_search(&#x27;(?im)^bar&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;BAR&#x27;</span><br><span class="line"></span><br><span class="line"># Extracts server and database id from a string</span><br><span class="line">&#123;&#123; &#x27;server1/database42&#x27; | regex_search(&#x27;server([0-9]+)/database([0-9]+)&#x27;, &#x27;\\1&#x27;, &#x27;\\2&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;1&#x27;, &#x27;42&#x27;]</span><br><span class="line"></span><br><span class="line"># Extracts dividend and divisor from a division</span><br><span class="line">&#123;&#123; &#x27;21/42&#x27; | regex_search(&#x27;(?P&lt;dividend&gt;[0-9]+)/(?P&lt;divisor&gt;[0-9]+)&#x27;, &#x27;\\g&lt;dividend&gt;&#x27;, &#x27;\\g&lt;divisor&gt;&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;21&#x27;, &#x27;42&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.builtin.regex_search过滤器如果找不到匹配项，则返回空字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;ansible&#x27; | regex_search(&#x27;foobar&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要提取字符串中正则表达式匹配的所有匹配项，请使用ansible.builtin.regex_findall过滤器。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Returns a list of all IPv4 addresses in the string</span><br><span class="line">&#123;&#123; &#x27;Some DNS servers are 8.8.8.8 and 8.8.4.4&#x27; | regex_findall(&#x27;\\b(?:[0-9]&#123;1,3&#125;\\.)&#123;3&#125;[0-9]&#123;1,3&#125;\\b&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;8.8.8.8&#x27;, &#x27;8.8.4.4&#x27;]</span><br><span class="line"></span><br><span class="line"># Returns all lines that end with &quot;ar&quot;</span><br><span class="line">&#123;&#123; &#x27;CAR\ntar\nfoo\nbar\n&#x27; | regex_findall(&#x27;^.ar$&#x27;, multiline=True, ignorecase=True) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;CAR&#x27;, &#x27;tar&#x27;, &#x27;bar&#x27;]</span><br><span class="line"></span><br><span class="line"># Returns all lines that end with &quot;ar&quot; using inline regex flags for multiline and ignorecase</span><br><span class="line">&#123;&#123; &#x27;CAR\ntar\nfoo\nbar\n&#x27; | regex_findall(&#x27;(?im)^.ar$&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; [&#x27;CAR&#x27;, &#x27;tar&#x27;, &#x27;bar&#x27;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要使用正则表达式替换字符串中的文本，请使用ansible.builtin.regex_replace过滤器。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Convert &quot;ansible&quot; to &quot;able&quot;</span><br><span class="line">&#123;&#123; &#x27;ansible&#x27; | regex_replace(&#x27;^a.*i(.*)$&#x27;, &#x27;a\\1&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;able&#x27;</span><br><span class="line"></span><br><span class="line"># Convert &quot;foobar&quot; to &quot;bar&quot;</span><br><span class="line">&#123;&#123; &#x27;foobar&#x27; | regex_replace(&#x27;^f.*o(.*)$&#x27;, &#x27;\\1&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;bar&#x27;</span><br><span class="line"></span><br><span class="line"># Convert &quot;localhost:80&quot; to &quot;localhost, 80&quot; using named groups</span><br><span class="line">&#123;&#123; &#x27;localhost:80&#x27; | regex_replace(&#x27;^(?P&lt;host&gt;.+):(?P&lt;port&gt;\\d+)$&#x27;, &#x27;\\g&lt;host&gt;, \\g&lt;port&gt;&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;localhost, 80&#x27;</span><br><span class="line"></span><br><span class="line"># Convert &quot;localhost:80&quot; to &quot;localhost&quot;</span><br><span class="line">&#123;&#123; &#x27;localhost:80&#x27; | regex_replace(&#x27;:80&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;localhost&#x27;</span><br><span class="line"></span><br><span class="line"># Comment all lines that end with &quot;ar&quot;</span><br><span class="line">&#123;&#123; &#x27;CAR\ntar\nfoo\nbar\n&#x27; | regex_replace(&#x27;^(.ar)$&#x27;, &#x27;#\\1&#x27;, multiline=True, ignorecase=True) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;#CAR\n#tar\nfoo\n#bar\n&#x27;</span><br><span class="line"></span><br><span class="line"># Comment all lines that end with &quot;ar&quot; using inline regex flags for multiline and ignorecase</span><br><span class="line">&#123;&#123; &#x27;CAR\ntar\nfoo\nbar\n&#x27; | regex_replace(&#x27;(?im)^(.ar)$&#x27;, &#x27;#\\1&#x27;) &#125;&#125;</span><br><span class="line"># =&gt; &#x27;#CAR\n#tar\nfoo\n#bar\n&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># add &quot;https://&quot; prefix to each item in a list</span><br><span class="line">GOOD:</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;^(.*)$&#x27;, &#x27;https://\\1&#x27;) | list &#125;&#125;</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;(.+)&#x27;, &#x27;https://\\1&#x27;) | list &#125;&#125;</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;^&#x27;, &#x27;https://&#x27;) | list &#125;&#125;</span><br><span class="line"></span><br><span class="line">BAD:</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;(.*)&#x27;, &#x27;https://\\1&#x27;) | list &#125;&#125;</span><br><span class="line"></span><br><span class="line"># append &#x27;:80&#x27; to each item in a list</span><br><span class="line">GOOD:</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;^(.*)$&#x27;, &#x27;\\1:80&#x27;) | list &#125;&#125;</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;(.+)&#x27;, &#x27;\\1:80&#x27;) | list &#125;&#125;</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;$&#x27;, &#x27;:80&#x27;) | list &#125;&#125;</span><br><span class="line"></span><br><span class="line">BAD:</span><br><span class="line">&#123;&#123; hosts | map(&#x27;regex_replace&#x27;, &#x27;(.*)&#x27;, &#x27;\\1:80&#x27;) | list &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.0 版本中的新功能。</p>
+<p>要转义标准Python正则表达式中的特殊字符，请使用ansible.builtin.regex_escape过滤器（使用默认的re_type&#x3D;’python’选项）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># convert &#x27;^f.*o(.*)$&#x27; to &#x27;\^f\.\*o\(\.\*\)\$&#x27;</span><br><span class="line">&#123;&#123; &#x27;^f.*o(.*)$&#x27; | regex_escape() &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.8 版本新增。</p>
+<p>要转义POSIX基本正则表达式中的特殊字符，请使用ansible.builtin.regex_escape过滤器以及re_type&#x3D;’posix_basic’选项。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># convert &#x27;^f.*o(.*)$&#x27; to &#x27;\^f\.\*o(\.\*)\$&#x27;</span><br><span class="line">&#123;&#123; &#x27;^f.*o(.*)$&#x27; | regex_escape(&#x27;posix_basic&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="管理文件名和路径名"><a href="#管理文件名和路径名" class="headerlink" title="管理文件名和路径名"></a>管理文件名和路径名</h3><p>要获取文件路径的最后一个名称，例如从“&#x2F;etc&#x2F;asdf&#x2F;foo.txt”中获取“foo.txt”：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | basename &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要获取Windows样式文件路径的最后一个名称（2.0版本中的新增功能）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | win_basename &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要将Windows驱动器号与文件路径的其余部分分开（2.0版本中的新增功能）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | win_splitdrive &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>仅获取Windows驱动器号：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | win_splitdrive | first &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取路径中不包含驱动器号的其余部分</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | win_splitdrive | last &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>从路径中获取目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | dirname &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>从Windows路径中获取目录（2.0新版本）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | win_dirname &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>展开包含波浪号（~）字符的路径（1.5版本新增）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | expanduser &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>展开包含环境变量的路径</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | expandvars &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.6 版本新增。</p>
+<p>获取链接的真实路径（1.8版本新增）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | realpath &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取链接相对于起始点的相对路径（1.7版本新增）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; path | relpath(&#x27;/etc&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>获取路径或文件名的根和扩展名（2.0新版本）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># with path == &#x27;nginx.conf&#x27; the return would be (&#x27;nginx&#x27;, &#x27;.conf&#x27;)</span><br><span class="line">&#123;&#123; path | splitext &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ansible.builtin.splitext 过滤器始终返回一对字符串。可以使用 first 和 last 过滤器访问各个组件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># with path == &#x27;nginx.conf&#x27; the return would be &#x27;nginx&#x27;</span><br><span class="line">&#123;&#123; path | splitext | first &#125;&#125;</span><br><span class="line"></span><br><span class="line"># with path == &#x27;nginx.conf&#x27; the return would be &#x27;.conf&#x27;</span><br><span class="line">&#123;&#123; path | splitext | last &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>连接一个或多个路径组件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; (&#x27;/etc&#x27;, path, &#x27;subdir&#x27;, file) | path_join &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.10版本新增。</p>
+<h2 id="操作字符串"><a href="#操作字符串" class="headerlink" title="操作字符串"></a>操作字符串</h2><p>为shell使用添加引号</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: Run a shell command</span><br><span class="line">  ansible.builtin.shell: echo &#123;&#123; string_value | quote &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>（文档：ansible.builtin.quote）</p>
+<p>将列表连接成字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; list | join(&quot; &quot;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>将字符串分割成列表</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; csv_string | split(&quot;,&quot;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.11 版中的新增功能。</p>
+<p>使用Base64编码的字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; encoded | b64decode &#125;&#125;</span><br><span class="line">&#123;&#123; decoded | string | b64encode &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>（文档：ansible.builtin.b64encode）</p>
+<p>从2.6版本开始，您可以定义要使用的编码类型，默认为 utf-8</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; encoded | b64decode(encoding=&#x27;utf-16-le&#x27;) &#125;&#125;</span><br><span class="line">&#123;&#123; decoded | string | b64encode(encoding=&#x27;utf-16-le&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>（文档：ansible.builtin.b64decode）</p>
+<p>2.6 版本新增。</p>
+<h2 id="管理UUID"><a href="#管理UUID" class="headerlink" title="管理UUID"></a>管理UUID</h2><p>创建命名空间UUIDv5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; string | to_uuid(namespace=&#x27;11111111-2222-3333-4444-555555555555&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.10版本新增。</p>
+<p>使用默认的Ansible命名空间“361E6D51-FAEC-444A-9079-341386DA8E2E”创建命名空间UUIDv5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; string | to_uuid &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1.9 版中的新增功能。</p>
+<p>要使用复杂变量列表中每个项目的某个属性，请使用Jinja2 map filter</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># get a comma-separated list of the mount points (for example, &quot;/,/mnt/stuff&quot;) on a host</span><br><span class="line">&#123;&#123; ansible_mounts | map(attribute=&#x27;mount&#x27;) | join(&#x27;,&#x27;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="处理日期和时间"><a href="#处理日期和时间" class="headerlink" title="处理日期和时间"></a>处理日期和时间</h2><p>要从字符串获取日期对象，请使用to_datetime过滤器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Get the total amount of seconds between two dates. Default date format is %Y-%m-%d %H:%M:%S but you can pass your own format</span><br><span class="line">&#123;&#123; ((&quot;2016-08-14 20:00:12&quot; | to_datetime) - (&quot;2015-12-25&quot; | to_datetime(&#x27;%Y-%m-%d&#x27;))).total_seconds()  &#125;&#125;</span><br><span class="line"></span><br><span class="line"># Get remaining seconds after delta has been calculated. NOTE: This does NOT convert years, days, hours, and so on to seconds. For that, use total_seconds()</span><br><span class="line">&#123;&#123; ((&quot;2016-08-14 20:00:12&quot; | to_datetime) - (&quot;2016-08-14 18:00:00&quot; | to_datetime)).seconds  &#125;&#125;</span><br><span class="line"># This expression evaluates to &quot;12&quot; and not &quot;132&quot;. Delta is 2 hours, 12 seconds</span><br><span class="line"></span><br><span class="line"># get amount of days between two dates. This returns only the number of days and discards remaining hours, minutes, and seconds</span><br><span class="line">&#123;&#123; ((&quot;2016-08-14 20:00:12&quot; | to_datetime) - (&quot;2015-12-25&quot; | to_datetime(&#x27;%Y-%m-%d&#x27;))).days  &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.4 版中的新增功能。</p>
+<p>要使用字符串格式化日期（如使用shell date命令），请使用“strftime”过滤器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Display year-month-day</span><br><span class="line">&#123;&#123; &#x27;%Y-%m-%d&#x27; | strftime &#125;&#125;</span><br><span class="line"># =&gt; &quot;2021-03-19&quot;</span><br><span class="line"></span><br><span class="line"># Display hour:min:sec</span><br><span class="line">&#123;&#123; &#x27;%H:%M:%S&#x27; | strftime &#125;&#125;</span><br><span class="line"># =&gt; &quot;21:51:04&quot;</span><br><span class="line"></span><br><span class="line"># Use ansible_date_time.epoch fact</span><br><span class="line">&#123;&#123; &#x27;%Y-%m-%d %H:%M:%S&#x27; | strftime(ansible_date_time.epoch) &#125;&#125;</span><br><span class="line"># =&gt; &quot;2021-03-19 21:54:09&quot;</span><br><span class="line"></span><br><span class="line"># Use arbitrary epoch value</span><br><span class="line">&#123;&#123; &#x27;%Y-%m-%d&#x27; | strftime(0) &#125;&#125;          # =&gt; 1970-01-01</span><br><span class="line">&#123;&#123; &#x27;%Y-%m-%d&#x27; | strftime(1441357287) &#125;&#125; # =&gt; 2015-09-04</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.13版本新增。</p>
+<p>strftime带有一个可选的utc参数，默认为False，这意味着时间为本地时区</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; &#x27;%H:%M:%S&#x27; | strftime &#125;&#125;           # time now in local timezone</span><br><span class="line">&#123;&#123; &#x27;%H:%M:%S&#x27; | strftime(utc=True) &#125;&#125; # time now in UTC</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="获取Kubernetes资源名称"><a href="#获取Kubernetes资源名称" class="headerlink" title="获取Kubernetes资源名称"></a>获取Kubernetes资源名称</h2><p>使用“k8s_config_resource_name”过滤器获取Kubernetes ConfigMap或Secret的名称，包括其哈希值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123; configmap_resource_definition | kubernetes.core.k8s_config_resource_name &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后可以使用它来引用Pod规范中的哈希值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">my_secret:</span><br><span class="line">  kind: Secret</span><br><span class="line">  metadata:</span><br><span class="line">    name: my_secret_name</span><br><span class="line"></span><br><span class="line">deployment_resource:</span><br><span class="line">  kind: Deployment</span><br><span class="line">  spec:</span><br><span class="line">    template:</span><br><span class="line">      spec:</span><br><span class="line">        containers:</span><br><span class="line">        - envFrom:</span><br><span class="line">            - secretRef:</span><br><span class="line">                name: &#123;&#123; my_secret | kubernetes.core.k8s_config_resource_name &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>2.8 版本新增。</em></p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ansible/playbook-usage/playbook_template.html">5.3 模板引擎 (Jinja2)</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ansible/playbook-usage/playbook_lookups.html">5.6 查找语句</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="toc-text">使用过滤器处理数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%9C%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-text">处理未定义变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">提供默认值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E5%8F%98%E9%87%8F%E5%8F%AF%E9%80%89"><span class="toc-text">使变量可选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%BF%85%E5%A1%AB%E5%80%BC"><span class="toc-text">定义必填值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89true-false-null%E7%9A%84%E4%B8%8D%E5%90%8C%E5%80%BC%EF%BC%88%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%EF%BC%89"><span class="toc-text">定义true&#x2F;false&#x2F;null的不同值（三元运算）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">管理数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">发现数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%88%97%E8%A1%A8"><span class="toc-text">将字符串转换为列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E5%AD%97%E5%85%B8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%88%97%E8%A1%A8"><span class="toc-text">将字典转换为列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E5%88%97%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%AD%97%E5%85%B8"><span class="toc-text">将列表转换为字典</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">强制数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%EF%BC%9AYAML-%E5%92%8C-JSON"><span class="toc-text">数据格式：YAML 和 JSON</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8to-json%E5%92%8CUnicode%E6%94%AF%E6%8C%81"><span class="toc-text">过滤器to_json和Unicode支持</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%92%8C%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE"><span class="toc-text">组合和选择数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%9D%A5%E8%87%AA%E5%A4%9A%E4%B8%AA%E5%88%97%E8%A1%A8%E7%9A%84%E9%A1%B9%E7%9B%AE%EF%BC%9Azip-%E5%92%8C-zip-longest"><span class="toc-text">组合来自多个列表的项目：zip 和 zip_longest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%AD%90%E5%85%83%E7%B4%A0"><span class="toc-text">组合对象和子元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%93%88%E5%B8%8C-%E5%AD%97%E5%85%B8"><span class="toc-text">组合哈希&#x2F;字典</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E7%BB%84%E6%88%96%E5%93%88%E5%B8%8C%E8%A1%A8%E4%B8%AD%E9%80%89%E6%8B%A9%E5%80%BC"><span class="toc-text">从数组或哈希表中选择值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%88%97%E8%A1%A8"><span class="toc-text">组合列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%88%97"><span class="toc-text">排列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88"><span class="toc-text">组合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%98%E7%A7%AF"><span class="toc-text">乘积</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9-JSON-%E6%95%B0%E6%8D%AE%EF%BC%9AJSON-%E6%9F%A5%E8%AF%A2"><span class="toc-text">选择 JSON 数据：JSON 查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%8C%96%E6%95%B0%E6%8D%AE"><span class="toc-text">随机化数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA-MAC-%E5%9C%B0%E5%9D%80"><span class="toc-text">随机 MAC 地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E9%A1%B9%E7%9B%AE%E6%88%96%E6%95%B0%E5%AD%97"><span class="toc-text">随机项目或数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%8E%92%E5%88%97%E5%88%97%E8%A1%A8"><span class="toc-text">随机排列列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E5%88%97%E8%A1%A8%E5%8F%98%E9%87%8F"><span class="toc-text">管理列表变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E9%9B%86%E5%90%88%E6%88%96%E5%88%97%E8%A1%A8%E4%B8%AD%E9%80%89%E6%8B%A9%EF%BC%88%E9%9B%86%E5%90%88%E8%AE%BA%EF%BC%89"><span class="toc-text">从集合或列表中选择（集合论）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%95%B0%E5%AD%97%EF%BC%88%E6%95%B0%E5%AD%A6%EF%BC%89"><span class="toc-text">计算数字（数学）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92"><span class="toc-text">管理网络交互</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-%E5%9C%B0%E5%9D%80%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">IP 地址过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C-CLI-%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">网络 CLI 过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C-XML-%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">网络 XML 过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9CVLAN%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">网络VLAN过滤器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AF%86%E7%A0%81%E7%9A%84%E5%93%88%E5%B8%8C%E5%92%8C%E5%8A%A0%E5%AF%86"><span class="toc-text">字符串和密码的哈希和加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%96%87%E6%9C%AC"><span class="toc-text">操作文本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E6%96%87%E4%BB%B6%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A"><span class="toc-text">向文件添加注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E7%BC%96%E7%A0%81%E5%8F%98%E9%87%8F"><span class="toc-text">URL编码变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%86%E5%88%86URL"><span class="toc-text">拆分URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%90%9C%E7%B4%A2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">使用正则表达式搜索字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6%E5%90%8D%E5%92%8C%E8%B7%AF%E5%BE%84%E5%90%8D"><span class="toc-text">管理文件名和路径名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">操作字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86UUID"><span class="toc-text">管理UUID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4"><span class="toc-text">处理日期和时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96Kubernetes%E8%B5%84%E6%BA%90%E5%90%8D%E7%A7%B0"><span class="toc-text">获取Kubernetes资源名称</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
