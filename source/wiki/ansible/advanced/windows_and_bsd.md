@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: ansible # 这是项目id，对应 /_data/wiki/ansible.yml
-title: 7.7 Ansible 在 Windows和BSD上使用
+title: 7.7 在Windows和BSD上使用
 order: 6
 ---
 
