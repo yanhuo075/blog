@@ -19,8 +19,8 @@ tree:
   '第1章 前言':
     - intro/introduction
     - intro/arch
-    - intro/basic_concepts
-    - intro/getting_example
+    - intro/basic-concepts
+    - intro/getting-example
   
   '第2章 Ansbile 安装':
     - install/installation-guide
@@ -52,6 +52,7 @@ tree:
     - playbook-usage/playbook_intro
     - playbook-usage/playbook_template
     - playbook-usage/playbook_filters
+    - playbook-usage/playbook_tests
     - playbook-usage/playbook_lookups
     - playbook-usage/playbook_loops
     - playbook-usage/playbook_delegation
