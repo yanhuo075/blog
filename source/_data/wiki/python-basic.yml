@@ -1,0 +1,38 @@
+name: Python-basic
+title: Python基础教程
+subtitle: '自动化运维 | Designed by YanHuo075'
+tags: 编程语言
+icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python.svg
+cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python.svg
+coverpage: true
+description: Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。
+repo: 
+search:
+  filter: /wiki/python-basic/
+  placeholder: 在Python基础教程文档中搜索...
+leftbar: 
+  - tree
+  - timeline_stellar_releases
+  - related
+base_dir: /wiki/python-basic/
+tree:
+  '第1章 前言':
+    - preface/introduction
+    - preface/py-osenv-install
+    - preface/install-pycharm
+    - preface/terminal-and-interpreter
+
+  '第2章 基本语法':
+    - grammar/intro
+    - grammar/identifier
+    - grammar/indent
+    - grammar/note
+    - grammar/print
+
+  '第3章 数据类型':
+    - data-type/intro
+    - data-type/number
+    - data-type/bin_int_hex_oct
+    - data-type/bool
+    - data-type/variable
+    - data-type/string/str_index
