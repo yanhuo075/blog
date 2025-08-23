@@ -35,4 +35,4 @@ tree:
     - data-type/bin_int_hex_oct
     - data-type/bool
     - data-type/variable
-    - data-type/string/str_index
+    - data-type/str_index
