@@ -9,19 +9,20 @@ order: 0
 
 这份教程，可能是史上讲解最专业，最细致的python基础教程（基于python3版本），非常适合零编程经验的初学者，同时又能为有编程技能的人提供稳固知识和进阶的帮助，这份python入门教程结合实际工作经验，配有大量示例代码和专项练习题，用通俗易懂的语言，讲解最专业的python知识，课程设计由浅入深，共13章:
 
-- [第1章、python简介及环境搭建](http://www.coolpython.net/python_primary/introduction/introduction_index.html)
-- [第2章、基本语法](http://www.coolpython.net/python_primary/basic_grammar/index.html)
-- [第3章、数据类型](http://www.coolpython.net/python_primary/data_type/index.html)
-- [第4章、运算符与表达式](http://www.coolpython.net/python_primary/expression/index.html)
-- [第5章、程序控制](http://www.coolpython.net/python_primary/logic_control/index.html)
-- [第6章、函数](http://www.coolpython.net/python_primary/function/index.html)
-- [第7章、数据存储](http://www.coolpython.net/python_primary/data_storage/index.html)
-- [第8章、模块](http://www.coolpython.net/python_primary/module/index.html)
-- [第9章、时间处理](http://www.coolpython.net/python_primary/time/index.html)
-- [第10章、错误和异常](http://www.coolpython.net/python_primary/exection/index.html)
-- [第11章、面向对象](http://www.coolpython.net/python_primary/oop/index.html)
-- [第12章、8大排序算法](http://www.coolpython.net/python_primary/sort/index.html)
-- [第13章、算法练习](http://www.coolpython.net/python_primary/algorithm_exercises/index.html)
+- [第1章、python简介及环境搭建](https://blog.zycloud.tk/wiki/python-basic/preface/introduction#start)
+- [第2章、基本语法](https://blog.zycloud.tk/wiki/python-basic/grammar/intro)
+- [第3章、数据类型](https://blog.zycloud.tk/wiki/python-basic/data-type/intro)
+- [第4章、运算符与表达式](https://blog.zycloud.tk/wiki/python-basic/expression/intro)
+- [第5章、程序控制](https://blog.zycloud.tk/wiki/python-basic/logic-control/condition/intro)
+- [第6章、函数](https://blog.zycloud.tk/wiki/python-basic/function/intro)
+- [第7章、数据存储](https://blog.zycloud.tk/wiki/python-basic/data-storage/intro)
+- [第8章、模块](https://blog.zycloud.tk/wiki/python-basic/module/intro)
+- [第9章、时间处理](https://blog.zycloud.tk/wiki/python-basic/time/intro)
+- [第10章、错误和异常](https://blog.zycloud.tk/wiki/python-basic/exection/intro)
+- [第11章、面向对象](https://blog.zycloud.tk/wiki/python-basic/oop/intro)
+- [第12章、轻松学会面向对象](https://blog.zycloud.tk/wiki/python-basic/easy-oop/intro)
+- [第13章、8大排序算法](https://blog.zycloud.tk/wiki/python-basic/sort/intro)
+- [第14章、算法练习](https://blog.zycloud.tk/wiki/python-basic/algorithm/intro)
 
 ### 1. 编程语言里的“网红”
 

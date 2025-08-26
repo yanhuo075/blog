@@ -16,7 +16,7 @@ leftbar:
   - related
 base_dir: /wiki/python-basic/
 tree:
-  '第1章 前言':
+  '第1章 python简介及环境搭建':
     - preface/introduction
     - preface/py-osenv-install
     - preface/install-pycharm
@@ -136,11 +136,11 @@ tree:
     - easy-oop/oop_object
     - easy-oop/magic_dot
     - easy-oop/inherit
-    - easy-oop/class_object_relation
+    - easy-oop/class_descript_content
     - easy-oop/descript_relation
     - easy-oop/restrain_action
     - easy-oop/class_object_relation
-    - easy-oop/ethod_belong_class_attr
+    - easy-oop/method_belong_class_attr
     - easy-oop/whois_is_self
     - easy-oop/overwrite
     - easy-oop/tk-attr-method
