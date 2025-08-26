@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 12.8 类可以形象的描述数据之间的关系
+title: 12.8 类可以描述数据之间的关系
 order: 7
 ---
 

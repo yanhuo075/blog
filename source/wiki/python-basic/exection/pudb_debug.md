@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 10.8 使用pudb在终端调试python代码
+title: 10.8 使用pudb调试python代码
 order: 7
 ---
 
