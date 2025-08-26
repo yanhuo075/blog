@@ -36,3 +36,131 @@ tree:
     - data-type/bool
     - data-type/variable
     - data-type/str_index
+    - data-type/list_index
+    - data-type/tuple_index
+    - data-type/dict_index
+    - data-type/set_index
+    - data-type/summer_index
+
+  '第4章 运算符与表达式':
+    - expression/intro
+    - expression/arithmetic_operator
+    - expression/compare_operator
+    - expression/assign_operator
+    - expression/logic_operator
+    - expression/bit_operator
+    - expression/member_operator
+    - expression/identity_operator
+    - expression/operator_priority
+    - expression/expression
+
+  '第5章 程序控制':
+    - logic-control/condition/intro
+    - logic-control/condition/input
+    - logic-control/condition/flow_chart
+    - logic-control/condition/condition_if
+    - logic-control/condition/if_nest
+    - logic-control/condition/if_branch
+    - logic-control/condition/bnf-if
+    - logic-control/condition/no_switch
+    - logic-control/condition/match-case
+    - logic-control/condition/condition_exercises
+    - logic-control/loop/loop_index
+    - logic-control/loop/iter
+    - logic-control/loop/for
+    - logic-control/loop/break_continue
+    - logic-control/loop/loop_nest
+    - logic-control/loop/while
+    - logic-control/loop/loop_exercises
+
+  '第6章 函数':
+    - function/intro
+    - function/function
+    - function/none
+    - function/parameter
+    - function/py-builtin-function
+    - function/recursion
+    - function/func_effect
+    - function/function_important
+    - function/py-assign-statement
+    - function/func_exercises
+
+  '第7章 数据存储':
+    - data-storage/intro
+    - data-storage/file
+    - data-storage/py-csv
+    - data-storage/relative_and_abs_path
+    - data-storage/five_file_rw_methods
+    - data-storage/sqlite
+    - data-storage/serialize
+
+  '第8章 模块':
+    - module/intro
+    - module/module
+    - module/__name__
+    - module/pip
+    - module/standard_module_index
+
+  '第9章 时间处理':
+    - time/intro
+    - time/time
+    - time/calendar
+    - time/datetime
+    - time/time_format_transfer
+    - time/time_exercises
+
+  '第10章 错误和异常':
+    - exection/intro
+    - exection/exection
+    - exection/catch
+    - exection/raise
+    - exection/exection_info
+    - exection/common_error
+    - exection/debug
+    - exection/pudb_debug
+    - exection/friendly-traceback
+    - exection/py_raise_execption_up
+
+  '第11章 面向对象':
+    - oop/intro
+    - oop/class
+    - oop/encapsulation
+    - oop/inheritance
+    - oop/polymorphism
+    - oop/oop_bankaccount
+
+  '第12章 轻松学会面向对象':
+    - easy_oop/intro
+    - easy_oop/what_is_it
+    - easy_oop/attr_method
+    - easy_oop/oop_object
+    - easy_oop/magic_dot
+    - easy_oop/inherit
+    - easy_oop/class_object_relation
+    - easy_oop/descript_relation
+    - easy_oop/restrain_action
+    - easy_oop/class_object_relation
+    - easy_oop/ethod_belong_class_attr
+    - easy_oop/whois_is_self
+    - easy_oop/overwrite
+    - easy_oop/tk-attr-method
+    - easy_oop/tk_attr_method_2
+    - easy_oop/instance_modify_cls_attr
+    - easy_oop/public_protected_private
+
+  '第13章 8大排序算法':
+    - sort/intro
+    - sort/pop_sort
+    - sort/insert_sort
+    - sort/select_sort
+    - sort/shell_sort
+    - sort/quick_sort
+    - sort/merge_sort
+    - sort/radix_sort
+    - sort/heap_sort
+
+  '第14章 算法练习':
+    - algorithm/intro
+    - algorithm/easy_execises
+    - algorithm/hard_execises
+    - algorithm/hell_execises

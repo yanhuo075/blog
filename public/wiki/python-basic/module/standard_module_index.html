@@ -1,0 +1,1262 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python基础教程：8.4 常用标准模块 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="常用模块导读python提供了非常多的标准模块，这些模块实现的都是很具体的你一定会经常使用的模块，掌握这些模块，可以让你在解决问题时思路更广，效率更高，本章节，你将学习以下标准模块：  os sys math random hashlib statistics uuid  osos是python的内置模块，它提供了与操作系统相关的接口，可与操作系统进行交互，例如对系统文件目录的操作，新建，修改，删">
+<meta property="og:type" content="website">
+<meta property="og:title" content="8.4 常用标准模块">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-basic/module/standard_module_index.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="常用模块导读python提供了非常多的标准模块，这些模块实现的都是很具体的你一定会经常使用的模块，掌握这些模块，可以让你在解决问题时思路更广，效率更高，本章节，你将学习以下标准模块：  os sys math random hashlib statistics uuid  osos是python的内置模块，它提供了与操作系统相关的接口，可与操作系统进行交互，例如对系统文件目录的操作，新建，修改，删">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250823233615053.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250823233718332.jpeg">
+<meta property="article:published_time" content="2025-08-24T00:47:40.350Z">
+<meta property="article:modified_time" content="2025-08-24T00:47:40.346Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250823233615053.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-basic/preface/introduction.html"><div class="main" ff="title">Python基础教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-basic/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/preface/introduction.html#start"><span class="toc-text">1.1 教程简介</span></a><a class="link" href="/wiki/python-basic/preface/py-osenv-install.html"><span class="toc-text">1.2 Python环境搭建</span></a><a class="link" href="/wiki/python-basic/preface/install-pycharm.html"><span class="toc-text">1.3 安装配置pycharm</span></a><a class="link" href="/wiki/python-basic/preface/terminal-and-interpreter.html"><span class="toc-text">1.4 终端和交互解释器</span></a></div><div class="widget-header dis-select"><span class="name">第2章 基本语法</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/grammar/intro.html"><span class="toc-text">2.1 本章简介</span></a><a class="link" href="/wiki/python-basic/grammar/identifier.html"><span class="toc-text">2.2 标识符与保留字</span></a><a class="link" href="/wiki/python-basic/grammar/indent.html"><span class="toc-text">2.3 行与缩进</span></a><a class="link" href="/wiki/python-basic/grammar/note.html"><span class="toc-text">2.4 注释</span></a><a class="link" href="/wiki/python-basic/grammar/print.html"><span class="toc-text">2.5 print</span></a></div><div class="widget-header dis-select"><span class="name">第3章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/data-type/intro.html"><span class="toc-text">3.1 本章简介</span></a><a class="link" href="/wiki/python-basic/data-type/number.html"><span class="toc-text">3.2 数字类型</span></a><a class="link" href="/wiki/python-basic/data-type/bin_int_hex_oct.html"><span class="toc-text">3.3 python进制转换</span></a><a class="link" href="/wiki/python-basic/data-type/bool.html"><span class="toc-text">3.4 bool类型</span></a><a class="link" href="/wiki/python-basic/data-type/variable.html"><span class="toc-text">3.5 变量的概念</span></a><a class="link" href="/wiki/python-basic/data-type/str_index.html"><span class="toc-text">3.6 字符串</span></a><a class="link" href="/wiki/python-basic/data-type/list_index.html"><span class="toc-text">3.7 列表</span></a><a class="link" href="/wiki/python-basic/data-type/tuple_index.html"><span class="toc-text">3.8 元组</span></a><a class="link" href="/wiki/python-basic/data-type/dict_index.html"><span class="toc-text">3.9 字典</span></a><a class="link" href="/wiki/python-basic/data-type/set_index.html"><span class="toc-text">3.10 集合</span></a><a class="link" href="/wiki/python-basic/data-type/summer_index.html"><span class="toc-text">3.11 数据杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第4章 运算符与表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/expression/intro.html"><span class="toc-text">4.1 本章简介</span></a><a class="link" href="/wiki/python-basic/expression/arithmetic_operator.html"><span class="toc-text">4.2 算术运算符</span></a><a class="link" href="/wiki/python-basic/expression/compare_operator.html"><span class="toc-text">4.3 比较运算符</span></a><a class="link" href="/wiki/python-basic/expression/assign_operator.html"><span class="toc-text">4.4 赋值运算符</span></a><a class="link" href="/wiki/python-basic/expression/logic_operator.html"><span class="toc-text">4.5 逻辑运算符</span></a><a class="link" href="/wiki/python-basic/expression/bit_operator.html"><span class="toc-text">4.6 位运算符</span></a><a class="link" href="/wiki/python-basic/expression/member_operator.html"><span class="toc-text">4.8 成员运算符</span></a><a class="link" href="/wiki/python-basic/expression/identity_operator.html"><span class="toc-text">4.8 身份运算符</span></a><a class="link" href="/wiki/python-basic/expression/operator_priority.html"><span class="toc-text">4.9 运算符优先级</span></a><a class="link" href="/wiki/python-basic/expression/expression.html"><span class="toc-text">4.10 表达式</span></a></div><div class="widget-header dis-select"><span class="name">第5章 程序控制</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/logic-control/condition/intro.html"><span class="toc-text">5.1 条件控制</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/input.html"><span class="toc-text">5.1.1 input函数</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/flow_chart.html"><span class="toc-text">5.1.2 如何画程序流程图</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/condition_if.html"><span class="toc-text">5.1.3 if语句</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/if_nest.html"><span class="toc-text">5.1.4 if嵌套</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/if_branch.html"><span class="toc-text">5.1.5 控制程序走向</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/bnf-if.html"><span class="toc-text">5.1.6 以BNF为基础理解if语句</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/no_switch.html"><span class="toc-text">5.1.7 为什么python没有switch/case</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/match-case.html"><span class="toc-text">5.1.8 Match-Case语法</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/condition_exercises.html"><span class="toc-text">5.1.9 条件控制练习题</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_index.html"><span class="toc-text">5.2 本章简介</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/iter.html"><span class="toc-text">5.2.1 迭代遍历思维</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/for.html"><span class="toc-text">5.2.2 for循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/break_continue.html"><span class="toc-text">5.2.3 循环中的continue与break</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_nest.html"><span class="toc-text">5.2.4 嵌套循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/while.html"><span class="toc-text">5.2.5 while循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_exercises.html"><span class="toc-text">5.2.6 循环控制练习题</span></a></div><div class="widget-header dis-select"><span class="name">第6章 函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/function/intro.html"><span class="toc-text">6.1 本章简介</span></a><a class="link" href="/wiki/python-basic/function/function.html"><span class="toc-text">6.2 函数的定义与调用</span></a><a class="link" href="/wiki/python-basic/function/none.html"><span class="toc-text">6.3 python中的None</span></a><a class="link" href="/wiki/python-basic/function/parameter.html"><span class="toc-text">6.4 函数的参数</span></a><a class="link" href="/wiki/python-basic/function/py-builtin-function.html"><span class="toc-text">6.5 内置函数</span></a><a class="link" href="/wiki/python-basic/function/recursion.html"><span class="toc-text">6.6 递归函数</span></a><a class="link" href="/wiki/python-basic/function/func_effect.html"><span class="toc-text">6.7 函数存在的意义</span></a><a class="link" href="/wiki/python-basic/function/function_important.html"><span class="toc-text">6.8 函数学习要点</span></a><a class="link" href="/wiki/python-basic/function/py-assign-statement.html"><span class="toc-text">6.9 理解python的赋值语句</span></a><a class="link" href="/wiki/python-basic/function/func_exercises.html"><span class="toc-text">6.10 理解python的赋值语句</span></a></div><div class="widget-header dis-select"><span class="name">第7章 数据存储</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/data-storage/intro.html"><span class="toc-text">7.1 本章简介</span></a><a class="link" href="/wiki/python-basic/data-storage/file.html"><span class="toc-text">7.2 文件读写</span></a><a class="link" href="/wiki/python-basic/data-storage/py-csv.html"><span class="toc-text">7.3 读取csv文件</span></a><a class="link" href="/wiki/python-basic/data-storage/relative_and_abs_path.html"><span class="toc-text">7.4 绝对路径与相对路径</span></a><a class="link" href="/wiki/python-basic/data-storage/five_file_rw_methods.html"><span class="toc-text">7.5 5种python常用读写文件方法</span></a><a class="link" href="/wiki/python-basic/data-storage/sqlite.html"><span class="toc-text">7.6 sqlite</span></a><a class="link" href="/wiki/python-basic/data-storage/serialize.html"><span class="toc-text">7.7 序列化</span></a></div><div class="widget-header dis-select"><span class="name">第8章 模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/module/intro.html"><span class="toc-text">8.1 本章简介</span></a><a class="link" href="/wiki/python-basic/module/module.html"><span class="toc-text">8.2 模块</span></a><a class="link" href="/wiki/python-basic/module/pip.html"><span class="toc-text">8.3 什么是pip</span></a><a class="link active" href="/wiki/python-basic/module/standard_module_index.html"><span class="toc-text">8.4 常用标准模块</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">第9章 时间处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/time/intro.html"><span class="toc-text">9.1 本章简介</span></a><a class="link" href="/wiki/python-basic/time/time.html"><span class="toc-text">9.2 time模块</span></a><a class="link" href="/wiki/python-basic/time/calendar.html"><span class="toc-text">9.2 calendar日历模块</span></a><a class="link" href="/wiki/python-basic/time/datetime.html"><span class="toc-text">9.3 datetime模块</span></a><a class="link" href="/wiki/python-basic/time/time_format_transfer.html"><span class="toc-text">9.5 时间格式转换</span></a><a class="link" href="/wiki/python-basic/time/time_exercises.html"><span class="toc-text">9.6 时间练习题</span></a></div><div class="widget-header dis-select"><span class="name">第10章 错误和异常</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/exection/intro.html"><span class="toc-text">10.1 本章简介</span></a><a class="link" href="/wiki/python-basic/exection/exection.html"><span class="toc-text">10.2 错误和异常</span></a><a class="link" href="/wiki/python-basic/exection/catch.html"><span class="toc-text">10.3 捕获异常</span></a><a class="link" href="/wiki/python-basic/exection/raise.html"><span class="toc-text">10.4 主动抛异常</span></a><a class="link" href="/wiki/python-basic/exection/exection_info.html"><span class="toc-text">10.5 异常信息分析与收集</span></a><a class="link" href="/wiki/python-basic/exection/common_error.html"><span class="toc-text">10.6 常见的错误和异常</span></a><a class="link" href="/wiki/python-basic/exection/debug.html"><span class="toc-text">10.7 使用pycharm调试python程序</span></a><a class="link" href="/wiki/python-basic/exection/pudb_debug.html"><span class="toc-text">10.8 使用pudb在终端调试python代码</span></a><a class="link" href="/wiki/python-basic/exection/friendly-traceback.html"><span class="toc-text">10.9 快速定位代码语法错误</span></a><a class="link" href="/wiki/python-basic/exection/py_raise_execption_up.html"><span class="toc-text">10.10 捕获并再次抛出异常</span></a></div><div class="widget-header dis-select"><span class="name">第11章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/oop/intro.html"><span class="toc-text">11.1 本章简介</span></a><a class="link" href="/wiki/python-basic/oop/class.html"><span class="toc-text">11.2 类的定义与实例化</span></a><a class="link" href="/wiki/python-basic/oop/encapsulation.html"><span class="toc-text">11.3 类的封装</span></a><a class="link" href="/wiki/python-basic/oop/inheritance.html"><span class="toc-text">11.4 类的继承</span></a><a class="link" href="/wiki/python-basic/oop/polymorphism.html"><span class="toc-text">11.5 类的多态</span></a><a class="link" href="/wiki/python-basic/oop/oop_bankaccount.html"><span class="toc-text">11.6 面向对象编程示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 8大排序算法</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/sort/intro.html"><span class="toc-text">13.1 本章简介</span></a><a class="link" href="/wiki/python-basic/sort/pop_sort.html"><span class="toc-text">13.2 冒泡排序</span></a><a class="link" href="/wiki/python-basic/sort/insert_sort.html"><span class="toc-text">13.3 插入排序</span></a><a class="link" href="/wiki/python-basic/sort/select_sort.html"><span class="toc-text">13.4 选择排序</span></a><a class="link" href="/wiki/python-basic/sort/shell_sort.html"><span class="toc-text">13.5 希尔排序</span></a><a class="link" href="/wiki/python-basic/sort/quick_sort.html"><span class="toc-text">13.6 快速排序</span></a><a class="link" href="/wiki/python-basic/sort/merge_sort.html"><span class="toc-text">13.7 归并排序</span></a><a class="link" href="/wiki/python-basic/sort/radix_sort.html"><span class="toc-text">13.8 基数排序</span></a><a class="link" href="/wiki/python-basic/sort/heap_sort.html"><span class="toc-text">13.9 堆排序</span></a></div><div class="widget-header dis-select"><span class="name">第14章 算法练习</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/algorithm/intro.html"><span class="toc-text">14.1 本章简介</span></a><a class="link" href="/wiki/python-basic/algorithm/easy_execises.html"><span class="toc-text">14.2  简单练习题</span></a><a class="link" href="/wiki/python-basic/algorithm/hard_execises.html"><span class="toc-text">14.3 困难练习题</span></a><a class="link" href="/wiki/python-basic/algorithm/hell_execises.html"><span class="toc-text">14.4 地狱练习题</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/easy-oop/attr_method.html"><span class="toc-text">12.3 属性与方法</span></a><a class="link" href="/wiki/python-basic/easy-oop/class_descript_content.html"><span class="toc-text">12.7 类可以准确描述数据内容</span></a><a class="link" href="/wiki/python-basic/easy-oop/class_object_relation.html"><span class="toc-text">12.10 类与对象的关系</span></a><a class="link" href="/wiki/python-basic/easy-oop/inherit.html"><span class="toc-text">12.6 什么是继承</span></a><a class="link" href="/wiki/python-basic/easy-oop/descript_relation.html"><span class="toc-text">12.8 类可以形象的描述数据之间的关系</span></a><a class="link" href="/wiki/python-basic/easy-oop/intro.html"><span class="toc-text">12.1 本章简介</span></a><a class="link" href="/wiki/python-basic/easy-oop/instance_modify_cls_attr.html"><span class="toc-text">12.16 为什么实例不能修改类属性</span></a><a class="link" href="/wiki/python-basic/easy-oop/magic_dot.html"><span class="toc-text">12.5 神奇的点</span></a><a class="link" href="/wiki/python-basic/easy-oop/method_belong_class_attr.html"><span class="toc-text">12.11 方法属于类，属性属于对象</span></a><a class="link" href="/wiki/python-basic/easy-oop/oop_object.html"><span class="toc-text">12.4 对象是什么</span></a><a class="link" href="/wiki/python-basic/easy-oop/overwrite.html"><span class="toc-text">12.13 重写，儿大不由爷</span></a><a class="link" href="/wiki/python-basic/easy-oop/public_protected_private.html"><span class="toc-text">12.17 没有public，protected, private</span></a><a class="link" href="/wiki/python-basic/easy-oop/restrain_action.html"><span class="toc-text">12.9 类可以规范数据的行为</span></a><a class="link" href="/wiki/python-basic/easy-oop/tk-attr-method.html"><span class="toc-text">12.14 填坑，关于属性和方法（1）</span></a><a class="link" href="/wiki/python-basic/easy-oop/tk_attr_method_2.html"><span class="toc-text">12.15 填坑，关于属性和方法（2）</span></a><a class="link" href="/wiki/python-basic/easy-oop/what_is_it.html"><span class="toc-text">12.2 是什么很重要</span></a><a class="link" href="/wiki/python-basic/easy-oop/whois_is_self.html"><span class="toc-text">12.12 灵魂拷问，self是谁</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-basic/preface/introduction.html">Python基础教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-24T00:47:40.346Z">2025-08-24</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>8.4 常用标准模块</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="常用模块导读"><a href="#常用模块导读" class="headerlink" title="常用模块导读"></a>常用模块导读</h1><p>python提供了非常多的标准模块，这些模块实现的都是很具体的你一定会经常使用的模块，掌握这些模块，可以让你在解决问题时思路更广，效率更高，本章节，你将学习以下标准模块：</p>
+<ol>
+<li>os</li>
+<li>sys</li>
+<li>math</li>
+<li>random</li>
+<li>hashlib</li>
+<li>statistics</li>
+<li>uuid</li>
+</ol>
+<h1 id="os"><a href="#os" class="headerlink" title="os"></a>os</h1><p>os是python的内置模块，它提供了与操作系统相关的接口，可与操作系统进行交互，例如对系统文件目录的操作，新建，修改，删除文件夹和文件，os.system可以执行系统命令。</p>
+<h2 id="1-系统操作相关"><a href="#1-系统操作相关" class="headerlink" title="1. 系统操作相关"></a>1. 系统操作相关</h2><h3 id="1-1-os-sep"><a href="#1-1-os-sep" class="headerlink" title="1.1 os.sep"></a>1.1 os.sep</h3><p>操作系统路径分隔符，在不同的操作系统上，路径分割符是不一样的。windows系统是\， linux系统和mac是&#x2F;</p>
+<h3 id="1-2-os-name"><a href="#1-2-os-name" class="headerlink" title="1.2 os.name"></a>1.2 os.name</h3><p>获取正在使用的工作平台,windows下是nt,linux&#x2F;unix环境下是posix</p>
+<h3 id="1-3-os-getenv"><a href="#1-3-os-getenv" class="headerlink" title="1.3 os.getenv()"></a>1.3 os.getenv()</h3><p>读取环境变量</p>
+<h3 id="1-4-os-getcwd"><a href="#1-4-os-getcwd" class="headerlink" title="1.4 os.getcwd()"></a>1.4 os.getcwd()</h3><p>获取当前工作路径</p>
+<h3 id="1-5-示例代码"><a href="#1-5-示例代码" class="headerlink" title="1.5 示例代码"></a>1.5 示例代码</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> os</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.sep</span><br><span class="line"><span class="string">&#x27;/&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.name</span><br><span class="line"><span class="string">&#x27;posix&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.getenv(<span class="string">&#x27;PATH&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/var/pyenv/shims:/opt/local/bin:/opt/local/sbin:/opt/local/sbin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/kwsy/Qt5.5.0/5.5/clang_64/bin:/usr//bin/ChromeDriver:/Users/kwsy/.rvm/bin:/Users/kwsy/.rvm/bin:/usr/bin/:/Users/kwsy/rc_tool/rd_tools/arcanist/bin&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.getcwd()</span><br><span class="line"><span class="string">&#x27;/Users/kwsy/PycharmProjects/pythonclass/mytest&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-目录操作"><a href="#2-目录操作" class="headerlink" title="2. 目录操作"></a>2. 目录操作</h2><p>对文件夹进行增删改查操作</p>
+<h3 id="2-1-os-listdir"><a href="#2-1-os-listdir" class="headerlink" title="2.1 os.listdir()"></a>2.1 os.listdir()</h3><p>获取指定目录下的所有文件和目录名，如果不指定目录，则目录默认为当前所在目录</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.listdir()</span><br><span class="line">os.listdir(<span class="string">&#x27;/Users/kwsy/&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-os-mkdir"><a href="#2-1-os-mkdir" class="headerlink" title="2.1 os.mkdir()"></a>2.1 os.mkdir()</h3><p>创建一个目录（文件夹）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.mkdir(<span class="string">&#x27;test&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-os-rmdir"><a href="#2-2-os-rmdir" class="headerlink" title="2.2 os.rmdir()"></a>2.2 os.rmdir()</h3><p>删除一个目录，如果目录里有文件，则无法删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.rmdir(<span class="string">&#x27;test&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-os-makedirs"><a href="#2-3-os-makedirs" class="headerlink" title="2.3 os.makedirs()"></a>2.3 os.makedirs()</h3><p>生成多层递归目录，这个方法与mkdir一样，都可以创建目录，不同之处在于mkdir只能创建一层目录，而makedirs可以创建多层。比如你想在目录A下创建一个目录B，用着两个方法都可以，但如果想在A目录下创建一个多层目录C&#x2F;D&#x2F;E， 就只能用os.makedirs().它会先创建C，然后在C下面创建D，在D下面创建E</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.makedirs(<span class="string">&#x27;test/demo/demo2&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-os-removedirs"><a href="#2-4-os-removedirs" class="headerlink" title="2.4 os.removedirs()"></a>2.4 os.removedirs()</h3><p>递归删除多层目录，但若干目录中有文件则无法删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.removedirs(<span class="string">&#x27;test/demo/demo2&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-os-chdir"><a href="#2-5-os-chdir" class="headerlink" title="2.5 os.chdir()"></a>2.5 os.chdir()</h3><p>改变当前目录，切换到其他目录，和linux系统下的cd 命令是同样的效果</p>
+<h3 id="2-6-os-rename"><a href="#2-6-os-rename" class="headerlink" title="2.6 os.rename()"></a>2.6 os.rename()</h3><p>修改目录或者文件的名字</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.rename(<span class="string">&#x27;demo.py&#x27;</span>, <span class="string">&#x27;demo2.py&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>将文件demo.py修改为demo2.py</p>
+<h2 id="3-path模块"><a href="#3-path模块" class="headerlink" title="3. path模块"></a>3. path模块</h2><p>os.path提供了对文件和目录更加强大的操作</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>功能作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>os.path.exists(path)</td>
+<td>判断path是否存在，path既可以是目录，也是是文件，如果存在返回True，反之返回False</td>
+</tr>
+<tr>
+<td>os.path.isfile(path)</td>
+<td>判断path是否是文件，如果是返回True</td>
+</tr>
+<tr>
+<td>os.path.isdir(path)</td>
+<td>判断path是否是目录，如果是返回True</td>
+</tr>
+<tr>
+<td>os.path.isabs(path)</td>
+<td>判断路径是否是绝对路径</td>
+</tr>
+<tr>
+<td>os.path.basename(path)</td>
+<td>获取文件名</td>
+</tr>
+<tr>
+<td>os.path.dirname(path)</td>
+<td>获取路径名</td>
+</tr>
+<tr>
+<td>os.path.getsize(path)</td>
+<td>获取文件大小</td>
+</tr>
+<tr>
+<td>os.path.getatime(path)</td>
+<td>获取最近访问时间</td>
+</tr>
+<tr>
+<td>os.path.getctime(path)</td>
+<td>unix是最新的元数据更改的时间,windows系统下是文件创建时间</td>
+</tr>
+<tr>
+<td>os.path.getmtime(path)</td>
+<td>获取文件内容最近修改时间</td>
+</tr>
+<tr>
+<td>os.path.abspath(path)</td>
+<td>获取绝对路径</td>
+</tr>
+<tr>
+<td>os.path.split(path)</td>
+<td>分割路径</td>
+</tr>
+<tr>
+<td>os.path.splitext(path)</td>
+<td>分割文件名，返回由文件名和扩展名组成的元组</td>
+</tr>
+<tr>
+<td>os.path.join()</td>
+<td>拼接路径</td>
+</tr>
+</tbody></table>
+<p>示例代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">path = <span class="string">&#x27;/Users/kwsy/kwsy/coolpython/test.py&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(os.path.basename(path))       <span class="comment"># 获取文件名</span></span><br><span class="line"><span class="built_in">print</span>(os.path.dirname(path))        <span class="comment"># 获取路径名</span></span><br><span class="line"><span class="built_in">print</span>(os.path.getsize(path))        <span class="comment"># 获取文件大小</span></span><br><span class="line"><span class="built_in">print</span>(os.path.getatime(path))       <span class="comment"># 获取最近访问时间</span></span><br><span class="line"><span class="built_in">print</span>(os.path.getctime(path))       <span class="comment"># unix是最新的元数据更改的时间,windows系统下是文件创建时间</span></span><br><span class="line"><span class="built_in">print</span>(os.path.getmtime(path))       <span class="comment"># 获取文件内容最近修改时间</span></span><br><span class="line"><span class="built_in">print</span>(os.path.abspath(path))        <span class="comment"># 获取绝对路径</span></span><br><span class="line"><span class="built_in">print</span>(os.path.split(path))          <span class="comment"># 分割路径</span></span><br><span class="line"><span class="built_in">print</span>(os.path.splitext(path))       <span class="comment"># 分割文件名，返回由文件名和扩展名组成的元组</span></span><br><span class="line"><span class="built_in">print</span>(os.path.join(<span class="string">&#x27;/Users/kwsy/kwsy/coolpython&#x27;</span>, <span class="string">&#x27;test.py&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">test.py</span><br><span class="line">/Users/kwsy/kwsy/coolpython</span><br><span class="line">707</span><br><span class="line">1575863105.0</span><br><span class="line">1575862477.0</span><br><span class="line">1575862477.0</span><br><span class="line">/Users/kwsy/kwsy/coolpython/test.py</span><br><span class="line">(&#x27;/Users/kwsy/kwsy/coolpython&#x27;, &#x27;test.py&#x27;)</span><br><span class="line">(&#x27;/Users/kwsy/kwsy/coolpython/test&#x27;, &#x27;.py&#x27;)</span><br><span class="line">/Users/kwsy/kwsy/coolpython/test.py</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="sys"><a href="#sys" class="headerlink" title="sys"></a>sys</h1><p>sys是python的内置模块，它包含了python解释器和系统环境有关的参数和函数，例如sys.stdin, sys.stdin, sys.stderr 是与解释器的标准输入，输出和错误流相对应的文件对象, sys.argv可以获取外部向程序内部传递的参数。</p>
+<h2 id="1-sys-version"><a href="#1-sys-version" class="headerlink" title="1. sys.version"></a>1. sys.version</h2><p>获取python的版本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sys.version</span><br><span class="line"><span class="string">&#x27;3.6.6 (v3.6.6:4cf1f54eb7, Jun 26 2018, 19:50:54) \n[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)]&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-sys-stdin-sys-stdin-sys-stderr"><a href="#2-sys-stdin-sys-stdin-sys-stderr" class="headerlink" title="2. sys.stdin, sys.stdin, sys.stderr"></a>2. sys.stdin, sys.stdin, sys.stderr</h2><p>这三者是与解释器的标准输入，输出和错误流相对应的文件对象。关于这三个文件对象足以专门写一篇教程，这里只举一个例子来说明sys.stdout的作用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">sys.stdout = <span class="built_in">open</span>(<span class="string">&#x27;test&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;ok&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>sys.stdout是标准输出流，上面的代码将标准输出流重定向到一个打开的文件中，这样print函数在执行时，就不会在终端输出内容，而是在将内容写入到文件中</p>
+<h2 id="3-sys-modules"><a href="#3-sys-modules" class="headerlink" title="3. sys.modules"></a>3. sys.modules</h2><p>sys.modules是一个全局字典，该字典是python启动后就加载在内存中。每当程序员导入新的模块，sys.modules将自动记录该模块。当第二次再导入该模块时，python会直接到字典中查找，从而加快了程序运行的速度</p>
+<h2 id="4-sys-path"><a href="#4-sys-path" class="headerlink" title="4. sys.path"></a>4. sys.path</h2><p>获取指定模块搜索路径的列表，当你在程序中使用import关键字引入一个模块时，解释器会按照一定的顺序来查找这个模块</p>
+<ol>
+<li>当前目录</li>
+<li>如果不在当前目录，Python 则搜索在 shell 变量 PYTHONPATH 下的每个目录。</li>
+<li>如果都找不到，Python会察看默认路径。UNIX下，默认路径一般为&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python&#x2F;</li>
+</ol>
+<p>模块搜索路径存储在 system 模块的 sys.path 变量中。变量里包含当前目录，PYTHONPATH和由安装过程决定的默认目录</p>
+<h2 id="5-sys-exit-n"><a href="#5-sys-exit-n" class="headerlink" title="5. sys.exit(n)"></a>5. sys.exit(n)</h2><p>程序执行到代码末尾，解释器会自动退出，如果你希望中途退出程序，可以使用sys.exit()方法，n可以传入一个整数，你可以在主程序中捕获对sys.exit()的调用并获得这个n，一般0表示正常退出，其他为异常</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    sys.exit(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    test()</span><br><span class="line"><span class="keyword">except</span> SystemExit <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果是 3</p>
+<h2 id="6-sys-argv"><a href="#6-sys-argv" class="headerlink" title="6. sys.argv"></a>6. sys.argv</h2><p>在外部向程序内部传递参数，定义一个名为test.py的脚本，内容如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_print</span>(<span class="params">content, count</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(count):</span><br><span class="line">        <span class="built_in">print</span>(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(sys.argv)</span><br><span class="line">    content, count = sys.argv[<span class="number">1</span>], <span class="built_in">int</span>(sys.argv[<span class="number">2</span>])</span><br><span class="line">    my_print(content, count)</span><br></pre></td></tr></table></figure>
+
+<p>这段代码看起来有点怪怪的，sys.argv到底是什么东西，别急，要想理解这段代码，就必须在终端通过python命令来运行程序</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 test.py 接收参数 2</span><br></pre></td></tr></table></figure>
+
+<p>在使用python命令执行脚本时，脚本的后面还跟了两段内容，这就是在向程序传递运行时所需要的参数，sys.argv就是用来存储这个参数的</p>
+<p>程序输出内容为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[&#x27;test.py&#x27;, &#x27;接收参数&#x27;, &#x27;2&#x27;]</span><br><span class="line">接收参数</span><br><span class="line">接收参数</span><br></pre></td></tr></table></figure>
+
+<p>sys.argv是一个列表，包含了脚本的名称后紧跟在脚本后面的参数</p>
+<h1 id="math"><a href="#math" class="headerlink" title="math"></a>math</h1><p>math模块提供了很多与数学相关的函数,本教程只列举了其中一部分。</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>功能和作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>math.ceil(x)</td>
+<td>取大于等于x的最小的整数值，如果x是一个整数，则返回x</td>
+</tr>
+<tr>
+<td>math.fabs(x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>math.floor(x)</td>
+<td>floor()取小于等于x的最大的整数值，如果x是一个整数，则返回自身</td>
+</tr>
+<tr>
+<td>log(x,a)</td>
+<td>如果不指定a，则默认以e为基数，a参数给定时，将 x 以a为底的对数返回</td>
+</tr>
+<tr>
+<td>math.log10(x)</td>
+<td>返回x的以10为底的对数</td>
+</tr>
+<tr>
+<td>math.log2(x)</td>
+<td>返回x的基2对数</td>
+</tr>
+<tr>
+<td>math.pi</td>
+<td>数字常量，圆周率</td>
+</tr>
+<tr>
+<td>math.pow(x, y)</td>
+<td>返回x的y次方，即x**y</td>
+</tr>
+<tr>
+<td>math.sqrt(x)</td>
+<td>求x的平方根</td>
+</tr>
+</tbody></table>
+<h1 id="python随机数模块random"><a href="#python随机数模块random" class="headerlink" title="python随机数模块random"></a>python随机数模块random</h1><p>random是python的一个内置模块，专门用于生成随机数，但是要明确一点，random模块生成的并非真正的随机数，而是伪随机数。random提供的部分方法可以生成指定分布的随机数，比如生成符合高斯分布的随机数，这些方法在处理数学问题时将非常有用。</p>
+<h2 id="1-随机数种子"><a href="#1-随机数种子" class="headerlink" title="1. 随机数种子"></a>1. 随机数种子</h2><p>random模块生成的都是伪随机数，具体生成的随机数是什么取决于随机数种子，当随机数种子相同时，生成的随机数也就相同。使用seed方法可设置随机数种子。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">random.seed(<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(random.randint(<span class="number">1</span>, <span class="number">100</span>))           <span class="comment"># 80</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码，不论谁执行，在哪里执行，生成的随机数都是80，因为随机数种子都是5，如果使用seed方法设置随机数种子或者seed方法在调用时不传参数，则使用系统当前的时间来作为随机数种子，这也是我们平常所采用的方法，不设置随机数种子。</p>
+<p>某些情况下设置随机数种子，是为了让某个包含了随机数的算法能够有相同的结果，这样便于验证算法的正确性。</p>
+<h2 id="2-生成指定分布的随机数"><a href="#2-生成指定分布的随机数" class="headerlink" title="2. 生成指定分布的随机数"></a>2. 生成指定分布的随机数</h2><p>random模块的一些方法可以生成符合指定分布的随机数，比如random.gauss</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gauss</span>(<span class="params">self, mu, sigma</span>):</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>mu 是平均值</li>
+<li>sigma 是标准差</li>
+</ul>
+<p>下面的代码生成10000个符合平均值为3标准为1的随机数并绘制出直方图。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">nums = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>):</span><br><span class="line">    value = random.gauss(<span class="number">3</span>, <span class="number">1</span>)</span><br><span class="line">    nums.append(value)</span><br><span class="line"></span><br><span class="line">plt.hist(nums, bins=<span class="number">200</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250823233615053.jpeg" alt="random"></p>
+<p>除了高斯分布以外，random还支持生成指数分布，Gamma 分布等其他分布的随机数，在实践中，这类方法极少使用，因此不做过多介绍。</p>
+<h2 id="3-随机生成整数的方法"><a href="#3-随机生成整数的方法" class="headerlink" title="3. 随机生成整数的方法"></a>3. 随机生成整数的方法</h2><h3 id="3-1-random-randint-a-b"><a href="#3-1-random-randint-a-b" class="headerlink" title="3.1 random.randint(a, b)"></a>3.1 random.randint(a, b)</h3><p>random.randint方法返回一个随机整数N，N满足条件a &lt;&#x3D; N &lt;&#x3D; b</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> random</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.randint(<span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line"><span class="number">70</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-random-randrange"><a href="#3-2-random-randrange" class="headerlink" title="3.2 random.randrange"></a>3.2 random.randrange</h3><p>random.randrange方法的应用与内置函数range有一点关联，randrange会从range函数返回的整数序列中随机返回一个整数。</p>
+<p>random.randrange方法语法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">random.randrange(stop)</span><br><span class="line">random.randrange(start, stop[, step])</span><br></pre></td></tr></table></figure>
+
+<p>range(stop)产生一个从0到stop-1的整数序列seq，random.randrange(stop)从seq里随机选择一个数做为返回值，random.randrange(stop)等价于random.randint(0, stop-1)。</p>
+<p>range(start, stop[, step]) 以step为步长从start开始到stop结束产生一个序列seq，random.randrange(start, stop[, step])从seq里随机选择一个数做为返回值。</p>
+<p>示例代码</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; random.randrange(100)</span><br><span class="line">47</span><br><span class="line">&gt;&gt;&gt; random.randrange(0, 100, 3)</span><br><span class="line">21</span><br><span class="line">&gt;&gt;&gt; random.randrange(0, 100, 3)</span><br><span class="line">81</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-random-getrandbits-k"><a href="#3-3-random-getrandbits-k" class="headerlink" title="3.3 random.getrandbits(k)"></a>3.3 random.getrandbits(k)</h3><p>random.getrandbits(k)返回具有k个比特位的随机非负整数，以random.getrandbits(3)为例，一个整数有3个比特位，那么最大值的二进制形式为111，最小值的二进制形式为000，转换为10进制，随机数最大值是7，最小值是0。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.getrandbits(<span class="number">3</span>)</span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-生成随机浮点数"><a href="#4-生成随机浮点数" class="headerlink" title="4. 生成随机浮点数"></a>4. 生成随机浮点数</h2><h3 id="4-1-random-random"><a href="#4-1-random-random" class="headerlink" title="4.1 random.random()"></a>4.1 random.random()</h3><p>random.random()方法返回一个在 [0.0, 1.0)范围内的浮点数，示例代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> random</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.random()</span><br><span class="line"><span class="number">0.4682406396257134</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-random-uniform-a-b"><a href="#4-2-random-uniform-a-b" class="headerlink" title="4.2 random.uniform(a, b)"></a>4.2 random.uniform(a, b)</h3><p>random.uniform 方法返回一个随机数N，当a &lt;&#x3D; b时，N满足条件a &lt;&#x3D; N &lt;&#x3D; b， 当a &gt; b时，N满足条件b &lt;&#x3D; N &lt;&#x3D; a</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.uniform(<span class="number">1.2</span>, <span class="number">4.5</span>)</span><br><span class="line"><span class="number">3.344709736336089</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.uniform(<span class="number">4.5</span>, <span class="number">1.2</span>)</span><br><span class="line"><span class="number">1.26233857205222</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.uniform(<span class="number">4.5</span>, <span class="number">4.5</span>)</span><br><span class="line"><span class="number">4.5</span></span><br></pre></td></tr></table></figure>
+
+<p>uniform 对a，b两个参数的大小关系没有要求，通常人们会猜测a应当小于等于b，但实际上a可以大于b。</p>
+<h2 id="5-从序列里随机选取对象"><a href="#5-从序列里随机选取对象" class="headerlink" title="5. 从序列里随机选取对象"></a>5. 从序列里随机选取对象</h2><h3 id="5-1-random-choice-seq"><a href="#5-1-random-choice-seq" class="headerlink" title="5.1 random.choice(seq)"></a>5.1 random.choice(seq)</h3><p>random.choice方法从序列seq中随机返回一个对象，如果序列为空，则引发IndexError</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>random.choice([<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-random-choices"><a href="#5-2-random-choices" class="headerlink" title="5.2 random.choices"></a>5.2 random.choices</h3><p><strong>random.choices方法语法</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">random.choices(population, weights=<span class="literal">None</span>, *, cum_weights=<span class="literal">None</span>, k=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>random.choices方法从序列population中随机选取k个对象，如果指定了weights，则根据权重返回对象，权重越大，被随机选中返回的概率越大。返回的k个随机对象可以有重复对象，这一点一定要注意。</p>
+<p><strong>参数解释</strong></p>
+<ul>
+<li>population 序列</li>
+<li>weights 相对权重</li>
+<li>cum_weights 累积权重</li>
+<li>k，返回对象的个数</li>
+</ul>
+<p>示例代码<br><strong>不设置权重</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">fruits = [<span class="string">&#x27;苹果&#x27;</span>, <span class="string">&#x27;香蕉&#x27;</span>, <span class="string">&#x27;火龙果&#x27;</span>, <span class="string">&#x27;葡萄&#x27;</span>]</span><br><span class="line">lst = random.choices(fruits, k=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(lst)      <span class="comment"># [&#x27;香蕉&#x27;, &#x27;葡萄&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>设置相对权重</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">fruits = [<span class="string">&#x27;苹果&#x27;</span>, <span class="string">&#x27;香蕉&#x27;</span>, <span class="string">&#x27;火龙果&#x27;</span>, <span class="string">&#x27;葡萄&#x27;</span>]</span><br><span class="line">lst = random.choices(fruits, weights=[<span class="number">5</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], k=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(lst)   <span class="comment"># [&#x27;苹果&#x27;, &#x27;火龙果&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<p>weights里的对象个数必须与fruits里的对象个数相同，weights表示的是各项之间被选中的概率相对比值，苹果被随机选中的概率是50%，计算方法是5&#x2F;(5+2+2+1)。</p>
+<p><strong>设置累积权重</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">fruits = [<span class="string">&#x27;苹果&#x27;</span>, <span class="string">&#x27;香蕉&#x27;</span>, <span class="string">&#x27;火龙果&#x27;</span>, <span class="string">&#x27;葡萄&#x27;</span>]</span><br><span class="line">lst = random.choices(fruits, cum_weights=[<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>], k=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(lst)   <span class="comment"># [&#x27;苹果&#x27;, &#x27;火龙果&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<p>choices 在处理权重时，会自动将相对权重转换为累积权重，weights&#x3D;[5, 2, 2, 1]转为为累积权重为cum_weights&#x3D;[5, 7, 9, 10]，每一项的值都是前面几项的和。</p>
+<p>累积权重不如相对权重好理解，所以建议你使用相对权重。</p>
+<h3 id="5-3-random-sample"><a href="#5-3-random-sample" class="headerlink" title="5.3 random.sample"></a>5.3 random.sample</h3><p>random.sample方法从序列中随机选取k个对象，选出的对象都是唯一的，sample用于无重复的随机抽样，smaple方法语法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sample</span>(<span class="params">self, population, k</span>):</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数说明</strong></p>
+<ul>
+<li>population 序列</li>
+<li>k 抽样个数</li>
+</ul>
+<p>如果population本身就包含了重复元素，sample方法每次返回的对象都是样本中可能的选择。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">fruits = [<span class="string">&#x27;苹果&#x27;</span>, <span class="string">&#x27;香蕉&#x27;</span>, <span class="string">&#x27;火龙果&#x27;</span>, <span class="string">&#x27;葡萄&#x27;</span>]</span><br><span class="line">lst = random.sample(fruits, k=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(lst)   <span class="comment"># [&#x27;香蕉&#x27;, &#x27;火龙果&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-random-shuffle"><a href="#5-4-random-shuffle" class="headerlink" title="5.4 random.shuffle"></a>5.4 random.shuffle</h3><p>random.shuffle方法将序列就地大乱，这类似于我们娱乐时的洗牌。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">lst = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line">random.shuffle(lst)</span><br><span class="line"><span class="built_in">print</span>(lst)   <span class="comment"># [2, 8, 4, 3, 9, 1, 6, 0, 5, 7]</span></span><br></pre></td></tr></table></figure>
+
+<p>经shuffle方法处理后，lst列表变得无序。</p>
+<h1 id="hashlib"><a href="#hashlib" class="headerlink" title="hashlib"></a>hashlib</h1><h2 id="1-md5"><a href="#1-md5" class="headerlink" title="1. md5"></a>1. md5</h2><p>hashlib提供了常用的摘要算法如MD5，SHA1等等，摘要算法又称散列算法，哈希算法。很多人把MD5说成是加密算法，这是极其不准确的，md5是散列算法，不是加密算法，你什么时候见过有人能把所谓“加密”的值解密成原文？ 很多网站的密码都是经过md5散列处理的，为的是保护用户账号的安全，但太多的人就是喜欢用简单的密码，比如123456，而123456 经过MD5散列后的值永远是 e10adc3949ba59abbe56e057f20f883e ，于是黑客就通过撞库，得到了用户的密码，网上一些所谓“解密”MD5的网站，仅仅是收集了大量的散列后的值而已，不是解密，而是撞库</p>
+<h2 id="2-python3-里使用md5"><a href="#2-python3-里使用md5" class="headerlink" title="2. python3 里使用md5"></a>2. python3 里使用md5</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">string = <span class="string">&quot;123456&quot;</span></span><br><span class="line"></span><br><span class="line">m = hashlib.md5()       <span class="comment"># 创建md5对象</span></span><br><span class="line">m.update(string.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))   <span class="comment"># update方法只接收bytes类型数据作为参数</span></span><br><span class="line">str_md5 = m.hexdigest()     <span class="comment"># 得到散列后的字符串</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;MD5散列前为 ：&#x27;</span> + string)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;MD5散列后为 ：&#x27;</span> + str_md5)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">MD5散列前为 ：123456</span><br><span class="line">MD5散列后为 ：e10adc3949ba59abbe56e057f20f883e</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="statistics"><a href="#statistics" class="headerlink" title="statistics"></a>statistics</h1><p>statistics 提供了一些计算数学统计量的函数，功能如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mean</td>
+<td>算数平均值</td>
+</tr>
+<tr>
+<td>harmonic_mean</td>
+<td>调和平均值</td>
+</tr>
+<tr>
+<td>median</td>
+<td>中位数</td>
+</tr>
+<tr>
+<td>median_low</td>
+<td>数据的第一个中位数（总数为偶数时有两个中位数）</td>
+</tr>
+<tr>
+<td>median_high</td>
+<td>数据的第二个中位数</td>
+</tr>
+<tr>
+<td>median_grouped</td>
+<td>分组数据的中位数的均值</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>离散数据的模式, 数据中最常见的值</td>
+</tr>
+<tr>
+<td>pstdev</td>
+<td>数据总体的标准差</td>
+</tr>
+<tr>
+<td>pvariance</td>
+<td>数据总体的方差</td>
+</tr>
+<tr>
+<td>stdev</td>
+<td>数据样本的标准差</td>
+</tr>
+<tr>
+<td>variance</td>
+<td>数据样本的方差</td>
+</tr>
+</tbody></table>
+<p>示例代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> statistics</span><br><span class="line"></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">19</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(statistics.mean(lst))             <span class="comment"># 算数平均值</span></span><br><span class="line"><span class="built_in">print</span>(statistics.harmonic_mean(lst))    <span class="comment"># 调和平均值</span></span><br><span class="line"><span class="built_in">print</span>(statistics.median(lst))       <span class="comment"># 中位数</span></span><br><span class="line"><span class="built_in">print</span>(statistics.median_low(lst))   <span class="comment"># 数据的第一个中位数（总数为偶数时有两个中位数）</span></span><br><span class="line"><span class="built_in">print</span>(statistics.median_high(lst))  <span class="comment"># 数据的第二个中位数</span></span><br><span class="line"><span class="built_in">print</span>(statistics.median_grouped(lst))   <span class="comment"># 分组数据的中位数的均值</span></span><br><span class="line"><span class="built_in">print</span>(statistics.mode(lst))         <span class="comment"># 离散数据的模式, 数据中最常见的值</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(statistics.pstdev(lst))       <span class="comment"># 数据总体的标准差</span></span><br><span class="line"><span class="built_in">print</span>(statistics.pvariance(lst))    <span class="comment"># 数据总体的方差</span></span><br><span class="line"><span class="built_in">print</span>(statistics.stdev(lst))        <span class="comment"># 数据样本的标准差</span></span><br><span class="line"><span class="built_in">print</span>(statistics.variance(lst))     <span class="comment"># 数据样本的方差</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="uuid"><a href="#uuid" class="headerlink" title="uuid"></a>uuid</h1><p>uuid 是通用唯一识别码，它通过MAC地址、时间戳、命名空间、随机数、伪随机数来保证生成ID的唯一性，理论上，在这个宇宙中不可能生成两个相同的uuid。在分布式系统中，你可以用uuid来唯一的表示一个元素，不需要中央控制端来做标识的统一分配，任何一台机器上都可以大胆放心的生成uuid。</p>
+<p>在很多系统里，uuid都有应用，比如微软的 Microsoft’s Globally Unique Identifiers (GUIDs)，Linux ext2&#x2F;ext3 档案系统。我在工作中也曾用到过，在于其他web服务交互时，使用uuid作为一次请求的唯一标识，在日志中记录下来，这样就可以通过uuid来串联起两个系统的调用链路信息。</p>
+<p>uuid的算法有5种:</p>
+<ol>
+<li>uuid1(), 基于时间戳, 由MAC地址、当前时间戳、随机数生成,可以保证全球唯一性</li>
+<li>uuid2()， 基于分布式计算环境DCE，python中没有提供这个算法。</li>
+<li>uuid3()，计算名字和命名空间的MD5散列值，可以保证同一命名空间中不同名字的唯一性，和不同命名空间的唯一性，但同一命名空间的同一名字生成相同的uuid</li>
+<li>uuid4()， 由伪随机数得到，有一定的重复概率，该概率可以计算出来</li>
+<li>uuid5()，基于名字的SHA-1散列值， 算法与uuid3相同，不同的是使用 Secure Hash Algorithm 1 算法</li>
+</ol>
+<p>uuid3() 和 uuid5() 不常用，工作中使用uuid1()和uuid() 就可以了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(uuid.uuid1())</span><br><span class="line"><span class="built_in">print</span>(uuid.uuid3(uuid.NAMESPACE_DNS, <span class="string">&#x27;coolpython&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(uuid.uuid4())</span><br><span class="line"><span class="built_in">print</span>(uuid.uuid5(uuid.NAMESPACE_DNS, <span class="string">&#x27;coolpython&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="pathlib-—-面向对象的文件系统路径"><a href="#pathlib-—-面向对象的文件系统路径" class="headerlink" title="pathlib — 面向对象的文件系统路径"></a>pathlib — 面向对象的文件系统路径</h1><h2 id="1-pathlib-取代os-path模块"><a href="#1-pathlib-取代os-path模块" class="headerlink" title="1. pathlib 取代os.path模块"></a>1. pathlib 取代os.path模块</h2><p>从python3.4开始，pathlib正式成为标准库，旨在取代老旧的os.path模块和一些os模块中对系统路径的操作。pathlib提供了表示文件系统路径的类，而os.path提供的是各种操作路径的函数，如果你已经熟练的掌握了os.path，那么学习pathlib将非常容易。</p>
+<p>从使用情况来看，pathlib的功能对编程人员更加友好，对系统路径的操作更便捷。</p>
+<h2 id="2-纯路径与具体路径"><a href="#2-纯路径与具体路径" class="headerlink" title="2. 纯路径与具体路径"></a>2. 纯路径与具体路径</h2><p>下图是pathlib所提供的类的继承关系<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250823233718332.jpeg" alt="img"></p>
+<p>纯路径与具体路径的区别在于，具体路径类可以对系统路径进行I&#x2F;O操作，而纯路径则不可以，那么纯路径类能做什么呢？纯路径类可以对路径进行计算，这种计算不涉及I&#x2F;O操作，比如获得文件的后缀</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> PurePath</span><br><span class="line"></span><br><span class="line">path = PurePath(<span class="string">&#x27;/home/root/1.txt&#x27;</span>)</span><br><span class="line">suffix = path.suffix</span><br><span class="line"><span class="built_in">print</span>(suffix)       <span class="comment"># .txt</span></span><br></pre></td></tr></table></figure>
+
+<p>获得文件路径的后缀，纯粹是一个字符串计算的操作，不涉及到I&#x2F;O操作，如果你对路径的操作都属于这种类型的，那么用纯路径类就可以。那么，具体路径的所谓I&#x2F;O操作是什么呢，举一个简单的例子，判断路径是否存在。想要判断一个路径是否存在，就一定需要访问操作系统，只有操作系统才知道一个路径是否存在。在上面的代码里，你不能用path对象去调用exists方法，因为PurePath类根本没有这个方法，你需要使用Path类才可以</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">path = Path(<span class="string">&#x27;/home/root/1.txt&#x27;</span>)</span><br><span class="line">suffix = path.suffix</span><br><span class="line"><span class="built_in">print</span>(suffix)       <span class="comment"># .txt</span></span><br><span class="line"><span class="built_in">print</span>(path.exists())    <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+
+<p>PurePath 是Path的父类，因此如果你分不清该用纯路径类还是具体路径类，那么使用Path类就好了。至于PosixPath 和 WindowsPath，如果你也分不清应当依据什么进行选择，那就不要选了，一劳永逸的选择Path就好了，python会根据你的系统自动为你选择。上面的代码，如果在windows平台上执行，path.<strong>class</strong> 的值是pathlib.WindowsPath， 如果是在linux系统上执行，path.<strong>class</strong> 的值是pathlib.PosixPath。</p>
+<h2 id="3-pathlib方法与os-path函数对照关系"><a href="#3-pathlib方法与os-path函数对照关系" class="headerlink" title="3. pathlib方法与os.path函数对照关系"></a>3. pathlib方法与os.path函数对照关系</h2><p>如果你对os.path比较熟悉，那么在学习pathlib时，可以参考下表中方法与函数的对照关系</p>
+<table>
+<thead>
+<tr>
+<th>os 和 os.path</th>
+<th>pathlib</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.abspath"><code>os.path.abspath()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.resolve"><code>Path.resolve()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.chmod"><code>os.chmod()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.chmod"><code>Path.chmod()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.mkdir"><code>os.mkdir()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.mkdir"><code>Path.mkdir()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.rename"><code>os.rename()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.rename"><code>Path.rename()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.replace"><code>os.replace()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.replace"><code>Path.replace()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.rmdir"><code>os.rmdir()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.rmdir"><code>Path.rmdir()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.remove"><code>os.remove()</code></a>, <a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.unlink"><code>os.unlink()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.unlink"><code>Path.unlink()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.getcwd"><code>os.getcwd()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.cwd"><code>Path.cwd()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.exists"><code>os.path.exists()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.exists"><code>Path.exists()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.expanduser"><code>os.path.expanduser()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.expanduser"><code>Path.expanduser()</code></a> 和 <a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.home"><code>Path.home()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.isdir"><code>os.path.isdir()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.is_dir"><code>Path.is_dir()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.isfile"><code>os.path.isfile()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.is_file"><code>Path.is_file()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.islink"><code>os.path.islink()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.is_symlink"><code>Path.is_symlink()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.html#os.stat"><code>os.stat()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.stat"><code>Path.stat()</code></a>, <a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.owner"><code>Path.owner()</code></a>, <a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.group"><code>Path.group()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.isabs"><code>os.path.isabs()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.PurePath.is_absolute"><code>PurePath.is_absolute()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.join"><code>os.path.join()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.PurePath.joinpath"><code>PurePath.joinpath()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.basename"><code>os.path.basename()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.PurePath.name"><code>PurePath.name</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.dirname"><code>os.path.dirname()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.PurePath.parent"><code>PurePath.parent</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.samefile"><code>os.path.samefile()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.Path.samefile"><code>Path.samefile()</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/os.path.html#os.path.splitext"><code>os.path.splitext()</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/python_primary/module/standard_module_pathlib.html#pathlib.PurePath.suffix"><code>PurePath.suffix</code></a></td>
+</tr>
+</tbody></table>
+<h2 id="4-用的比较爽的方法"><a href="#4-用的比较爽的方法" class="headerlink" title="4. 用的比较爽的方法"></a>4. 用的比较爽的方法</h2><h3 id="4-1-获得上层文件夹"><a href="#4-1-获得上层文件夹" class="headerlink" title="4.1 获得上层文件夹"></a>4.1 获得上层文件夹</h3><p>在工程上，你可能需要通过当前的一个已知路径，向上回去几层，去定位一个文件夹或者文件，比如给定一个路径 &#x2F;home&#x2F;root&#x2F;python&#x2F;1.txt，向上回溯两层，得到的路径是&#x2F;home&#x2F;root，使用os.path模块，你可以这样编写代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">path = os.path.dirname(<span class="string">&#x27;/home/root/python/1.txt&#x27;</span>)</span><br><span class="line">path = os.path.dirname(path)</span><br><span class="line"><span class="built_in">print</span>(path)</span><br></pre></td></tr></table></figure>
+
+<p>向上回溯N层，需要调用N次dirname函数，着实麻烦，如果用pathlib，简直不要太简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">path = Path(<span class="string">&#x27;/home/root/python/1.txt&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(path.parents[<span class="number">1</span>])      <span class="comment"># /home/root</span></span><br></pre></td></tr></table></figure>
+
+<p>回溯3层，取path.parents[2]即可，怎么样，是不是方便了许多。</p>
+<h3 id="4-2-遍历文件夹及其子文件夹"><a href="#4-2-遍历文件夹及其子文件夹" class="headerlink" title="4.2 遍历文件夹及其子文件夹"></a>4.2 遍历文件夹及其子文件夹</h3><p>使用os.walk函数，可以实现对文件夹的深层遍历</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> dir_path,subpaths,files <span class="keyword">in</span> os.walk(<span class="string">&#x27;./&#x27;</span>,<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        file_path = os.path.join(dir_path,file)</span><br><span class="line">        <span class="keyword">if</span> file_path.endswith(<span class="string">&quot;.py&quot;</span>):</span><br><span class="line">            <span class="built_in">print</span>(file_path)</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码，可以输出当前目录下所有的文件夹和文件，如果只想要某种后缀的文件，那么需要你对file_path的后缀进行判断，而使用Path的glob方法，将更加容易。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">py_files = path.glob(<span class="string">&quot;**/*.py&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> py_files:</span><br><span class="line">    <span class="built_in">print</span>(filename)</span><br></pre></td></tr></table></figure>
+
+<p>“**” 是递归通配符，意味着对当前目录和子目录进行递归遍历，*.py 会匹配所有以.py结尾的文件路径。</p>
+<h1 id="os-path模块"><a href="#os-path模块" class="headerlink" title="os.path模块"></a>os.path模块</h1><p>os.path模块是Python专门用于处理系统路径的模块，路径包括文件和目录，路径是否存在并不影响模块里的函数正常运行，os.path甚至可以处理网站url，下表是os.path模块的常用函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/normpath.html">os.path.normpath</a></td>
+<td>去除路径中多余的分隔符和对上级目录的引用，返回标准化的路径</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/normcase.html">os.path.normcase</a></td>
+<td>返回大小写规范后的路径</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/isabs.html">os.path.isabs</a></td>
+<td>判断一个路径是否是绝对路径</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/isdir.html">os.path.isdir</a></td>
+<td>判断一个路径是否是文件夹</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/isfile.html">os.path.isfile</a></td>
+<td>判断一个路径是否是文件</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/islink.html">os.path.islink</a></td>
+<td>判断一个路径是否是软链</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/join.html">os.path.join</a></td>
+<td>将多个路径拼接到一起生成一个新的路径</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/ismount.html">os.path.ismount</a></td>
+<td>判断一个路径是否是挂载点</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/getsize.html">os.path.getsize</a></td>
+<td>返回目录或者文件的大小，单位是字节</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/getctime.html">os.path.getctime</a></td>
+<td>返回路径或者文件的创建时间</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/getmtime.html">os.path.getmtime</a></td>
+<td>返回文件或者路径的最后修改时间</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/getatime.html">os.path.getatime</a></td>
+<td>返回文件或者路径的最后访问时间</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.coolpython.net/method_topic/os-path/expandvars.html">os.path.expandvars</a></td>
+<td>根据真实的环境变量替换参数path路径中的环境变量部分并返回替换后的路径</td>
+</tr>
+</tbody></table>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-basic/module/pip.html">8.3 什么是pip</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-basic/time/intro.html">9.1 本章简介</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9D%97%E5%AF%BC%E8%AF%BB"><span class="toc-text">常用模块导读</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#os"><span class="toc-text">os</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C%E7%9B%B8%E5%85%B3"><span class="toc-text">1. 系统操作相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-os-sep"><span class="toc-text">1.1 os.sep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-os-name"><span class="toc-text">1.2 os.name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-os-getenv"><span class="toc-text">1.3 os.getenv()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-os-getcwd"><span class="toc-text">1.4 os.getcwd()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">1.5 示例代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C"><span class="toc-text">2. 目录操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-os-listdir"><span class="toc-text">2.1 os.listdir()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-os-mkdir"><span class="toc-text">2.1 os.mkdir()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-os-rmdir"><span class="toc-text">2.2 os.rmdir()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-os-makedirs"><span class="toc-text">2.3 os.makedirs()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-os-removedirs"><span class="toc-text">2.4 os.removedirs()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-os-chdir"><span class="toc-text">2.5 os.chdir()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-os-rename"><span class="toc-text">2.6 os.rename()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-path%E6%A8%A1%E5%9D%97"><span class="toc-text">3. path模块</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sys"><span class="toc-text">sys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-sys-version"><span class="toc-text">1. sys.version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-sys-stdin-sys-stdin-sys-stderr"><span class="toc-text">2. sys.stdin, sys.stdin, sys.stderr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-sys-modules"><span class="toc-text">3. sys.modules</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-sys-path"><span class="toc-text">4. sys.path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-sys-exit-n"><span class="toc-text">5. sys.exit(n)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-sys-argv"><span class="toc-text">6. sys.argv</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#math"><span class="toc-text">math</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%A8%A1%E5%9D%97random"><span class="toc-text">python随机数模块random</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%A7%8D%E5%AD%90"><span class="toc-text">1. 随机数种子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90%E6%8C%87%E5%AE%9A%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-text">2. 生成指定分布的随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E6%95%B4%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">3. 随机生成整数的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-random-randint-a-b"><span class="toc-text">3.1 random.randint(a, b)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-random-randrange"><span class="toc-text">3.2 random.randrange</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-random-getrandbits-k"><span class="toc-text">3.3 random.getrandbits(k)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="toc-text">4. 生成随机浮点数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-random-random"><span class="toc-text">4.1 random.random()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-random-uniform-a-b"><span class="toc-text">4.2 random.uniform(a, b)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BB%8E%E5%BA%8F%E5%88%97%E9%87%8C%E9%9A%8F%E6%9C%BA%E9%80%89%E5%8F%96%E5%AF%B9%E8%B1%A1"><span class="toc-text">5. 从序列里随机选取对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-random-choice-seq"><span class="toc-text">5.1 random.choice(seq)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-random-choices"><span class="toc-text">5.2 random.choices</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-random-sample"><span class="toc-text">5.3 random.sample</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-random-shuffle"><span class="toc-text">5.4 random.shuffle</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashlib"><span class="toc-text">hashlib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-md5"><span class="toc-text">1. md5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-python3-%E9%87%8C%E4%BD%BF%E7%94%A8md5"><span class="toc-text">2. python3 里使用md5</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#statistics"><span class="toc-text">statistics</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#uuid"><span class="toc-text">uuid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pathlib-%E2%80%94-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%B7%AF%E5%BE%84"><span class="toc-text">pathlib — 面向对象的文件系统路径</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-pathlib-%E5%8F%96%E4%BB%A3os-path%E6%A8%A1%E5%9D%97"><span class="toc-text">1. pathlib 取代os.path模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BA%AF%E8%B7%AF%E5%BE%84%E4%B8%8E%E5%85%B7%E4%BD%93%E8%B7%AF%E5%BE%84"><span class="toc-text">2. 纯路径与具体路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-pathlib%E6%96%B9%E6%B3%95%E4%B8%8Eos-path%E5%87%BD%E6%95%B0%E5%AF%B9%E7%85%A7%E5%85%B3%E7%B3%BB"><span class="toc-text">3. pathlib方法与os.path函数对照关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%94%A8%E7%9A%84%E6%AF%94%E8%BE%83%E7%88%BD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">4. 用的比较爽的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E8%8E%B7%E5%BE%97%E4%B8%8A%E5%B1%82%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">4.1 获得上层文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%81%8D%E5%8E%86%E6%96%87%E4%BB%B6%E5%A4%B9%E5%8F%8A%E5%85%B6%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">4.2 遍历文件夹及其子文件夹</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#os-path%E6%A8%A1%E5%9D%97"><span class="toc-text">os.path模块</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

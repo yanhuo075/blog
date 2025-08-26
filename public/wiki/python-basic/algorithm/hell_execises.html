@@ -1,0 +1,922 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python基础教程：14.4 地狱练习题 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="亲密字符串题目要求有两个字符串，A和B，如果A字符串内部交换任意两个位置的字符就能够让A和B相等，就认为两个字符串是亲密字符串。 示例1输入：A&#x3D;&quot;cccb&quot; ,B&#x3D;&quot;cccb&quot; 输出：True解释: 任意两个c交换位置，都可以让A&#x3D;B,他们是亲密字符串示例2输入：A&#x3D;&quot;ccbcab&quot;, B&#x3D;&quot;cccbab&quot;  输出：">
+<meta property="og:type" content="website">
+<meta property="og:title" content="14.4 地狱练习题">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-basic/algorithm/hell_execises.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="亲密字符串题目要求有两个字符串，A和B，如果A字符串内部交换任意两个位置的字符就能够让A和B相等，就认为两个字符串是亲密字符串。 示例1输入：A&#x3D;&quot;cccb&quot; ,B&#x3D;&quot;cccb&quot; 输出：True解释: 任意两个c交换位置，都可以让A&#x3D;B,他们是亲密字符串示例2输入：A&#x3D;&quot;ccbcab&quot;, B&#x3D;&quot;cccbab&quot;  输出：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250824001209783.jpeg">
+<meta property="article:published_time" content="2025-08-26T07:25:30.199Z">
+<meta property="article:modified_time" content="2025-08-26T07:25:30.195Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250824001209783.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-basic/preface/introduction.html"><div class="main" ff="title">Python基础教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-basic/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 前言</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/preface/introduction.html#start"><span class="toc-text">1.1 教程简介</span></a><a class="link" href="/wiki/python-basic/preface/py-osenv-install.html"><span class="toc-text">1.2 Python环境搭建</span></a><a class="link" href="/wiki/python-basic/preface/install-pycharm.html"><span class="toc-text">1.3 安装配置pycharm</span></a><a class="link" href="/wiki/python-basic/preface/terminal-and-interpreter.html"><span class="toc-text">1.4 终端和交互解释器</span></a></div><div class="widget-header dis-select"><span class="name">第2章 基本语法</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/grammar/intro.html"><span class="toc-text">2.1 本章简介</span></a><a class="link" href="/wiki/python-basic/grammar/identifier.html"><span class="toc-text">2.2 标识符与保留字</span></a><a class="link" href="/wiki/python-basic/grammar/indent.html"><span class="toc-text">2.3 行与缩进</span></a><a class="link" href="/wiki/python-basic/grammar/note.html"><span class="toc-text">2.4 注释</span></a><a class="link" href="/wiki/python-basic/grammar/print.html"><span class="toc-text">2.5 print</span></a></div><div class="widget-header dis-select"><span class="name">第3章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/data-type/intro.html"><span class="toc-text">3.1 本章简介</span></a><a class="link" href="/wiki/python-basic/data-type/number.html"><span class="toc-text">3.2 数字类型</span></a><a class="link" href="/wiki/python-basic/data-type/bin_int_hex_oct.html"><span class="toc-text">3.3 python进制转换</span></a><a class="link" href="/wiki/python-basic/data-type/bool.html"><span class="toc-text">3.4 bool类型</span></a><a class="link" href="/wiki/python-basic/data-type/variable.html"><span class="toc-text">3.5 变量的概念</span></a><a class="link" href="/wiki/python-basic/data-type/str_index.html"><span class="toc-text">3.6 字符串</span></a><a class="link" href="/wiki/python-basic/data-type/list_index.html"><span class="toc-text">3.7 列表</span></a><a class="link" href="/wiki/python-basic/data-type/tuple_index.html"><span class="toc-text">3.8 元组</span></a><a class="link" href="/wiki/python-basic/data-type/dict_index.html"><span class="toc-text">3.9 字典</span></a><a class="link" href="/wiki/python-basic/data-type/set_index.html"><span class="toc-text">3.10 集合</span></a><a class="link" href="/wiki/python-basic/data-type/summer_index.html"><span class="toc-text">3.11 数据杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第4章 运算符与表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/expression/intro.html"><span class="toc-text">4.1 本章简介</span></a><a class="link" href="/wiki/python-basic/expression/arithmetic_operator.html"><span class="toc-text">4.2 算术运算符</span></a><a class="link" href="/wiki/python-basic/expression/compare_operator.html"><span class="toc-text">4.3 比较运算符</span></a><a class="link" href="/wiki/python-basic/expression/assign_operator.html"><span class="toc-text">4.4 赋值运算符</span></a><a class="link" href="/wiki/python-basic/expression/logic_operator.html"><span class="toc-text">4.5 逻辑运算符</span></a><a class="link" href="/wiki/python-basic/expression/bit_operator.html"><span class="toc-text">4.6 位运算符</span></a><a class="link" href="/wiki/python-basic/expression/member_operator.html"><span class="toc-text">4.8 成员运算符</span></a><a class="link" href="/wiki/python-basic/expression/identity_operator.html"><span class="toc-text">4.8 身份运算符</span></a><a class="link" href="/wiki/python-basic/expression/operator_priority.html"><span class="toc-text">4.9 运算符优先级</span></a><a class="link" href="/wiki/python-basic/expression/expression.html"><span class="toc-text">4.10 表达式</span></a></div><div class="widget-header dis-select"><span class="name">第5章 程序控制</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/logic-control/condition/intro.html"><span class="toc-text">5.1 条件控制</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/input.html"><span class="toc-text">5.1.1 input函数</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/flow_chart.html"><span class="toc-text">5.1.2 如何画程序流程图</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/condition_if.html"><span class="toc-text">5.1.3 if语句</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/if_nest.html"><span class="toc-text">5.1.4 if嵌套</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/if_branch.html"><span class="toc-text">5.1.5 控制程序走向</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/bnf-if.html"><span class="toc-text">5.1.6 以BNF为基础理解if语句</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/no_switch.html"><span class="toc-text">5.1.7 为什么python没有switch/case</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/match-case.html"><span class="toc-text">5.1.8 Match-Case语法</span></a><a class="link" href="/wiki/python-basic/logic-control/condition/condition_exercises.html"><span class="toc-text">5.1.9 条件控制练习题</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_index.html"><span class="toc-text">5.2 本章简介</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/iter.html"><span class="toc-text">5.2.1 迭代遍历思维</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/for.html"><span class="toc-text">5.2.2 for循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/break_continue.html"><span class="toc-text">5.2.3 循环中的continue与break</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_nest.html"><span class="toc-text">5.2.4 嵌套循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/while.html"><span class="toc-text">5.2.5 while循环</span></a><a class="link" href="/wiki/python-basic/logic-control/loop/loop_exercises.html"><span class="toc-text">5.2.6 循环控制练习题</span></a></div><div class="widget-header dis-select"><span class="name">第6章 函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/function/intro.html"><span class="toc-text">6.1 本章简介</span></a><a class="link" href="/wiki/python-basic/function/function.html"><span class="toc-text">6.2 函数的定义与调用</span></a><a class="link" href="/wiki/python-basic/function/none.html"><span class="toc-text">6.3 python中的None</span></a><a class="link" href="/wiki/python-basic/function/parameter.html"><span class="toc-text">6.4 函数的参数</span></a><a class="link" href="/wiki/python-basic/function/py-builtin-function.html"><span class="toc-text">6.5 内置函数</span></a><a class="link" href="/wiki/python-basic/function/recursion.html"><span class="toc-text">6.6 递归函数</span></a><a class="link" href="/wiki/python-basic/function/func_effect.html"><span class="toc-text">6.7 函数存在的意义</span></a><a class="link" href="/wiki/python-basic/function/function_important.html"><span class="toc-text">6.8 函数学习要点</span></a><a class="link" href="/wiki/python-basic/function/py-assign-statement.html"><span class="toc-text">6.9 理解python的赋值语句</span></a><a class="link" href="/wiki/python-basic/function/func_exercises.html"><span class="toc-text">6.10 理解python的赋值语句</span></a></div><div class="widget-header dis-select"><span class="name">第7章 数据存储</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/data-storage/intro.html"><span class="toc-text">7.1 本章简介</span></a><a class="link" href="/wiki/python-basic/data-storage/file.html"><span class="toc-text">7.2 文件读写</span></a><a class="link" href="/wiki/python-basic/data-storage/py-csv.html"><span class="toc-text">7.3 读取csv文件</span></a><a class="link" href="/wiki/python-basic/data-storage/relative_and_abs_path.html"><span class="toc-text">7.4 绝对路径与相对路径</span></a><a class="link" href="/wiki/python-basic/data-storage/five_file_rw_methods.html"><span class="toc-text">7.5 5种python常用读写文件方法</span></a><a class="link" href="/wiki/python-basic/data-storage/sqlite.html"><span class="toc-text">7.6 sqlite</span></a><a class="link" href="/wiki/python-basic/data-storage/serialize.html"><span class="toc-text">7.7 序列化</span></a></div><div class="widget-header dis-select"><span class="name">第8章 模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/module/intro.html"><span class="toc-text">8.1 本章简介</span></a><a class="link" href="/wiki/python-basic/module/module.html"><span class="toc-text">8.2 模块</span></a><a class="link" href="/wiki/python-basic/module/pip.html"><span class="toc-text">8.3 什么是pip</span></a><a class="link" href="/wiki/python-basic/module/standard_module_index.html"><span class="toc-text">8.4 常用标准模块</span></a></div><div class="widget-header dis-select"><span class="name">第9章 时间处理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/time/intro.html"><span class="toc-text">9.1 本章简介</span></a><a class="link" href="/wiki/python-basic/time/time.html"><span class="toc-text">9.2 time模块</span></a><a class="link" href="/wiki/python-basic/time/calendar.html"><span class="toc-text">9.2 calendar日历模块</span></a><a class="link" href="/wiki/python-basic/time/datetime.html"><span class="toc-text">9.3 datetime模块</span></a><a class="link" href="/wiki/python-basic/time/time_format_transfer.html"><span class="toc-text">9.5 时间格式转换</span></a><a class="link" href="/wiki/python-basic/time/time_exercises.html"><span class="toc-text">9.6 时间练习题</span></a></div><div class="widget-header dis-select"><span class="name">第10章 错误和异常</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/exection/intro.html"><span class="toc-text">10.1 本章简介</span></a><a class="link" href="/wiki/python-basic/exection/exection.html"><span class="toc-text">10.2 错误和异常</span></a><a class="link" href="/wiki/python-basic/exection/catch.html"><span class="toc-text">10.3 捕获异常</span></a><a class="link" href="/wiki/python-basic/exection/raise.html"><span class="toc-text">10.4 主动抛异常</span></a><a class="link" href="/wiki/python-basic/exection/exection_info.html"><span class="toc-text">10.5 异常信息分析与收集</span></a><a class="link" href="/wiki/python-basic/exection/common_error.html"><span class="toc-text">10.6 常见的错误和异常</span></a><a class="link" href="/wiki/python-basic/exection/debug.html"><span class="toc-text">10.7 使用pycharm调试python程序</span></a><a class="link" href="/wiki/python-basic/exection/pudb_debug.html"><span class="toc-text">10.8 使用pudb在终端调试python代码</span></a><a class="link" href="/wiki/python-basic/exection/friendly-traceback.html"><span class="toc-text">10.9 快速定位代码语法错误</span></a><a class="link" href="/wiki/python-basic/exection/py_raise_execption_up.html"><span class="toc-text">10.10 捕获并再次抛出异常</span></a></div><div class="widget-header dis-select"><span class="name">第11章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/oop/intro.html"><span class="toc-text">11.1 本章简介</span></a><a class="link" href="/wiki/python-basic/oop/class.html"><span class="toc-text">11.2 类的定义与实例化</span></a><a class="link" href="/wiki/python-basic/oop/encapsulation.html"><span class="toc-text">11.3 类的封装</span></a><a class="link" href="/wiki/python-basic/oop/inheritance.html"><span class="toc-text">11.4 类的继承</span></a><a class="link" href="/wiki/python-basic/oop/polymorphism.html"><span class="toc-text">11.5 类的多态</span></a><a class="link" href="/wiki/python-basic/oop/oop_bankaccount.html"><span class="toc-text">11.6 面向对象编程示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 8大排序算法</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/sort/intro.html"><span class="toc-text">13.1 本章简介</span></a><a class="link" href="/wiki/python-basic/sort/pop_sort.html"><span class="toc-text">13.2 冒泡排序</span></a><a class="link" href="/wiki/python-basic/sort/insert_sort.html"><span class="toc-text">13.3 插入排序</span></a><a class="link" href="/wiki/python-basic/sort/select_sort.html"><span class="toc-text">13.4 选择排序</span></a><a class="link" href="/wiki/python-basic/sort/shell_sort.html"><span class="toc-text">13.5 希尔排序</span></a><a class="link" href="/wiki/python-basic/sort/quick_sort.html"><span class="toc-text">13.6 快速排序</span></a><a class="link" href="/wiki/python-basic/sort/merge_sort.html"><span class="toc-text">13.7 归并排序</span></a><a class="link" href="/wiki/python-basic/sort/radix_sort.html"><span class="toc-text">13.8 基数排序</span></a><a class="link" href="/wiki/python-basic/sort/heap_sort.html"><span class="toc-text">13.9 堆排序</span></a></div><div class="widget-header dis-select"><span class="name">第14章 算法练习</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/algorithm/intro.html"><span class="toc-text">14.1 本章简介</span></a><a class="link" href="/wiki/python-basic/algorithm/easy_execises.html"><span class="toc-text">14.2  简单练习题</span></a><a class="link" href="/wiki/python-basic/algorithm/hard_execises.html"><span class="toc-text">14.3 困难练习题</span></a><a class="link active" href="/wiki/python-basic/algorithm/hell_execises.html"><span class="toc-text">14.4 地狱练习题</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-basic/easy-oop/attr_method.html"><span class="toc-text">12.3 属性与方法</span></a><a class="link" href="/wiki/python-basic/easy-oop/class_descript_content.html"><span class="toc-text">12.7 类可以准确描述数据内容</span></a><a class="link" href="/wiki/python-basic/easy-oop/class_object_relation.html"><span class="toc-text">12.10 类与对象的关系</span></a><a class="link" href="/wiki/python-basic/easy-oop/inherit.html"><span class="toc-text">12.6 什么是继承</span></a><a class="link" href="/wiki/python-basic/easy-oop/descript_relation.html"><span class="toc-text">12.8 类可以形象的描述数据之间的关系</span></a><a class="link" href="/wiki/python-basic/easy-oop/intro.html"><span class="toc-text">12.1 本章简介</span></a><a class="link" href="/wiki/python-basic/easy-oop/instance_modify_cls_attr.html"><span class="toc-text">12.16 为什么实例不能修改类属性</span></a><a class="link" href="/wiki/python-basic/easy-oop/magic_dot.html"><span class="toc-text">12.5 神奇的点</span></a><a class="link" href="/wiki/python-basic/easy-oop/method_belong_class_attr.html"><span class="toc-text">12.11 方法属于类，属性属于对象</span></a><a class="link" href="/wiki/python-basic/easy-oop/oop_object.html"><span class="toc-text">12.4 对象是什么</span></a><a class="link" href="/wiki/python-basic/easy-oop/overwrite.html"><span class="toc-text">12.13 重写，儿大不由爷</span></a><a class="link" href="/wiki/python-basic/easy-oop/public_protected_private.html"><span class="toc-text">12.17 没有public，protected, private</span></a><a class="link" href="/wiki/python-basic/easy-oop/restrain_action.html"><span class="toc-text">12.9 类可以规范数据的行为</span></a><a class="link" href="/wiki/python-basic/easy-oop/tk-attr-method.html"><span class="toc-text">12.14 填坑，关于属性和方法（1）</span></a><a class="link" href="/wiki/python-basic/easy-oop/tk_attr_method_2.html"><span class="toc-text">12.15 填坑，关于属性和方法（2）</span></a><a class="link" href="/wiki/python-basic/easy-oop/what_is_it.html"><span class="toc-text">12.2 是什么很重要</span></a><a class="link" href="/wiki/python-basic/easy-oop/whois_is_self.html"><span class="toc-text">12.12 灵魂拷问，self是谁</span></a></div></widget>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-basic/preface/introduction.html">Python基础教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-26T07:25:30.195Z">2025-08-26</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>14.4 地狱练习题</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="亲密字符串"><a href="#亲密字符串" class="headerlink" title="亲密字符串"></a>亲密字符串</h1><h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>有两个字符串，A和B，如果A字符串内部交换任意两个位置的字符就能够让A和B相等，就认为两个字符串是亲密字符串。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">示例1</span><br><span class="line">输入：A=&quot;cccb&quot; ,B=&quot;cccb&quot; </span><br><span class="line">输出：True</span><br><span class="line">解释: 任意两个c交换位置，都可以让A=B,他们是亲密字符串</span><br><span class="line"></span><br><span class="line">示例2</span><br><span class="line">输入：A=&quot;ccbcab&quot;, B=&quot;cccbab&quot;  </span><br><span class="line">输出：True</span><br><span class="line">解释：A内部交换A[2]和A[3]后，A=B，他们是亲密字符串</span><br><span class="line"></span><br><span class="line">示例3</span><br><span class="line">输入：A=&quot;ab&quot;, B=&quot;ab&quot;  </span><br><span class="line">输出：False</span><br><span class="line">解释：A字符串内部不论怎样交换，都不可能与B相同</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h2><p>如果A&#x3D;&#x3D;B成立，那么就必须满足，A中有某个字符出现了两次或以上，只有这样，才能满足交换两个字符后与B相等，这是示例1的情况</p>
+<p>如果A!&#x3D;B，满足亲密字符串的条件就是A与B有两处不相同，而且交换这两处不相同的字符后A&#x3D;&#x3D;B成立，这是示例2 的情况</p>
+<p>如果A B两个字符串的长度不相等，必然不是亲密字符串。</p>
+<p>遍历两个字符串，统计相同索引字符不相同的次数，如果次数是0，那么就必须满足A字符串有某个字符出现了两次或以上，可以用一个集合来保存A中的字符，如过有某个字符出现了两次或以上，那么最终，集合的大小一定小于A字符串的长度。</p>
+<p>如果不相同的次数是2，那么交错对比这两处字符，如果不相同次数既不是0也不是2，则一定不是亲密字符串</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_close_str</span>(<span class="params">str_1, str_2</span>):</span><br><span class="line">    <span class="comment"># 长度要一致,且不能为0</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(str_1) != <span class="built_in">len</span>(str_2) <span class="keyword">or</span> <span class="built_in">len</span>(str_1) &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    diff_index_lst = []             <span class="comment"># 记录不一致的索引位置</span></span><br><span class="line">    char_set = <span class="built_in">set</span>()</span><br><span class="line">    <span class="keyword">while</span> index &lt; <span class="built_in">len</span>(str_1):</span><br><span class="line">        <span class="comment"># 遇到相同位置字符不相同的情况</span></span><br><span class="line">        <span class="keyword">if</span> str_1[index] != str_2[index]:</span><br><span class="line">            diff_index_lst.append(index)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(diff_index_lst) &gt; <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        char_set.add(str_1[index])</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(diff_index_lst) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(str_1) != <span class="built_in">len</span>(char_set):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">len</span>(diff_index_lst) == <span class="number">2</span>:</span><br><span class="line">        diff_index_1 = diff_index_lst[<span class="number">0</span>]</span><br><span class="line">        diff_index_2 = diff_index_lst[<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># 两处不一样的地方交错比较</span></span><br><span class="line">        <span class="keyword">if</span> str_1[diff_index_1] == str_2[diff_index_2] <span class="keyword">and</span> \</span><br><span class="line">                        str_1[diff_index_2] == str_2[diff_index_1]:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>))</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&#x27;abc&#x27;</span>, <span class="string">&#x27;acba&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&#x27;ab&#x27;</span>, <span class="string">&#x27;ab&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&#x27;cccb&#x27;</span>, <span class="string">&#x27;cccb&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&#x27;ccbcab&#x27;</span>, <span class="string">&#x27;cccbab&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(is_close_str(<span class="string">&#x27;acbcad&#x27;</span>, <span class="string">&#x27;dcbcaa&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="两个有序数组中找第k大的数"><a href="#两个有序数组中找第k大的数" class="headerlink" title="两个有序数组中找第k大的数"></a>两个有序数组中找第k大的数</h1><h2 id="题目要求-1"><a href="#题目要求-1" class="headerlink" title="题目要求"></a>题目要求</h2><p>已知有两个从小到大的有序数组，求两个数组的第k大的数。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[1, 4, 6, 8, 12, 15, 18, 20, 28, 29]</span><br><span class="line">[2, 5, 7, 10]</span><br><span class="line">第8大的数是10</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-1"><a href="#思路分析-1" class="headerlink" title="思路分析"></a>思路分析</h2><p>两个数组都有序，那么就利用这个有序的特点来解决这个问题。假设数组分别是a b,令middle &#x3D; k&#x2F;2， middle_ex &#x3D; k - middle。比较a[middle]和b[middle]的值。</p>
+<ul>
+<li>如果a[middle - 1] &#x3D;&#x3D; b[middle_ex - 1]，那么a[middle-1]不正好是第k大的数么，因为 k&#x3D; middle_ex + middle,且两个数组都有序。</li>
+<li>如果a[middle - 1] &lt; b[middle_ex - 1]，让a &#x3D; a[middle:],前面的那些元素都可以舍弃了， 问题转变成从a 和 b这两个数组里找到第 k - middle 大的值</li>
+<li>如果a[middle - 1] &gt; b[middle_ex - 1]，让b &#x3D; b[middle_ex:]，前面那些元素都可以舍弃了，问题转变成从a 和 b这两个数组里找到第 k - middle_ex大的值</li>
+</ul>
+<p>为什么在取值时用的索引是middle - 1呢，其实原因很简单，我们要找第k大的数，k最小是1，你不能说取第0大的数，我们日常是从1开始计数的，而计算机是从0开始计数的，middle &#x3D; k&#x2F;2， 从k计算而来，因此在使用索引时要减 1 。</p>
+<p>有几个需要关注的地方</p>
+<ol>
+<li>要让数组长度更小的为a</li>
+<li>计算middle时，其实要考虑middle是否比a的长度小，不然取a[middle-1]时就出错了，计算middle和 middle_ex为的是从a， b 两个数组里各自找到第middle大和第middle_ex大的两个数，通过比较他们的大小，决定舍弃哪一部分</li>
+<li>不断的舍弃，不断的修改k的值，最后，一定会出现k&#x3D;&#x3D;1的情况，这时，返回min(a[0], b[0])</li>
+</ol>
+<h2 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_kth</span>(<span class="params">left_lst, left_len, right_lst, right_len, k</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    从left_lst 和 right_lst中寻找第k大的数</span></span><br><span class="line"><span class="string">    :param left_lst: 长度小的那个数组</span></span><br><span class="line"><span class="string">    :param left_len:</span></span><br><span class="line"><span class="string">    :param right_lst: 长度达的那个数组</span></span><br><span class="line"><span class="string">    :param right_len:</span></span><br><span class="line"><span class="string">    :param k:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 确保left_lst长度小于 right_lst 长度</span></span><br><span class="line">    <span class="keyword">if</span> left_len &gt; right_len:</span><br><span class="line">        <span class="keyword">return</span> find_kth(right_lst, right_len, left_lst, left_len, k)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 长度小的数组已经没有值了,从right_lst找到第k大的数</span></span><br><span class="line">    <span class="keyword">if</span> left_len == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> right_lst[k-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找到第1 大的数,比较两个列表的第一个元素,返回最小的那个</span></span><br><span class="line">    <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span>(left_lst[<span class="number">0</span>], right_lst[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># k &gt;&gt; 1 ,其实就是k/2</span></span><br><span class="line">    middle = <span class="built_in">min</span>(k &gt;&gt; <span class="number">1</span>, left_len)</span><br><span class="line">    middle_ex = k - middle</span><br><span class="line">    <span class="comment"># 舍弃left_lst的一部分</span></span><br><span class="line">    <span class="keyword">if</span> left_lst[middle-<span class="number">1</span>] &lt; right_lst[middle_ex-<span class="number">1</span>]:</span><br><span class="line">        <span class="keyword">return</span> find_kth(left_lst[middle:], left_len-middle, right_lst, right_len, k-middle)</span><br><span class="line">    <span class="comment"># 舍弃right_lst 的一部分</span></span><br><span class="line">    <span class="keyword">elif</span> left_lst[middle-<span class="number">1</span>] &gt; right_lst[middle_ex-<span class="number">1</span>]:</span><br><span class="line">        <span class="keyword">return</span> find_kth(left_lst, left_len, right_lst[middle_ex:], right_len-middle_ex, k-middle_ex)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> left_lst[middle-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    left_lst = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">18</span>, <span class="number">20</span>, <span class="number">28</span>, <span class="number">29</span>]</span><br><span class="line">    right_lst = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">10</span>]</span><br><span class="line">    k = <span class="number">8</span></span><br><span class="line">    <span class="built_in">print</span> find_kth(left_lst, <span class="built_in">len</span>(left_lst), right_lst, <span class="built_in">len</span>(right_lst), k)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 合并后排序,找第k大的数</span></span><br><span class="line">    lst = left_lst + right_lst</span><br><span class="line">    lst.sort()</span><br><span class="line">    <span class="built_in">print</span> lst[k-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="找到-K-个最接近的元素"><a href="#找到-K-个最接近的元素" class="headerlink" title="找到 K 个最接近的元素"></a>找到 K 个最接近的元素</h1><h2 id="题目要求-2"><a href="#题目要求-2" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定一个排序好的数组，两个整数 k 和 x，从数组中找到最靠近 x（两数之差最小）的 k 个数。返回的结果必须要是按升序排好的。如果有两个数与 x 的差值一样，优先选择数值较小的那个数</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: [1, 5, 8, 9, 17, 20], k=4, x=10</span><br><span class="line">输出: [5, 8, 9, 17]</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-2"><a href="#思路分析-2" class="headerlink" title="思路分析"></a>思路分析</h2><h3 id="第一个大于等于目标值的元素位置"><a href="#第一个大于等于目标值的元素位置" class="headerlink" title="第一个大于等于目标值的元素位置"></a>第一个大于等于目标值的元素位置</h3><p>题目要求找到K个最接近目标值的元素，我们先不考虑K个，而是考虑1个的情况，也就是最接近目标值的那个元素。</p>
+<p>如果数组里有某个元素恰好和目标值相等，那么问题就转变成了二分查找法，在数组中查找目标值。如果数组里没有目标值呢，如何找到距离目标值最近的元素呢？</p>
+<p>不妨先找到第一个大于等于目标值的元素，找到了这个元素，也就容易找到距离目标值最近的那个元素了，分析到这里，我们先要实现一个函数，该函数可以从数组中找到第一个大于等于目标值的元素位置，下面是这个函数的示例代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find_eg_index</span>(<span class="params">lst, start, end, target</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    找到第一个大于等于target的元素的位置, 如果lst中最大的元素小于target</span></span><br><span class="line"><span class="string">    则返回len(lst)</span></span><br><span class="line"><span class="string">    :param lst:</span></span><br><span class="line"><span class="string">    :param start:</span></span><br><span class="line"><span class="string">    :param end:</span></span><br><span class="line"><span class="string">    :param target:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> start &gt; end:</span><br><span class="line">        <span class="keyword">return</span> end + <span class="number">1</span></span><br><span class="line">    middle = (start + end)//<span class="number">2</span></span><br><span class="line">    middle_value = lst[middle]</span><br><span class="line">    <span class="keyword">if</span> middle_value == target:</span><br><span class="line">        <span class="keyword">return</span> middle</span><br><span class="line">    <span class="keyword">elif</span> middle_value &lt; target:</span><br><span class="line">        <span class="keyword">return</span> find_eg_index(lst, middle+<span class="number">1</span>, end, target)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> find_eg_index(lst, start, middle-<span class="number">1</span>, target)</span><br></pre></td></tr></table></figure>
+
+<p>一定要记得考虑边界条件，如果目标值比数组最小值还小，那么函数返回0是应当的，但如果目标值比数组中最大值还大，该返回什么呢?为了概念的完整性，我这里返回len(lst), 这个索引是超出数组范围的，这表示无穷大，无穷大当然大于等于target</p>
+<h3 id="距离目标值最近的元素位置"><a href="#距离目标值最近的元素位置" class="headerlink" title="距离目标值最近的元素位置"></a>距离目标值最近的元素位置</h3><p>前面的find_eg_index函数返回了第一个大于等于target的元素的位置eg_index，在此基础上，很容易就算出来距离target最近的元素的位置，所要考虑的逻辑分支如下</p>
+<ul>
+<li>eg_index &#x3D;&#x3D; len(lst), target &gt; max(lst), 数组最后一个元素最接近target</li>
+<li>eg_index &#x3D;&#x3D; 0, 数组第一个元素最接近target</li>
+<li>target - lst[eg_index-1] &lt;&#x3D; lst[eg_index] - target, 说明lst[eg_index-1]更接近target, 反之lst[eg_index]更接近target</li>
+</ul>
+<p>实现函数find_closest_index(lst, target) ，返回数组中距离target最近的元素的位置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find_closest_index</span>(<span class="params">lst, target</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    寻找距离target最近的位置</span></span><br><span class="line"><span class="string">    :param lst:</span></span><br><span class="line"><span class="string">    :param target:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    eg_index = find_eg_index(lst, <span class="number">0</span>, <span class="built_in">len</span>(lst)-<span class="number">1</span>, target)</span><br><span class="line">    <span class="keyword">if</span> eg_index == <span class="built_in">len</span>(lst):</span><br><span class="line">        <span class="keyword">return</span> eg_index - <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> eg_index == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> target - lst[eg_index-<span class="number">1</span>] &lt;= lst[eg_index] - target:</span><br><span class="line">            <span class="keyword">return</span> eg_index-<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> eg_index</span><br></pre></td></tr></table></figure>
+
+<h3 id="K个最接近的元素"><a href="#K个最接近的元素" class="headerlink" title="K个最接近的元素"></a>K个最接近的元素</h3><p>在函数find_closest_index基础上继续思考，已经获得了closest_index， 只需要找到剩余的K-1个元素就可以了。</p>
+<p>剩余的K-1个元素，一定分布在closest_index 的两侧，借鉴归并排序的思路，把closest_index 两侧的元素视为两个数组，分别从left_index(closest_index-1)和right_index(closest_index + 1)开始进行遍历比较，如果lst[left_index] &lt;&#x3D; lst[right_index]则lst[left_index] 就是要找的那K-1个元素里的一个，此时left_index -&#x3D; 1，游标向左滑动，继续进行比较</p>
+<p>这里要考虑边界情况，如果left_index 超出了数组的索引范围，该如何比较呢，一侧超出了索引范围，剩余的最近元素一定集中在另一侧，此时，可以直接从另一侧数组里直接取剩余数量的元素，但我认为这样程序就会写的很复杂，要判断两侧的索引是否超出范围，要写很多if语句。</p>
+<p>不弱这样处理，如果索引超出了范围，就认为这个索引上的元素是无穷大，这样就不需要判断左右两个索引是否超出范围以及取另一侧的剩余最近元素了。</p>
+<p>示例代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find_closet_ele</span>(<span class="params">lst, target, k</span>):</span><br><span class="line">    closet_ele_lst = []</span><br><span class="line">    closest_index = find_closest_index(lst, target)   <span class="comment"># 距离target最近的元素的位置</span></span><br><span class="line">    closet_ele_lst.append(lst[closest_index])</span><br><span class="line"></span><br><span class="line">    ele_count = <span class="number">1</span></span><br><span class="line">    left_index = closest_index - <span class="number">1</span></span><br><span class="line">    right_index = closest_index + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 借鉴归并排序思路,向两侧滑动遍历</span></span><br><span class="line">    <span class="keyword">while</span> ele_count &lt; k:</span><br><span class="line">        left_ele = get_ele(lst, left_index)</span><br><span class="line">        right_ele = get_ele(lst, right_index)</span><br><span class="line">        <span class="comment"># 哪边元素距离target更近,哪边就走一步</span></span><br><span class="line">        <span class="keyword">if</span> target - left_ele &lt;= right_ele - target:</span><br><span class="line">            closet_ele_lst.append(left_ele)</span><br><span class="line">            left_index -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            closet_ele_lst.append(right_ele)</span><br><span class="line">            right_index += <span class="number">1</span></span><br><span class="line">        ele_count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    closet_ele_lst.sort()</span><br><span class="line">    <span class="keyword">return</span> closet_ele_lst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ele</span>(<span class="params">lst, index</span>):</span><br><span class="line">    <span class="comment"># 索引超出范围的,返回无穷大</span></span><br><span class="line">    <span class="keyword">if</span> index &lt; <span class="number">0</span> <span class="keyword">or</span> index &gt;= <span class="built_in">len</span>(lst):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">float</span>(<span class="string">&quot;inf&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> lst[index]</span><br></pre></td></tr></table></figure>
+
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find_closet_ele</span>(<span class="params">lst, target, k</span>):</span><br><span class="line">    closet_ele_lst = []</span><br><span class="line">    closest_index = find_closest_index(lst, target)   <span class="comment"># 距离target最近的元素的位置</span></span><br><span class="line">    closet_ele_lst.append(lst[closest_index])</span><br><span class="line"></span><br><span class="line">    ele_count = <span class="number">1</span></span><br><span class="line">    left_index = closest_index - <span class="number">1</span></span><br><span class="line">    right_index = closest_index + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 借鉴归并排序思路,向两侧滑动遍历</span></span><br><span class="line">    <span class="keyword">while</span> ele_count &lt; k:</span><br><span class="line">        left_ele = get_ele(lst, left_index)</span><br><span class="line">        right_ele = get_ele(lst, right_index)</span><br><span class="line">        <span class="comment"># 哪边元素距离target更近,哪边就走一步,这里注意取绝对值</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(target - left_ele) &lt;= <span class="built_in">abs</span>(right_ele - target):</span><br><span class="line">            closet_ele_lst.append(left_ele)</span><br><span class="line">            left_index -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            closet_ele_lst.append(right_ele)</span><br><span class="line">            right_index += <span class="number">1</span></span><br><span class="line">        ele_count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    closet_ele_lst.sort()</span><br><span class="line">    <span class="keyword">return</span> closet_ele_lst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ele</span>(<span class="params">lst, index</span>):</span><br><span class="line">    <span class="comment"># 索引超出范围的,返回无穷大</span></span><br><span class="line">    <span class="keyword">if</span> index &lt; <span class="number">0</span> <span class="keyword">or</span> index &gt;= <span class="built_in">len</span>(lst):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">float</span>(<span class="string">&quot;inf&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> lst[index]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_closest_index</span>(<span class="params">lst, target</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    寻找距离target最近的位置</span></span><br><span class="line"><span class="string">    :param lst:</span></span><br><span class="line"><span class="string">    :param target:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    eg_index = find_eg_index(lst, <span class="number">0</span>, <span class="built_in">len</span>(lst)-<span class="number">1</span>, target)</span><br><span class="line">    <span class="keyword">if</span> eg_index == <span class="built_in">len</span>(lst):</span><br><span class="line">        <span class="keyword">return</span> eg_index - <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> eg_index == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> target - lst[eg_index-<span class="number">1</span>] &lt;= lst[eg_index] - target:</span><br><span class="line">            <span class="keyword">return</span> eg_index-<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> eg_index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_eg_index</span>(<span class="params">lst, start, end, target</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    找到第一个大于等于target的元素的位置, 如果lst中最大的元素小于target</span></span><br><span class="line"><span class="string">    则返回len(lst)</span></span><br><span class="line"><span class="string">    :param lst:</span></span><br><span class="line"><span class="string">    :param start:</span></span><br><span class="line"><span class="string">    :param end:</span></span><br><span class="line"><span class="string">    :param target:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> start &gt; end:</span><br><span class="line">        <span class="keyword">return</span> end + <span class="number">1</span></span><br><span class="line">    middle = (start + end)//<span class="number">2</span></span><br><span class="line">    middle_value = lst[middle]</span><br><span class="line">    <span class="keyword">if</span> middle_value == target:</span><br><span class="line">        <span class="keyword">return</span> middle</span><br><span class="line">    <span class="keyword">elif</span> middle_value &lt; target:</span><br><span class="line">        <span class="keyword">return</span> find_eg_index(lst, middle+<span class="number">1</span>, end, target)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> find_eg_index(lst, start, middle-<span class="number">1</span>, target)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    lst = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">17</span>, <span class="number">20</span>]</span><br><span class="line">    <span class="built_in">print</span>(find_closet_ele(lst, <span class="number">10</span>, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="最长公共前缀"><a href="#最长公共前缀" class="headerlink" title="最长公共前缀"></a>最长公共前缀</h1><h2 id="题目要求-3"><a href="#题目要求-3" class="headerlink" title="题目要求"></a>题目要求</h2><p>编写一个函数来查找字符串数组中的最长公共前缀，如果不存在公共前缀，返回空字符串 “”。<br>示例1：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]</span><br><span class="line">输出: &quot;fl&quot;</span><br></pre></td></tr></table></figure>
+
+<p>示例2：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]</span><br><span class="line">输出: &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-3"><a href="#思路分析-3" class="headerlink" title="思路分析"></a>思路分析</h2><p>以列表中的第一个单词作为基线，其余的单词逐个字符与第一个单词的字符进行比较，比如以flower做为基线，flower第一个字符是f，那么其余的单词的第一个字符也是f，就将这个f记录下来，逐一比较，直到某个位置上的字符出现不一致的情况。</p>
+<p>在比较过程中，要注意单词的长度，如果某个单词已经比较到末尾，那么就可以停止了，因为这个单词的长度就是理论上可能的最大公共前缀</p>
+<h2 id="示例代码-2"><a href="#示例代码-2" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_max_prefix</span>(<span class="params">lst</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(lst) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    base_word = lst[<span class="number">0</span>]</span><br><span class="line">    prefix_lst = []</span><br><span class="line">    <span class="keyword">for</span> index, item <span class="keyword">in</span> <span class="built_in">enumerate</span>(base_word):</span><br><span class="line">        b_common = <span class="literal">False</span>     <span class="comment"># 标识在index位置上,所有单词的字符是否相同</span></span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> lst:</span><br><span class="line">            <span class="comment"># index已经超过了单词的长度</span></span><br><span class="line">            <span class="keyword">if</span> index &gt;= <span class="built_in">len</span>(word):</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">                </span><br><span class="line">            <span class="comment"># 在index这个位置上,字符不相同</span></span><br><span class="line">            <span class="keyword">if</span> word[index] != item:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 如果for循环没有被break中断,就会进入到这个语句块</span></span><br><span class="line">            b_common = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> b_common:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        prefix_lst.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(prefix_lst)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    lst = [<span class="string">&quot;flower&quot;</span>, <span class="string">&quot;flow&quot;</span>, <span class="string">&quot;flight&quot;</span>]</span><br><span class="line">    <span class="built_in">print</span>(get_max_prefix(lst))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="最大正方形"><a href="#最大正方形" class="headerlink" title="最大正方形"></a>最大正方形</h1><h2 id="题目要求-4"><a href="#题目要求-4" class="headerlink" title="题目要求"></a>题目要求</h2><p>在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: </span><br><span class="line"></span><br><span class="line">1 0 1 0 0</span><br><span class="line">1 0 1 1 1</span><br><span class="line">1 1 1 1 1</span><br><span class="line">1 0 0 1 0</span><br><span class="line"></span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-4"><a href="#思路分析-4" class="headerlink" title="思路分析"></a>思路分析</h2><p>只包含1的正方形可以出现在矩阵的任意位置，所以，不要妄想通过什么巧妙的办法快速的找到这个正方形的位置，正确的做法是遍历整个矩阵，尝试去找正方形，可能会找到多个，因此还要保留记录那个最大的正方形。</p>
+<p>既然是遍历，那么就得从头到尾的进行遍历，假设矩阵matrix大小是M*N，那么就从matrix[0][0]开始进行遍历，一直遍历到matrix[M-1][N-1]。</p>
+<p>当遍历到matrix[x][y]时，可以将这个点视为正方形的左上角，以此为基础，去判断matrix[x+1][y]， matrix[x][y+1]， matrix[x+1][y+1]这3个点是否也是1，如果成立，就找到了一个正方形，在此基础上，再向右下方扩展一层，判断能否以matrix[x][y]做正方形的左上角，以matrix[x+2][y+2]做正方形的右下角。</p>
+<p>由于总是以某个点做正方形的左上角，因此，最后一行和最后一列是不需要遍历的，因为这些点无法构成正方形的左上角。</p>
+<h2 id="示例代码-3"><a href="#示例代码-3" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">matrix = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">matrix = [[<span class="string">&#x27;1&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">max_square</span>(<span class="params">matrix</span>):</span><br><span class="line">    y = <span class="built_in">len</span>(matrix)</span><br><span class="line">    <span class="keyword">if</span> y == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    x = <span class="built_in">len</span>(matrix[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> x == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    max_area = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, y):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, x):</span><br><span class="line">            cell = matrix[i][j]</span><br><span class="line">            <span class="keyword">if</span> cell == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            area = get_area(matrix, i, j)</span><br><span class="line">            <span class="keyword">if</span> area &gt; max_area:</span><br><span class="line">                max_area = area</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> max_area</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_area</span>(<span class="params">matrix, left_up_x, left_up_y</span>):</span><br><span class="line">    step = <span class="number">1</span></span><br><span class="line">    right_down_x = left_up_x + step</span><br><span class="line">    right_down_y = left_up_y + step</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> right_down_x &lt; <span class="built_in">len</span>(matrix) <span class="keyword">and</span> right_down_y &lt; <span class="built_in">len</span>(matrix[<span class="number">0</span>]):</span><br><span class="line">        b_square = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> matrix[right_down_x][right_down_y] == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(left_up_x, right_down_x):</span><br><span class="line">            <span class="keyword">if</span> matrix[i][right_down_y] == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">                b_square = <span class="literal">False</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> b_square:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(left_up_y, right_down_y):</span><br><span class="line">            <span class="keyword">if</span> matrix[right_down_x][j] == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">                b_square = <span class="literal">False</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> b_square:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        step += <span class="number">1</span></span><br><span class="line">        right_down_x = left_up_x + step</span><br><span class="line">        right_down_y = left_up_y + step</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> step**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(max_square(matrix))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="还原ip地址"><a href="#还原ip地址" class="headerlink" title="还原ip地址"></a>还原ip地址</h1><h2 id="题目要求-5"><a href="#题目要求-5" class="headerlink" title="题目要求"></a>题目要求</h2><p>一个字符串，里面存储的是ip地址，但是.（点）被删除了，只剩下数字，请编写算法，还原这个ip地址，如果可以还原成多个，请逐一列出</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: 192168119130</span><br><span class="line">输出: [&#x27;192.168.119.130&#x27;]</span><br><span class="line"></span><br><span class="line">输入: 101224010</span><br><span class="line">输出:[&#x27;10.12.240.10&#x27;, &#x27;10.122.40.10&#x27;, &#x27;10.122.401.0&#x27;, </span><br><span class="line">      &#x27;101.2.240.10&#x27;, &#x27;101.22.40.10&#x27;, &#x27;101.22.401.0&#x27;, </span><br><span class="line">      &#x27;101.224.0.10&#x27;]</span><br><span class="line">      </span><br><span class="line">输入: 101226010</span><br><span class="line">输出: [&#x27;10.122.60.10&#x27;, &#x27;101.22.60.10&#x27;, &#x27;101.226.0.10&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-5"><a href="#思路分析-5" class="headerlink" title="思路分析"></a>思路分析</h2><p>一个ip地址有四段，每段的范围是0~255，可以分四次从输入字符串中截取字符串，第一次截取时，必然是从字符串索引为0的位置开始，那么可以截取的长度是1， 2， 3。 这一段截取后，进行第二次截取，第二次截取的开始位置取决于第一次截取结束的位置，如果第一次截取的长度是2，那么第二次就要从索引为2的位置上开始截取，可以截取的长度是1， 2， 3， 第三次和第四次做同样的操作，这么一分析，你就应该想到用递归函数来做了。</p>
+<p>需要考虑的情况是：</p>
+<ul>
+<li>截取后的每一段，如果是以0开头，那么这一段只能是0，总不能出现10.21.01.23的ip地址吧，01是什么鬼</li>
+<li>截取后的每一段，其值大小不能超过255</li>
+<li>如果截取后剩余的部分长度超过剩余几段理论上的最大长度,那么这个截取就是不合理的，比如192168119130， 第一段只截取1，那么剩余部分92168119130 的长度是11，后面三段最长也就是9，所以这样截取是不合理的</li>
+<li>如果截取后余下的部分长度是0，也是不合理的</li>
+<li>如果截取后余下的部分长度比余下几段理论上的最小长度还小，也是不合理的，比如截取后余下部分长度是2，可是还有3段需要截取，这样就是不合理的</li>
+</ul>
+<h2 id="示例代码-4"><a href="#示例代码-4" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">restore_ip</span>(<span class="params">ip</span>):</span><br><span class="line">    retsection_lst = restore_ip_ex(ip, <span class="built_in">len</span>(ip), <span class="number">0</span>, <span class="number">4</span>)</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;.&#x27;</span>.join(item) <span class="keyword">for</span> item <span class="keyword">in</span> retsection_lst]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">restore_ip_ex</span>(<span class="params">ip, ip_len, start_index, k</span>):</span><br><span class="line">    <span class="keyword">if</span> k == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> [[]]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ip_len &gt; <span class="number">20</span> <span class="keyword">or</span> ip_len &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">    section_lst = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">4</span>):</span><br><span class="line">        <span class="comment"># 如果截取后剩余的部分长度超过剩余几段理论上的最大长度,那么这个截取就是不合理的</span></span><br><span class="line">        <span class="comment"># 如果剩余长度为0也是不合理的</span></span><br><span class="line">        rest_len = ip_len - i - start_index</span><br><span class="line">        <span class="keyword">if</span> (rest_len == <span class="number">0</span> <span class="keyword">and</span> k != <span class="number">1</span>) <span class="keyword">or</span> rest_len &gt; (k-<span class="number">1</span>)*<span class="number">3</span> <span class="keyword">or</span> rest_len &lt; k-<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        section = ip[start_index:start_index+i]</span><br><span class="line">        <span class="comment"># 如果某段以0开头,那么这一段就是只能是0,否则就会出现1.012.240.10这种情况,012显然是不合理的</span></span><br><span class="line">        <span class="keyword">if</span> section[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span> <span class="keyword">and</span> <span class="built_in">len</span>(section) != <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">int</span>(section) &gt; <span class="number">255</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 截取下一段</span></span><br><span class="line">        res_lst = restore_ip_ex(ip, ip_len, i+start_index, k-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> res_lst:</span><br><span class="line">            item.insert(<span class="number">0</span>, section)</span><br><span class="line"></span><br><span class="line">        section_lst.extend(res_lst)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> section_lst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span> restore_ip(<span class="string">&quot;192168119130&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> restore_ip(<span class="string">&quot;101224010&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> restore_ip(<span class="string">&quot;1111&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> restore_ip(<span class="string">&quot;101226010&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="接雨水"><a href="#接雨水" class="headerlink" title="接雨水"></a>接雨水</h1><h2 id="题目要求-6"><a href="#题目要求-6" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250824001209783.jpeg" alt="img"></p>
+<p>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）</p>
+<h2 id="思路分析-6"><a href="#思路分析-6" class="headerlink" title="思路分析"></a>思路分析</h2><h3 id="思考才是最重要的"><a href="#思考才是最重要的" class="headerlink" title="思考才是最重要的"></a>思考才是最重要的</h3><p>这个题目非常好的诠释了一句话—-“技术，只是实现目标的方式和手段”。</p>
+<p>很多人面对问题时，总是有一种较劲脑汁写算法的冲动，还有人，以为每一种问题都有一个成熟的解决方案，似乎接触过这个方案并记忆下来，今后再遇到时就可以迎刃而解了。殊不知，编程是一个创造性的思考过程，很多人不愿意思考，更喜欢走马观花般的背答案。短时间内的确可以提升算法能力，但长期来看，你的逻辑能力才是解决问题的根本，思考才是第一位的。</p>
+<h3 id="两个基本判断"><a href="#两个基本判断" class="headerlink" title="两个基本判断"></a>两个基本判断</h3><p>我们先不去想怎么写算法，而是先分析，抽丝剥茧的对这个问题进行分析。</p>
+<p>首先，最左侧的柱子和最右侧的柱子上面不可能存储雨水，这个判断很简单，不做讨论。</p>
+<p>其次，每个柱子上能存储多少水，取决于它左右两侧最高柱子的高度，以索引为5的柱子为例，这个柱子的高度是0，它左侧最高的柱子是索引为3的柱子，高度为2， 它右侧最高的柱子是索引为7的柱子，高度为3，这两个柱子的高度决定了，索引为5的柱子上面可以存储水2个单位。</p>
+<h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>经过上面的两点分析，解题的思路就非常清晰了。</p>
+<p>遍历数组，计算每个柱子左右两侧的最高柱子的高度，这两个高度中选最小的，如果这个最小高度大于当前柱子的高度，那么差值就是当前这个柱子能够存储的水的量。</p>
+<p>由于遍历的过程是从左向右，因此，左侧最高柱子的高度可以用一个变量保存起来，而右侧最高柱子的高度则需要每次都去计算,但是经过一次寻找后，这个最高柱子的位置就确定了，假设位置为K，对于这个柱子左侧的所有柱子来说，他们右侧的最高柱子都是固定的，因此，也可以存储起来，直到遍历过程中当前柱子的索引大于等于K，则需要重新寻找。</p>
+<h2 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a>实例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">trap</span>(<span class="params">lst</span>):</span><br><span class="line">    left_height = <span class="number">0</span></span><br><span class="line">    right_index = <span class="number">0</span></span><br><span class="line">    rain = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> index, item <span class="keyword">in</span> <span class="built_in">enumerate</span>(lst):</span><br><span class="line">        <span class="comment"># 第一个和最后一个不用考虑，因为柱子上方无法存储水</span></span><br><span class="line">        <span class="keyword">if</span> index == <span class="built_in">len</span>(lst) - <span class="number">1</span> <span class="keyword">or</span> index == <span class="number">0</span>:</span><br><span class="line">            left_height = item</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果左侧最高为0或者和当前高度相同，当前这个柱子的上方无法存储水</span></span><br><span class="line">        <span class="keyword">if</span> left_height == <span class="number">0</span> <span class="keyword">or</span> left_height == item:</span><br><span class="line">            left_height = item</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取右侧最高的柱子高度， 取左右两侧较矮的，如果当前柱子高度小于它，则可以存储水</span></span><br><span class="line">        <span class="keyword">if</span> index &gt;= right_index:</span><br><span class="line">            right_index, right_heigth = find_right_heigth(index, lst)</span><br><span class="line"></span><br><span class="line">        min_heigth = <span class="built_in">min</span>([left_height, right_heigth])</span><br><span class="line">        <span class="keyword">if</span> min_heigth &gt; item:</span><br><span class="line">            rain += min_heigth - item</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 更新左侧最高柱子的高度</span></span><br><span class="line">        <span class="keyword">if</span> item &gt; left_height:</span><br><span class="line">            left_height = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> rain</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_right_heigth</span>(<span class="params">index, lst</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    返回index右侧最高柱子的位置和高度</span></span><br><span class="line"><span class="string">    :param index:</span></span><br><span class="line"><span class="string">    :param lst:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    right_heigth = <span class="number">0</span></span><br><span class="line">    right_index = index</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(index, <span class="built_in">len</span>(lst)):</span><br><span class="line">        <span class="keyword">if</span> lst[i] &gt; right_heigth:</span><br><span class="line">            right_index = i</span><br><span class="line">            right_heigth = lst[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> right_index, right_heigth</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    lst = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(trap(lst))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="逆波兰表达式求值"><a href="#逆波兰表达式求值" class="headerlink" title="逆波兰表达式求值"></a>逆波兰表达式求值</h1><h2 id="题目要求-7"><a href="#题目要求-7" class="headerlink" title="题目要求"></a>题目要求</h2><p>根据逆波兰表示法，求表达式的值。<br>比如 [“2”, “1”, “+”, “3”, “*”]，对应到小学所学的四则运算表达式就是((2 + 1) * 3) 计算结果为9</p>
+<p>[“4”, “13”, “5”, “&#x2F;“, “+”] 所对应的四则运算表达式是 (4 + (13 &#x2F; 5)) &#x3D; 6</p>
+<p>现在请计算[“10”, “6”, “9”, “3”, “+”, “-11”, “<em>“, “&#x2F;“, “</em>“, “17”, “+”, “5”, “+”] 的结果</p>
+<h2 id="思路分析-7"><a href="#思路分析-7" class="headerlink" title="思路分析"></a>思路分析</h2><p>题目所要求计算的逆波兰表达式对应的四则运算表达式是((10 * (6 &#x2F; ((9 + 3) * -11))) + 17) + 5</p>
+<p>逆波兰表达式的计算，其实是栈这种数据结构的经典应用，将逆波兰表达式中的元素逐一放入一个栈中，当遇到运算符时，则从栈顶连续弹出两个元素进行计算，然后把计算结果放入到栈中，最后，栈里只有保存一个元素，这个元素就是整个表达式的计算结果。</p>
+<p>因此这道题目，你需要实现一个简单的栈，好在有列表这种神器，栈的实现非常容易。</p>
+<p>有一个比较坑的地方是python的除法，python中，采用的是向下取整的办法，比如</p>
+<ul>
+<li>5&#x2F;3 &#x3D; 1.666 向下取整得到1</li>
+<li>5&#x2F;-3 &#x3D; -1.6666 向下取整得到-2</li>
+</ul>
+<p>其他语言中，5&#x2F;-3会向上取整，就会得到-1， 这个是符合我们日常判断的，但python里却偏偏向下取整得到了-2，为了使结果符合人们的常识，需要用到operator 模块的truediv 方法。</p>
+<h2 id="示例代码-5"><a href="#示例代码-5" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stack</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.items = []</span><br><span class="line">        <span class="variable language_">self</span>.count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self, item</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        放入一个新的元素</span></span><br><span class="line"><span class="string">        :param item:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.items.append(item)</span><br><span class="line">        <span class="variable language_">self</span>.count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">top</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 获得栈顶的元素</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">size</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 返回栈的大小</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.count</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pop</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 从栈顶移除一个元素</span></span><br><span class="line">        item = <span class="variable language_">self</span>.top()</span><br><span class="line">        <span class="keyword">del</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line">        <span class="variable language_">self</span>.count -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cal_exp</span>(<span class="params">expression</span>):</span><br><span class="line">    stack = Stack()</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> expression:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> <span class="string">&quot;+-*/&quot;</span>:</span><br><span class="line">            <span class="comment"># 遇到运算符就从栈里弹出两个元素进行计算</span></span><br><span class="line">            value_1 = stack.pop()</span><br><span class="line">            value_2 = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> item == <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">                res = <span class="built_in">int</span>(operator.truediv(<span class="built_in">int</span>(value_2), <span class="built_in">int</span>(value_1)))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res = <span class="built_in">eval</span>(value_2 + item + value_1)</span><br><span class="line">            <span class="comment"># 计算结果最后放回栈,参与下面的计算</span></span><br><span class="line">            stack.push(<span class="built_in">str</span>(res))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            stack.push(item)</span><br><span class="line"></span><br><span class="line">    res = stack.pop()</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(cal_exp([<span class="string">&quot;10&quot;</span>, <span class="string">&quot;6&quot;</span>, <span class="string">&quot;9&quot;</span>, <span class="string">&quot;3&quot;</span>, <span class="string">&quot;+&quot;</span>, <span class="string">&quot;-11&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;/&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;17&quot;</span>, <span class="string">&quot;+&quot;</span>, <span class="string">&quot;5&quot;</span>, <span class="string">&quot;+&quot;</span>]))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="简单的计算器"><a href="#简单的计算器" class="headerlink" title="简单的计算器"></a>简单的计算器</h1><h2 id="题目要求-8"><a href="#题目要求-8" class="headerlink" title="题目要求"></a>题目要求</h2><p>实现一个简单的计算器，能够计算简单字符串表达式，表达式可以包括小括号，运算符包含+ - * &#x2F;, 表达式允许有空格,参与运算的数值都是正整数。<br>示例1</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入: &quot;1 + 2&quot;</span><br><span class="line">输出: 3</span><br></pre></td></tr></table></figure>
+
+<p>示例2</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入:&quot; 2 - 3 + 2 &quot;</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+
+<p>示例3</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入:&quot;(1+(4+5+3)-3)+(9+8)&quot;</span><br><span class="line">输出: 27</span><br></pre></td></tr></table></figure>
+
+<p>示例4</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入:&quot;(1+(4+5+3)/4-3)+(6+8)*3&quot;</span><br><span class="line">输出: 43</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路分析-8"><a href="#思路分析-8" class="headerlink" title="思路分析"></a>思路分析</h2><h3 id="1-表达式预处理"><a href="#1-表达式预处理" class="headerlink" title="1 表达式预处理"></a>1 表达式预处理</h3><p>万事开头难，先不考虑如何计算，我们应该先对表达式进行处理，处理以后，只有数值和运算符，这样才能对他们进行具体的操作，比如”1 + 2” 处理后得到[‘1’, ‘+’, ‘2’]， 运算符和数值都分离开了。</p>
+<p>这样的解析并不复杂，只需要遍历字符串，解析出数值部分放入到列表中，遇到小括号或者运算符则直接放入列表中，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">exp_to_lst</span>(<span class="params">exp</span>):</span><br><span class="line">    lst = []</span><br><span class="line">    start_index = <span class="number">0</span>    <span class="comment"># 数值部分开始位置</span></span><br><span class="line">    end_index = <span class="number">0</span>      <span class="comment"># 数值部分结束位置</span></span><br><span class="line">    b_start = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> index, item <span class="keyword">in</span> <span class="built_in">enumerate</span>(exp):</span><br><span class="line">        <span class="comment"># 是数字</span></span><br><span class="line">        <span class="keyword">if</span> item.isdigit():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> b_start:  <span class="comment"># 如果数值部分还没有开始</span></span><br><span class="line">                start_index = index    <span class="comment"># 记录数值部分开始位置</span></span><br><span class="line">                b_start = <span class="literal">True</span>         <span class="comment"># 标识数值部分已经开始</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> b_start:  <span class="comment"># 如果数值部分已经开始</span></span><br><span class="line">                end_index = index     <span class="comment"># 标识数值部分结束位置</span></span><br><span class="line">                b_start = <span class="literal">False</span>       <span class="comment"># 标识数值部分已经结束</span></span><br><span class="line">                lst.append(exp[start_index:end_index])   <span class="comment"># 提取数值放入列表</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> item <span class="keyword">in</span> (<span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;)&#x27;</span>):    <span class="comment"># 运算符直接放入列表</span></span><br><span class="line">                lst.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> b_start:    <span class="comment"># 数值部分开始了,但是没有结束,说明字符串最后一位是数字,</span></span><br><span class="line">        lst.append(exp[start_index:])</span><br><span class="line">    <span class="keyword">return</span> lst</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_exp_to_lst</span>():</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;1 + 2&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot; 2 - 3 + 2 &quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;(1+(4+5+3)-3)+(9+8)&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;(1+(4+5+3)/4-3)+(6+8)*3&quot;</span>)</span><br><span class="line"></span><br><span class="line">test_exp_to_lst()</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;2&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;2&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;)&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;3&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-中序转后序"><a href="#2-中序转后序" class="headerlink" title="2 中序转后序"></a>2 中序转后序</h2><p>1+2 这种表达式是中序表达式，运算符在运算对象的中间，还有一种表达式，运算符在运算对象的后面，称之为后序表达式，也叫逆波兰表达式。1+2 转成后序表达式后是 1 2 +， +号作用于它前面的两个运算对象。</p>
+<p>后序表达式相比于中序表达式更容易计算，因此，这一小节，我要把中序表达式转换成后序表达式。</p>
+<p>转换时要借助栈这个数据结构，变量postfix_lst 表示后序表达式，遍历中序表达式，根据当前值进行处理：</p>
+<ul>
+<li>如果遇到数值，则放入到postfix_lst中</li>
+<li>遇到（ 压如栈中</li>
+<li>遇到 ），将栈顶元素弹出并放入到postfix_lst中，直到遇到（，最后弹出（</li>
+<li>遇到运算符，把栈顶元素弹出并放入到postfix_lst中，直到栈顶操作符的运算优先级小于当前运算符，最后将当前运算符压入栈</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 运算优先级</span></span><br><span class="line">priority_map = &#123;</span><br><span class="line">    <span class="string">&#x27;+&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;-&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;*&#x27;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;/&#x27;</span>: <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stack</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.items = []</span><br><span class="line">        <span class="variable language_">self</span>.count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self, item</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        放入一个新的元素</span></span><br><span class="line"><span class="string">        :param item:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.items.append(item)</span><br><span class="line">        <span class="variable language_">self</span>.count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">top</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 获得栈顶的元素</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">size</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 返回栈的大小</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.count</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pop</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 从栈顶移除一个元素</span></span><br><span class="line">        item = <span class="variable language_">self</span>.top()</span><br><span class="line">        <span class="keyword">del</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line">        <span class="variable language_">self</span>.count -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line">        </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">infix_exp_2_postfix_exp</span>(<span class="params">exp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    中序表达式转后序表达式</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    stack = Stack()</span><br><span class="line">    exp_lst = exp_to_lst(exp)</span><br><span class="line">    postfix_lst = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> exp_lst:</span><br><span class="line">        <span class="comment"># 如果是数值,直接放入到postfix_lst 中</span></span><br><span class="line">        <span class="keyword">if</span> item.isdigit():</span><br><span class="line">            postfix_lst.append(item)</span><br><span class="line">        <span class="keyword">elif</span> item == <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">            <span class="comment"># 左括号要压栈</span></span><br><span class="line">            stack.push(item)</span><br><span class="line">        <span class="keyword">elif</span> item == <span class="string">&#x27;)&#x27;</span>:</span><br><span class="line">            <span class="comment"># 遇到右括号了,整个括号里的运算符都输出到postfix_lst</span></span><br><span class="line">            <span class="keyword">while</span> stack.top() != <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">                postfix_lst.append(stack.pop())</span><br><span class="line">            <span class="comment"># 弹出左括号</span></span><br><span class="line">            stack.pop()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 遇到运算符,把栈顶输出,直到栈顶的运算符优先级小于当前运算符</span></span><br><span class="line">            <span class="keyword">while</span> stack.size() != <span class="number">0</span> <span class="keyword">and</span> stack.top() <span class="keyword">in</span> (<span class="string">&quot;+-*/&quot;</span>)\</span><br><span class="line">                    <span class="keyword">and</span> priority_map[stack.top()] &gt;= priority_map[item]:</span><br><span class="line">                postfix_lst.append(stack.pop())</span><br><span class="line">            <span class="comment"># 当前运算符优先级更高,压栈</span></span><br><span class="line">            stack.push(item)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 最后栈里可能还会有运算符</span></span><br><span class="line">    <span class="keyword">while</span> stack.size() != <span class="number">0</span>:</span><br><span class="line">        postfix_lst.append(stack.pop())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> postfix_lst</span><br><span class="line">    </span><br><span class="line"><span class="built_in">print</span> infix_exp_2_postfix_exp(<span class="string">&quot;1 + 2&quot;</span>)</span><br><span class="line"><span class="built_in">print</span> infix_exp_2_postfix_exp(<span class="string">&quot; 2 - 3 + 2 &quot;</span>)</span><br><span class="line"><span class="built_in">print</span> infix_exp_2_postfix_exp(<span class="string">&quot;(1+(4+5+3)-3)+(9+8)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span> infix_exp_2_postfix_exp(<span class="string">&quot;(1+(4+5+3)/4-3)+(6+8)*3&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;+&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;+&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;+&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;+&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-后序表达式计算"><a href="#3-后序表达式计算" class="headerlink" title="3 后序表达式计算"></a>3 后序表达式计算</h2><p>后续表达式计算同样需要用到栈，这个算法在逆波兰表达式计算的练习题中已经有讲解，直接复用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cal_exp</span>(<span class="params">expression</span>):</span><br><span class="line">    stack = Stack()</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> expression:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> <span class="string">&quot;+-*/&quot;</span>:</span><br><span class="line">            <span class="comment"># 遇到运算符就从栈里弹出两个元素进行计算</span></span><br><span class="line">            value_1 = stack.pop()</span><br><span class="line">            value_2 = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> item == <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">                res = <span class="built_in">int</span>(operator.truediv(<span class="built_in">int</span>(value_2), <span class="built_in">int</span>(value_1)))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res = <span class="built_in">eval</span>(value_2 + item + value_1)</span><br><span class="line">            <span class="comment"># 计算结果最后放回栈,参与下面的计算</span></span><br><span class="line">            stack.push(<span class="built_in">str</span>(res))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            stack.push(item)</span><br><span class="line"></span><br><span class="line">    res = stack.pop()</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运算优先级</span></span><br><span class="line">priority_map = &#123;</span><br><span class="line">    <span class="string">&#x27;+&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;-&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;*&#x27;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;/&#x27;</span>: <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stack</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.items = []</span><br><span class="line">        <span class="variable language_">self</span>.count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self, item</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        放入一个新的元素</span></span><br><span class="line"><span class="string">        :param item:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.items.append(item)</span><br><span class="line">        <span class="variable language_">self</span>.count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">top</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 获得栈顶的元素</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">size</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 返回栈的大小</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.count</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pop</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 从栈顶移除一个元素</span></span><br><span class="line">        item = <span class="variable language_">self</span>.top()</span><br><span class="line">        <span class="keyword">del</span> <span class="variable language_">self</span>.items[<span class="variable language_">self</span>.count-<span class="number">1</span>]</span><br><span class="line">        <span class="variable language_">self</span>.count -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 表达式中序转后序</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">infix_exp_2_postfix_exp</span>(<span class="params">exp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    中序表达式转后序表达式</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    stack = Stack()</span><br><span class="line">    exp_lst = exp_to_lst(exp)</span><br><span class="line">    postfix_lst = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> exp_lst:</span><br><span class="line">        <span class="comment"># 如果是数值,直接放入到postfix_lst 中</span></span><br><span class="line">        <span class="keyword">if</span> item.isdigit():</span><br><span class="line">            postfix_lst.append(item)</span><br><span class="line">        <span class="keyword">elif</span> item == <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">            <span class="comment"># 左括号要压栈</span></span><br><span class="line">            stack.push(item)</span><br><span class="line">        <span class="keyword">elif</span> item == <span class="string">&#x27;)&#x27;</span>:</span><br><span class="line">            <span class="comment"># 遇到右括号了,整个括号里的运算符都输出到postfix_lst</span></span><br><span class="line">            <span class="keyword">while</span> stack.top() != <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">                postfix_lst.append(stack.pop())</span><br><span class="line">            <span class="comment"># 弹出左括号</span></span><br><span class="line">            stack.pop()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 遇到运算符,把栈顶输出,直到栈顶的运算符优先级小于当前运算符</span></span><br><span class="line">            <span class="keyword">while</span> stack.size() != <span class="number">0</span> <span class="keyword">and</span> stack.top() <span class="keyword">in</span> (<span class="string">&quot;+-*/&quot;</span>)\</span><br><span class="line">                    <span class="keyword">and</span> priority_map[stack.top()] &gt;= priority_map[item]:</span><br><span class="line">                postfix_lst.append(stack.pop())</span><br><span class="line">            <span class="comment"># 当前运算符优先级更高,压栈</span></span><br><span class="line">            stack.push(item)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 最后栈里可能还会有运算符</span></span><br><span class="line">    <span class="keyword">while</span> stack.size() != <span class="number">0</span>:</span><br><span class="line">        postfix_lst.append(stack.pop())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> postfix_lst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exp_to_lst</span>(<span class="params">exp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    表达式预处理，转成列表形式</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    lst = []</span><br><span class="line">    start_index = <span class="number">0</span>    <span class="comment"># 数值部分开始位置</span></span><br><span class="line">    end_index = <span class="number">0</span>      <span class="comment"># 数值部分结束位置</span></span><br><span class="line">    b_start = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> index, item <span class="keyword">in</span> <span class="built_in">enumerate</span>(exp):</span><br><span class="line">        <span class="comment"># 是数字</span></span><br><span class="line">        <span class="keyword">if</span> item.isdigit():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> b_start:  <span class="comment"># 如果数值部分还没有开始</span></span><br><span class="line">                start_index = index    <span class="comment"># 记录数值部分开始位置</span></span><br><span class="line">                b_start = <span class="literal">True</span>         <span class="comment"># 标识数值部分已经开始</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> b_start:  <span class="comment"># 如果数值部分已经开始</span></span><br><span class="line">                end_index = index     <span class="comment"># 标识数值部分结束位置</span></span><br><span class="line">                b_start = <span class="literal">False</span>       <span class="comment"># 标识数值部分已经结束</span></span><br><span class="line">                lst.append(exp[start_index:end_index])   <span class="comment"># 提取数值放入列表</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> item <span class="keyword">in</span> (<span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;)&#x27;</span>):    <span class="comment"># 运算符直接放入列表</span></span><br><span class="line">                lst.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> b_start:    <span class="comment"># 数值部分开始了,但是没有结束,说明字符串最后一位是数字,</span></span><br><span class="line">        lst.append(exp[start_index:])</span><br><span class="line">    <span class="keyword">return</span> lst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cal_exp</span>(<span class="params">expression</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    计算后续表达式</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    stack = Stack()</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> expression:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> <span class="string">&quot;+-*/&quot;</span>:</span><br><span class="line">            <span class="comment"># 遇到运算符就从栈里弹出两个元素进行计算</span></span><br><span class="line">            value_1 = stack.pop()</span><br><span class="line">            value_2 = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> item == <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">                res = <span class="built_in">int</span>(operator.truediv(<span class="built_in">int</span>(value_2), <span class="built_in">int</span>(value_1)))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res = <span class="built_in">eval</span>(value_2 + item + value_1)</span><br><span class="line">            <span class="comment"># 计算结果最后放回栈,参与下面的计算</span></span><br><span class="line">            stack.push(<span class="built_in">str</span>(res))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            stack.push(item)</span><br><span class="line"></span><br><span class="line">    res = stack.pop()</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_exp_to_lst</span>():</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;1 + 2&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot; 2 - 3 + 2 &quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;(1+(4+5+3)-3)+(9+8)&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> exp_to_lst(<span class="string">&quot;(1+(4+5+3)/4-3)+(6+8)*3&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_infix_exp_2_postfix_exp</span>():</span><br><span class="line">    <span class="built_in">print</span> cal_exp(infix_exp_2_postfix_exp(<span class="string">&quot;1 + 2&quot;</span>))</span><br><span class="line">    <span class="built_in">print</span> cal_exp(infix_exp_2_postfix_exp(<span class="string">&quot; 2 - 3 + 2 &quot;</span>))</span><br><span class="line">    <span class="built_in">print</span> cal_exp(infix_exp_2_postfix_exp(<span class="string">&quot;(1+(4+5+3)-3)+(9+8)&quot;</span>))</span><br><span class="line">    <span class="built_in">print</span> cal_exp(infix_exp_2_postfix_exp(<span class="string">&quot;(1+(4+5+3)/4-3)+(6+8)*3&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test_infix_exp_2_postfix_exp()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="判断子序列"><a href="#判断子序列" class="headerlink" title="判断子序列"></a>判断子序列</h1><h2 id="题目要求-9"><a href="#题目要求-9" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定字符串 s 和 t ，判断 s 是否为 t 的子序列</p>
+<p>你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~&#x3D; 500,000），而 s 是个短字符串（长度 &lt;&#x3D;100）</p>
+<p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，”ace”是”abcde”的一个子序列，而”aec”不是）</p>
+<p>示例 1:<br>s &#x3D; “abc”, t &#x3D; “ahbgdc”<br>返回 true.</p>
+<p>示例 2:<br>s &#x3D; “axc”, t &#x3D; “ahbgdc”<br>返回 false</p>
+<h2 id="思路分析-9"><a href="#思路分析-9" class="headerlink" title="思路分析"></a>思路分析</h2><p>一种思路是从t中寻找长度和s相同的子序列，然后判断这些子序列中有没有和s相等的子序列。这虽然是一个可行的方案，但显然效率很差。</p>
+<p>另一个思路是先对t进行分析，遍历t获得每一个字符的出现位置，最终将得到一个字符分布的信息，例如“ahbgdc”, 它的字符分布情况是</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">&#x27;a&#x27;</span>: [<span class="number">0</span>], </span><br><span class="line"><span class="string">&#x27;b&#x27;</span>: [<span class="number">2</span>], </span><br><span class="line"><span class="string">&#x27;c&#x27;</span>: [<span class="number">5</span>], </span><br><span class="line"><span class="string">&#x27;d&#x27;</span>: [<span class="number">4</span>], </span><br><span class="line"><span class="string">&#x27;g&#x27;</span>: [<span class="number">3</span>], </span><br><span class="line"><span class="string">&#x27;h&#x27;</span>: [<span class="number">1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>得到这些字符分布情况后，就可以根据每个字符的所在位置来判断字符串s是否是t的子序列，假设a出现的位置都大于b出现的位置，那么字符串s一定不是字符串t的子序列，每个字符可以出现在很多个位置上，我们只要找到一个位置满足s是t的子序列就可以了。</p>
+<p>以”abc” 为例，先找到a出现的位置，不论有多少个，只取第一个，记为pre_index，因为a的位置越靠前，留给bc的空间就越大，那么接下来从出现的位置中寻找第一个比pre_index大的位置并赋值给pre_index，为什么要找第一个，因为b的位置越靠前，留给c的空间就越大，最后从c的位置找到第一个比pre_index大的位置</p>
+<h2 id="示例代码-6"><a href="#示例代码-6" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_sub_seq</span>(<span class="params">s, t</span>):</span><br><span class="line">    char_info = get_char_info(t)</span><br><span class="line">    pre_index = -<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> s:</span><br><span class="line">        <span class="comment"># 如果t中不包含item这个字符</span></span><br><span class="line">        index_lst = char_info.get(item)</span><br><span class="line">        <span class="keyword">if</span> index_lst <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> index_lst:</span><br><span class="line">            <span class="comment"># pre_index是上一个字符可以出现的位置</span></span><br><span class="line">            <span class="comment"># 当前字符出现的位置中,找第一个比pre_index大的位置</span></span><br><span class="line">            <span class="keyword">if</span> index &gt; pre_index:</span><br><span class="line">                pre_index = index</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 如果循环正常退出</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_char_info</span>(<span class="params">t</span>):</span><br><span class="line">    info = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> index, item <span class="keyword">in</span> <span class="built_in">enumerate</span>(t):</span><br><span class="line">        info.setdefault(item, [])</span><br><span class="line">        info[item].append(index)</span><br><span class="line">    <span class="keyword">return</span> info</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(is_sub_seq(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;ahbgdc&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-basic/algorithm/hard_execises.html">14.3 困难练习题</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-basic/easy-oop/attr_method.html">12.3 属性与方法</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%B2%E5%AF%86%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">亲密字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E7%AC%ACk%E5%A4%A7%E7%9A%84%E6%95%B0"><span class="toc-text">两个有序数组中找第k大的数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-1"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-1"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-1"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%BE%E5%88%B0-K-%E4%B8%AA%E6%9C%80%E6%8E%A5%E8%BF%91%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-text">找到 K 个最接近的元素</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-2"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-2"><span class="toc-text">思路分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%A4%A7%E4%BA%8E%E7%AD%89%E4%BA%8E%E7%9B%AE%E6%A0%87%E5%80%BC%E7%9A%84%E5%85%83%E7%B4%A0%E4%BD%8D%E7%BD%AE"><span class="toc-text">第一个大于等于目标值的元素位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9D%E7%A6%BB%E7%9B%AE%E6%A0%87%E5%80%BC%E6%9C%80%E8%BF%91%E7%9A%84%E5%85%83%E7%B4%A0%E4%BD%8D%E7%BD%AE"><span class="toc-text">距离目标值最近的元素位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K%E4%B8%AA%E6%9C%80%E6%8E%A5%E8%BF%91%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-text">K个最接近的元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-text">完整代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80"><span class="toc-text">最长公共前缀</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-3"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-3"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-2"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2"><span class="toc-text">最大正方形</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-4"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-4"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-3"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%98%E5%8E%9Fip%E5%9C%B0%E5%9D%80"><span class="toc-text">还原ip地址</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-5"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-5"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-4"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E9%9B%A8%E6%B0%B4"><span class="toc-text">接雨水</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-6"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-6"><span class="toc-text">思路分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E6%89%8D%E6%98%AF%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84"><span class="toc-text">思考才是最重要的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E5%9F%BA%E6%9C%AC%E5%88%A4%E6%96%AD"><span class="toc-text">两个基本判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-text">算法思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">实例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC"><span class="toc-text">逆波兰表达式求值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-7"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-7"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-5"><span class="toc-text">示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8"><span class="toc-text">简单的计算器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-8"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-8"><span class="toc-text">思路分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">1 表达式预处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%AD%E5%BA%8F%E8%BD%AC%E5%90%8E%E5%BA%8F"><span class="toc-text">2 中序转后序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%90%8E%E5%BA%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97"><span class="toc-text">3 后序表达式计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E9%83%A8%E4%BB%A3%E7%A0%81"><span class="toc-text">全部代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-text">判断子序列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82-9"><span class="toc-text">题目要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-9"><span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-6"><span class="toc-text">示例代码</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
