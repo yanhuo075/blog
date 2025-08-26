@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 5.1.7 为什么python没有switch/case
+title: 5.1.7 没有switch/case语句原因
 order: 6
 ---
 
