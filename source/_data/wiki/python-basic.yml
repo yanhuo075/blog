@@ -65,7 +65,6 @@ tree:
     - logic-control/condition/no_switch
     - logic-control/condition/match-case
     - logic-control/condition/condition_exercises
-
     - logic-control/loop/loop_index
     - logic-control/loop/iter
     - logic-control/loop/for
@@ -131,23 +130,23 @@ tree:
     - oop/oop_bankaccount
 
   '第12章 轻松学会面向对象':
-    - easy_oop/intro
-    - easy_oop/what_is_it
-    - easy_oop/attr_method
-    - easy_oop/oop_object
-    - easy_oop/magic_dot
-    - easy_oop/inherit
-    - easy_oop/class_object_relation
-    - easy_oop/descript_relation
-    - easy_oop/restrain_action
-    - easy_oop/class_object_relation
-    - easy_oop/ethod_belong_class_attr
-    - easy_oop/whois_is_self
-    - easy_oop/overwrite
-    - easy_oop/tk-attr-method
-    - easy_oop/tk_attr_method_2
-    - easy_oop/instance_modify_cls_attr
-    - easy_oop/public_protected_private
+    - easy-oop/intro
+    - easy-oop/what_is_it
+    - easy-oop/attr_method
+    - easy-oop/oop_object
+    - easy-oop/magic_dot
+    - easy-oop/inherit
+    - easy-oop/class_object_relation
+    - easy-oop/descript_relation
+    - easy-oop/restrain_action
+    - easy-oop/class_object_relation
+    - easy-oop/ethod_belong_class_attr
+    - easy-oop/whois_is_self
+    - easy-oop/overwrite
+    - easy-oop/tk-attr-method
+    - easy-oop/tk_attr_method_2
+    - easy-oop/instance_modify_cls_attr
+    - easy-oop/public_protected_private
 
   '第13章 8大排序算法':
     - sort/intro
