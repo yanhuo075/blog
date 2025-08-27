@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 4.1 模块概念深入学习
+title: 4.1 深入学习模块
 order: 0
 ---
 
