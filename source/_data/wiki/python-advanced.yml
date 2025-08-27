@@ -1,0 +1,139 @@
+name: Python进阶教程
+title: Python进阶教程
+subtitle: '编程语言 | Designed by YanHuo075'
+tags: 编程语言
+icon: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg
+cover: https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg
+coverpage: true
+description: Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。
+repo: 
+search:
+  filter: /wiki/python-advanced/
+  placeholder: 在Python基础教程文档中搜索...
+leftbar: 
+  - tree
+  - timeline_stellar_releases
+  - related
+base_dir: /wiki/python-advanced/
+tree:
+  '第1章 数据类型':
+    - data-type/enum
+    - data-type/bytes
+    - data-type/str_format
+    - data-type/power-f-string
+    - data-type/type_hints
+    - data-type/py-type-hints-detail
+    - data-type/mypy
+    - data-type/typecheck
+    - data-type/py-dict-views
+
+  '第2章 正则表达式':
+    - regex/index
+    - regex/special_char
+    - regex/re_replace
+    - regex/re_match
+    - regex/re_search_findall
+    - regex/re_split_sub
+    - regex/py-re-group
+    - regex/re_exercises
+
+  '第3章 python内存管理':
+    - memory/index
+    - memory/obj_ref
+    - memory/immutable
+    - memory/memory_copy
+    - memory/memory_pool
+    - memory/list_tuple_mem_optimize
+    - memory/str_mem_optimize
+    - memory/gc
+
+  '第4章 深入学习python模块':
+    - module/module_learn
+    - module/standard_module
+    - module/third_module
+    - module/data-feather-csv-compare
+
+  '第5章 高阶函数':
+    - adv-function/index
+    - adv-function/compile
+    - adv-function/locals_globals
+    - adv-function/partial
+    - adv-function/lambda
+    - adv-function/zip
+    - adv-function/map
+    - adv-function/reduce
+    - adv-function/setattr_hasattr_getattr
+    - adv-function/filter
+    - adv-function/function_talk
+
+  '第6章 装饰器和递归':
+    - decor-recur/decorator
+    - decor-recur/recursion
+
+  '第7章 工程开发':
+    - project/index
+    - project/code_quality
+    - project/config
+    - project/pro_practice
+
+  '第8章 网络编程':
+    - network/index
+    - network/tcp
+    - network/http
+
+  '第9章 python高级特性':
+    - feature/index
+    - feature/three_ternary_expression
+    - feature/pack_unpack
+    - feature/everything_is_object
+    - feature/callable
+    - feature/with
+    - feature/comprehensions
+    - feature/generator
+    - feature/generator_eg
+    - feature/iterator
+    - feature/introspection
+    - feature/underline_effect
+
+  '第10章 面向对象':
+    - oop/index
+    - oop/method_belong_class
+    - oop/new_init
+    - oop/super
+    - oop/call
+    - oop/metaclass
+    - oop/propery_getter_setter
+    - oop/propery_reconsitution
+    - oop/overloading
+    - oop/slots
+    - oop/internal_manager
+    - oop/py-class-effect
+    - oop/py-magic-method
+    - oop/dataclass
+    - oop/init_subclass
+
+  '第11章 并发编程':
+    - concurrent/index
+    - concurrent/multithreading
+    - concurrent/multiprocess
+    - concurrent/association
+
+  '第12章 python实用代码':
+    - pytip/index
+    - pytip/examples
+
+  '第13章 python项目实践':
+    - practices/index
+    - practices/char_picture
+    - practices/find_big_file
+    - practices/generate_password
+    - practices/five_rings_by_turtle
+    - practices/py_download_file
+    - practices/active_email
+    - practices/short_url
+    - practices/valid_code
+    - practices/find_open_port
+    - practices/google_history
+    - practices/get_wifi_windows
+    - practices/get_localip_by_google_dns
+    - practices/cpu_speed

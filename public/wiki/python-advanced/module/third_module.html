@@ -1,0 +1,853 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python进阶教程：4.3 第三方库 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="python第三方库导读python有多少第三方库？ 这个问题恐怕没有一个准确的答案，人们只知道几乎所有你想要事项的功能，早已经有人写好了python库，你所需要做的，只是尽快找到它并学会如何使用它。python的发展得益于开源社区的开源精神，人们热衷于将自己的成果展示在互联网上并希望能够帮助到别人，你可以在github和pypi上找到大量python开源库。 本专题致力于向你介绍那些有趣的第三方">
+<meta property="og:type" content="website">
+<meta property="og:title" content="4.3 第三方库">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-advanced/module/third_module.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="python第三方库导读python有多少第三方库？ 这个问题恐怕没有一个准确的答案，人们只知道几乎所有你想要事项的功能，早已经有人写好了python库，你所需要做的，只是尽快找到它并学会如何使用它。python的发展得益于开源社区的开源精神，人们热衷于将自己的成果展示在互联网上并希望能够帮助到别人，你可以在github和pypi上找到大量python开源库。 本专题致力于向你介绍那些有趣的第三方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093352519.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093353214.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827115330265.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093434654.jpeg">
+<meta property="article:published_time" content="2025-08-27T03:55:50.316Z">
+<meta property="article:modified_time" content="2025-08-27T03:55:50.316Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093352519.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-advanced/data-type/enum.html"><div class="main" ff="title">Python进阶教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-advanced/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/data-type/enum.html#start"><span class="toc-text">1.1 python3枚举</span></a><a class="link" href="/wiki/python-advanced/data-type/bytes.html"><span class="toc-text">1.2 bytes字节串</span></a><a class="link" href="/wiki/python-advanced/data-type/str_format.html"><span class="toc-text">1.3 字符串格式化高级用法</span></a><a class="link" href="/wiki/python-advanced/data-type/power-f-string.html"><span class="toc-text">1.4 功能强大的f-string</span></a><a class="link" href="/wiki/python-advanced/data-type/type_hints.html"><span class="toc-text">1.5 类型标注</span></a><a class="link" href="/wiki/python-advanced/data-type/py-type-hints-detail.html"><span class="toc-text">1.6 类型标注详解</span></a><a class="link" href="/wiki/python-advanced/data-type/mypy.html"><span class="toc-text">1.7 静态类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/typecheck.html"><span class="toc-text">1.8 运行时类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/py-dict-views.html"><span class="toc-text">1.9 字典视图对象</span></a></div><div class="widget-header dis-select"><span class="name">第2章 正则表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/index.html"><span class="toc-text">2.1 什么是正则表达式</span></a><a class="link" href="/wiki/python-advanced/regex/special_char.html"><span class="toc-text">2.2 特殊代码</span></a><a class="link" href="/wiki/python-advanced/regex/re_replace.html"><span class="toc-text">2.3 字符转义</span></a><a class="link" href="/wiki/python-advanced/regex/re_match.html"><span class="toc-text">2.4 匹配</span></a><a class="link" href="/wiki/python-advanced/regex/re_search_findall.html"><span class="toc-text">2.5 查找</span></a><a class="link" href="/wiki/python-advanced/regex/re_split_sub.html"><span class="toc-text">2.6 分割和替换</span></a><a class="link" href="/wiki/python-advanced/regex/py-re-group.html"><span class="toc-text">2.7 分组</span></a><a class="link" href="/wiki/python-advanced/regex/re_exercises.html"><span class="toc-text">2.8 正则表达式练习题</span></a></div><div class="widget-header dis-select"><span class="name">第3章 python内存管理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/memory/index.html"><span class="toc-text">3.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/memory/obj_ref.html"><span class="toc-text">3.2 变量引用</span></a><a class="link" href="/wiki/python-advanced/memory/immutable.html"><span class="toc-text">3.3 可变对象与不可变对象</span></a><a class="link" href="/wiki/python-advanced/memory/memory_copy.html"><span class="toc-text">3.4 深拷贝与浅拷贝</span></a><a class="link" href="/wiki/python-advanced/memory/memory_pool.html"><span class="toc-text">3.5 内存池技术</span></a><a class="link" href="/wiki/python-advanced/memory/list_tuple_mem_optimize.html"><span class="toc-text">3.6 列表/元组内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/str_mem_optimize.html"><span class="toc-text">3.7 字符串内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/gc.html"><span class="toc-text">3.8 垃圾回收机制</span></a></div><div class="widget-header dis-select"><span class="name">第4章 深入学习python模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/module/module_learn.html"><span class="toc-text">4.1 模块概念深入学习</span></a><a class="link" href="/wiki/python-advanced/module/standard_module.html"><span class="toc-text">4.2 标准模块</span></a><a class="link active" href="/wiki/python-advanced/module/third_module.html"><span class="toc-text">4.3 第三方库</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/python-advanced/module/data-feather-csv-compare.html"><span class="toc-text">4.4 数据处理</span></a></div><div class="widget-header dis-select"><span class="name">第5章 高阶函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/adv-function/index.html"><span class="toc-text">5.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/adv-function/compile.html"><span class="toc-text">5.2 compile</span></a><a class="link" href="/wiki/python-advanced/adv-function/locals_globals.html"><span class="toc-text">5.3 locals与globals</span></a><a class="link" href="/wiki/python-advanced/adv-function/partial.html"><span class="toc-text">5.3 partial</span></a><a class="link" href="/wiki/python-advanced/adv-function/lambda.html"><span class="toc-text">5.4 lambda</span></a><a class="link" href="/wiki/python-advanced/adv-function/zip.html"><span class="toc-text">5.5 zip</span></a><a class="link" href="/wiki/python-advanced/adv-function/map.html"><span class="toc-text">5.6 map</span></a><a class="link" href="/wiki/python-advanced/adv-function/reduce.html"><span class="toc-text">5.7 reduce</span></a><a class="link" href="/wiki/python-advanced/adv-function/setattr_hasattr_getattr.html"><span class="toc-text">5.8 attr</span></a><a class="link" href="/wiki/python-advanced/adv-function/filter.html"><span class="toc-text">5.9 filter</span></a><a class="link" href="/wiki/python-advanced/adv-function/function_talk.html"><span class="toc-text">5.10 函数杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第6章 装饰器和递归</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/decor-recur/decorator.html"><span class="toc-text">6.1 装饰器</span></a><a class="link" href="/wiki/python-advanced/decor-recur/recursion.html"><span class="toc-text">6.2 递归</span></a></div><div class="widget-header dis-select"><span class="name">第7章 工程开发</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/project/index.html"><span class="toc-text">7.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/project/code_quality.html"><span class="toc-text">7.2 代码质量</span></a><a class="link" href="/wiki/python-advanced/project/config.html"><span class="toc-text">7.3 配置文件</span></a><a class="link" href="/wiki/python-advanced/project/pro_practice.html"><span class="toc-text">7.4 项目实践</span></a></div><div class="widget-header dis-select"><span class="name">第8章 网络编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/network/index.html"><span class="toc-text">8.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/network/tcp.html"><span class="toc-text">8.2 TCP</span></a><a class="link" href="/wiki/python-advanced/network/http.html"><span class="toc-text">8.3 HTTP</span></a></div><div class="widget-header dis-select"><span class="name">第9章 python高级特性</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/feature/index.html"><span class="toc-text">9.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/feature/three_ternary_expression.html"><span class="toc-text">9.2 三元表达式</span></a><a class="link" href="/wiki/python-advanced/feature/pack_unpack.html"><span class="toc-text">9.3 封包与解包</span></a><a class="link" href="/wiki/python-advanced/feature/everything_is_object.html"><span class="toc-text">9.4 一切皆对象</span></a><a class="link" href="/wiki/python-advanced/feature/callable.html"><span class="toc-text">9.5 callable概念</span></a><a class="link" href="/wiki/python-advanced/feature/with.html"><span class="toc-text">9.6 with语句</span></a><a class="link" href="/wiki/python-advanced/feature/comprehensions.html"><span class="toc-text">9.7 生成式</span></a><a class="link" href="/wiki/python-advanced/feature/generator.html"><span class="toc-text">9.8 生成器</span></a><a class="link" href="/wiki/python-advanced/feature/generator_eg.html"><span class="toc-text">9.9 生成器的作用实例</span></a><a class="link" href="/wiki/python-advanced/feature/iterator.html"><span class="toc-text">9.10 迭代器和可迭代对象</span></a><a class="link" href="/wiki/python-advanced/feature/introspection.html"><span class="toc-text">9.11 自省</span></a><a class="link" href="/wiki/python-advanced/feature/underline_effect.html"><span class="toc-text">9.12 下划线的作用</span></a></div><div class="widget-header dis-select"><span class="name">第10章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/oop/index.html"><span class="toc-text">10.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/oop/method_belong_class.html"><span class="toc-text">10.2 类方法/实例属性</span></a><a class="link" href="/wiki/python-advanced/oop/new_init.html"><span class="toc-text">10.3 __new__ 和 __init__</span></a><a class="link" href="/wiki/python-advanced/oop/super.html"><span class="toc-text">10.4 super()</span></a><a class="link" href="/wiki/python-advanced/oop/call.html"><span class="toc-text">10.5 __call__()</span></a><a class="link" href="/wiki/python-advanced/oop/metaclass.html"><span class="toc-text">10.6 metaclass元类</span></a><a class="link" href="/wiki/python-advanced/oop/propery_getter_setter.html"><span class="toc-text">10.7 用propery代替getter和setter方法</span></a><a class="link" href="/wiki/python-advanced/oop/propery_reconsitution.html"><span class="toc-text">10.8 用propery重构代码</span></a><a class="link" href="/wiki/python-advanced/oop/overloading.html"><span class="toc-text">10.9 运算符重载</span></a><a class="link" href="/wiki/python-advanced/oop/slots.html"><span class="toc-text">10.10 使用__slots__节省内存空间</span></a><a class="link" href="/wiki/python-advanced/oop/internal_manager.html"><span class="toc-text">10.11 类的内部管理</span></a><a class="link" href="/wiki/python-advanced/oop/py-class-effect.html"><span class="toc-text">10.12 从封装看类的作用</span></a><a class="link" href="/wiki/python-advanced/oop/py-magic-method.html"><span class="toc-text">10.13 python的魔法方法</span></a><a class="link" href="/wiki/python-advanced/oop/dataclass.html"><span class="toc-text">10.14 理解python数据类</span></a><a class="link" href="/wiki/python-advanced/oop/init_subclass.html"><span class="toc-text">10.15 子类的定义</span></a></div><div class="widget-header dis-select"><span class="name">第11章 并发编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/concurrent/index.html"><span class="toc-text">11.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/concurrent/multithreading.html"><span class="toc-text">11.2 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/multiprocess.html"><span class="toc-text">11.3 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/association.html"><span class="toc-text">11.4 协程</span></a></div><div class="widget-header dis-select"><span class="name">第12章 python实用代码</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/pytip/index.html"><span class="toc-text">12.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/pytip/examples.html"><span class="toc-text">12.2 实用代码示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 python项目实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/practices/index.html"><span class="toc-text">13.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/practices/char_picture.html"><span class="toc-text">13.2 字符画及其原理</span></a><a class="link" href="/wiki/python-advanced/practices/find_big_file.html"><span class="toc-text">13.3 找出大文件</span></a><a class="link" href="/wiki/python-advanced/practices/generate_password.html"><span class="toc-text">13.4 制作密码生成器</span></a><a class="link" href="/wiki/python-advanced/practices/five_rings_by_turtle.html"><span class="toc-text">13.5 使用turtle模块画奥运五环</span></a><a class="link" href="/wiki/python-advanced/practices/py_download_file.html"><span class="toc-text">13.6 下载文件并添加进度条</span></a><a class="link" href="/wiki/python-advanced/practices/active_email.html"><span class="toc-text">13.7 发送网站注册激活邮件</span></a><a class="link" href="/wiki/python-advanced/practices/short_url.html"><span class="toc-text">13.8 开发简单的URL短链接</span></a><a class="link" href="/wiki/python-advanced/practices/valid_code.html"><span class="toc-text">13.9 制作图片验证码</span></a><a class="link" href="/wiki/python-advanced/practices/find_open_port.html"><span class="toc-text">13.10 探测主机开放的端口</span></a><a class="link" href="/wiki/python-advanced/practices/google_history.html"><span class="toc-text">13.11 获取谷歌浏览器的历史记录</span></a><a class="link" href="/wiki/python-advanced/practices/get_wifi_windows.html"><span class="toc-text">13.12 获取可用wifi信息</span></a><a class="link" href="/wiki/python-advanced/practices/get_localip_by_google_dns.html"><span class="toc-text">13.13 利用谷歌dns服务器获取本地ip地址</span></a><a class="link" href="/wiki/python-advanced/practices/cpu_speed.html"><span class="toc-text">13.14 获取电脑cpu的速度</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/re_repeat.html"><span class="toc-text">2.3 重复</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程语言</span></div><div class="widget-body"><a class="item wiki" href="/wiki/python-basic/preface/introduction.html"><span class="title">Python基础教程</span><span class="excerpt">Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-advanced/data-type/enum.html">Python进阶教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-27T03:55:50.316Z">2025-08-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>4.3 第三方库</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="python第三方库导读"><a href="#python第三方库导读" class="headerlink" title="python第三方库导读"></a>python第三方库导读</h1><p>python有多少第三方库？ 这个问题恐怕没有一个准确的答案，人们只知道几乎所有你想要事项的功能，早已经有人写好了python库，你所需要做的，只是尽快找到它并学会如何使用它。python的发展得益于开源社区的开源精神，人们热衷于将自己的成果展示在互联网上并希望能够帮助到别人，你可以在github和pypi上找到大量python开源库。</p>
+<p>本专题致力于向你介绍那些有趣的第三方python库，他们解决了不同的问题，或许某一天，你有机会用到他们，学习他们的开源代码也是一个可以让你快速进步的方法。</p>
+<h1 id="如何学习使用第三方模块"><a href="#如何学习使用第三方模块" class="headerlink" title="如何学习使用第三方模块"></a>如何学习使用第三方模块</h1><p>得益于python强大的开源社区，我们在使用python开发项目时，可以几乎可以做到全程拿来主义。需要什么，就百度好了，总会有人已经实现了你需要的功能模块，你所需要做的仅仅是使用pip命令安装他们。</p>
+<p>虽然你不必重复造轮子，但理解掌握别人已经早好的轮子有时候也并非易事。本文介绍3种学习第三方库的方法</p>
+<ol>
+<li>搜索第三方库文档</li>
+<li>阅读源码例子， 测试脚本</li>
+<li>编译第三方模块说明文档</li>
+</ol>
+<h2 id="1-搜索第三方库文档"><a href="#1-搜索第三方库文档" class="headerlink" title="1. 搜索第三方库文档"></a>1. 搜索第三方库文档</h2><p>这是最快速，最有效的学习第三方库的方法，别无其他，假设你想学习requests这个http库，那么最好的办法是用百度搜索这个库的文档，关键词： python reqeusts。百度会给你提供大量的教程连接<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093352519.jpeg" alt="百度搜索requests"><br>运气好，可以直接找到第三方库的官方网址，或者找到国内已经翻译好的教程。选择一份你喜欢的，讲解详细，示例多的教程，慢慢学习吧！</p>
+<h2 id="2-阅读源码例子，-测试脚本"><a href="#2-阅读源码例子，-测试脚本" class="headerlink" title="2. 阅读源码例子， 测试脚本"></a>2. 阅读源码例子， 测试脚本</h2><p>有些第三方库的作者并没有提供官方的文档，或者还没有人将英文的文档翻译成中文，或者文档讲解不细致，总之，使用搜索引擎找不到合适的文档，那么这个时候，你就要考虑从源码里寻找可用的资源，例如源码中的代码示例或者测试脚本。</p>
+<p>事实上存在这样的情况，作者认为自己所开发的库或者模块比较简单，无需提供详细的使用文档，但他会在源码里写一些示例代码，还有些作者自己会写测试脚本以验证自己的代码是健壮的，通过示例代码和测试脚本，你仍然可以快速学习第三方库的使用方法。</p>
+<p>很多作者都会把开源项目放在github上，因此想要找源码，github最合适不过，以web框架<a target="_blank" rel="noopener" href="https://github.com/bottlepy/bottle">bottle</a>为例，在git仓库里有一个test文件夹，这里就保留了大量作者用以测试框架的代码，你完全可以通过阅读这些测试代码来学习该框架</p>
+<p>以excel操作库<a target="_blank" rel="noopener" href="https://github.com/python-excel/xlrd">xlrd</a>为例，源码里不仅有tests文件夹，还有一个examples文件夹，提供了示例代码。</p>
+<h2 id="3-编译项目使用说明文档"><a href="#3-编译项目使用说明文档" class="headerlink" title="3.编译项目使用说明文档"></a>3.编译项目使用说明文档</h2><p>有些作者会在源码里提供项目使用说明文档，以<a target="_blank" rel="noopener" href="https://github.com/python-excel/xlwt">xlwt</a>为例，项目文档存放在docs中，将源码下载到本地，并进入到docs目录中，你会看到很多以.rst结尾的文件，rst于Python类似Javadoc与Java,我们可以将其转为html后用浏览器打开。</p>
+<p>在转换之前，你需要先安装sphinx</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install sphinx</span><br></pre></td></tr></table></figure>
+
+<p>编译说明文档有两种方式<br><strong>方式1</strong>， 进入到源码，执行命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">sudo sphinx-build -b html docs build</span><br></pre></td></tr></table></figure>
+
+<p>docs就是保存rst文件的文件夹，上面的命令会生成一个build文件，在这个文件夹里有一个index.html文件，用浏览器打开这个文件，就可以看到帮助说明文档<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093353214.jpeg" alt="编译python第三方库说明文档"></p>
+<p><strong>方式2</strong>， 进入docs文件夹，执行命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">make html</span><br></pre></td></tr></table></figure>
+
+<p>该命令会在docs文件夹下生成一个_build目录，和方法1里生成的build一样，保存了一些html文件，使用浏览器打开index.html，就可以查看说明文档了。</p>
+<h1 id="python文字转语音模块"><a href="#python文字转语音模块" class="headerlink" title="python文字转语音模块"></a>python文字转语音模块</h1><p>pyttsx3是一个文字转语音的python库，<a target="_blank" rel="noopener" href="https://pyttsx3.readthedocs.io/en/latest/engine.html">更多信息参考官方网站</a></p>
+<p>值得称道的是这个库是跨平台的，在mac os, windows都可以使用，安装方式如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip3 install pyttsx3</span><br></pre></td></tr></table></figure>
+
+<p>使用该模块非常简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pyttsx3</span><br><span class="line">engine = pyttsx3.init()</span><br><span class="line"></span><br><span class="line">engine.say(<span class="string">&#x27;Sally sells seashells by the seashore.&#x27;</span>)</span><br><span class="line">engine.runAndWait()     <span class="comment"># 必须使用这行代码才能发出语音</span></span><br><span class="line">engine.say(<span class="string">&#x27;语音合成开始&#x27;</span>)</span><br><span class="line">engine.runAndWait()</span><br></pre></td></tr></table></figure>
+
+<p>我在mac上实验该模块，python版本是3.6,不论中文还是英文都可以正常发出声音</p>
+<h1 id="pyinstrument"><a href="#pyinstrument" class="headerlink" title="pyinstrument"></a>pyinstrument</h1><p>pyinstrument是一款python性能分析器，它通过记录程序执行过程中的堆栈记录来帮你找出程序最耗时的代码。pyinstrument每1毫秒中断一次程序，并在那一点记录整个堆栈，单个函数的执行时长会在函数执行结束后被记录。当你的python程序性能需要优化时，可以考虑使用pyinstrument来定位程序慢在哪里。</p>
+<p>使用pip进行安装</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install pyinstrument</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-如何使用pyinstrument"><a href="#1-如何使用pyinstrument" class="headerlink" title="1. 如何使用pyinstrument"></a>1. 如何使用pyinstrument</h2><p>在终端里运行 pyinstrument 命令， 得到如下结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">kwsy@zhangdongshengdeMacBook-Air:~/kwsy/coolpython$     pyinstrument</span><br><span class="line">Usage: pyinstrument [options] scriptfile [arg] ...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --version             show program&#x27;s version number and exit</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  --load-prev=ID        Instead of running a script, load a previous report</span><br><span class="line">  -m MODULE_NAME        run library module as a script, like &#x27;python -m</span><br><span class="line">                        module&#x27;</span><br><span class="line">  -o OUTFILE, --outfile=OUTFILE</span><br><span class="line">                        save to &lt;outfile&gt;</span><br><span class="line">  -r RENDERER, --renderer=RENDERER</span><br><span class="line">                        how the report should be rendered. One of: &#x27;text&#x27;,</span><br><span class="line">                        &#x27;html&#x27;, &#x27;json&#x27;, or python import path to a renderer</span><br><span class="line">                        class</span><br><span class="line">  -t, --timeline        render as a timeline - preserve ordering and don&#x27;t</span><br><span class="line">                        condense repeated calls</span><br><span class="line">  --hide=EXPR           glob-style pattern matching the file paths whose</span><br><span class="line">                        frames to hide. Defaults to &#x27;*/lib/*&#x27;.</span><br><span class="line">  --hide-regex=REGEX    regex matching the file paths whose frames to hide.</span><br><span class="line">                        Useful if --hide doesn&#x27;t give enough control.</span><br><span class="line">  --show=EXPR           glob-style pattern matching the file paths whose</span><br><span class="line">                        frames to show, regardless of --hide or --hide-regex.</span><br><span class="line">                        For example, use --show &#x27;*/&lt;library&gt;/*&#x27; to show frames</span><br><span class="line">                        within a library that would otherwise be hidden.</span><br><span class="line">  --show-regex=REGEX    regex matching the file paths whose frames to always</span><br><span class="line">                        show. Useful if --show doesn&#x27;t give enough control.</span><br><span class="line">  --show-all            show everything</span><br><span class="line">  --unicode             (text renderer only) force unicode text output</span><br><span class="line">  --no-unicode          (text renderer only) force ascii text output</span><br><span class="line">  --color               (text renderer only) force ansi color text output</span><br><span class="line">  --no-color            (text renderer only) force no color text output</span><br></pre></td></tr></table></figure>
+
+<p>根据提示， 我们应该用pyinstrument命令来运行一个脚本</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pyinstrument [options] scriptfile [arg]</span><br></pre></td></tr></table></figure>
+
+<p>我新建一个名为demo.py的脚本，内容较为简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> pyinstrument <span class="keyword">import</span> Profiler</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_api</span>():</span><br><span class="line">    url = <span class="string">&#x27;http://www.coolpython.net&#x27;</span></span><br><span class="line">    res = requests.get(url)</span><br><span class="line">    <span class="built_in">print</span>(res.status_code)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">profiler = Profiler()</span><br><span class="line">profiler.start()</span><br><span class="line"></span><br><span class="line">test_api()</span><br><span class="line"></span><br><span class="line">profiler.stop()</span><br><span class="line"><span class="built_in">print</span>(profiler.output_text(unicode=<span class="literal">True</span>, color=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+
+<p>在这个脚本里，我想要详细记录函数test_api的执行过程，那么我需要在函数执行之前创建Profiler对象并启动它，在函数执行结束之后结束它，最后使用output_text方法输出调用栈的记录，由于我们在脚本里直接调用了output_text输出，因此可以直接使用python命令来运行程序</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py</span><br></pre></td></tr></table></figure>
+
+<p>执行结果为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">200</span><br><span class="line"></span><br><span class="line">  _     ._   __/__   _ _  _  _ _/_   Recorded: 19:32:50  Samples:  10</span><br><span class="line"> /_//_/// /_\ / //_// / //_&#x27;/ //     Duration: 0.447     CPU time: 0.013</span><br><span class="line">/   _/                      v3.1.3</span><br><span class="line"></span><br><span class="line">Program: demo.py</span><br><span class="line"></span><br><span class="line">0.446 &lt;module&gt;  demo.py:1</span><br><span class="line">└─ 0.446 test_api  demo.py:4</span><br><span class="line">   └─ 0.446 get  requests/api.py:63</span><br><span class="line">         [56 frames hidden]  requests, urllib3, http, socket, abc,...</span><br><span class="line">            0.387 getaddrinfo  socket.py:728</span><br></pre></td></tr></table></figure>
+
+<p>如果想获得更好的观察效果，或者对输出结果持久化保存，那么可以使用pyinstrument命令并配合适当的参数</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pyinstrument  --outfile=2.html -r html --hide=EXPR demo.py</span><br></pre></td></tr></table></figure>
+
+<p>这几个参数分别指定了输出文件和输出文件的类型，hide参数设置将调用过程中内置库的调用信息隐藏，最终得到的是一个html文件，打开后的效果如下<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827115330265.jpeg" alt="pyinstrument"></p>
+<h2 id="2-配合flask使用"><a href="#2-配合flask使用" class="headerlink" title="2. 配合flask使用"></a>2. 配合flask使用</h2><p>pyinstrument开发人员给了一份配合flask使用的示例代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, g, make_response, request</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.before_request</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">before_request</span>():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;profile&quot;</span> <span class="keyword">in</span> request.args:</span><br><span class="line">        g.profiler = Profiler()</span><br><span class="line">        g.profiler.start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.after_request</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">after_request</span>(<span class="params">response</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">hasattr</span>(g, <span class="string">&quot;profiler&quot;</span>):</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line">    g.profiler.stop()</span><br><span class="line">    output_html = g.profiler.output_html()</span><br><span class="line">    <span class="keyword">return</span> make_response(output_html)</span><br></pre></td></tr></table></figure>
+
+<p>before_request 会在视图处理请求前执行，after_request会在请求得到处理后返回结果前执行，如果请求的参数里包含了profile参数，表示需要记录整个调用栈的信息，当请求得到响应后，会调用output_html方法得到一个html页面，并将其返回，作者给的这个例子非常使用，但只适用于get请求，在浏览器里发出get请求，加入profile参数，就可以在浏览器里得到整个调用过程中调用堆栈的信息。</p>
+<h2 id="3-pyinstrument与profile（cProfile）有什么不同"><a href="#3-pyinstrument与profile（cProfile）有什么不同" class="headerlink" title="3. pyinstrument与profile（cProfile）有什么不同"></a>3. pyinstrument与profile（cProfile）有什么不同</h2><p>按照作者的解释，Pyinstrument是一个统计分析器，而profile是跟踪分析器，Pyinstrument每隔1ms记录一次堆栈的情况，它不会跟踪程序进行的每个函数调用， 这样一来，系统开销就会小很多，以Django模板渲染进行测试，得到的结果如下<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827093434654.jpeg" alt="pyinstrument"><br>你可以看到，在使用pyinstrument时，仅仅比基础速度慢了30%, 而cProfile则慢了84%，cProfile 这类跟踪分析器由于大量调用探查器，可能会扭曲结果。</p>
+<p>另一个不同在于，标准的python探查器获取了函数的执行时长，profile或者cProfile会根据每个函数的执行时长进行排序并展示，但是这些函数为什么会被调用，被谁调用等问题则不能给出令人满意的答案， 但pyinstrument会记录整个堆栈，因此可以完美的展示调用关系，并且会默认隐藏内置木块和标准库的调用信息。</p>
+<h1 id="watchdog—在python中创建看门狗，监控文件系统变化"><a href="#watchdog—在python中创建看门狗，监控文件系统变化" class="headerlink" title="watchdog—在python中创建看门狗，监控文件系统变化"></a>watchdog—在python中创建看门狗，监控文件系统变化</h1><p>看门狗是一款小软件，可以监控文件和目录是否发生变化，watchdog就是一款可以监控文件系统变化的第三方模块，当被监视的区域发生文件或目录的创建，修改，或者删除时，就可以引发特定的事件，我们只需要编写针对这些事件的函数即可处理这些变化。</p>
+<h2 id="1-安装和导入"><a href="#1-安装和导入" class="headerlink" title="1. 安装和导入"></a>1. 安装和导入</h2><p>使用pip来安装</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install watchdog</span><br></pre></td></tr></table></figure>
+
+<p>导入所需要的模块</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> watchdog.observers <span class="keyword">import</span> Observer</span><br><span class="line"><span class="keyword">from</span> watchdog.events <span class="keyword">import</span> PatternMatchingEventHandler</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-创建事件处理对象"><a href="#2-创建事件处理对象" class="headerlink" title="2. 创建事件处理对象"></a>2. 创建事件处理对象</h2><p>在创建事件处理对象时，有很多有用的参数需要进行设置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">watch_patterns = <span class="string">&quot;*.py;*.txt&quot;</span>    <span class="comment"># 监控文件的模式</span></span><br><span class="line">ignore_patterns = <span class="string">&quot;&quot;</span>     <span class="comment"># 设置忽略的文件模式</span></span><br><span class="line">ignore_directories = <span class="literal">False</span>      <span class="comment"># 是否忽略文件夹变化</span></span><br><span class="line">case_sensitive = <span class="literal">True</span>           <span class="comment"># 是否对大小写敏感</span></span><br><span class="line">event_handler = PatternMatchingEventHandler(watch_patterns, ignore_patterns, ignore_directories, case_sensitive)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>watch_patterns 设置监控文件的模式，如果你想监控所有文件，那么设置成”*” 即可，我所设置的模式只会监控以.py 和 .txt结尾的文件</li>
+<li>ignore_patterns 设置忽略的文件模式，我这里没有忽略任何文件</li>
+<li>ignore_directories 设置为True表示忽略文件夹的变化</li>
+<li>case_sensitive 设置大小写是否敏感，如果设置为True，那么修改文件名称时，如果只是大小写发生变化，那么则不会被监控</li>
+</ol>
+<h2 id="3-处理事件"><a href="#3-处理事件" class="headerlink" title="3. 处理事件"></a>3. 处理事件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">on_created</span>(<span class="params">event</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;event.src_path&#125;</span>被创建&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_deleted</span>(<span class="params">event</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;event.src_path&#125;</span>被删除&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_modified</span>(<span class="params">event</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;event.src_path&#125;</span> 被修改&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_moved</span>(<span class="params">event</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;event.src_path&#125;</span>被移动到<span class="subst">&#123;event.dest_path&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">event_handler.on_created = on_created</span><br><span class="line">event_handler.on_deleted = on_deleted</span><br><span class="line">event_handler.on_modified = on_modified</span><br><span class="line">event_handler.on_moved = on_moved</span><br></pre></td></tr></table></figure>
+
+<p>一共有四种事件需要处理，对应的，编写4个函数</p>
+<h2 id="4-创建观察者"><a href="#4-创建观察者" class="headerlink" title="4. 创建观察者"></a>4. 创建观察者</h2><p>最终，我们需要创建一个观察者，来负责启动监控任务</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">watch_path = <span class="string">&quot;/Users/kwsy/data/test&quot;</span>  <span class="comment"># 监控目录</span></span><br><span class="line">go_recursively = <span class="literal">True</span>    <span class="comment"># 是否监控子文件夹</span></span><br><span class="line">my_observer = Observer()</span><br><span class="line">my_observer.schedule(event_handler, watch_path, recursive=go_recursively)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">my_observer.start()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">    my_observer.stop()</span><br><span class="line">    my_observer.join()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>watch_path 设置监控的目录</li>
+<li>go_recursively 设置为True表示监控子文件夹</li>
+</ol>
+<p>一个观察者可以多次使用schedule方法来监控文件系统，这样，我们可以一次监控多个区域，每个区域使用不同的监控策略。</p>
+<p>现在，在所监控的目录下执行新建文件的操作，就会被这段程序所监控到，并使用on_created函数做相应的处理。</p>
+<h1 id="防止rm误删除"><a href="#防止rm误删除" class="headerlink" title="防止rm误删除"></a>防止rm误删除</h1><h2 id="1-trash-cli"><a href="#1-trash-cli" class="headerlink" title="1. trash-cli"></a>1. trash-cli</h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">rm -rf </span><br></pre></td></tr></table></figure>
+
+<p>上面这个命令，恐怕是这个世界上最危险的命令，在每一次程序员删库跑路的事件中都扮演着关键角色。在日常工作中，一不留神，就可能因一时疏忽而误删除了关键文件导致服务器出现故障或是服务不可用。由于linux系统没有回收站功能，这导致使用rm删除的文件很难恢复。</p>
+<p>本文给大家介绍的，是一个实现了回收站功能的python库，使用它，你可以放心的执行rm命令而不必担心误删除的数据无法恢复，使用pip进行安装</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install trash-cli</span><br></pre></td></tr></table></figure>
+
+<p>安装结束后，你可以使用which trash 来查看工具的安装目录，在我的机器上，安装目录是&#x2F;opt&#x2F;conda&#x2F;bin ， 使用ll &#x2F;opt&#x2F;conda&#x2F;bin&#x2F;trash* 命令可以查看到所有相关命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">/opt/conda/bin/trash                    # 删除文件， 同trash-put</span><br><span class="line">/opt/conda/bin/trash-empty              # 清空回收站</span><br><span class="line">/opt/conda/bin/trash-list               # 列出回收站里的文件</span><br><span class="line">/opt/conda/bin/trash-put                # 删除文件</span><br><span class="line">/opt/conda/bin/trash-restore            # 恢复回收站里的指定文件</span><br><span class="line">/opt/conda/bin/trash-rm                 # 删除回收站里的指定文件</span><br></pre></td></tr></table></figure>
+
+<p>你可以使用trash命令代替rm命令，更好的方法是设置rm命令的别名，修改.bashrc文件，增加下面这行</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">alias rm=&quot;trash&quot;</span><br></pre></td></tr></table></figure>
+
+<p>设置以后，记得执行source .bashrc 使配置生效，现在，你可以放心的使用rm命令了，当你想恢复某个文件时，执行trash-list 列出回收站中的文件，使用trash-restore 恢复你想要恢复的文件。</p>
+<h2 id="2-trash-cli-实现原理"><a href="#2-trash-cli-实现原理" class="headerlink" title="2. trash-cli 实现原理"></a>2. trash-cli 实现原理</h2><h3 id="2-1-被删除的文件去哪了"><a href="#2-1-被删除的文件去哪了" class="headerlink" title="2.1 被删除的文件去哪了"></a>2.1 被删除的文件去哪了</h3><p>你一定好奇，那些被删除的文件去哪了，默认情况下，这些文件都被放在了 $HOME&#x2F;.local&#x2F;share&#x2F;Trash 目录下，这个目录下有两个文件夹，分别是files 和info， files目录下存放的就是被删除的文件，info目录下存放的是被删除文件的信息，包括被删除前所在目录和被删除时间，格式如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[Trash Info]</span><br><span class="line">Path=/home/jovyan/server.py</span><br><span class="line">DeletionDate=2020-06-15T11:30:58</span><br></pre></td></tr></table></figure>
+
+<p>每一个被删除的文件或文件夹，都会有一个与之相对应的trashinfo文件，记录着被删除文件的关键信息。当使用trash-restore恢复文件时，就是根据这些信息将文件move到指定位置。</p>
+<h3 id="2-2-回收站的目录是否可设置"><a href="#2-2-回收站的目录是否可设置" class="headerlink" title="2.2 回收站的目录是否可设置"></a>2.2 回收站的目录是否可设置</h3><p>默认是$HOME&#x2F;.local&#x2F;share&#x2F;Trash ，但可以进行修改，这一点，源码里说的很清楚</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HomeTrashCan</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, environ</span>):</span><br><span class="line">        <span class="variable language_">self</span>.environ = environ</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">path_to</span>(<span class="params">self, out</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;XDG_DATA_HOME&#x27;</span> <span class="keyword">in</span> <span class="variable language_">self</span>.environ:</span><br><span class="line">            out(<span class="string">&#x27;%(XDG_DATA_HOME)s/Trash&#x27;</span> % <span class="variable language_">self</span>.environ)</span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&#x27;HOME&#x27;</span> <span class="keyword">in</span> <span class="variable language_">self</span>.environ:</span><br><span class="line">            out(<span class="string">&#x27;%(HOME)s/.local/share/Trash&#x27;</span> % <span class="variable language_">self</span>.environ)</span><br></pre></td></tr></table></figure>
+
+<p>如果你希望更改回收站的目录，那么可以通过设置XDG_DATA_HOME 环境变量来实现。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-advanced/module/standard_module.html">4.2 标准模块</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-advanced/module/data-feather-csv-compare.html">4.4 数据处理</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%AF%BC%E8%AF%BB"><span class="toc-text">python第三方库导读</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="toc-text">如何学习使用第三方模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%90%9C%E7%B4%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E6%96%87%E6%A1%A3"><span class="toc-text">1. 搜索第三方库文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81%E4%BE%8B%E5%AD%90%EF%BC%8C-%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-text">2. 阅读源码例子， 测试脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3"><span class="toc-text">3.编译项目使用说明文档</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E6%96%87%E5%AD%97%E8%BD%AC%E8%AF%AD%E9%9F%B3%E6%A8%A1%E5%9D%97"><span class="toc-text">python文字转语音模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pyinstrument"><span class="toc-text">pyinstrument</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8pyinstrument"><span class="toc-text">1. 如何使用pyinstrument</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%85%8D%E5%90%88flask%E4%BD%BF%E7%94%A8"><span class="toc-text">2. 配合flask使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-pyinstrument%E4%B8%8Eprofile%EF%BC%88cProfile%EF%BC%89%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C"><span class="toc-text">3. pyinstrument与profile（cProfile）有什么不同</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#watchdog%E2%80%94%E5%9C%A8python%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%9C%8B%E9%97%A8%E7%8B%97%EF%BC%8C%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8F%98%E5%8C%96"><span class="toc-text">watchdog—在python中创建看门狗，监控文件系统变化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85%E5%92%8C%E5%AF%BC%E5%85%A5"><span class="toc-text">1. 安装和导入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BA%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%AF%B9%E8%B1%A1"><span class="toc-text">2. 创建事件处理对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A4%84%E7%90%86%E4%BA%8B%E4%BB%B6"><span class="toc-text">3. 处理事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%88%9B%E5%BB%BA%E8%A7%82%E5%AF%9F%E8%80%85"><span class="toc-text">4. 创建观察者</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2rm%E8%AF%AF%E5%88%A0%E9%99%A4"><span class="toc-text">防止rm误删除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-trash-cli"><span class="toc-text">1. trash-cli</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-trash-cli-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">2. trash-cli 实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%A2%AB%E5%88%A0%E9%99%A4%E7%9A%84%E6%96%87%E4%BB%B6%E5%8E%BB%E5%93%AA%E4%BA%86"><span class="toc-text">2.1 被删除的文件去哪了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%9B%9E%E6%94%B6%E7%AB%99%E7%9A%84%E7%9B%AE%E5%BD%95%E6%98%AF%E5%90%A6%E5%8F%AF%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.2 回收站的目录是否可设置</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

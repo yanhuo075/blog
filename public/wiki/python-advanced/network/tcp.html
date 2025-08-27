@@ -1,0 +1,863 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python进阶教程：8.2 TCP - 烟火075的博客</title>
+
+  
+    <meta name="description" content="TCP导读TCP协议全称是Transmission Control Protocol，传输控制协议，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC793定义，进行TCP通信一般由3个步骤组成  创建连接 数据传送 终止连接  面试的时候，经常被问及的TCP3次握手就发生在建立连接的阶段，下图是TCP客户端与服务端进行通信的示意图 本专题文章如下：  python创建TCP">
+<meta property="og:type" content="website">
+<meta property="og:title" content="8.2 TCP">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-advanced/network/tcp.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="TCP导读TCP协议全称是Transmission Control Protocol，传输控制协议，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC793定义，进行TCP通信一般由3个步骤组成  创建连接 数据传送 终止连接  面试的时候，经常被问及的TCP3次握手就发生在建立连接的阶段，下图是TCP客户端与服务端进行通信的示意图 本专题文章如下：  python创建TCP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100506619.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100534719.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100608901.jpeg">
+<meta property="article:published_time" content="2025-08-27T06:29:38.939Z">
+<meta property="article:modified_time" content="2025-08-27T06:29:38.939Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100506619.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-advanced/data-type/enum.html"><div class="main" ff="title">Python进阶教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-advanced/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/data-type/enum.html#start"><span class="toc-text">1.1 python3枚举</span></a><a class="link" href="/wiki/python-advanced/data-type/bytes.html"><span class="toc-text">1.2 bytes字节串</span></a><a class="link" href="/wiki/python-advanced/data-type/str_format.html"><span class="toc-text">1.3 字符串格式化高级用法</span></a><a class="link" href="/wiki/python-advanced/data-type/power-f-string.html"><span class="toc-text">1.4 功能强大的f-string</span></a><a class="link" href="/wiki/python-advanced/data-type/type_hints.html"><span class="toc-text">1.5 类型标注</span></a><a class="link" href="/wiki/python-advanced/data-type/py-type-hints-detail.html"><span class="toc-text">1.6 类型标注详解</span></a><a class="link" href="/wiki/python-advanced/data-type/mypy.html"><span class="toc-text">1.7 静态类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/typecheck.html"><span class="toc-text">1.8 运行时类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/py-dict-views.html"><span class="toc-text">1.9 字典视图对象</span></a></div><div class="widget-header dis-select"><span class="name">第2章 正则表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/index.html"><span class="toc-text">2.1 什么是正则表达式</span></a><a class="link" href="/wiki/python-advanced/regex/special_char.html"><span class="toc-text">2.2 特殊代码</span></a><a class="link" href="/wiki/python-advanced/regex/re_replace.html"><span class="toc-text">2.3 字符转义</span></a><a class="link" href="/wiki/python-advanced/regex/re_match.html"><span class="toc-text">2.4 匹配</span></a><a class="link" href="/wiki/python-advanced/regex/re_search_findall.html"><span class="toc-text">2.5 查找</span></a><a class="link" href="/wiki/python-advanced/regex/re_split_sub.html"><span class="toc-text">2.6 分割和替换</span></a><a class="link" href="/wiki/python-advanced/regex/py-re-group.html"><span class="toc-text">2.7 分组</span></a><a class="link" href="/wiki/python-advanced/regex/re_exercises.html"><span class="toc-text">2.8 正则表达式练习题</span></a></div><div class="widget-header dis-select"><span class="name">第3章 python内存管理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/memory/index.html"><span class="toc-text">3.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/memory/obj_ref.html"><span class="toc-text">3.2 变量引用</span></a><a class="link" href="/wiki/python-advanced/memory/immutable.html"><span class="toc-text">3.3 可变对象与不可变对象</span></a><a class="link" href="/wiki/python-advanced/memory/memory_copy.html"><span class="toc-text">3.4 深拷贝与浅拷贝</span></a><a class="link" href="/wiki/python-advanced/memory/memory_pool.html"><span class="toc-text">3.5 内存池技术</span></a><a class="link" href="/wiki/python-advanced/memory/list_tuple_mem_optimize.html"><span class="toc-text">3.6 列表/元组内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/str_mem_optimize.html"><span class="toc-text">3.7 字符串内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/gc.html"><span class="toc-text">3.8 垃圾回收机制</span></a></div><div class="widget-header dis-select"><span class="name">第4章 深入学习python模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/module/module_learn.html"><span class="toc-text">4.1 模块概念深入学习</span></a><a class="link" href="/wiki/python-advanced/module/standard_module.html"><span class="toc-text">4.2 标准模块</span></a><a class="link" href="/wiki/python-advanced/module/third_module.html"><span class="toc-text">4.3 第三方库</span></a><a class="link" href="/wiki/python-advanced/module/data-feather-csv-compare.html"><span class="toc-text">4.4 数据处理</span></a></div><div class="widget-header dis-select"><span class="name">第5章 高阶函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/adv-function/index.html"><span class="toc-text">5.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/adv-function/compile.html"><span class="toc-text">5.2 compile</span></a><a class="link" href="/wiki/python-advanced/adv-function/locals_globals.html"><span class="toc-text">5.3 locals与globals</span></a><a class="link" href="/wiki/python-advanced/adv-function/partial.html"><span class="toc-text">5.3 partial</span></a><a class="link" href="/wiki/python-advanced/adv-function/lambda.html"><span class="toc-text">5.4 lambda</span></a><a class="link" href="/wiki/python-advanced/adv-function/zip.html"><span class="toc-text">5.5 zip</span></a><a class="link" href="/wiki/python-advanced/adv-function/map.html"><span class="toc-text">5.6 map</span></a><a class="link" href="/wiki/python-advanced/adv-function/reduce.html"><span class="toc-text">5.7 reduce</span></a><a class="link" href="/wiki/python-advanced/adv-function/setattr_hasattr_getattr.html"><span class="toc-text">5.8 attr</span></a><a class="link" href="/wiki/python-advanced/adv-function/filter.html"><span class="toc-text">5.9 filter</span></a><a class="link" href="/wiki/python-advanced/adv-function/function_talk.html"><span class="toc-text">5.10 函数杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第6章 装饰器和递归</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/decor-recur/decorator.html"><span class="toc-text">6.1 装饰器</span></a><a class="link" href="/wiki/python-advanced/decor-recur/recursion.html"><span class="toc-text">6.2 递归</span></a></div><div class="widget-header dis-select"><span class="name">第7章 工程开发</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/project/index.html"><span class="toc-text">7.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/project/code_quality.html"><span class="toc-text">7.2 代码质量</span></a><a class="link" href="/wiki/python-advanced/project/config.html"><span class="toc-text">7.3 配置文件</span></a><a class="link" href="/wiki/python-advanced/project/pro_practice.html"><span class="toc-text">7.4 项目实践</span></a></div><div class="widget-header dis-select"><span class="name">第8章 网络编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/network/index.html"><span class="toc-text">8.1 本章导读</span></a><a class="link active" href="/wiki/python-advanced/network/tcp.html"><span class="toc-text">8.2 TCP</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/python-advanced/network/http.html"><span class="toc-text">8.3 HTTP</span></a></div><div class="widget-header dis-select"><span class="name">第9章 python高级特性</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/feature/index.html"><span class="toc-text">9.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/feature/three_ternary_expression.html"><span class="toc-text">9.2 三元表达式</span></a><a class="link" href="/wiki/python-advanced/feature/pack_unpack.html"><span class="toc-text">9.3 封包与解包</span></a><a class="link" href="/wiki/python-advanced/feature/everything_is_object.html"><span class="toc-text">9.4 一切皆对象</span></a><a class="link" href="/wiki/python-advanced/feature/callable.html"><span class="toc-text">9.5 callable概念</span></a><a class="link" href="/wiki/python-advanced/feature/with.html"><span class="toc-text">9.6 with语句</span></a><a class="link" href="/wiki/python-advanced/feature/comprehensions.html"><span class="toc-text">9.7 生成式</span></a><a class="link" href="/wiki/python-advanced/feature/generator.html"><span class="toc-text">9.8 生成器</span></a><a class="link" href="/wiki/python-advanced/feature/generator_eg.html"><span class="toc-text">9.9 生成器的作用实例</span></a><a class="link" href="/wiki/python-advanced/feature/iterator.html"><span class="toc-text">9.10 迭代器和可迭代对象</span></a><a class="link" href="/wiki/python-advanced/feature/introspection.html"><span class="toc-text">9.11 自省</span></a><a class="link" href="/wiki/python-advanced/feature/underline_effect.html"><span class="toc-text">9.12 下划线的作用</span></a></div><div class="widget-header dis-select"><span class="name">第10章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/oop/index.html"><span class="toc-text">10.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/oop/method_belong_class.html"><span class="toc-text">10.2 类方法/实例属性</span></a><a class="link" href="/wiki/python-advanced/oop/new_init.html"><span class="toc-text">10.3 __new__ 和 __init__</span></a><a class="link" href="/wiki/python-advanced/oop/super.html"><span class="toc-text">10.4 super()</span></a><a class="link" href="/wiki/python-advanced/oop/call.html"><span class="toc-text">10.5 __call__()</span></a><a class="link" href="/wiki/python-advanced/oop/metaclass.html"><span class="toc-text">10.6 metaclass元类</span></a><a class="link" href="/wiki/python-advanced/oop/propery_getter_setter.html"><span class="toc-text">10.7 用propery代替getter和setter方法</span></a><a class="link" href="/wiki/python-advanced/oop/propery_reconsitution.html"><span class="toc-text">10.8 用propery重构代码</span></a><a class="link" href="/wiki/python-advanced/oop/overloading.html"><span class="toc-text">10.9 运算符重载</span></a><a class="link" href="/wiki/python-advanced/oop/slots.html"><span class="toc-text">10.10 使用__slots__节省内存空间</span></a><a class="link" href="/wiki/python-advanced/oop/internal_manager.html"><span class="toc-text">10.11 类的内部管理</span></a><a class="link" href="/wiki/python-advanced/oop/py-class-effect.html"><span class="toc-text">10.12 从封装看类的作用</span></a><a class="link" href="/wiki/python-advanced/oop/py-magic-method.html"><span class="toc-text">10.13 python的魔法方法</span></a><a class="link" href="/wiki/python-advanced/oop/dataclass.html"><span class="toc-text">10.14 理解python数据类</span></a><a class="link" href="/wiki/python-advanced/oop/init_subclass.html"><span class="toc-text">10.15 子类的定义</span></a></div><div class="widget-header dis-select"><span class="name">第11章 并发编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/concurrent/index.html"><span class="toc-text">11.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/concurrent/multithreading.html"><span class="toc-text">11.2 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/multiprocess.html"><span class="toc-text">11.3 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/association.html"><span class="toc-text">11.4 协程</span></a></div><div class="widget-header dis-select"><span class="name">第12章 python实用代码</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/pytip/index.html"><span class="toc-text">12.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/pytip/examples.html"><span class="toc-text">12.2 实用代码示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 python项目实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/practices/index.html"><span class="toc-text">13.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/practices/char_picture.html"><span class="toc-text">13.2 字符画及其原理</span></a><a class="link" href="/wiki/python-advanced/practices/find_big_file.html"><span class="toc-text">13.3 找出大文件</span></a><a class="link" href="/wiki/python-advanced/practices/generate_password.html"><span class="toc-text">13.4 制作密码生成器</span></a><a class="link" href="/wiki/python-advanced/practices/five_rings_by_turtle.html"><span class="toc-text">13.5 使用turtle模块画奥运五环</span></a><a class="link" href="/wiki/python-advanced/practices/py_download_file.html"><span class="toc-text">13.6 下载文件并添加进度条</span></a><a class="link" href="/wiki/python-advanced/practices/active_email.html"><span class="toc-text">13.7 发送网站注册激活邮件</span></a><a class="link" href="/wiki/python-advanced/practices/short_url.html"><span class="toc-text">13.8 开发简单的URL短链接</span></a><a class="link" href="/wiki/python-advanced/practices/valid_code.html"><span class="toc-text">13.9 制作图片验证码</span></a><a class="link" href="/wiki/python-advanced/practices/find_open_port.html"><span class="toc-text">13.10 探测主机开放的端口</span></a><a class="link" href="/wiki/python-advanced/practices/google_history.html"><span class="toc-text">13.11 获取谷歌浏览器的历史记录</span></a><a class="link" href="/wiki/python-advanced/practices/get_wifi_windows.html"><span class="toc-text">13.12 获取可用wifi信息</span></a><a class="link" href="/wiki/python-advanced/practices/get_localip_by_google_dns.html"><span class="toc-text">13.13 利用谷歌dns服务器获取本地ip地址</span></a><a class="link" href="/wiki/python-advanced/practices/cpu_speed.html"><span class="toc-text">13.14 获取电脑cpu的速度</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/re_repeat.html"><span class="toc-text">2.3 重复</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程语言</span></div><div class="widget-body"><a class="item wiki" href="/wiki/python-basic/preface/introduction.html"><span class="title">Python基础教程</span><span class="excerpt">Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-advanced/data-type/enum.html">Python进阶教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-27T06:29:38.939Z">2025-08-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>8.2 TCP</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="TCP导读"><a href="#TCP导读" class="headerlink" title="TCP导读"></a>TCP导读</h1><p>TCP协议全称是Transmission Control Protocol，传输控制协议，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC793定义，进行TCP通信一般由3个步骤组成</p>
+<ol>
+<li>创建连接</li>
+<li>数据传送</li>
+<li>终止连接</li>
+</ol>
+<p>面试的时候，经常被问及的TCP3次握手就发生在建立连接的阶段，下图是TCP客户端与服务端进行通信的示意图<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100506619.jpeg" alt="TCP通信"></p>
+<p>本专题文章如下：</p>
+<ol>
+<li>python创建TCP Server</li>
+<li>python创建TCP Client</li>
+<li>python解决TCP粘包与分包</li>
+<li>在TCP server中使用多线程</li>
+<li>python socket使用select模型</li>
+<li>python scoket使用epoll模型</li>
+</ol>
+<h1 id="python创建TCP-Server"><a href="#python创建TCP-Server" class="headerlink" title="python创建TCP Server"></a>python创建TCP Server</h1><p>使用python创建一个TCP Server并不是什么难事，难的是理解每一行代码背后的意义和原理, 涉及到的知识点包括绑定ip, 绑定端口, 监听, 接受一个客户端的连接请求, 接收数据, 关闭连接, 每个步骤都有细节知识点…</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定协议</span></span><br><span class="line">server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 让端口可以重复使用</span></span><br><span class="line">server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 绑定ip和端口</span></span><br><span class="line">server.bind((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">8080</span>))</span><br><span class="line"><span class="comment"># 监听</span></span><br><span class="line">server.listen(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 等待消息</span></span><br><span class="line">clientsocket, address = server.accept()</span><br><span class="line"><span class="comment"># 接收消息</span></span><br><span class="line">data = clientsocket.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="comment"># 关闭socket</span></span><br><span class="line">clientsocket.close()</span><br><span class="line">server.close()</span><br></pre></td></tr></table></figure>
+
+<p>这样一段代码，有哪些知识需要深入理解呢？</p>
+<h2 id="1-SO-REUSEADDR"><a href="#1-SO-REUSEADDR" class="headerlink" title="1. SO_REUSEADDR"></a>1. SO_REUSEADDR</h2><p>如果没有下面这行代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 让端口可以重复使用</span></span><br><span class="line">server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>一旦server意外死亡或人为干掉，那么大约两分钟内，无法重新启动该server，这是因为，建立socket连接后，主动断开连接的一方所用的端口会进入到TIME_WAIT状态， 如果短时间内再次启动server，就会引发异常 OSError: [Errno 48] Address already in use</p>
+<h2 id="2-绑定ip"><a href="#2-绑定ip" class="headerlink" title="2. 绑定ip"></a>2. 绑定ip</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">server.bind((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">8080</span>))</span><br></pre></td></tr></table></figure>
+
+<p>绑定ip写成’0.0.0.0’，表示接受所有ip发起的tcp连接，如果写成127.0.0.1，那么就只接受本机上发出的socket连接了</p>
+<h2 id="3-绑定端口"><a href="#3-绑定端口" class="headerlink" title="3. 绑定端口"></a>3. 绑定端口</h2><p>一台主机，可以开放的端口范围是从0~65535，这个范围，是由TCP&#x2F;IP协议决定的，在该协议中，TCP的头结构如下<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100534719.jpeg" alt="img"><br>在基于IPv4的网络中，源端口号和目标端口号都是16位的，因此最大只能是65535。</p>
+<p>端口0在网络编程中有着特殊作用，尤其在unix系统中，如果你申请打开0端口号，0更像是一个统配符，系统会寻找一个合适的端口供你使用，而不是按照你的要求打开端口0。</p>
+<p>在TCP&#x2F;IP 协议中，0端口号是保留的，在TCP和UDP中都不应该使用，1-1023为系统端口，1024-65535为用户端口。</p>
+<h2 id="4-监听"><a href="#4-监听" class="headerlink" title="4. 监听"></a>4. 监听</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">server.listen(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>listen方法开始监听客户端连接请求，listen的参数设置为n,并不是表示最多可以建立n个连接，而是在服务器拒绝连接之前，操作系统可以挂起的最大连接数量，我这里设置为1，但可以有多于1个客户端向服务端发起连接。</p>
+<p>对于这个参数，tornado默认设置为128，我觉得有点小了，nginx一般推荐大一些，搞个2048也没问题，它是用多个进程进行accept操作，一个进程处理不过来了，会换另一个进程，因此处理的非常快</p>
+<h2 id="5-accept"><a href="#5-accept" class="headerlink" title="5.accept"></a>5.accept</h2><p>accept()接受一个客户端的连接请求，并返回一个新的套接字，这样的解释正确但还不够深入。</p>
+<p>作为服务端，系统会维护一个syn队列和一个accept队列，客户端发起连接发送syn包时，系统会把这个连接信息放入到syn队列里，然后返回syn+ack包，等收到客户端最后发回来的ack包时，会从syn队列里把连接信息放入到accept队列里， accept会从accept队列里取连接， 这里的连接都已经完成了3次握手。</p>
+<h2 id="6-接收数据"><a href="#6-接收数据" class="headerlink" title="6. 接收数据"></a>6. 接收数据</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = server.recv(<span class="number">1024</span>)</span><br></pre></td></tr></table></figure>
+
+<p>recv负责接收套接字的数据， 参数设置成1024，并不意味着一定会接收到1024字节数据，即便对方发的数据超过1024，recv执行一次究竟能收到多少数据，取决接收缓冲区里有多少数据以及TCP&#x2F;IP协议，如果已知对方会发送5000字节的数据，那么我们需要自己统计已经接收了多少，还剩余多少没有收到</p>
+<h2 id="7-关闭连接"><a href="#7-关闭连接" class="headerlink" title="7. 关闭连接"></a>7. 关闭连接</h2><p>我这里用了close(),也可以用shutdown()，但你千万不要以为关闭socket连接有两种方法，其实他们很不同。shutdown破坏了连接，而close只是关闭本进程的socket id,不破坏连接，此时，其他进程仍然可以在该连接上发送和接收消息。前面提到过，nginx使用多个进程进行accept操作，这些进程都是fork出来的，他们共同使用同一个socket连接,如果某一个进程执行close,并不影响其他进程继续使用，每进行一次close,计数器就会减一，等到为0时，就是所有进程都执行close了，此时，套接字资源才会被回收。</p>
+<h1 id="python创建TCP-Client"><a href="#python创建TCP-Client" class="headerlink" title="python创建TCP Client"></a>python创建TCP Client</h1><h2 id="1-TCP-客户端与服务端通信"><a href="#1-TCP-客户端与服务端通信" class="headerlink" title="1. TCP 客户端与服务端通信"></a>1. TCP 客户端与服务端通信</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100608901.jpeg" alt="python TCP server client"><br>创建TCP 客户端与 TCP server通信</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">host = <span class="string">&#x27;127.0.0.1&#x27;</span></span><br><span class="line">port = <span class="number">8081</span></span><br><span class="line">addr = (host, port)</span><br><span class="line">client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 连接server</span></span><br><span class="line">client.connect(addr)</span><br><span class="line"><span class="comment"># 向server发送数据</span></span><br><span class="line">client.send(<span class="string">b&#x27;I am client&#x27;</span>)</span><br><span class="line"><span class="comment"># 接收server返回的数据</span></span><br><span class="line">revcdata = client.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="comment"># 收到的数据都是bytes类型</span></span><br><span class="line"><span class="built_in">print</span>(revcdata.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
+
+<p>为了配合客户端测试，同时编写服务端代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定协议</span></span><br><span class="line">server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 让端口可以重复使用</span></span><br><span class="line">server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 绑定ip和端口</span></span><br><span class="line">server.bind((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">8081</span>))</span><br><span class="line"><span class="comment"># 监听</span></span><br><span class="line">server.listen(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 等待连接</span></span><br><span class="line">clientsocket, address = server.accept()</span><br><span class="line"><span class="comment"># 接收消息</span></span><br><span class="line">data = clientsocket.recv(<span class="number">1024</span>)</span><br><span class="line">clientsocket.send(<span class="string">&#x27;我已经收到&#x27;</span>.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">clientsocket.close()</span><br><span class="line">server.close()</span><br></pre></td></tr></table></figure>
+
+<p>先启动服务端，然后在另一个终端里启动客户端，客户端与服务端完成一次通信，随后都关闭</p>
+<h2 id="2-客户端代码解读"><a href="#2-客户端代码解读" class="headerlink" title="2. 客户端代码解读"></a>2. 客户端代码解读</h2><p>客户端代码似乎和服务端代码很相似，对比一下有四处不同。</p>
+<ol>
+<li>客户端代码没有bind</li>
+<li>客户端代码没有listen</li>
+<li>客户端代码没有accept</li>
+<li>客户端需要connect</li>
+</ol>
+<h3 id="2-1-connect"><a href="#2-1-connect" class="headerlink" title="2.1 connect"></a>2.1 connect</h3><p>服务端不需要去connect谁，它只需要等待客户端来连接它就可以了，所以客户端必须bind，指定监听的IP和端口，因此，在socket应用程序中，必须先启动服务端，启动后服务端进行listen，客户端发起connect，服务端accept</p>
+<h3 id="2-2-bind"><a href="#2-2-bind" class="headerlink" title="2.2 bind"></a>2.2 bind</h3><p>客户端其实也能进行bind操作，指明用哪个端口与服务端通信，但通常来说不会这么做，原因很简单，服务端一般来说要一直提供服务，轻易不会停下来，而客户端却可能经常停下来，想想上一篇讲的time_wait，再有，如果客户端的程序是多线程的，多个线程里总不能同时去bind同一个端口吧。所以不bind是最好的，让操作系统来随机分配端口</p>
+<h3 id="2-3-send"><a href="#2-3-send" class="headerlink" title="2.3 send"></a>2.3 send</h3><p>send方法用于发送数据，数据类型必须是bytes类型，字符串与bytes类型之间的相互转换可以参考<a target="_blank" rel="noopener" href="http://www.coolpython.net/python_senior/data_type/bytes.html">bytes 字节串
+</a>, send函数执行完了，不代表数据已经被发送出去了，函数返回，只是表示这些数据已经被放入到发送缓冲区了，至于何时被发送到网络上，由socket协议自己来决定。</p>
+<p>send方法的返回值是本次发送数据的长度，假设你send的数据的长度是1000，send函数执行完了，其返回值可能小于1000，比如返回值是900，这就意味着只有前900个字节的数据被放入到发送缓冲区了，因此在send时，你必须检查send函数的返回值并和你要发送的数据长度做对比，遇到我刚才说的情况，你只好重新发送失败的那部分,可靠的写法类似这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = <span class="string">b&#x27;I am client&#x27;</span></span><br><span class="line">sendlen = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> sendlen &lt; <span class="built_in">len</span>(data):</span><br><span class="line">    successlen = client.send(data[sendlen:])</span><br><span class="line">    sendlen += successlen</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-recv"><a href="#2-4-recv" class="headerlink" title="2.4 recv"></a>2.4 recv</h3><p>关于recv,虽然参数是1024，但这不代表你就能接收到这么多的数据，这个参数的意思是我想接收1024个字节的数据，但socket协议最终给你的可能比你要求的少，想想也合理，因为TCP是不维护数据边界的，一次给你多少不影响你的分析，但绝不会超过你所要求的，如果缓冲区里有数据了，也没必要非得等到缓冲区的数据长度达到1024再给你。如果recv得到的数据长度是0，那就表示对方已经断开了连接</p>
+<h3 id="2-5-分包与粘包"><a href="#2-5-分包与粘包" class="headerlink" title="2.5 分包与粘包"></a>2.5 分包与粘包</h3><p>一个tcp包最多可以装1460个字节的数据，所以如果你要发送的数据长度是2000个字节，那么这些数据最少要分成两份，也就是两个TCP包发过去，如果你频繁的发送长度只有10个字节的数据，那么为了不浪费网络带宽，这些大量的长度只有10的数据会被装进同一个TCP包中一起发送过去，这就是TCP的分包与粘包。这个对于接收方来说就是个麻烦，由于TCP自己不维护数据边界，因此应用程序本身必须对此进行处理，以便应对一段完整数据被分多个包发送（分包）和多个小段数据被一起发送（粘包）的情况，下一篇将给出一个非常简单的解决方案</p>
+<h1 id="python解决TCP粘包与分包"><a href="#python解决TCP粘包与分包" class="headerlink" title="python解决TCP粘包与分包"></a>python解决TCP粘包与分包</h1><h2 id="1-粘包与分包"><a href="#1-粘包与分包" class="headerlink" title="1. 粘包与分包"></a>1. 粘包与分包</h2><p>一个以太网包只能传输1500字节长度的数据，而这其中，IP头和TCP头各占去了20个字节，因此，有效载荷为1460，如果你要发的一段数据的长度超过了1460，假设为2000，那么必然被分成多个以太网包发送过来，对于接收方来说，如果每次接受1024个字节，则需要多次recv才能把整段数据接收，而TCP是不维护数据边界的，因此对于接收方来说，完全不知道这一段数据什么时候结束。粘包则和分包相反，你要发送的数据长度很短，比如只有30个字节左右，如果你以非常快的速度发送，那么有可能一个以太网包里包含了好几段数据，他们是被一起发送过来的，这时接收方recv得到的数据是好几段数据连在一起，无法分开</p>
+<h2 id="2-简单的解决方案"><a href="#2-简单的解决方案" class="headerlink" title="2. 简单的解决方案"></a>2. 简单的解决方案</h2><p>上面讲的就是TCP的分包和粘包问题。如何解决呢，一种方法就是约定好命令的长度，这样一来，接收方就可以根据提前约定好的数据长度来解析数据了。但这样会产生许多不必要的麻烦了，比如实际发送数据小于约定长度时需要填充，这样也造成了传输上的浪费。</p>
+<p>另一种方法就是对要传输的数据进行封装，比如在数据的最前面加上一个长度标识，指明本次要发送的数据长度是多少，这样一来，接收方先获得数据的长度，然后根据数据的长度来获取实际数据。</p>
+<p>在数据的前面加一个长度为5的头用来标识数据的长度，假设要发送数据的长度是50，则头就是“00050”，后接实际数据。接收方在获得数据后，先解析前5位，获得数据实际长度后再继续解析后面的数据</p>
+<h2 id="3-MsgContainer"><a href="#3-MsgContainer" class="headerlink" title="3. MsgContainer"></a>3. MsgContainer</h2><p>实现一个MsgContainer类，客户端使用pack_msg方法封装数据，服务端使用add_data方法将接收到的数据放到自己维护的缓冲区中，根据协议剥离出客户端实际发送的数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">zero_count = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MsgContainer</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.msg = []</span><br><span class="line">        <span class="variable language_">self</span>.msgpond = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.msg_len = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__add_zero</span>(<span class="params">self, str_len</span>):</span><br><span class="line">        head = (zero_count - <span class="built_in">len</span>(str_len))*<span class="string">&#x27;0&#x27;</span> + str_len</span><br><span class="line">        <span class="keyword">return</span> head.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pack_msg</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        封装数据</span></span><br><span class="line"><span class="string">        :param data:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        bdata = data.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        str_len = <span class="built_in">str</span>(<span class="built_in">len</span>(bdata))</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.__add_zero(str_len) + bdata</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__get_msg_len</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.msg_len = <span class="built_in">int</span>(<span class="variable language_">self</span>.msgpond[:<span class="number">5</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_data</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(data) == <span class="number">0</span> <span class="keyword">or</span> data <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="variable language_">self</span>.msgpond += data</span><br><span class="line">        <span class="variable language_">self</span>.__check_head()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__check_head</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.msgpond) &gt; <span class="number">5</span>:</span><br><span class="line">            <span class="variable language_">self</span>.__get_msg_len()</span><br><span class="line">            <span class="variable language_">self</span>.__get_msg()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__get_msg</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.msgpond)-<span class="number">5</span> &gt;= <span class="variable language_">self</span>.msg_len:</span><br><span class="line">            msg = <span class="variable language_">self</span>.msgpond[<span class="number">5</span>:<span class="number">5</span>+<span class="variable language_">self</span>.msg_len]</span><br><span class="line">            <span class="variable language_">self</span>.msgpond = <span class="variable language_">self</span>.msgpond[<span class="number">5</span>+<span class="variable language_">self</span>.msg_len:]</span><br><span class="line">            <span class="variable language_">self</span>.msg_len = <span class="number">0</span></span><br><span class="line">            msg = msg.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">            <span class="variable language_">self</span>.msg.append(msg)</span><br><span class="line">            <span class="variable language_">self</span>.__check_head()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_all_msg</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.msg</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">clear_msg</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.msg = []</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-封装数据"><a href="#3-1-封装数据" class="headerlink" title="3.1 封装数据"></a>3.1 封装数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">mc = MsgContainer()</span><br><span class="line">data = mc.pack_msg(<span class="string">&#x27;123&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(data)   <span class="comment"># 00003123</span></span><br></pre></td></tr></table></figure>
+
+<p>这是一段封装数据的示例，123被封装成b’00003123’， 前5位表示数据长度，’00003’ 表示数据长度为3，从第6位开始的到第8位是实际数据</p>
+<h3 id="3-2-解析数据"><a href="#3-2-解析数据" class="headerlink" title="3.2 解析数据"></a>3.2 解析数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">mc = MsgContainer()</span><br><span class="line">mc.add_data(<span class="string">b&#x27;00006\xe4\xb8\xad\xe5\x9b\xbd&#x27;</span>)</span><br><span class="line">mc.add_data(<span class="string">b&#x27;00015\xe9\x94\x84\xe7\xa6\xbe\xe6\x97\xa5\xe5\xbd\x93\xe5\x8d\x88&#x27;</span>)</span><br><span class="line"></span><br><span class="line">lst = mc.get_all_msg()</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> lst:</span><br><span class="line">    <span class="built_in">print</span>(item)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">中国</span><br><span class="line">锄禾日当午</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-在服务端使用"><a href="#4-在服务端使用" class="headerlink" title="4. 在服务端使用"></a>4. 在服务端使用</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">start_server</span>(<span class="params">port</span>):</span><br><span class="line">    HOST = <span class="string">&#x27;0.0.0.0&#x27;</span></span><br><span class="line">    PORT = port</span><br><span class="line">    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)   <span class="comment">#定义socket类型，网络通信，TCP</span></span><br><span class="line">    s.bind((HOST, PORT))   <span class="comment">#套接字绑定的IP与端口</span></span><br><span class="line">    s.listen(<span class="number">1</span>)           <span class="comment">#开始TCP监听</span></span><br><span class="line"></span><br><span class="line">    mc = MsgContainer()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        conn, addr = s.accept()     <span class="comment">#接受TCP连接，并返回新的套接字与IP地址</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Connected by&#x27;</span>,addr)    <span class="comment">#输出客户端的IP地址</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            data = conn.recv(<span class="number">2</span>)       <span class="comment"># 把接收的数据实例化</span></span><br><span class="line">            <span class="comment"># print(data)</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(data) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            mc.add_data(data)          <span class="comment"># 将数据写入缓冲区,每次写入都会尝试剥离实际传输的数据</span></span><br><span class="line">            msgs = mc.get_all_msg()</span><br><span class="line">            <span class="keyword">for</span> msg <span class="keyword">in</span> msgs:</span><br><span class="line">                <span class="built_in">print</span>(msg)</span><br><span class="line"></span><br><span class="line">            mc.clear_msg()</span><br><span class="line"></span><br><span class="line">        conn.close()     <span class="comment">#关闭连接</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_server(<span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在服务端使用recv接收数据时，我故意每次调用函数都只接收两个字节的内容以此来验证我的方案是否可行， 启动TCP server, 等待客户端发送数据。 这个服务端使用while循环一直在监听连接请求，客户端的程序可以多次执行。</p>
+<h2 id="5-在客户端使用"><a href="#5-在客户端使用" class="headerlink" title="5. 在客户端使用"></a>5. 在客户端使用</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">mc = MsgContainer()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_client</span>(<span class="params">addr, port</span>):</span><br><span class="line">    s = socket.socket()</span><br><span class="line">    s.connect((addr, port))</span><br><span class="line">    s.send(mc.pack_msg(<span class="string">&#x27;解决分包问题&#x27;</span>))</span><br><span class="line">    s.send(mc.pack_msg(<span class="string">&#x27;酷python&#x27;</span>))</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_client(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>客户端发送数据前，先使用pack_msg方法封装数据</p>
+<h1 id="在TCP-server中使用多线程"><a href="#在TCP-server中使用多线程" class="headerlink" title="在TCP server中使用多线程"></a>在TCP server中使用多线程</h1><p>目前，我所实现的TCP server服务能力都很差，根本无法同时与多个客户端进行交互，只有处理完一个客户端的交互以后才能使用accept等待下一个客户端的连接。</p>
+<p>本篇，我将使用多线程技术，在通过accept获得一个socket文件后，启动一个多线程来专门处理这个客户端的数据传输。</p>
+<h2 id="1-服务端代码"><a href="#1-服务端代码" class="headerlink" title="1. 服务端代码"></a>1. 服务端代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">worker</span>(<span class="params">client</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        data=client.recv(<span class="number">1024</span>)    <span class="comment">#把接收的数据实例化</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(data) == <span class="number">0</span> <span class="keyword">or</span> data == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="built_in">print</span>(data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        client.send(<span class="string">&#x27;收到数据&#x27;</span>.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_server</span>(<span class="params">port</span>):</span><br><span class="line">    HOST = <span class="string">&#x27;0.0.0.0&#x27;</span></span><br><span class="line">    PORT = port</span><br><span class="line">    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)   <span class="comment">#定义socket类型，网络通信，TCP</span></span><br><span class="line">    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    s.bind((HOST,PORT))   <span class="comment">#套接字绑定的IP与端口</span></span><br><span class="line">    s.listen(<span class="number">1</span>)           <span class="comment">#开始TCP监听</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        conn, addr = s.accept()   <span class="comment">#接受TCP连接，并返回新的套接字与IP地址</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Connected by&#x27;</span>,addr)          <span class="comment">#输出客户端的IP地址</span></span><br><span class="line">        t = threading.Thread(target=worker, args=(conn, ))</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_server(<span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在服务端，我使用while实现了无限循环，在循环里使用accept接受TCP连接，获得连接后，这个连接何时将全部数据发送给服务端是未知的，如果一直处理这个连接，那么其他的连接就无法处理，因为在服务端，代码无法执行到下一次accept。使用了多线程以后，情况就不同了，每个TCP连接使用一个线程来处理，那么主线程就可以再次执行到accept这行代码上，不受任何操作的阻塞影响。</p>
+<h2 id="2-客户端代码"><a href="#2-客户端代码" class="headerlink" title="2. 客户端代码"></a>2. 客户端代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_client</span>(<span class="params">addr, port</span>):</span><br><span class="line">    PLC_ADDR = addr</span><br><span class="line">    PLC_PORT = port</span><br><span class="line">    s = socket.socket()</span><br><span class="line">    s.connect((PLC_ADDR, PLC_PORT))</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = <span class="string">&#x27;进程&#123;pid&#125;发送数据&#x27;</span>.<span class="built_in">format</span>(pid=os.getpid())</span><br><span class="line">        msg = msg.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        s.send(msg)</span><br><span class="line">        recv_data = s.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="built_in">print</span>(recv_data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> count &gt; <span class="number">20</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_client(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>客户端不需要做什么改变，在代码里，每次发送完消息后，都会sleep 3秒钟，一共发送20次，这样，就有足够的时间启动多个client来测试服务端是否有能力同时处理多个客户端的请求了。</p>
+<h1 id="python-socket使用select模型"><a href="#python-socket使用select模型" class="headerlink" title="python socket使用select模型"></a>python socket使用select模型</h1><p>在TCP服务端使用多线程技术能够提高响应的能力，但这种提高是有限的，因为你不可能无限制的创建多线程，更何况python的度线程还受到GIL锁的限制。想要更稳定的提高服务端性能，可以使用select模型。</p>
+<p>select模型是多路复用模型的一种，windows和linux下都可以使用，还有更厉害的epoll模型，下一篇将会介绍。select模型允许进程指示内核等待多个事件的任何一个发生，并在只有一个或者多个事件发生或者经历一段事件后select函数才返回。select模型其实很好理解，我们给它三个数组，数组里存放的是socket文件，每一次执行select，模型会从这三个数组中分别挑出来可读的，可写的，发生异常的socket，并分别放入到三个数组中，这样，应用层遍历这三个数组，做相应的操作。</p>
+<h2 id="1-服务端示例"><a href="#1-服务端示例" class="headerlink" title="1. 服务端示例"></a>1. 服务端示例</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> select</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_server</span>(<span class="params">port</span>):</span><br><span class="line">    HOST = <span class="string">&#x27;0.0.0.0&#x27;</span></span><br><span class="line">    PORT = port</span><br><span class="line"></span><br><span class="line">    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    server.bind((HOST, PORT))   <span class="comment"># 套接字绑定的IP与端口</span></span><br><span class="line">    server.listen(<span class="number">10</span>)           <span class="comment"># 开始TCP监听</span></span><br><span class="line"></span><br><span class="line">    inputs = [server]           <span class="comment"># 存放需要被检测可读的socket</span></span><br><span class="line">    outputs = []                <span class="comment"># 存放需要被检测可写的socket</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> inputs:</span><br><span class="line">        readable, writable, exceptional = select.select(inputs, outputs, inputs)</span><br><span class="line">        <span class="comment"># 可读</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> readable:</span><br><span class="line">            <span class="keyword">if</span> s <span class="keyword">is</span> server:     <span class="comment"># 可读的是server,说明有连接进入</span></span><br><span class="line">                connection, client_address = s.accept()</span><br><span class="line">                inputs.append(connection)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                data = s.recv(<span class="number">1024</span>)        <span class="comment"># 故意设置的这么小</span></span><br><span class="line">                <span class="keyword">if</span> data:</span><br><span class="line">                    <span class="comment"># 已经从这个socket当中收到数据, 如果你想写, 那么就将其加入到outputs中, 等到select模型检查它是否可写</span></span><br><span class="line">                    <span class="built_in">print</span>(data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">                    <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> outputs:</span><br><span class="line">                        outputs.append(s)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 收到为空的数据,意味着对方已经断开连接,需要做清理工作</span></span><br><span class="line">                    <span class="keyword">if</span> s <span class="keyword">in</span> outputs:</span><br><span class="line">                        outputs.remove(s)</span><br><span class="line">                    inputs.remove(s)</span><br><span class="line">                    s.close()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 可写</span></span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> writable:</span><br><span class="line">            w.send(<span class="string">&#x27;收到数据&#x27;</span>.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">            outputs.remove(w)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 异常</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> exceptional:</span><br><span class="line">            inputs.remove(s)</span><br><span class="line">            <span class="keyword">if</span> s <span class="keyword">in</span> outputs:</span><br><span class="line">                outputs.remove(s)</span><br><span class="line">            s.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_server(<span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-为什么要将server放入到inputs中"><a href="#1-1-为什么要将server放入到inputs中" class="headerlink" title="1.1 为什么要将server放入到inputs中"></a>1.1 为什么要将server放入到inputs中</h3><p>在select模型中，将server放入到inputs中，当执行select时就会去检查server是否可读，就说明在缓冲区里有数据，对于server来说，有连接进入。使用accept获得客户端socket文件后，首先要放入到inputs当中，等待其发送消息。</p>
+<h3 id="1-2-readable"><a href="#1-2-readable" class="headerlink" title="1.2 readable"></a>1.2 readable</h3><p>select会将所有可读的socket返回，包括server在内，假设一个客户端socket的缓冲区里有2000字节的内容，而这一次你只是读取了1024个字节，没有关系，下一次执行select模型时，由于缓冲区里还有数据，这个客户端socket还会被放入到readable列表中。因此，在读取数据时，不必再像之前那样使用一个while循环一直读取。</p>
+<h3 id="1-3-writable"><a href="#1-3-writable" class="headerlink" title="1.3 writable"></a>1.3 writable</h3><p>在每一次写操作执行后，都从socket从writable中删除，这样做的原因很简单，该写的数据已经写完了，如果不删除，下一次select操作时，又会把他放入到writable中，可是现在已经没有数据需要写了啊，这样做没有意义，只会浪费select操作的时间，因为它要遍历outputs中的每一个socket，判断他们是否可写以决定是否将其放入到writtable中</p>
+<h3 id="1-4-异常"><a href="#1-4-异常" class="headerlink" title="1.4 异常"></a>1.4 异常</h3><p>在exceptional中，是发生错误和异常的socket，有了这个数组，就在也不用操心错误和异常了，不然程序写起来非常的复杂，有了统一的管理，发生错误后的清理工作将变得非常简单</p>
+<h2 id="2-客户端"><a href="#2-客户端" class="headerlink" title="2. 客户端"></a>2. 客户端</h2><p>客户端代码与上一篇一致</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_client</span>(<span class="params">addr, port</span>):</span><br><span class="line">    PLC_ADDR = addr</span><br><span class="line">    PLC_PORT = port</span><br><span class="line">    s = socket.socket()</span><br><span class="line">    s.connect((PLC_ADDR, PLC_PORT))</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = <span class="string">&#x27;进程&#123;pid&#125;发送数据&#x27;</span>.<span class="built_in">format</span>(pid=os.getpid())</span><br><span class="line">        msg = msg.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        s.send(msg)</span><br><span class="line">        recv_data = s.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="built_in">print</span>(recv_data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> count &gt; <span class="number">20</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_client(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>启动服务端后，你可以启动多个客户端来检查效果</p>
+<h1 id="python-scoket使用epoll模型"><a href="#python-scoket使用epoll模型" class="headerlink" title="python scoket使用epoll模型"></a>python scoket使用epoll模型</h1><p>select模型虽好，却有一个缺陷，只能对1024个文件描述符进行监视，虽然可以通过重新编译内核获得更大的监视数量，但这样做还不如将目光投向更高级的epoll模型。select模型中，每一次都需要遍历所有处于监视中的文件描述符，判断他们哪个可写，哪个可读，这样一来，你监视的越多，速度越慢，而在epoll模型中，所有添加到epoll中的事件都会网卡驱动程序建立起回调关系，简言之，如果有一个连接可写，那么这个可写的事件就会报告给你，而你不需要挨个询问他们哪个连接可写，哪个连接可读， tornado框架就使用了epoll模型。</p>
+<p>强调一点，本文所用代码只能在linux环境下执行，因为只有linux系统支持epoll模型。</p>
+<h2 id="1-服务端代码-1"><a href="#1-服务端代码-1" class="headerlink" title="1. 服务端代码"></a>1. 服务端代码</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> select</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_server</span>(<span class="params">port</span>):</span><br><span class="line">    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    serversocket.bind((<span class="string">&#x27;0.0.0.0&#x27;</span>, port))</span><br><span class="line">    <span class="comment">#accept队列大小为100</span></span><br><span class="line">    serversocket.listen(<span class="number">100</span>)</span><br><span class="line">    serversocket.setblocking(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    epoll = select.epoll()</span><br><span class="line">    <span class="comment">#注册一个in事件，等待有数据可读</span></span><br><span class="line">    epoll.register(serversocket.fileno(), select.EPOLLIN)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment">#保存连接，请求，和响应信息</span></span><br><span class="line">        connections = &#123;&#125;</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="comment">#最多等待1秒钟时间，有事件返回事件列表</span></span><br><span class="line">            events = epoll.poll(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">for</span> fileno, event <span class="keyword">in</span> events:</span><br><span class="line">                <span class="comment">#事件的句柄是server</span></span><br><span class="line">                <span class="keyword">if</span> fileno == serversocket.fileno():</span><br><span class="line">                    connection, address = serversocket.accept()</span><br><span class="line">                    <span class="comment">#设置为非阻塞的</span></span><br><span class="line">                    connection.setblocking(<span class="number">0</span>)</span><br><span class="line">                    <span class="comment">#新建的连接也注册读事件</span></span><br><span class="line">                    epoll.register(connection.fileno(), select.EPOLLIN)</span><br><span class="line">                    connections[connection.fileno()] = connection</span><br><span class="line">                    <span class="comment">#不是server，那就是建立的连接，现在连接可读</span></span><br><span class="line">                <span class="keyword">elif</span> event &amp; select.EPOLLIN:</span><br><span class="line">                    data = connections[fileno].recv(<span class="number">1024</span>)</span><br><span class="line">                    <span class="keyword">if</span> data:</span><br><span class="line">                        epoll.modify(fileno, select.EPOLLOUT)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        epoll.modify(fileno, <span class="number">0</span>)</span><br><span class="line">                        connections[fileno].shutdown(socket.SHUT_RDWR)</span><br><span class="line">                        <span class="keyword">del</span> connections[fileno]</span><br><span class="line"></span><br><span class="line">                <span class="keyword">elif</span> event &amp; select.EPOLLOUT:</span><br><span class="line">                    <span class="comment">#可写的事件被触发</span></span><br><span class="line">                    clientsocket = connections[fileno]</span><br><span class="line">                    clientsocket.send(<span class="string">&#x27;收到数据&#x27;</span>.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">                    <span class="comment">#需要回写的数据已经写完了,再次注册读事件</span></span><br><span class="line">                    epoll.modify(fileno, select.EPOLLIN)</span><br><span class="line">                <span class="keyword">elif</span> event &amp; select.EPOLLHUP:</span><br><span class="line">                    <span class="comment">#被挂起了，注销句柄，关闭连接，这时候，是客户端主动断开了连接</span></span><br><span class="line">                    epoll.unregister(fileno)</span><br><span class="line">                    <span class="keyword">if</span> fileno <span class="keyword">in</span> connections:</span><br><span class="line">                        connections[fileno].close()</span><br><span class="line">                        <span class="keyword">del</span> connections[fileno]</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        epoll.unregister(serversocket.fileno())</span><br><span class="line">        epoll.close()</span><br><span class="line">        serversocket.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_server(<span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>本文所采用的是epoll模型的边缘触发，除此以外，还有一个水平触发。</p>
+<h3 id="1-1-events"><a href="#1-1-events" class="headerlink" title="1.1 events"></a>1.1 events</h3><p>epoll.poll()返回的是所有可操作的文件描述符和事件类型，具体是哪个事件，需要你自己使用if语句逐个进行判断，此外，还需要你自己来保存文件描述符与socket文件之间的映射关系。</p>
+<h3 id="1-2-注册"><a href="#1-2-注册" class="headerlink" title="1.2 注册"></a>1.2 注册</h3><p>获得客户端连接后，需要将这个socket注册读事件，这样，当这个socket发送数据后，下一次调用epoll.poll()就会获得该socket。</p>
+<h2 id="2-客户端示例代码"><a href="#2-客户端示例代码" class="headerlink" title="2. 客户端示例代码"></a>2. 客户端示例代码</h2><p>客户端示例代码与上一篇一致</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_client</span>(<span class="params">addr, port</span>):</span><br><span class="line">    PLC_ADDR = addr</span><br><span class="line">    PLC_PORT = port</span><br><span class="line">    s = socket.socket()</span><br><span class="line">    s.connect((PLC_ADDR, PLC_PORT))</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = <span class="string">&#x27;进程&#123;pid&#125;发送数据&#x27;</span>.<span class="built_in">format</span>(pid=os.getpid())</span><br><span class="line">        msg = msg.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        s.send(msg)</span><br><span class="line">        recv_data = s.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="built_in">print</span>(recv_data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> count &gt; <span class="number">20</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_client(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">8801</span>)</span><br></pre></td></tr></table></figure>
+
+<p>启动服务端后，同时启动多个客户端，观察实验效果。</p>
+<h1 id="unix-socket"><a href="#unix-socket" class="headerlink" title="unix socket"></a>unix socket</h1><h2 id="1-unix-socket"><a href="#1-unix-socket" class="headerlink" title="1. unix socket"></a>1. unix socket</h2><p>如果你熟悉docker，你或许会知道有一个与docker相关的文件，目录为&#x2F;var&#x2F;run&#x2F;docker.sock， docker通过它与其他进程通信，提供了可以操作docker的API接口。这种技术，就是unix Domain Socket， 又称 unix域套接口 ， 用于 位于同一台机器（操作系统）的进程间通信。从编程实现上看，它与TCP&#x2F;IP的socket非常接近，近乎相同，我非常好奇他们之间的区别之处，google了一番，得到下面还算令人满意的答案</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Unix套接字：是机器上运行的服务器之间的内部通信过程</span><br><span class="line"></span><br><span class="line">IP套接字：更多是外部的，意味着网络上的进程之间进行通信。即使您也可以在内部使用此类型，它通常位于本地主机和远程主机之间。</span><br><span class="line"></span><br><span class="line">对于Unix套接字，最好使用它们，因为可以完全避免诸如路由之类的某些操作，因为域套接字知道它们在同一台计算机上执行，这使它们更快，因此如果在同一主机上进行通信，则使其成为更好的选择。</span><br><span class="line"></span><br><span class="line">您可以使用以下命令检出计算机的本地unix套接字：</span><br><span class="line"></span><br><span class="line">netstat -a -p --unix</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-unix-socket-服务端"><a href="#2-unix-socket-服务端" class="headerlink" title="2. unix socket 服务端"></a>2. unix socket 服务端</h2><p>TCP&#x2F;IP 在创建服务端socket时，需要指定ip和端口号，unix socket 用于同一台机器之间的通信，只需要一个本地文件就可以了，但这个文件在创建socket之前不能存在，否则会报错，因此，需要事先删除。在创建socket套接字时，要使用socket.AF_UNIX，其余的代码，与创建TCP&#x2F;IP socket几乎相同</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">server_address = <span class="string">&#x27;./uds_socket&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 必须先删除</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    os.unlink(server_address)</span><br><span class="line"><span class="keyword">except</span> OSError:</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(server_address):</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定协议</span></span><br><span class="line">server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)</span><br><span class="line">server.bind(server_address)</span><br><span class="line"><span class="comment"># 监听</span></span><br><span class="line">server.listen(<span class="number">1</span>)</span><br><span class="line">clientsocket, address = server.accept()</span><br><span class="line"><span class="comment"># 接收消息</span></span><br><span class="line">data = clientsocket.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"><span class="comment"># 关闭socket</span></span><br><span class="line">clientsocket.close()</span><br><span class="line">server.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-unix-socket-client"><a href="#3-unix-socket-client" class="headerlink" title="3. unix socket client"></a>3. unix socket client</h2><p>实现一个unix socket 客户端也并非难事</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">server_address = <span class="string">&#x27;./uds_socket&#x27;</span></span><br><span class="line">sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    sock.connect(server_address)</span><br><span class="line"><span class="keyword">except</span> socket.error <span class="keyword">as</span> msg:</span><br><span class="line">    <span class="built_in">print</span>(msg)</span><br><span class="line">    sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sock.send(<span class="string">b&#x27;hello world&#x27;</span>)</span><br><span class="line">sock.close()</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-advanced/network/index.html">8.1 本章导读</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-advanced/network/http.html">8.3 HTTP</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP%E5%AF%BC%E8%AF%BB"><span class="toc-text">TCP导读</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%88%9B%E5%BB%BATCP-Server"><span class="toc-text">python创建TCP Server</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-SO-REUSEADDR"><span class="toc-text">1. SO_REUSEADDR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%91%E5%AE%9Aip"><span class="toc-text">2. 绑定ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3"><span class="toc-text">3. 绑定端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%9B%91%E5%90%AC"><span class="toc-text">4. 监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-accept"><span class="toc-text">5.accept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE"><span class="toc-text">6. 接收数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%85%B3%E9%97%AD%E8%BF%9E%E6%8E%A5"><span class="toc-text">7. 关闭连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%88%9B%E5%BB%BATCP-Client"><span class="toc-text">python创建TCP Client</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-TCP-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%80%9A%E4%BF%A1"><span class="toc-text">1. TCP 客户端与服务端通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="toc-text">2. 客户端代码解读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-connect"><span class="toc-text">2.1 connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-bind"><span class="toc-text">2.2 bind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-send"><span class="toc-text">2.3 send</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-recv"><span class="toc-text">2.4 recv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%88%86%E5%8C%85%E4%B8%8E%E7%B2%98%E5%8C%85"><span class="toc-text">2.5 分包与粘包</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E8%A7%A3%E5%86%B3TCP%E7%B2%98%E5%8C%85%E4%B8%8E%E5%88%86%E5%8C%85"><span class="toc-text">python解决TCP粘包与分包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%B2%98%E5%8C%85%E4%B8%8E%E5%88%86%E5%8C%85"><span class="toc-text">1. 粘包与分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">2. 简单的解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-MsgContainer"><span class="toc-text">3. MsgContainer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE"><span class="toc-text">3.1 封装数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%A7%A3%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="toc-text">3.2 解析数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BD%BF%E7%94%A8"><span class="toc-text">4. 在服务端使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%9C%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8"><span class="toc-text">5. 在客户端使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8TCP-server%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-text">在TCP server中使用多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-text">1. 服务端代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-text">2. 客户端代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python-socket%E4%BD%BF%E7%94%A8select%E6%A8%A1%E5%9E%8B"><span class="toc-text">python socket使用select模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%A4%BA%E4%BE%8B"><span class="toc-text">1. 服务端示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%B0%86server%E6%94%BE%E5%85%A5%E5%88%B0inputs%E4%B8%AD"><span class="toc-text">1.1 为什么要将server放入到inputs中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-readable"><span class="toc-text">1.2 readable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-writable"><span class="toc-text">1.3 writable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%BC%82%E5%B8%B8"><span class="toc-text">1.4 异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-text">2. 客户端</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python-scoket%E4%BD%BF%E7%94%A8epoll%E6%A8%A1%E5%9E%8B"><span class="toc-text">python scoket使用epoll模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81-1"><span class="toc-text">1. 服务端代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-events"><span class="toc-text">1.1 events</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%B3%A8%E5%86%8C"><span class="toc-text">1.2 注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">2. 客户端示例代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#unix-socket"><span class="toc-text">unix socket</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-unix-socket"><span class="toc-text">1. unix socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-unix-socket-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-text">2. unix socket 服务端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-unix-socket-client"><span class="toc-text">3. unix socket client</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

@@ -1,0 +1,897 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python进阶教程：6.1 装饰器 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="装饰器导读python的装饰器本质上是一个函数，得益于一切皆对象的语言设计理念，在python中，函数也是对象，因此可以在函数内部定义一个函数并将其返回，这便是装饰器的基本原理。 想要掌握装饰器，必须先理解变量作用域的概念，将函数视为与int, float相同级别的对象，当我们使用装饰器去修饰一个函数时，其实就是在装饰器中把目标函数当成int，float类型的数据来使用，理解到这里，结合实际装饰器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="6.1 装饰器">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-advanced/decor-recur/decorator.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="装饰器导读python的装饰器本质上是一个函数，得益于一切皆对象的语言设计理念，在python中，函数也是对象，因此可以在函数内部定义一个函数并将其返回，这便是装饰器的基本原理。 想要掌握装饰器，必须先理解变量作用域的概念，将函数视为与int, float相同级别的对象，当我们使用装饰器去修饰一个函数时，其实就是在装饰器中把目标函数当成int，float类型的数据来使用，理解到这里，结合实际装饰器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-27T04:11:54.991Z">
+<meta property="article:modified_time" content="2025-08-27T04:11:54.991Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-advanced/data-type/enum.html"><div class="main" ff="title">Python进阶教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-advanced/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/data-type/enum.html#start"><span class="toc-text">1.1 python3枚举</span></a><a class="link" href="/wiki/python-advanced/data-type/bytes.html"><span class="toc-text">1.2 bytes字节串</span></a><a class="link" href="/wiki/python-advanced/data-type/str_format.html"><span class="toc-text">1.3 字符串格式化高级用法</span></a><a class="link" href="/wiki/python-advanced/data-type/power-f-string.html"><span class="toc-text">1.4 功能强大的f-string</span></a><a class="link" href="/wiki/python-advanced/data-type/type_hints.html"><span class="toc-text">1.5 类型标注</span></a><a class="link" href="/wiki/python-advanced/data-type/py-type-hints-detail.html"><span class="toc-text">1.6 类型标注详解</span></a><a class="link" href="/wiki/python-advanced/data-type/mypy.html"><span class="toc-text">1.7 静态类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/typecheck.html"><span class="toc-text">1.8 运行时类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/py-dict-views.html"><span class="toc-text">1.9 字典视图对象</span></a></div><div class="widget-header dis-select"><span class="name">第2章 正则表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/index.html"><span class="toc-text">2.1 什么是正则表达式</span></a><a class="link" href="/wiki/python-advanced/regex/special_char.html"><span class="toc-text">2.2 特殊代码</span></a><a class="link" href="/wiki/python-advanced/regex/re_replace.html"><span class="toc-text">2.3 字符转义</span></a><a class="link" href="/wiki/python-advanced/regex/re_match.html"><span class="toc-text">2.4 匹配</span></a><a class="link" href="/wiki/python-advanced/regex/re_search_findall.html"><span class="toc-text">2.5 查找</span></a><a class="link" href="/wiki/python-advanced/regex/re_split_sub.html"><span class="toc-text">2.6 分割和替换</span></a><a class="link" href="/wiki/python-advanced/regex/py-re-group.html"><span class="toc-text">2.7 分组</span></a><a class="link" href="/wiki/python-advanced/regex/re_exercises.html"><span class="toc-text">2.8 正则表达式练习题</span></a></div><div class="widget-header dis-select"><span class="name">第3章 python内存管理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/memory/index.html"><span class="toc-text">3.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/memory/obj_ref.html"><span class="toc-text">3.2 变量引用</span></a><a class="link" href="/wiki/python-advanced/memory/immutable.html"><span class="toc-text">3.3 可变对象与不可变对象</span></a><a class="link" href="/wiki/python-advanced/memory/memory_copy.html"><span class="toc-text">3.4 深拷贝与浅拷贝</span></a><a class="link" href="/wiki/python-advanced/memory/memory_pool.html"><span class="toc-text">3.5 内存池技术</span></a><a class="link" href="/wiki/python-advanced/memory/list_tuple_mem_optimize.html"><span class="toc-text">3.6 列表/元组内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/str_mem_optimize.html"><span class="toc-text">3.7 字符串内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/gc.html"><span class="toc-text">3.8 垃圾回收机制</span></a></div><div class="widget-header dis-select"><span class="name">第4章 深入学习python模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/module/module_learn.html"><span class="toc-text">4.1 模块概念深入学习</span></a><a class="link" href="/wiki/python-advanced/module/standard_module.html"><span class="toc-text">4.2 标准模块</span></a><a class="link" href="/wiki/python-advanced/module/third_module.html"><span class="toc-text">4.3 第三方库</span></a><a class="link" href="/wiki/python-advanced/module/data-feather-csv-compare.html"><span class="toc-text">4.4 数据处理</span></a></div><div class="widget-header dis-select"><span class="name">第5章 高阶函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/adv-function/index.html"><span class="toc-text">5.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/adv-function/compile.html"><span class="toc-text">5.2 compile</span></a><a class="link" href="/wiki/python-advanced/adv-function/locals_globals.html"><span class="toc-text">5.3 locals与globals</span></a><a class="link" href="/wiki/python-advanced/adv-function/partial.html"><span class="toc-text">5.3 partial</span></a><a class="link" href="/wiki/python-advanced/adv-function/lambda.html"><span class="toc-text">5.4 lambda</span></a><a class="link" href="/wiki/python-advanced/adv-function/zip.html"><span class="toc-text">5.5 zip</span></a><a class="link" href="/wiki/python-advanced/adv-function/map.html"><span class="toc-text">5.6 map</span></a><a class="link" href="/wiki/python-advanced/adv-function/reduce.html"><span class="toc-text">5.7 reduce</span></a><a class="link" href="/wiki/python-advanced/adv-function/setattr_hasattr_getattr.html"><span class="toc-text">5.8 attr</span></a><a class="link" href="/wiki/python-advanced/adv-function/filter.html"><span class="toc-text">5.9 filter</span></a><a class="link" href="/wiki/python-advanced/adv-function/function_talk.html"><span class="toc-text">5.10 函数杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第6章 装饰器和递归</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/python-advanced/decor-recur/decorator.html"><span class="toc-text">6.1 装饰器</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/python-advanced/decor-recur/recursion.html"><span class="toc-text">6.2 递归</span></a></div><div class="widget-header dis-select"><span class="name">第7章 工程开发</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/project/index.html"><span class="toc-text">7.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/project/code_quality.html"><span class="toc-text">7.2 代码质量</span></a><a class="link" href="/wiki/python-advanced/project/config.html"><span class="toc-text">7.3 配置文件</span></a><a class="link" href="/wiki/python-advanced/project/pro_practice.html"><span class="toc-text">7.4 项目实践</span></a></div><div class="widget-header dis-select"><span class="name">第8章 网络编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/network/index.html"><span class="toc-text">8.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/network/tcp.html"><span class="toc-text">8.2 TCP</span></a><a class="link" href="/wiki/python-advanced/network/http.html"><span class="toc-text">8.3 HTTP</span></a></div><div class="widget-header dis-select"><span class="name">第9章 python高级特性</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/feature/index.html"><span class="toc-text">9.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/feature/three_ternary_expression.html"><span class="toc-text">9.2 三元表达式</span></a><a class="link" href="/wiki/python-advanced/feature/pack_unpack.html"><span class="toc-text">9.3 封包与解包</span></a><a class="link" href="/wiki/python-advanced/feature/everything_is_object.html"><span class="toc-text">9.4 一切皆对象</span></a><a class="link" href="/wiki/python-advanced/feature/callable.html"><span class="toc-text">9.5 callable概念</span></a><a class="link" href="/wiki/python-advanced/feature/with.html"><span class="toc-text">9.6 with语句</span></a><a class="link" href="/wiki/python-advanced/feature/comprehensions.html"><span class="toc-text">9.7 生成式</span></a><a class="link" href="/wiki/python-advanced/feature/generator.html"><span class="toc-text">9.8 生成器</span></a><a class="link" href="/wiki/python-advanced/feature/generator_eg.html"><span class="toc-text">9.9 生成器的作用实例</span></a><a class="link" href="/wiki/python-advanced/feature/iterator.html"><span class="toc-text">9.10 迭代器和可迭代对象</span></a><a class="link" href="/wiki/python-advanced/feature/introspection.html"><span class="toc-text">9.11 自省</span></a><a class="link" href="/wiki/python-advanced/feature/underline_effect.html"><span class="toc-text">9.12 下划线的作用</span></a></div><div class="widget-header dis-select"><span class="name">第10章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/oop/index.html"><span class="toc-text">10.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/oop/method_belong_class.html"><span class="toc-text">10.2 类方法/实例属性</span></a><a class="link" href="/wiki/python-advanced/oop/new_init.html"><span class="toc-text">10.3 __new__ 和 __init__</span></a><a class="link" href="/wiki/python-advanced/oop/super.html"><span class="toc-text">10.4 super()</span></a><a class="link" href="/wiki/python-advanced/oop/call.html"><span class="toc-text">10.5 __call__()</span></a><a class="link" href="/wiki/python-advanced/oop/metaclass.html"><span class="toc-text">10.6 metaclass元类</span></a><a class="link" href="/wiki/python-advanced/oop/propery_getter_setter.html"><span class="toc-text">10.7 用propery代替getter和setter方法</span></a><a class="link" href="/wiki/python-advanced/oop/propery_reconsitution.html"><span class="toc-text">10.8 用propery重构代码</span></a><a class="link" href="/wiki/python-advanced/oop/overloading.html"><span class="toc-text">10.9 运算符重载</span></a><a class="link" href="/wiki/python-advanced/oop/slots.html"><span class="toc-text">10.10 使用__slots__节省内存空间</span></a><a class="link" href="/wiki/python-advanced/oop/internal_manager.html"><span class="toc-text">10.11 类的内部管理</span></a><a class="link" href="/wiki/python-advanced/oop/py-class-effect.html"><span class="toc-text">10.12 从封装看类的作用</span></a><a class="link" href="/wiki/python-advanced/oop/py-magic-method.html"><span class="toc-text">10.13 python的魔法方法</span></a><a class="link" href="/wiki/python-advanced/oop/dataclass.html"><span class="toc-text">10.14 理解python数据类</span></a><a class="link" href="/wiki/python-advanced/oop/init_subclass.html"><span class="toc-text">10.15 子类的定义</span></a></div><div class="widget-header dis-select"><span class="name">第11章 并发编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/concurrent/index.html"><span class="toc-text">11.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/concurrent/multithreading.html"><span class="toc-text">11.2 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/multiprocess.html"><span class="toc-text">11.3 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/association.html"><span class="toc-text">11.4 协程</span></a></div><div class="widget-header dis-select"><span class="name">第12章 python实用代码</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/pytip/index.html"><span class="toc-text">12.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/pytip/examples.html"><span class="toc-text">12.2 实用代码示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 python项目实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/practices/index.html"><span class="toc-text">13.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/practices/char_picture.html"><span class="toc-text">13.2 字符画及其原理</span></a><a class="link" href="/wiki/python-advanced/practices/find_big_file.html"><span class="toc-text">13.3 找出大文件</span></a><a class="link" href="/wiki/python-advanced/practices/generate_password.html"><span class="toc-text">13.4 制作密码生成器</span></a><a class="link" href="/wiki/python-advanced/practices/five_rings_by_turtle.html"><span class="toc-text">13.5 使用turtle模块画奥运五环</span></a><a class="link" href="/wiki/python-advanced/practices/py_download_file.html"><span class="toc-text">13.6 下载文件并添加进度条</span></a><a class="link" href="/wiki/python-advanced/practices/active_email.html"><span class="toc-text">13.7 发送网站注册激活邮件</span></a><a class="link" href="/wiki/python-advanced/practices/short_url.html"><span class="toc-text">13.8 开发简单的URL短链接</span></a><a class="link" href="/wiki/python-advanced/practices/valid_code.html"><span class="toc-text">13.9 制作图片验证码</span></a><a class="link" href="/wiki/python-advanced/practices/find_open_port.html"><span class="toc-text">13.10 探测主机开放的端口</span></a><a class="link" href="/wiki/python-advanced/practices/google_history.html"><span class="toc-text">13.11 获取谷歌浏览器的历史记录</span></a><a class="link" href="/wiki/python-advanced/practices/get_wifi_windows.html"><span class="toc-text">13.12 获取可用wifi信息</span></a><a class="link" href="/wiki/python-advanced/practices/get_localip_by_google_dns.html"><span class="toc-text">13.13 利用谷歌dns服务器获取本地ip地址</span></a><a class="link" href="/wiki/python-advanced/practices/cpu_speed.html"><span class="toc-text">13.14 获取电脑cpu的速度</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/re_repeat.html"><span class="toc-text">2.3 重复</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程语言</span></div><div class="widget-body"><a class="item wiki" href="/wiki/python-basic/preface/introduction.html"><span class="title">Python基础教程</span><span class="excerpt">Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-advanced/data-type/enum.html">Python进阶教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-27T04:11:54.991Z">2025-08-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>6.1 装饰器</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="装饰器导读"><a href="#装饰器导读" class="headerlink" title="装饰器导读"></a>装饰器导读</h1><p>python的装饰器本质上是一个函数，得益于一切皆对象的语言设计理念，在python中，函数也是对象，因此可以在函数内部定义一个函数并将其返回，这便是装饰器的基本原理。</p>
+<p>想要掌握装饰器，必须先理解变量作用域的概念，将函数视为与int, float相同级别的对象，当我们使用装饰器去修饰一个函数时，其实就是在装饰器中把目标函数当成int，float类型的数据来使用，理解到这里，结合实际装饰器的例子，你就能明白装饰器的基本原理了。</p>
+<p>除了可以使用函数来实现装饰器，也可以使用类来实现装饰器，基于类的装饰器本质上还是使用了类的__call__方法，因此，并没有超出装饰器就是一个函数的基本设定。</p>
+<p>编写装饰器，的确不是一件容易的事情，本章节最后会向你介绍一个第三方模块decorator，使用这个模块，可以非常轻松的实现一个装饰器，这要比你从头编写要简单很多。</p>
+<h1 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h1><p>python变量的作用域取决于变量被赋值的位置，python中，只有当变量在模块，类，函数中定义的时候才会有作用域的概念。一共有四种作用域: 局部作用域, 嵌套作用域, 全局作用域, 内置作用域</p>
+<p>理解变量作用域是学习装饰器的关键之一，理解了作用域，也为理解更高级的语法与技术奠定基础。</p>
+<h2 id="1-变量的作用域"><a href="#1-变量的作用域" class="headerlink" title="1 变量的作用域"></a>1 变量的作用域</h2><h3 id="1-1-局部作用域"><a href="#1-1-局部作用域" class="headerlink" title="1.1 局部作用域"></a>1.1 局部作用域</h3><p>在函数中创建的变量，是局部变量，当函数被执行时，会创建一个局部作用域，这些局部变量只能在这个作用域内使用，出了这个作用域就无法使用了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    value = <span class="number">100</span></span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+
+<p>在函数外，就不能再访问value这个变量了，上面的代码执行时会报错</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">NameError: name &#x27;value&#x27; is not defined</span><br></pre></td></tr></table></figure>
+
+<p>原因在于最后一行print语句是在全局作用域里执行的，但这个作用域里没有value这个变量。</p>
+<h3 id="1-2-嵌套作用域"><a href="#1-2-嵌套作用域" class="headerlink" title="1.2 嵌套作用域"></a>1.2 嵌套作用域</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    value = <span class="number">100</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_2</span>():</span><br><span class="line">        value2 = <span class="number">99</span></span><br><span class="line">        <span class="built_in">print</span>(value2, value)</span><br><span class="line">    <span class="keyword">return</span> test_2</span><br><span class="line"></span><br><span class="line">a = test()</span><br><span class="line">a()</span><br></pre></td></tr></table></figure>
+
+<p>如果一个函数的内部又定义了一个函数，那么这样就产生了嵌套作用域，其实嵌套作用域是一个相对概念。变量value存在于test函数所产生的局部作用域，变量value2存在于test_2函数所产生的局部作用域，value所在的作用域相对于value2来说就是一个嵌套作用域。</p>
+<p>在函数test_2中可以访问test函数中的变量，但反过来就不行, 只允许向上访问。函数最后返回值是test_2，它是一个函数，赋值给a以后，a()就是在执行test_2函数</p>
+<h3 id="1-3-全局作用域"><a href="#1-3-全局作用域" class="headerlink" title="1.3 全局作用域"></a>1.3 全局作用域</h3><p>每个模块都是一个全局作用域，你也可以简单的理解为每个脚本就是一个全局作用域。在模块中创建的变量，这个模块里的任何地方都可以访问得到<br>示例1</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">value = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>在局部作用域里，你可以使用这个变量，但你不能修改这个变量的值<br>示例2</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">value = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    value = <span class="number">99</span></span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">test()</span><br><span class="line"><span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+
+<p>程序的输出结果是</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">99</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<p>道理很简单，当你执行value &#x3D; 99时，其实是在局部作用域里创建了一个变量value，这个value和全局的那个value根本就不是同一个变量。</p>
+<p>那么为什么，在示例1中，就可以访问到全局的那个value呢，这是因为在搜索变量时是按照顺序进行的</p>
+<p>局部作用域 &gt; 嵌套作用域 &gt; 全局作用域 &gt; 内置作用域</p>
+<p>python会按照这个顺序搜索变量，示例1中现在局部作用域搜索，没有找到后去全局作用域，这时找到了。</p>
+<p>如果想在函数里修改全局变量，必须使用global关键字</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">value = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    <span class="keyword">global</span> value</span><br><span class="line">    value = <span class="number">99</span></span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">test()</span><br><span class="line"><span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-内置作用域"><a href="#1-4-内置作用域" class="headerlink" title="1.4 内置作用域"></a>1.4 内置作用域</h3><p>系统内固定模块里定义的变量，如预定义在builtin 模块内的变量</p>
+<h2 id="作用域所产生的诡异行为"><a href="#作用域所产生的诡异行为" class="headerlink" title="作用域所产生的诡异行为"></a>作用域所产生的诡异行为</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line">b = <span class="number">5</span></span><br><span class="line"><span class="built_in">sum</span> = a + b</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br><span class="line"></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>(lst))</span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码执行会报错</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">TypeError: &#x27;int&#x27; object is not callable</span><br></pre></td></tr></table></figure>
+
+<p>这是一个非常诡异的错误，很多初学者都曾经遇到过，看代码，看不出有任何问题，可就是报了一个奇怪的错误。问题出在代码的第三行 sum &#x3D; a + b。 sum 是一个变量，它的值等于a + b，sum这个变量存在于全局作用域里，最后一行的代码试图通过内置函数sum求列表里的元素之和，内置函数的作用域是内置作用域，python在搜索变量时是按照</p>
+<ol>
+<li>局部作用域</li>
+<li>嵌套作用域</li>
+<li>全局作用域</li>
+<li>内置作用域</li>
+</ol>
+<p>的顺序进行的，最后一行代码想要使用内置函数sum，但是由于全局作用域里已经有了一个sum变量，就不会去内置作用域里继续寻找了。全局作用域里sum的值 a+b &#x3D; 8，是一个int类型数据，int类型数据当然不是callable的。</p>
+<h1 id="装饰器作用与原理"><a href="#装饰器作用与原理" class="headerlink" title="装饰器作用与原理"></a>装饰器作用与原理</h1><p>装饰器是python的一个神器，它赋予函数在不修改自身代码的情况下改变自身行为的能力，装饰器的基本原理是python函数可以接受一个函数作为参数并返回一个函数。</p>
+<h2 id="1-装饰器的作用"><a href="#1-装饰器的作用" class="headerlink" title="1. 装饰器的作用"></a>1. 装饰器的作用</h2><p>当你编写了一段程序，发现程序运行的很慢，调试过程中，你需要知道程序执行过程中每一个函数的执行时间，以此来确定哪里需要优化性能，通常的做法是在函数开始的时候记录一次时间，在函数结束的时候记录一次时间，这两个时间的差值就是函数的执行时间。</p>
+<p>这样做的确可以实现目标，但却有一个缺点。你不得不修改函数，如果函数调用很多，你不得不一一修改，结束优化后，你不得不删除掉那些添加的用来记录时间的代码。</p>
+<p>下面是一个普通的函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_decorator</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;执行函数test_decorator&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果按照刚才讲的方法，你需要把函数修改成这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_decorator</span>():</span><br><span class="line">    t1 = time.time()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;执行函数test_decorator&quot;</span>)</span><br><span class="line">    t2 = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;执行耗时&quot;</span> + <span class="built_in">str</span>(t2 - t1))</span><br></pre></td></tr></table></figure>
+
+<p>修改以后，代码变得臃肿，而且结束优化后，你要删除掉刚才所添加的3行代码</p>
+<h2 id="2-用装饰器来改变函数行为"><a href="#2-用装饰器来改变函数行为" class="headerlink" title="2. 用装饰器来改变函数行为"></a>2. 用装饰器来改变函数行为</h2><p>现在，我们写一个简单的装饰器，改变函数test_decorator的行为，让它具备记录自身执行时间的能力，装饰器代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">warpper</span>():</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = func()</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span> +  <span class="built_in">str</span>(t2-t1))</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> warpper</span><br></pre></td></tr></table></figure>
+
+<p>cost 是一个函数，入参func是一个函数，返回值warpper是一个函数， 使用非常简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_decorator</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;执行函数test_decorator&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test = cost(test_decorator)</span><br><span class="line"><span class="built_in">print</span>(test)</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&lt;function cost.&lt;locals&gt;.warpper at 0x118a31840&gt;</span><br><span class="line">执行函数test_decorator</span><br><span class="line">test_decorator执行耗时1.0051071643829346</span><br></pre></td></tr></table></figure>
+
+<p>将test_decorator作为参数传给cost函数，cost函数返回的warpper也是一个函数，而这个函数里执行了test_decorator并且记录了函数的执行时间，对于test_decorator这个函数，我们没有对它做任何改变，但却得到了它的执行时间。</p>
+<p>上面的实例，并不是工作中使用的方法，我创建了一个test变量，并将cost的返回值赋值给他，是为了让你清晰的看到装饰器是如何工作的，装饰器的工作原理就是将被装饰的函数放入到一个新的函数中执行，这个新的函数是你自己编写的，因此，你可以做任意你想做的事情来实现自己想要的功能却不需要改变被装饰的函数。</p>
+<p>实际工作中，我们这样使用装饰器</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_decorator</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;执行函数test_decorator&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_decorator()</span><br></pre></td></tr></table></figure>
+
+<p>使用@cost装饰一个test_decorator等价于test &#x3D; cost(test_decorator)，好处时无需再定义一个变量test，当你不需要记录函数的执行时间时，只需要移除@cost即可</p>
+<h1 id="完善装饰器细节"><a href="#完善装饰器细节" class="headerlink" title="完善装饰器细节"></a>完善装饰器细节</h1><h2 id="1-传递参数"><a href="#1-传递参数" class="headerlink" title="1. 传递参数"></a>1. 传递参数</h2><p>上一篇实现了一个监测函数执行时间的装饰器，但这个装饰器存在缺陷，它只能装饰那些没有参数的函数，下面的用法就是有问题的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">warpper</span>():</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = func()</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span> +  <span class="built_in">str</span>(t2-t1))</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> warpper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>程序报错，原因在于test函数有一个sleep_time参数，但是在执行res &#x3D; func()时，却没有传递这个参数，对装饰器稍作修改，修改后代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">warpper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = func(*args, **kwargs)</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span> +  <span class="built_in">str</span>(t2-t1))</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> warpper</span><br></pre></td></tr></table></figure>
+
+<p>在函数warpper中增加可变参数，在调用执行被装饰的函数时传递这些可变参数，这样就不会有问题了，现在，这个装饰器可以装饰任何你想装饰的函数</p>
+<h2 id="2-修复函数"><a href="#2-修复函数" class="headerlink" title="2. 修复函数"></a>2. 修复函数</h2><h3 id="2-1-自省信息"><a href="#2-1-自省信息" class="headerlink" title="2.1 自省信息"></a>2.1 自省信息</h3><p>函数被装饰以后，一些原本属于自己的自省信息会丢失，先来看装饰前的样子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    测试装饰器</span></span><br><span class="line"><span class="string">    :param sleep_time:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test.__name__)</span><br><span class="line"><span class="built_in">print</span>(test.__doc__)</span><br></pre></td></tr></table></figure>
+
+<p>执行输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">test</span><br><span class="line"></span><br><span class="line">    测试装饰器</span><br><span class="line">    :param sleep_time:</span><br><span class="line">    :return:</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-自省信息丢失"><a href="#2-2-自省信息丢失" class="headerlink" title="2.2 自省信息丢失"></a>2.2 自省信息丢失</h3><p>程序会输出函数的名称和函数的注释doc信息，但是被装饰以后，这些信息就会丢失</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    测试装饰器</span></span><br><span class="line"><span class="string">    :param sleep_time:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test.__name__)</span><br><span class="line"><span class="built_in">print</span>(test.__doc__)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">warpper</span><br><span class="line">None</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-修复丢失信息"><a href="#2-3-修复丢失信息" class="headerlink" title="2.3 修复丢失信息"></a>2.3 修复丢失信息</h3><p>可以看到，实际输出的都是warpper的自省信息，这是我们不希望看到的，为此，我们要使用一项修复技术</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">warpper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = func(*args, **kwargs)</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span> +  <span class="built_in">str</span>(t2-t1))</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> warpper</span><br><span class="line"></span><br><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    测试装饰器</span></span><br><span class="line"><span class="string">    :param sleep_time:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test.__name__)</span><br><span class="line"><span class="built_in">print</span>(test.__doc__)</span><br></pre></td></tr></table></figure>
+
+<p>functools模块有一个wraps函数,它可以避免函数被装饰后丢失自省信息，增加@wraps(func)即可，这样，程序最后输出的就test自身的信息</p>
+<h1 id="装饰器带参数"><a href="#装饰器带参数" class="headerlink" title="装饰器带参数"></a>装饰器带参数</h1><p>装饰器携带参数，可以实现更加强大的装饰器，本篇教程以http请求重试场景来讲解如何编写带参数的装饰器。</p>
+<h2 id="1-重试场景"><a href="#1-重试场景" class="headerlink" title="1. 重试场景"></a>1. 重试场景</h2><p>假设这样一个场景，你写了一个函数，用来从一个API接口获取数据，那么你必须考虑网络问题，也许网关解析会出错，也许API接口压力太大，短时间内响应超时，面对这种情况，你的函数应该具备重试功能。</p>
+<p>请求失败以后，暂停一定时间，再次发起请求，重试的次数必须是可设置的。你可以把这个功能在函数中实现，但可以肯定，这不是一个好方法，原因在于每一个这样的函数你都需要实现一遍，而且不同的函数访问不同的API，暂停的时间以及重试的次数都有可能不同。</p>
+<p>这种请求，就非常适合用装饰器来解决</p>
+<h2 id="2-带参数装饰器"><a href="#2-带参数装饰器" class="headerlink" title="2. 带参数装饰器"></a>2. 带参数装饰器</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">retry</span>(<span class="params">retry_count=<span class="number">5</span>, sleep_time=<span class="number">1</span></span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(retry_count):</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    res = func(*args, **kwargs)</span><br><span class="line">                    <span class="keyword">return</span> res</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    time.sleep(sleep_time)</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> inner</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+
+<p>这段代码一共嵌套着定义了3个函数，在讲解作用域的时候强调过，嵌套作用域是一个相对概念，在函数inner里可以访问更上层的局部作用域里的数据，retry_count是函数retry的一个参数，在inner里根据retry_count来决定重试的次数，只要发生了异常，就会重试。</p>
+<h2 id="3-如何使用"><a href="#3-如何使用" class="headerlink" title="3. 如何使用"></a>3. 如何使用</h2><p>写爬虫时，你不得不考虑网络因素，一次请求可能无法得到所需要的响应数据，这时就需要重试</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HttpCodeException</span>(<span class="title class_ inherited__">Exception</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">@retry()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_html</span>(<span class="params">url</span>):</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.87 Mobile Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;movie.douban.com&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;https://movie.douban.com/top250?start=25&amp;filter=&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    res = requests.get(url, headers=headers)</span><br><span class="line">    <span class="keyword">if</span> res.status_code != <span class="number">200</span>:</span><br><span class="line">        <span class="keyword">raise</span> HttpCodeException</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res.text</span><br></pre></td></tr></table></figure>
+
+<p>这段代码是我编写过的一个爬虫的一小部分，在其他场景下，只要涉及到重试，都可以使用我写的这个装饰器。</p>
+<h1 id="基于类的装饰器"><a href="#基于类的装饰器" class="headerlink" title="基于类的装饰器"></a>基于类的装饰器</h1><h2 id="1-call"><a href="#1-call" class="headerlink" title="1. call"></a>1. <strong>call</strong></h2><p>前面介绍的装饰器都是用函数写的，其实，装饰器也可以用类来定义编写</p>
+<p>用类写装饰器，就要用到 <strong>call</strong> 方法，这个方法，允许你像调用函数一样去调用对象，下面是一个简单的示例来展示这种用法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestCall</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;执行了call方法&quot;</span>)</span><br><span class="line"></span><br><span class="line">tc = TestCall()</span><br><span class="line">tc()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">callable</span>(tc))</span><br></pre></td></tr></table></figure>
+
+<p>程序执行结果为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">执行了call方法</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+
+<p>tc是一个对象，如果没有实现__call__方法，那么tc()这种写法是有问题的，但是由于实现了__call__方法，tc就是一个callable的对象了</p>
+<p>这种技术在python的web框架里非常常见，<strong>call</strong> 赋予了类对象和函数一样的被调用的能力，直白点说，函数和对象可以实现混用，因为他们都能被采用小括号的方式去调用</p>
+<h2 id="2-类装饰器"><a href="#2-类装饰器" class="headerlink" title="2. 类装饰器"></a>2. 类装饰器</h2><p>下面是一个类装饰器的简单例子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):</span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数执行时长:&quot;</span>+ <span class="built_in">str</span>(t2 - t1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    time.sleep(<span class="number">1.5</span>)</span><br><span class="line"></span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>为了便于理解，下面的代码不采用@ 这种方式来进行装饰</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = Decorator(test)</span><br><span class="line">f()</span><br></pre></td></tr></table></figure>
+
+<p>test函数作为参数初始化Decorator对象，此时，f.func &#x3D; test, f是一个对象，但是由于实现了__call__方法，因此，可以直接像调用函数那样去调用对象， f(),此时，__call__方法被执行</p>
+<h1 id="一行代码，轻松编写装饰器"><a href="#一行代码，轻松编写装饰器" class="headerlink" title="一行代码，轻松编写装饰器"></a>一行代码，轻松编写装饰器</h1><p>一行代码能轻松编写装饰器么，当然不能，但实际的工作量和一行代码真的没有太多区别，先看一个常规方法编写的装饰器</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">warpper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = func(*args, **kwargs)</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span> +  <span class="built_in">str</span>(t2-t1))</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> warpper</span><br><span class="line"></span><br><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_cost</span>(<span class="params">sleep</span>):</span><br><span class="line">    time.sleep(sleep)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_cost(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>很多人被装饰器的闭包概念搞的死去活来，不能理解一切皆对象的概念，别说写一个装饰器，就是看一个装饰器都不能理解其中之意。</p>
+<p>得益于python强大的社区，有人写出了一个模块，可以让你轻松写出一个装饰器，该模块安装命令为 pip3 install decorator</p>
+<p>使用起来，极为简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> decorator <span class="keyword">import</span> decorator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func, *args, **kw</span>):</span><br><span class="line">    t1 = time.time()</span><br><span class="line">    res = func(*args, **kw)</span><br><span class="line">    t2 = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span>, t2-t1)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_cost</span>(<span class="params">sleep</span>):</span><br><span class="line">    time.sleep(sleep)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_cost(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>cost函数被decorator装饰，cost就变成了一个装饰器，第一个参数必须传入函数，就是你希望被cost装饰的函数，*args 和 **kw 是用来传给func的参数，如果你想写一个带参数的装饰器，同样很简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> decorator <span class="keyword">import</span> decorator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cost</span>(<span class="params">func, timelimit=<span class="number">3</span>, *args, **kw</span>):</span><br><span class="line">    t1 = time.time()</span><br><span class="line">    res = func(*args, **kw)</span><br><span class="line">    t2 = time.time()</span><br><span class="line">    <span class="comment"># 只打印运行时长超过timelimit的函数</span></span><br><span class="line">    <span class="keyword">if</span> (t2-t1) &gt; timelimit:</span><br><span class="line">        <span class="built_in">print</span>(func.__name__ + <span class="string">&quot;执行耗时&quot;</span>, t2-t1)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="meta">@cost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_cost</span>(<span class="params">sleep</span>):</span><br><span class="line">    time.sleep(sleep)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_cost(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="python使用装饰器实现缓存"><a href="#python使用装饰器实现缓存" class="headerlink" title="python使用装饰器实现缓存"></a>python使用装饰器实现缓存</h1><p>本文将和你一同开发一个缓存装饰器，届时，你将了解缓存的一般算法，对于编写装饰器也更加得心应手</p>
+<h2 id="1-缓存算法"><a href="#1-缓存算法" class="headerlink" title="1. 缓存算法"></a>1. 缓存算法</h2><p>经典的缓存算法有3个：</p>
+<ol>
+<li>FIFO算法</li>
+<li>LFU算法</li>
+<li>LRU算法</li>
+</ol>
+<h3 id="1-1-FIFO算法"><a href="#1-1-FIFO算法" class="headerlink" title="1.1 FIFO算法"></a>1.1 FIFO算法</h3><p>FIFO（First in First out），先进先出， 该算法的核心原则是： 如果一个数据最先进入缓存中，则应该最早淘汰掉，当缓存容量满了以后，应当将最早被缓存的数据淘汰掉。FIFO算法是一种比较简单的算法，使用队列就可以轻易的实现。</p>
+<h3 id="1-2-LFU算法"><a href="#1-2-LFU算法" class="headerlink" title="1.2 LFU算法"></a>1.2 LFU算法</h3><p>LFU（Least Frequently Used）最近最少使用算法， 这个算法的核心在于：<strong>如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小</strong>。</p>
+<h3 id="1-3-LRU算法"><a href="#1-3-LRU算法" class="headerlink" title="1.3 LRU算法"></a>1.3 LRU算法</h3><p>LRU (Least Recently Used)， 最近最久未使用算法，该算法的核心原则是：<strong>如果一个数据在最近一段时间没有被访问到，那么在将来它被访问的可能性也很小</strong></p>
+<p>LFU算法和LRU算法乍看起来是一个意思，但其实很不同，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</p>
+<p>一个缓存的数据，一段时间内被命中很多次，这个数据在LFU算法里会被保留，但在LRU算法里则可能被淘汰，虽然这段时间内，比如2分钟内被命中了很多次，可是，这些事情都发生在1分50秒之前的10秒钟里，自那以后就再也没有被命中，LRU算法则可能会将其淘汰。</p>
+<h2 id="2-装饰器实现"><a href="#2-装饰器实现" class="headerlink" title="2. 装饰器实现"></a>2. 装饰器实现</h2><p>3种算法里，最容易实现的是FIFO算法，因此这个装饰器使用FIFO算法来实现。</p>
+<p>使用一个列表来保存函数的参数，并且规定这个列表的最大长度，缓存不能无限增加。使用一个字典，以参数做key， 以函数返回结果做value。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="keyword">from</span> inspect <span class="keyword">import</span> signature</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fifo_cache</span>(<span class="params">maxsize=<span class="number">128</span></span>):</span><br><span class="line">    lst = []</span><br><span class="line">    cache = &#123;&#125;</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">func</span>):</span><br><span class="line">        sig = signature(func)       <span class="comment"># 获得参数列表</span></span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            bound_values = sig.bind(*args, **kwargs)        <span class="comment"># 绑定参数</span></span><br><span class="line">            <span class="comment"># print(bound_values)</span></span><br><span class="line">            key = bound_values.__str__()</span><br><span class="line">            value = cache.get(key)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> value <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;命中缓存&#x27;</span>)</span><br><span class="line">                <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(lst) &gt;= maxsize:</span><br><span class="line">                oldkey = lst.pop(<span class="number">0</span>)</span><br><span class="line">                <span class="keyword">if</span> oldkey <span class="keyword">in</span> cache:</span><br><span class="line">                    cache.pop(oldkey)</span><br><span class="line"></span><br><span class="line">            result = func(*args, **kwargs)</span><br><span class="line">            lst.append(key)</span><br><span class="line">            cache[key] = result</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@fifo_cache()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test1</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@fifo_cache()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test2</span>(<span class="params">x, y, z=<span class="number">20</span></span>):</span><br><span class="line">    <span class="keyword">return</span> x + y + z</span><br><span class="line"></span><br><span class="line"><span class="meta">@fifo_cache()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test3</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test1(<span class="number">19</span>, <span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test2(<span class="number">19</span>, <span class="number">20</span>, <span class="number">20</span>))</span><br><span class="line"><span class="built_in">print</span>(test2(<span class="number">19</span>, <span class="number">20</span>))        <span class="comment"># 不会命中缓存</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(test3(<span class="number">4</span>, <span class="number">2</span>, x=<span class="number">6</span>, y=<span class="number">9</span>))</span><br><span class="line"><span class="built_in">print</span>(test1(<span class="number">19</span>, <span class="number">20</span>))</span><br></pre></td></tr></table></figure>
+
+<p>代码执行输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">39</span><br><span class="line">59</span><br><span class="line">59</span><br><span class="line">5</span><br><span class="line">命中缓存</span><br><span class="line">39</span><br></pre></td></tr></table></figure>
+
+<p>在第二次调用test1(19, 20)时，命中了缓存</p>
+<h3 id="inspect-signature"><a href="#inspect-signature" class="headerlink" title="inspect.signature"></a>inspect.signature</h3><p>使用inspect的signature函数可以获取函数定义的参数的顺序以及函数注解</p>
+<h3 id="sig-bind"><a href="#sig-bind" class="headerlink" title="sig.bind"></a>sig.bind</h3><p>signature返回的sig是类Signature的实例对象，该对象的bind方法返回一个BoundArguments对象，下面是其中一个示例</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&lt;BoundArguments (args=(4, 2), kwargs=&#123;&#x27;x&#x27;: 6, &#x27;y&#x27;: 9&#125;)&gt;</span><br></pre></td></tr></table></figure>
+
+<p>方法在实际传入的参数和函数的参数列表之间建立了一个映射关系</p>
+<h3 id="装饰器的缺陷"><a href="#装饰器的缺陷" class="headerlink" title="装饰器的缺陷"></a>装饰器的缺陷</h3><p>这个装饰器还存在着一个小的缺陷，个别情况下无法命中缓存，函数test2的最后一个参数z是默认参数，默认值是20， test2(19, 20, 20) 与 test2(19, 20) 本质上传入的参数是相同的,但在inner函数里接收到的参数里没有默认参数的数值，这里一定有办法可以解决这个问题，暂且搁置，待我慢慢研究。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-advanced/adv-function/function_talk.html">5.10 函数杂谈</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-advanced/decor-recur/recursion.html">6.2 递归</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AF%BC%E8%AF%BB"><span class="toc-text">装饰器导读</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">变量作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">1 变量的作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%B1%80%E9%83%A8%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">1.1 局部作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%B5%8C%E5%A5%97%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">1.2 嵌套作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%85%A8%E5%B1%80%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">1.3 全局作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%86%85%E7%BD%AE%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">1.4 内置作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%89%80%E4%BA%A7%E7%94%9F%E7%9A%84%E8%AF%A1%E5%BC%82%E8%A1%8C%E4%B8%BA"><span class="toc-text">作用域所产生的诡异行为</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E4%BD%9C%E7%94%A8%E4%B8%8E%E5%8E%9F%E7%90%86"><span class="toc-text">装饰器作用与原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">1. 装饰器的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8%E6%9D%A5%E6%94%B9%E5%8F%98%E5%87%BD%E6%95%B0%E8%A1%8C%E4%B8%BA"><span class="toc-text">2. 用装饰器来改变函数行为</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E8%A3%85%E9%A5%B0%E5%99%A8%E7%BB%86%E8%8A%82"><span class="toc-text">完善装饰器细节</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="toc-text">1. 传递参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BF%AE%E5%A4%8D%E5%87%BD%E6%95%B0"><span class="toc-text">2. 修复函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%87%AA%E7%9C%81%E4%BF%A1%E6%81%AF"><span class="toc-text">2.1 自省信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%87%AA%E7%9C%81%E4%BF%A1%E6%81%AF%E4%B8%A2%E5%A4%B1"><span class="toc-text">2.2 自省信息丢失</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E4%BF%AE%E5%A4%8D%E4%B8%A2%E5%A4%B1%E4%BF%A1%E6%81%AF"><span class="toc-text">2.3 修复丢失信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E5%B8%A6%E5%8F%82%E6%95%B0"><span class="toc-text">装饰器带参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%87%8D%E8%AF%95%E5%9C%BA%E6%99%AF"><span class="toc-text">1. 重试场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B8%A6%E5%8F%82%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">2. 带参数装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-text">3. 如何使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%B1%BB%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">基于类的装饰器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-call"><span class="toc-text">1. call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%B1%BB%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">2. 类装饰器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%8C%E8%BD%BB%E6%9D%BE%E7%BC%96%E5%86%99%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">一行代码，轻松编写装饰器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98"><span class="toc-text">python使用装饰器实现缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95"><span class="toc-text">1. 缓存算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-FIFO%E7%AE%97%E6%B3%95"><span class="toc-text">1.1 FIFO算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-LFU%E7%AE%97%E6%B3%95"><span class="toc-text">1.2 LFU算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-LRU%E7%AE%97%E6%B3%95"><span class="toc-text">1.3 LRU算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AE%9E%E7%8E%B0"><span class="toc-text">2. 装饰器实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inspect-signature"><span class="toc-text">inspect.signature</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sig-bind"><span class="toc-text">sig.bind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-text">装饰器的缺陷</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

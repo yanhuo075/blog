@@ -1,0 +1,1243 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python进阶教程：7.4 项目实践 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="项目实践导读本小节将和你分享一些小的实践项目，完成这些小项目，需要你具备非常扎实的python基础知识，此外，还需要你具备良好的计算机知识。 如果这两样你都不具备，那么学习本小节会非常困难，毕竟，编程不等于编程语言，编程是计算机，工程，编程语言的综合运用。 本小节已经完成的文章如下：  项目日志–logging详解 python虚拟环境在开发与生产环境下的使用 python命令行工具click p">
+<meta property="og:type" content="website">
+<meta property="og:title" content="7.4 项目实践">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-advanced/project/pro_practice.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="项目实践导读本小节将和你分享一些小的实践项目，完成这些小项目，需要你具备非常扎实的python基础知识，此外，还需要你具备良好的计算机知识。 如果这两样你都不具备，那么学习本小节会非常困难，毕竟，编程不等于编程语言，编程是计算机，工程，编程语言的综合运用。 本小节已经完成的文章如下：  项目日志–logging详解 python虚拟环境在开发与生产环境下的使用 python命令行工具click p">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100154371.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100209555.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100242135.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100333884.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100321529.jpeg">
+<meta property="article:published_time" content="2025-08-27T06:07:33.580Z">
+<meta property="article:modified_time" content="2025-08-27T06:07:33.580Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100154371.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-advanced/data-type/enum.html"><div class="main" ff="title">Python进阶教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-advanced/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/data-type/enum.html#start"><span class="toc-text">1.1 python3枚举</span></a><a class="link" href="/wiki/python-advanced/data-type/bytes.html"><span class="toc-text">1.2 bytes字节串</span></a><a class="link" href="/wiki/python-advanced/data-type/str_format.html"><span class="toc-text">1.3 字符串格式化高级用法</span></a><a class="link" href="/wiki/python-advanced/data-type/power-f-string.html"><span class="toc-text">1.4 功能强大的f-string</span></a><a class="link" href="/wiki/python-advanced/data-type/type_hints.html"><span class="toc-text">1.5 类型标注</span></a><a class="link" href="/wiki/python-advanced/data-type/py-type-hints-detail.html"><span class="toc-text">1.6 类型标注详解</span></a><a class="link" href="/wiki/python-advanced/data-type/mypy.html"><span class="toc-text">1.7 静态类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/typecheck.html"><span class="toc-text">1.8 运行时类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/py-dict-views.html"><span class="toc-text">1.9 字典视图对象</span></a></div><div class="widget-header dis-select"><span class="name">第2章 正则表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/index.html"><span class="toc-text">2.1 什么是正则表达式</span></a><a class="link" href="/wiki/python-advanced/regex/special_char.html"><span class="toc-text">2.2 特殊代码</span></a><a class="link" href="/wiki/python-advanced/regex/re_replace.html"><span class="toc-text">2.3 字符转义</span></a><a class="link" href="/wiki/python-advanced/regex/re_match.html"><span class="toc-text">2.4 匹配</span></a><a class="link" href="/wiki/python-advanced/regex/re_search_findall.html"><span class="toc-text">2.5 查找</span></a><a class="link" href="/wiki/python-advanced/regex/re_split_sub.html"><span class="toc-text">2.6 分割和替换</span></a><a class="link" href="/wiki/python-advanced/regex/py-re-group.html"><span class="toc-text">2.7 分组</span></a><a class="link" href="/wiki/python-advanced/regex/re_exercises.html"><span class="toc-text">2.8 正则表达式练习题</span></a></div><div class="widget-header dis-select"><span class="name">第3章 python内存管理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/memory/index.html"><span class="toc-text">3.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/memory/obj_ref.html"><span class="toc-text">3.2 变量引用</span></a><a class="link" href="/wiki/python-advanced/memory/immutable.html"><span class="toc-text">3.3 可变对象与不可变对象</span></a><a class="link" href="/wiki/python-advanced/memory/memory_copy.html"><span class="toc-text">3.4 深拷贝与浅拷贝</span></a><a class="link" href="/wiki/python-advanced/memory/memory_pool.html"><span class="toc-text">3.5 内存池技术</span></a><a class="link" href="/wiki/python-advanced/memory/list_tuple_mem_optimize.html"><span class="toc-text">3.6 列表/元组内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/str_mem_optimize.html"><span class="toc-text">3.7 字符串内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/gc.html"><span class="toc-text">3.8 垃圾回收机制</span></a></div><div class="widget-header dis-select"><span class="name">第4章 深入学习python模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/module/module_learn.html"><span class="toc-text">4.1 模块概念深入学习</span></a><a class="link" href="/wiki/python-advanced/module/standard_module.html"><span class="toc-text">4.2 标准模块</span></a><a class="link" href="/wiki/python-advanced/module/third_module.html"><span class="toc-text">4.3 第三方库</span></a><a class="link" href="/wiki/python-advanced/module/data-feather-csv-compare.html"><span class="toc-text">4.4 数据处理</span></a></div><div class="widget-header dis-select"><span class="name">第5章 高阶函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/adv-function/index.html"><span class="toc-text">5.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/adv-function/compile.html"><span class="toc-text">5.2 compile</span></a><a class="link" href="/wiki/python-advanced/adv-function/locals_globals.html"><span class="toc-text">5.3 locals与globals</span></a><a class="link" href="/wiki/python-advanced/adv-function/partial.html"><span class="toc-text">5.3 partial</span></a><a class="link" href="/wiki/python-advanced/adv-function/lambda.html"><span class="toc-text">5.4 lambda</span></a><a class="link" href="/wiki/python-advanced/adv-function/zip.html"><span class="toc-text">5.5 zip</span></a><a class="link" href="/wiki/python-advanced/adv-function/map.html"><span class="toc-text">5.6 map</span></a><a class="link" href="/wiki/python-advanced/adv-function/reduce.html"><span class="toc-text">5.7 reduce</span></a><a class="link" href="/wiki/python-advanced/adv-function/setattr_hasattr_getattr.html"><span class="toc-text">5.8 attr</span></a><a class="link" href="/wiki/python-advanced/adv-function/filter.html"><span class="toc-text">5.9 filter</span></a><a class="link" href="/wiki/python-advanced/adv-function/function_talk.html"><span class="toc-text">5.10 函数杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第6章 装饰器和递归</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/decor-recur/decorator.html"><span class="toc-text">6.1 装饰器</span></a><a class="link" href="/wiki/python-advanced/decor-recur/recursion.html"><span class="toc-text">6.2 递归</span></a></div><div class="widget-header dis-select"><span class="name">第7章 工程开发</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/project/index.html"><span class="toc-text">7.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/project/code_quality.html"><span class="toc-text">7.2 代码质量</span></a><a class="link" href="/wiki/python-advanced/project/config.html"><span class="toc-text">7.3 配置文件</span></a><a class="link active" href="/wiki/python-advanced/project/pro_practice.html"><span class="toc-text">7.4 项目实践</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">第8章 网络编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/network/index.html"><span class="toc-text">8.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/network/tcp.html"><span class="toc-text">8.2 TCP</span></a><a class="link" href="/wiki/python-advanced/network/http.html"><span class="toc-text">8.3 HTTP</span></a></div><div class="widget-header dis-select"><span class="name">第9章 python高级特性</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/feature/index.html"><span class="toc-text">9.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/feature/three_ternary_expression.html"><span class="toc-text">9.2 三元表达式</span></a><a class="link" href="/wiki/python-advanced/feature/pack_unpack.html"><span class="toc-text">9.3 封包与解包</span></a><a class="link" href="/wiki/python-advanced/feature/everything_is_object.html"><span class="toc-text">9.4 一切皆对象</span></a><a class="link" href="/wiki/python-advanced/feature/callable.html"><span class="toc-text">9.5 callable概念</span></a><a class="link" href="/wiki/python-advanced/feature/with.html"><span class="toc-text">9.6 with语句</span></a><a class="link" href="/wiki/python-advanced/feature/comprehensions.html"><span class="toc-text">9.7 生成式</span></a><a class="link" href="/wiki/python-advanced/feature/generator.html"><span class="toc-text">9.8 生成器</span></a><a class="link" href="/wiki/python-advanced/feature/generator_eg.html"><span class="toc-text">9.9 生成器的作用实例</span></a><a class="link" href="/wiki/python-advanced/feature/iterator.html"><span class="toc-text">9.10 迭代器和可迭代对象</span></a><a class="link" href="/wiki/python-advanced/feature/introspection.html"><span class="toc-text">9.11 自省</span></a><a class="link" href="/wiki/python-advanced/feature/underline_effect.html"><span class="toc-text">9.12 下划线的作用</span></a></div><div class="widget-header dis-select"><span class="name">第10章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/oop/index.html"><span class="toc-text">10.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/oop/method_belong_class.html"><span class="toc-text">10.2 类方法/实例属性</span></a><a class="link" href="/wiki/python-advanced/oop/new_init.html"><span class="toc-text">10.3 __new__ 和 __init__</span></a><a class="link" href="/wiki/python-advanced/oop/super.html"><span class="toc-text">10.4 super()</span></a><a class="link" href="/wiki/python-advanced/oop/call.html"><span class="toc-text">10.5 __call__()</span></a><a class="link" href="/wiki/python-advanced/oop/metaclass.html"><span class="toc-text">10.6 metaclass元类</span></a><a class="link" href="/wiki/python-advanced/oop/propery_getter_setter.html"><span class="toc-text">10.7 用propery代替getter和setter方法</span></a><a class="link" href="/wiki/python-advanced/oop/propery_reconsitution.html"><span class="toc-text">10.8 用propery重构代码</span></a><a class="link" href="/wiki/python-advanced/oop/overloading.html"><span class="toc-text">10.9 运算符重载</span></a><a class="link" href="/wiki/python-advanced/oop/slots.html"><span class="toc-text">10.10 使用__slots__节省内存空间</span></a><a class="link" href="/wiki/python-advanced/oop/internal_manager.html"><span class="toc-text">10.11 类的内部管理</span></a><a class="link" href="/wiki/python-advanced/oop/py-class-effect.html"><span class="toc-text">10.12 从封装看类的作用</span></a><a class="link" href="/wiki/python-advanced/oop/py-magic-method.html"><span class="toc-text">10.13 python的魔法方法</span></a><a class="link" href="/wiki/python-advanced/oop/dataclass.html"><span class="toc-text">10.14 理解python数据类</span></a><a class="link" href="/wiki/python-advanced/oop/init_subclass.html"><span class="toc-text">10.15 子类的定义</span></a></div><div class="widget-header dis-select"><span class="name">第11章 并发编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/concurrent/index.html"><span class="toc-text">11.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/concurrent/multithreading.html"><span class="toc-text">11.2 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/multiprocess.html"><span class="toc-text">11.3 多线程</span></a><a class="link" href="/wiki/python-advanced/concurrent/association.html"><span class="toc-text">11.4 协程</span></a></div><div class="widget-header dis-select"><span class="name">第12章 python实用代码</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/pytip/index.html"><span class="toc-text">12.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/pytip/examples.html"><span class="toc-text">12.2 实用代码示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 python项目实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/practices/index.html"><span class="toc-text">13.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/practices/char_picture.html"><span class="toc-text">13.2 字符画及其原理</span></a><a class="link" href="/wiki/python-advanced/practices/find_big_file.html"><span class="toc-text">13.3 找出大文件</span></a><a class="link" href="/wiki/python-advanced/practices/generate_password.html"><span class="toc-text">13.4 制作密码生成器</span></a><a class="link" href="/wiki/python-advanced/practices/five_rings_by_turtle.html"><span class="toc-text">13.5 使用turtle模块画奥运五环</span></a><a class="link" href="/wiki/python-advanced/practices/py_download_file.html"><span class="toc-text">13.6 下载文件并添加进度条</span></a><a class="link" href="/wiki/python-advanced/practices/active_email.html"><span class="toc-text">13.7 发送网站注册激活邮件</span></a><a class="link" href="/wiki/python-advanced/practices/short_url.html"><span class="toc-text">13.8 开发简单的URL短链接</span></a><a class="link" href="/wiki/python-advanced/practices/valid_code.html"><span class="toc-text">13.9 制作图片验证码</span></a><a class="link" href="/wiki/python-advanced/practices/find_open_port.html"><span class="toc-text">13.10 探测主机开放的端口</span></a><a class="link" href="/wiki/python-advanced/practices/google_history.html"><span class="toc-text">13.11 获取谷歌浏览器的历史记录</span></a><a class="link" href="/wiki/python-advanced/practices/get_wifi_windows.html"><span class="toc-text">13.12 获取可用wifi信息</span></a><a class="link" href="/wiki/python-advanced/practices/get_localip_by_google_dns.html"><span class="toc-text">13.13 利用谷歌dns服务器获取本地ip地址</span></a><a class="link" href="/wiki/python-advanced/practices/cpu_speed.html"><span class="toc-text">13.14 获取电脑cpu的速度</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/re_repeat.html"><span class="toc-text">2.3 重复</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程语言</span></div><div class="widget-body"><a class="item wiki" href="/wiki/python-basic/preface/introduction.html"><span class="title">Python基础教程</span><span class="excerpt">Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-advanced/data-type/enum.html">Python进阶教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-27T06:07:33.580Z">2025-08-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>7.4 项目实践</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="项目实践导读"><a href="#项目实践导读" class="headerlink" title="项目实践导读"></a>项目实践导读</h1><p>本小节将和你分享一些小的实践项目，完成这些小项目，需要你具备非常扎实的python基础知识，此外，还需要你具备良好的计算机知识。 如果这两样你都不具备，那么学习本小节会非常困难，毕竟，编程不等于编程语言，编程是计算机，工程，编程语言的综合运用。</p>
+<p>本小节已经完成的文章如下：</p>
+<ol>
+<li>项目日志–logging详解</li>
+<li>python虚拟环境在开发与生产环境下的使用</li>
+<li>python命令行工具click</li>
+<li>python创建定时任务</li>
+<li>python库打包分发setup.py编写指南</li>
+</ol>
+<h1 id="项目日志–logging详解"><a href="#项目日志–logging详解" class="headerlink" title="项目日志–logging详解"></a>项目日志–logging详解</h1><h2 id="1-日志级别"><a href="#1-日志级别" class="headerlink" title="1.日志级别"></a>1.日志级别</h2><h3 id="1-1-日志级别含义"><a href="#1-1-日志级别含义" class="headerlink" title="1.1 日志级别含义"></a>1.1 日志级别含义</h3><p>不同的日志级别代表不同的紧急程度，反应出系统运行的状况，下表是不同日志级别及其适用场景</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEBUG</td>
+<td>记录详细信息，用于程序调试</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>记录可证明程序正常执行的信息</td>
+</tr>
+<tr>
+<td>WARNING</td>
+<td>记录意外信息，此时程序仍可正常执行，但需要关注</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>明显发生一些错误，部分功能无法正常工作，需要立刻处理</td>
+</tr>
+<tr>
+<td>CRITICAL</td>
+<td>严重错误，程序已经不能继续执行了</td>
+</tr>
+</tbody></table>
+<p>一个系统，要根据日志的内容将其归入到不同的级别中，相同级别的日志输出到同一个日志文件中，这样，可以快速发现问题，定位问题。</p>
+<p>如果将所有级别的日志都输出到同一个日志文件中，那么观察日志就变得麻烦，ERROR日志混杂其他级别日志中，不利于问题的发现和追查。</p>
+<h3 id="1-2-配置日志级别"><a href="#1-2-配置日志级别" class="headerlink" title="1.2 配置日志级别"></a>1.2 配置日志级别</h3><p>下面的程序，简单的演示如何配置日志的级别</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level=logging.ERROR)</span><br><span class="line">logging.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logging.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logging.warning(<span class="string">&#x27;warning message&#x27;</span>)</span><br><span class="line">logging.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logging.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">ERROR:root:error message</span><br><span class="line">CRITICAL:root:critical message</span><br></pre></td></tr></table></figure>
+
+<p>通过设置level&#x3D;loggin.ERROR,日志在输出的时候，只有大于等于ERROR的日志才会被输出，如果不设置level，默认是WARNING级别。</p>
+<h2 id="2-Logger"><a href="#2-Logger" class="headerlink" title="2. Logger"></a>2. Logger</h2><p>Logger是记录器，是程序可以直接使用的接口，为了在实际工作中实现复杂的技术要求，我们不会使用1.2中的的日志方法，而是创建Logger，用Logger管理日志的输出</p>
+<p>创建方法如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用示例如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)</span><br><span class="line">logger.setLevel(logging.ERROR)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">error message</span><br><span class="line">critical message</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Handler"><a href="#3-Handler" class="headerlink" title="3. Handler"></a>3. Handler</h2><p>前面的两个例子中，程序运行时，日志直接输出到终端，这是因为，如果不显式的创建一个Logger，就会默认创建一个root logger,如果不指定Handler，则默认使用StreamHandler将日志输出到标准输出上。</p>
+<p>Handler决定了日志的信息最终输出到哪里，最常用的是FileHandler 和 StreamHandler</p>
+<h3 id="3-1-FileHandler"><a href="#3-1-FileHandler" class="headerlink" title="3.1 FileHandler"></a>3.1 FileHandler</h3><p>FileHandler 将日志输出到指定的文件中<br>下面一段代码演示如何使用FileHandler</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.ERROR)                <span class="comment"># 设置日志级别</span></span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>执行程序，会创建一个test.log，文件里的内容是</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">error message</span><br><span class="line">critical message</span><br></pre></td></tr></table></figure>
+
+<p>这里你会看到两次执行setLevel，logger.setLevel设置的日志级别决定了什么类型的日志会进入到Handler中，而file_handler.setLevel设置的日志级别决定了什么样的日志会写入到文件中。</p>
+<p>logger设置日志级别相当于一个总开关，而file_handler设置的日志级别则是一个小开关，毕竟，一个logger下可以添加多个handler，每个handler都可以设置各自的日志级别。</p>
+<h3 id="3-2-StreamHandler"><a href="#3-2-StreamHandler" class="headerlink" title="3.2 StreamHandler"></a>3.2 StreamHandler</h3><p>StreamHandler可以将日志输出到流中，例如sys.stdout, sys.stderr， 以及实现了write和flush方法的类文件对象。<br>下面的代码演示了如何使用StreamHandler</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.ERROR)                <span class="comment"># 设置日志级别</span></span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line"></span><br><span class="line">stream_handler = logging.StreamHandler(sys.stdout)</span><br><span class="line">stream_handler.setLevel(logging.WARNING)</span><br><span class="line">logger.addHandler(stream_handler)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码，增加了一个stream_handler，将日志输出到标准输出，file_handler将日志输出到文件，这就是handler的用处。</p>
+<p>logger提供了日志输出接口，一条日志可以通过handler同时输出到不同的文件或stream中。在使用docker镜像时，通常会将程序的日志输出到标准输出中，于此同时也会保留一份在文件中，遇到类似这样的场景，你就可以像上面这段代码一样将日志多个目的地同时输出。</p>
+<h2 id="4-Formatter"><a href="#4-Formatter" class="headerlink" title="4. Formatter"></a>4. Formatter</h2><h3 id="4-1-日志格式"><a href="#4-1-日志格式" class="headerlink" title="4.1 日志格式"></a>4.1 日志格式</h3><p>格式化器可以用来定义日志的内容和格式，有许多信息是不需要你在日志信息中自己搜集处理的，比如日志输出时所在的filename,调用日志输出的函数名，这些信息logging模块已经帮你搜集处理好，你只需要配置那些输出，以及以什么方式输出即可。<br>下面是logging模块提供的日志信息</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">%(name)s Logger的名字</span><br><span class="line">%(levelno)s 数字形式的日志级别</span><br><span class="line">%(levelname)s 文本形式的日志级别</span><br><span class="line">%(pathname)s 调用日志输出函数的模块的完整路径名，可能没有</span><br><span class="line">%(filename)s 调用日志输出函数的模块的文件名</span><br><span class="line">%(module)s 调用日志输出函数的模块名|</span><br><span class="line">%(funcName)s 调用日志输出函数的函数名|</span><br><span class="line">%(lineno)d 调用日志输出函数的语句所在的代码行</span><br><span class="line">%(created)f 当前时间，用UNIX标准的表示时间的浮点数表示|</span><br><span class="line">%(relativeCreated)d 输出日志信息时的，自Logger创建以来的毫秒数|</span><br><span class="line">%(asctime)s 字符串形式的当前时间。默认格式是“2003-07-08 16:49:45,896”。逗号后面的是毫秒</span><br><span class="line">%(thread)d 线程ID。可能没有</span><br><span class="line">%(threadName)s 线程名。可能没有</span><br><span class="line">%(process)d 进程ID。可能没有</span><br><span class="line">%(message)s 用户输出的消息</span><br></pre></td></tr></table></figure>
+
+<p>创建一个Formatter对象时，传入的fmt参数里可以从中选取你想要输出的内容。</p>
+<p>下面的代码演示了如何设置日志的格式和内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.ERROR)                <span class="comment"># 设置日志级别</span></span><br><span class="line"><span class="comment"># 设置日志格式</span></span><br><span class="line">formater = logging.Formatter(fmt=<span class="string">&#x27;%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s&#x27;</span>, datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">file_handler.setFormatter(formater)</span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line"></span><br><span class="line">stream_handler = logging.StreamHandler(sys.stdout)</span><br><span class="line">stream_handler.setLevel(logging.WARNING)</span><br><span class="line">logger.addHandler(stream_handler)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>fmt 参数设置了以什么样的顺序输出哪些内容，datefmt设置了时间的格式。</p>
+<p>由于只在file_handler进行了设置，因此，这个格式也只在file_handler 起作用，stream_handler记录的日志不受影响。在test.log中输出的内容如下：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">2019-01-23 20:55:19 demo1.py[line:21] ERROR error message</span><br><span class="line">2019-01-23 20:55:19 demo1.py[line:22] CRITICAL critical message</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-json格式"><a href="#4-2-json格式" class="headerlink" title="4.2 json格式"></a>4.2 json格式</h3><p>工作中，往往希望将日志以json格式输出，这样便于收集处理，例如使用logstash收集日志。</p>
+<p>想要输出json格式的日志，需要创建一个新的类，继承logging.Formatter并重载format方法。</p>
+<p>format方法传入一个record对象，这里保存了日志的所有数据，只需要将数据进行整理最后使用json.dumps方法转成json格式数据返回即可。</p>
+<p>不过在这之前，仍然需要定义fmt， 我在示例中将fmt定义为’timestamp,filename,lineno,levelname,msg’ ， 我希望能按照如下顺序和内容输出json格式的日志。</p>
+<p>下面的代码演示如何自定义一个json的Formatter并使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsonFormatter</span>(logging.Formatter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(*args, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.parse()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># self._fmt 就是 &#x27;timestamp,filename,lineno,levelname,msg&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.fields = <span class="variable language_">self</span>._fmt.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">format</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        重载format方法,返回json格式字符串</span></span><br><span class="line"><span class="string">        :param record:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        log_record = OrderedDict()</span><br><span class="line">        <span class="keyword">for</span> field <span class="keyword">in</span> <span class="variable language_">self</span>.fields:</span><br><span class="line">            <span class="keyword">if</span> field == <span class="string">&#x27;timestamp&#x27;</span>:</span><br><span class="line">                log_record[field] = <span class="variable language_">self</span>.formatTime(record, <span class="variable language_">self</span>.datefmt)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                log_record[field] = record.__dict__.get(field, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="comment"># ensure_ascii 设置为False,确保正常输出中文</span></span><br><span class="line">        log_record = json.dumps(log_record, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">return</span> log_record</span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.ERROR)                <span class="comment"># 设置日志级别</span></span><br><span class="line">formater = JsonFormatter(fmt=<span class="string">&#x27;timestamp,filename,lineno,levelname,msg&#x27;</span>, datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">file_handler.setFormatter(formater)</span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line"></span><br><span class="line">stream_handler = logging.StreamHandler(sys.stdout)</span><br><span class="line">stream_handler.setLevel(logging.WARNING)</span><br><span class="line">logger.addHandler(stream_handler)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&quot;中文&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>test.log输出的内容为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&#123;&quot;timestamp&quot;: &quot;2019-01-23 21:47:46&quot;, &quot;filename&quot;: &quot;demo1.py&quot;, &quot;lineno&quot;: 42, &quot;levelname&quot;: &quot;ERROR&quot;, &quot;msg&quot;: &quot;error message&quot;&#125;</span><br><span class="line">&#123;&quot;timestamp&quot;: &quot;2019-01-23 21:47:46&quot;, &quot;filename&quot;: &quot;demo1.py&quot;, &quot;lineno&quot;: 43, &quot;levelname&quot;: &quot;CRITICAL&quot;, &quot;msg&quot;: &quot;critical message&quot;&#125;</span><br><span class="line">&#123;&quot;timestamp&quot;: &quot;2019-01-23 21:47:46&quot;, &quot;filename&quot;: &quot;demo1.py&quot;, &quot;lineno&quot;: 44, &quot;levelname&quot;: &quot;ERROR&quot;, &quot;msg&quot;: &quot;中文&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Filter，过滤器"><a href="#5-Filter，过滤器" class="headerlink" title="5. Filter，过滤器"></a>5. Filter，过滤器</h2><p>通过设置logger和 handler的日志级别来实现日志的过滤，但这样的控制还是过于粗糙，Filter可以实现更加细致的过滤。</p>
+<p>logging.Filter有一个filter方法，定义如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">filter</span>(<span class="params">self, record</span>):</span><br></pre></td></tr></table></figure>
+
+<p>入参record对象包含了日志的全部信息，这些信息都在record.__dict__中，你可以通过继承logging.Filter类来实现更加复杂的过滤，比如，工作中需要将不同级别的日志输出到不同的日志文件中，这样查找的效率会更高。</p>
+<p>下面是一个自定义Filter的示例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LogLevelFilter</span>(logging.Filter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name=<span class="string">&#x27;&#x27;</span>, level=logging.INFO</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name)</span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">filter</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="keyword">return</span> record.levelno == <span class="variable language_">self</span>.level</span><br></pre></td></tr></table></figure>
+
+<p>重载了filter方法，只有当日志的级别和Filter的过滤级别相同时才会输出日志，下面的代码演示了如何使用这个过滤器</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsonFormatter</span>(logging.Formatter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(*args, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.parse()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># self._fmt 就是 &#x27;timestamp,filename,lineno,levelname,msg&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.fields = <span class="variable language_">self</span>._fmt.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">format</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        重载format方法,返回json格式字符串</span></span><br><span class="line"><span class="string">        :param record:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        log_record = OrderedDict()</span><br><span class="line">        <span class="keyword">for</span> field <span class="keyword">in</span> <span class="variable language_">self</span>.fields:</span><br><span class="line">            <span class="keyword">if</span> field == <span class="string">&#x27;timestamp&#x27;</span>:</span><br><span class="line">                log_record[field] = <span class="variable language_">self</span>.formatTime(record, <span class="variable language_">self</span>.datefmt)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                log_record[field] = record.__dict__.get(field, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">        log_record = json.dumps(log_record, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">return</span> log_record</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LogLevelFilter</span>(logging.Filter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name=<span class="string">&#x27;&#x27;</span>, level=logging.INFO</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name)</span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">filter</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="keyword">return</span> record.levelno == <span class="variable language_">self</span>.level</span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.INFO)                 <span class="comment"># 设置日志级别</span></span><br><span class="line">formater = JsonFormatter(fmt=<span class="string">&#x27;timestamp,filename,lineno,levelname,msg&#x27;</span>, datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">file_handler.setFormatter(formater)</span><br><span class="line">file_handler.addFilter(LogLevelFilter(level=logging.INFO))</span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line">logger.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">logger.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">logger.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">logger.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br><span class="line">logger.error(<span class="string">&quot;中文&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-LoggerAdapter-扩展"><a href="#6-LoggerAdapter-扩展" class="headerlink" title="6.LoggerAdapter 扩展"></a>6.LoggerAdapter 扩展</h2><p>4.1 小节中介绍的Formatter允许你定义日志的输出的格式和内容，但这些信息往往不能满足实际需求。</p>
+<p>比如在一个web服务中，我们希望记录下一次请求的客户端ip地址，也可能是方便追查问题的trace_id，也可能是此次请求的uri, 这些信息都是logging模块无法主动收集的，而且，每次请求中，这些信息都是变化的，如果能将这些信息记录下来，那么对于信息的统计和分析是非常有帮助的。</p>
+<p>LoggerAdapter 是对logger一个扩展，它允许你传入一个字典，字典里的数据可以在record 的__dict__中查询到，logging模块自己收集到的信息也放在__dict__。</p>
+<p>每次请求到达时，你可以先将和这次请求相关的信息收集到，然后创建一个LoggerAdapter对象，它的构造函数允许传入一个logger对象和一个字典。那么接下来，记录日志时，就要使用LoggerAdapter对象而不再是使用logger对象。</p>
+<p>下面的代码是一段演示代码，对上面第5章节里的代码稍作修改</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> logging <span class="keyword">import</span> LoggerAdapter</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsonFormatter</span>(logging.Formatter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(*args, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.parse()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># self._fmt 就是 &#x27;timestamp,filename,lineno,levelname,msg&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.fields = <span class="variable language_">self</span>._fmt.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">format</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        重载format方法,返回json格式字符串</span></span><br><span class="line"><span class="string">        :param record:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        log_record = OrderedDict()</span><br><span class="line">        <span class="built_in">print</span>(record.__dict__)</span><br><span class="line">        <span class="keyword">for</span> field <span class="keyword">in</span> <span class="variable language_">self</span>.fields:</span><br><span class="line">            <span class="keyword">if</span> field == <span class="string">&#x27;timestamp&#x27;</span>:</span><br><span class="line">                log_record[field] = <span class="variable language_">self</span>.formatTime(record, <span class="variable language_">self</span>.datefmt)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                log_record[field] = record.__dict__.get(field, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">        log_record = json.dumps(log_record, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">return</span> log_record</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LogLevelFilter</span>(logging.Filter):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name=<span class="string">&#x27;&#x27;</span>, level=logging.INFO</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name)</span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">filter</span>(<span class="params">self, record</span>):</span><br><span class="line">        <span class="keyword">return</span> record.levelno == <span class="variable language_">self</span>.level</span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(<span class="string">&#x27;my_log&#x27;</span>)                <span class="comment"># 创建logger</span></span><br><span class="line">file_handler = logging.FileHandler(<span class="string">&quot;test.log&quot;</span>)      <span class="comment"># 创建文件handler</span></span><br><span class="line">file_handler.setLevel(logging.INFO)                 <span class="comment"># 设置日志级别</span></span><br><span class="line">formater = JsonFormatter(fmt=<span class="string">&#x27;timestamp,ip,filename,lineno,levelname,msg&#x27;</span>, datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">file_handler.setFormatter(formater)</span><br><span class="line">file_handler.addFilter(LogLevelFilter(level=logging.INFO))</span><br><span class="line">logger.addHandler(file_handler)                     <span class="comment"># 添加处理器</span></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line"></span><br><span class="line">la = LoggerAdapter(logger, &#123;<span class="string">&quot;ip&quot;</span>: <span class="string">&#x27;123.56.190.188&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line">la.debug(<span class="string">&#x27;debug message&#x27;</span>)</span><br><span class="line">la.info(<span class="string">&#x27;info message&#x27;</span>)</span><br><span class="line">la.warning(<span class="string">&#x27;warn message&#x27;</span>)</span><br><span class="line">la.error(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">la.critical(<span class="string">&#x27;critical message&#x27;</span>)</span><br><span class="line">la.error(<span class="string">&quot;中文&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>修改主要体现在三处</p>
+<ol>
+<li>创建了一个LoggerAdapter对象，扩展了ip信息</li>
+<li>创建JsonFormatter对象时，fmt参数增加了ip这个字段</li>
+<li>日志输出，不再使用logger对象，而是使用LoggerAdapter对象，其实，la仅仅是对logger对象做了一层包装而已</li>
+</ol>
+<p>下面的代码是LoggerAdapter的定义，LoggerAdapter对象的所有操作，其实都是通过self.logger完成的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LoggerAdapter</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    An adapter for loggers which makes it easier to specify contextual</span></span><br><span class="line"><span class="string">    information in logging output.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, logger, extra</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Initialize the adapter with a logger and a dict-like object which</span></span><br><span class="line"><span class="string">        provides contextual information. This constructor signature allows</span></span><br><span class="line"><span class="string">        easy stacking of LoggerAdapters, if so desired.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        You can effectively pass keyword arguments as shown in the</span></span><br><span class="line"><span class="string">        following example:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        adapter = LoggerAdapter(someLogger, dict(p1=v1, p2=&quot;v2&quot;))</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.logger = logger</span><br><span class="line">        <span class="variable language_">self</span>.extra = extra</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="python虚拟环境在开发与生产环境下的使用"><a href="#python虚拟环境在开发与生产环境下的使用" class="headerlink" title="python虚拟环境在开发与生产环境下的使用"></a>python虚拟环境在开发与生产环境下的使用</h1><p>任何技术的存在与发展，都是为了解决实际的问题，如果没有这个前提，技术就没有立足之地，python虚拟环境这种技术，就是最好的证明。</p>
+<h2 id="1-第三方库安装在哪里"><a href="#1-第三方库安装在哪里" class="headerlink" title="1. 第三方库安装在哪里"></a>1. 第三方库安装在哪里</h2><p>每当我们使用pip命令安装第三方库时，第三方库都会被安装到python的site-packages目录下，以我的电脑为例，我的python3.6的安装目录为</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">/Library/Frameworks/Python.framework/Versions/3.6</span><br></pre></td></tr></table></figure>
+
+<p>在该目录下，有一个lib文件夹，继续向下寻找</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">lib/python3.6/site-packages</span><br></pre></td></tr></table></figure>
+
+<p>python脚本里引用第三方库时，解释器就会到这个目录下寻找第三方库。</p>
+<p>如果你并不知道自己的python安装到了哪里，在python交互式解释器中通过sys.path命令就可以获得所使用的python环境</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">➜  mypro python3</span><br><span class="line">Python 3.6.3 (v3.6.3:2c5fed86e0, Oct  3 2017, 00:32:08)</span><br><span class="line">[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; sys.path</span><br><span class="line">[&#x27;&#x27;, &#x27;/Library/Frameworks/Python.framework/Versions/3.6/lib/python36.zip&#x27;, &#x27;/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6&#x27;, &#x27;/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload&#x27;, &#x27;/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-同一个第三方库的不同版本"><a href="#2-同一个第三方库的不同版本" class="headerlink" title="2. 同一个第三方库的不同版本"></a>2. 同一个第三方库的不同版本</h2><p>第三方库不会一成不变，开发者会对它进行升级改造，发布新的版本，而对于使用者来说，就产生了一个小小的麻烦。</p>
+<p>我有两个项目，A 和 B，A是一个老项目，B是一个新开发的项目，巧合的是他们都用到了同一个第三方库C，但他们的版本不一致，A项目用的是C1.0，B项目用的是C2.0。</p>
+<p>如果C2.0完全兼容1.0，在同一台机器上，我就可以安装好C2.0，这样A和B两个项目都可以正常运行，但如果2.0 不完全兼容1.0，那么安装了2.0 A项目就不能正常运行了，安装了1.0，B项目又不能正常运行，你说说，该咋办。</p>
+<h2 id="3-虚拟环境"><a href="#3-虚拟环境" class="headerlink" title="3. 虚拟环境"></a>3. 虚拟环境</h2><p>在一台机器上，不同的项目需要使用同一个第三方库的不同版本，甚至需要不同的python版本，那么就可以使用虚拟环境技术。</p>
+<p>虚拟环境技术将创建不同的环境，在这方面，virtualenv 是非常流行的创建虚拟环境的库。</p>
+<p>以下是安装使用过程</p>
+<h3 id="3-1-安装"><a href="#3-1-安装" class="headerlink" title="3.1 安装"></a>3.1 安装</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install virtualenv</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-创建新虚拟环境"><a href="#3-2-创建新虚拟环境" class="headerlink" title="3.2 创建新虚拟环境"></a>3.2 创建新虚拟环境</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">mkdir mypro</span><br><span class="line">cd mypro</span><br><span class="line">virtualenv --no-site-packages venv</span><br></pre></td></tr></table></figure>
+
+<p>第三步，创建出虚拟环境，virtualenv 命令会根据基线环境创建出一个虚拟环境，venv就是虚拟环境所在的目录，这个基线环境如果你不指定，那么virtualenv命令会自己寻找，想要指定的话使用-p 进行设置，以我的电脑环境为例</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">virtualenv -p /Library/Frameworks/Python.framework/Versions/3.6 --no-site-packages venv</span><br></pre></td></tr></table></figure>
+
+<p>如果你是windows电脑，则可以写成</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">virtualenv -p c:\Python36\python.exe venv</span><br></pre></td></tr></table></figure>
+
+<p>基线环境要根据你电脑实际安装python的文件夹来定，加上–no-site-packages 这个配置，就表明，基线环境里的第三方库不会被复制到虚拟环境里，这样，虚拟环境就是一个非常干净的环境。</p>
+<p>进入文件夹venv ，可以看到3个目录</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">bin     include lib</span><br></pre></td></tr></table></figure>
+
+<p>在bin目录下，有pip，python等可执行程序，在lib&#x2F;python3.6目录下是标准库文件，也会有site-packages 目录用于存储第三方库。</p>
+<p>这个虚拟环境，简直就是基线环境的复制品</p>
+<h3 id="3-3-进入虚拟环境"><a href="#3-3-进入虚拟环境" class="headerlink" title="3.3 进入虚拟环境"></a>3.3 进入虚拟环境</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">source venv/bin/activate</span><br></pre></td></tr></table></figure>
+
+<p>执行上面的命令后，才算是真正的进入到了虚拟环境，现在，如果执行python命令,所使用的就是venv&#x2F;bin&#x2F;python， 使用pip3命令，用的也是venv&#x2F;bin&#x2F;pip3, 所安装的第三方库，也会被安装到 venv&#x2F;lib&#x2F;python3.6&#x2F;site-packages&#x2F; 目录下，这样就实现了项目之间的环境隔离，为每个项目创建一个虚拟环境，安装适合项目的第三方库。</p>
+<h3 id="3-4-退出虚拟环境"><a href="#3-4-退出虚拟环境" class="headerlink" title="3.4 退出虚拟环境"></a>3.4 退出虚拟环境</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+<p>退出虚拟环境后，所使用的就是基线环境了，在虚拟环境中，除了python环境是隔离的，其他的都是和基线环境相同的。</p>
+<h2 id="4-Pycharm自带虚拟环境"><a href="#4-Pycharm自带虚拟环境" class="headerlink" title="4. Pycharm自带虚拟环境"></a>4. Pycharm自带虚拟环境</h2><p>pycharm自带虚拟环境了，每创建一个项目，就会为这个项目创建一个虚拟环境，原本是为了方便用户的，但很多初学者对于python的学习还不够深入，因此遇到很多麻烦。</p>
+<p>每个项目都可以配置python解释器，当你在pycharm里运行代码时，就是这个python解释器在执行代码，默认使用的是虚拟环境里的python解释器。</p>
+<p>但如果你第三方库安装在基线环境下，而你的项目配置的解释器用的虚拟环境的，那么这个第三方库就无法使用了，这个时候你有两个选择，第一个方法是将项目的python解释器修改成基线环境，或者说主环境的python解释器，第二个是通过pycharm在虚拟环境里安装第三方库。</p>
+<h3 id="4-1-配置项目的python解释器"><a href="#4-1-配置项目的python解释器" class="headerlink" title="4.1 配置项目的python解释器"></a>4.1 配置项目的python解释器</h3><p>按照如下步骤进行配置<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100154371.jpeg" alt="pycharm配置python解释器"></p>
+<p>先找到preferences<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100209555.jpeg" alt="pycharm设置preferences"></p>
+<p>再找到project interpreter ，在右上方配置python解释器。</p>
+<h3 id="4-2-通过pycharm安装第三方库"><a href="#4-2-通过pycharm安装第三方库" class="headerlink" title="4.2 通过pycharm安装第三方库"></a>4.2 通过pycharm安装第三方库</h3><p>不管解释器配置成哪一个，你都可以通过pycharm来安装第三方库</p>
+<p>点击上图下部绿色框内的加号按钮，就可以搜索并安装第三方库</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100242135.jpeg" alt="pycharm安装第三方库"></p>
+<p>在最上面的输入框内输入想要安装的库名称，在备选项里选择想要安装的库，最后点击下方的 Install Package 按钮，就可以完成安装。</p>
+<h1 id="python命令行工具click"><a href="#python命令行工具click" class="headerlink" title="python命令行工具click"></a>python命令行工具click</h1><p>click是一款非常受欢迎的python命令行解析工具，它简单易用，强大又灵活</p>
+<h2 id="1-为何需要命令行工具"><a href="#1-为何需要命令行工具" class="headerlink" title="1. 为何需要命令行工具"></a>1. 为何需要命令行工具</h2><p>我们编写一个具有特定功能的脚本时，通常脚本的输入都是硬编码在代码里的，但如果你实现的是一个比较通用的命令行工具，那么它运行时所需要的参数就不能写死在代码里，不然每次运行时都要修改代码。比如你写了一个获取城市天气信息的脚本，程序的主函数需要城市的名称，你总不能每次运行时都修改脚本里的代码吧。</p>
+<p>命令行工具在使用时传入运行所需参数，常见的比如pip，你想安装某个库需要使用</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install Click</span><br></pre></td></tr></table></figure>
+
+<p>你想卸载某个库，则使用命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip uninstall Click</span><br></pre></td></tr></table></figure>
+
+<p>pip就是一个命令工具，它要根据不同的命令参数执行不同的任务。</p>
+<p>python标准库提供了Argparse这个命令行解析工具，但着实不好用，此外，你也可以使用sys.argv来临时充当命令行解析工具，但不建议这么做</p>
+<h2 id="2-click"><a href="#2-click" class="headerlink" title="2. click"></a>2. click</h2><p>使用click可以帮助我们轻松的实现命令行工具</p>
+<h3 id="2-1-click-command"><a href="#2-1-click-command" class="headerlink" title="2.1 click.command()"></a>2.1 click.command()</h3><p>脚本里的函数被click.command()装饰以后，函数就变成了一个命令行工具</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    click.echo(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    say_hello()</span><br></pre></td></tr></table></figure>
+
+<p>运行程序</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+
+<p>这样来看，似乎和正常的函数没有什么区别，别着急，继续往下看</p>
+<h3 id="2-2-click-option"><a href="#2-2-click-option" class="headerlink" title="2.2 click.option()"></a>2.2 click.option()</h3><p>click.option()可以为工具设置可选参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="meta">@click.option(<span class="params"><span class="string">&quot;-name&quot;</span>, default=<span class="string">&#x27;world&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;姓名&quot;</span>, <span class="built_in">type</span>=<span class="built_in">str</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>(<span class="params">name</span>):</span><br><span class="line">    click.echo(<span class="string">&#x27;hello &#123;name&#125;&#x27;</span>.<span class="built_in">format</span>(name=name))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    say_hello()</span><br></pre></td></tr></table></figure>
+
+<p>执行程序</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py -name=lili</span><br><span class="line">hello lili</span><br></pre></td></tr></table></figure>
+
+<p>只用click， 很轻松的就传递了参数，不仅如此，还提供了查看文档的功能，执行命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py --help</span><br><span class="line"></span><br><span class="line">Usage: demo.py [OPTIONS]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -name TEXT  姓名</span><br><span class="line">  --help      Show this message and exit.</span><br></pre></td></tr></table></figure>
+
+<p>在脚本的后面使用–help参数，就可以获得命令行工具的说明文档</p>
+<h3 id="2-3-click-argument"><a href="#2-3-click-argument" class="headerlink" title="2.3 click.argument"></a>2.3 click.argument</h3><p>为工具设置必传参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="meta">@click.option(<span class="params"><span class="string">&#x27;--count&#x27;</span>, default=<span class="number">1</span>, <span class="built_in">help</span>=<span class="string">&#x27;number of greetings&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">@click.argument(<span class="params"><span class="string">&#x27;name&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">count, name</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(count):</span><br><span class="line">        click.echo(<span class="string">&#x27;Hello %s!&#x27;</span> % name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    hello()</span><br></pre></td></tr></table></figure>
+
+<p>再次使用–help命令查看工具文档</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Usage: demo.py [OPTIONS] NAME</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --count INTEGER  number of greetings</span><br><span class="line">  --<span class="built_in">help</span>           Show this message <span class="keyword">and</span> exit.</span><br></pre></td></tr></table></figure>
+
+<p>你应该注意到，name参数是必传的,你必须像下面这样来执行工具</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py --count=2 world</span><br><span class="line"></span><br><span class="line">Hello world!</span><br><span class="line">Hello world!</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-click-group"><a href="#2-4-click-group" class="headerlink" title="2.4 click.group()"></a>2.4 click.group()</h3><p>前面展示的命令工具，都只有一个命令，实际生产中显然是不够用的，click.group()可以让我们把许多命令加到一个组中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.group()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cli</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">initdb</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    初始化数据库</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    click.echo(<span class="string">&#x27;Initialized the database&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dropdb</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    删除数据库</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    click.echo(<span class="string">&#x27;Dropped the database&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cli.add_command(initdb)</span><br><span class="line">cli.add_command(dropdb)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    cli()</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用更简单的方法来实现相同的功能</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.group()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cli</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@cli.command()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">initdb</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    初始化数据库</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    click.echo(<span class="string">&#x27;Initialized the database&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@cli.command()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dropdb</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    删除数据库</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    click.echo(<span class="string">&#x27;Dropped the database&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    cli()</span><br></pre></td></tr></table></figure>
+
+<p>我在函数里增加了注释，目的是使用–help命令时可以查看注释</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py --help</span><br><span class="line"></span><br><span class="line">sage: demo.py [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  dropdb  删除数据库 :return:</span><br><span class="line">  initdb  初始化数据库 :return:</span><br></pre></td></tr></table></figure>
+
+<p>实际使用</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 demo.py dropdb</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-打包"><a href="#3-打包" class="headerlink" title="3. 打包"></a>3. 打包</h2><p>说是命令行工具，但是仍然是用python命令在执行python脚本，想要实现那种直接使用命令的效果，需要将代码打包，以2.4中的代码为例，在demo.py同目录下新建一个setup.py文件，内容为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;click-example-db&#x27;</span>,</span><br><span class="line">    version=<span class="string">&#x27;0.1&#x27;</span>,</span><br><span class="line">    py_modules=[<span class="string">&#x27;cooldb&#x27;</span>],</span><br><span class="line">    include_package_data=<span class="literal">True</span>,</span><br><span class="line">    install_requires=[</span><br><span class="line">        <span class="string">&#x27;click&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    entry_points=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        [console_scripts]</span></span><br><span class="line"><span class="string">        cooldb=demo:cli</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>name 就是包的名字</li>
+<li>version 指定了版本</li>
+<li>py_modules 指定了模块名称</li>
+<li>entry_points 设置成[console_scripts]， 表明要安装成可以在终端调用的命令模块，</li>
+<li>cooldb&#x3D;demo:cli，cooldb是命令，执行该命令时，等同于执行demo.py的cli</li>
+</ol>
+<p>最关键的一步了，使用pip进行打包安装</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install --editable .</span><br></pre></td></tr></table></figure>
+
+<p>一定要注意editable后面的那个点，千万别落下, 安装过程如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Obtaining file:///Users/kwsy/kwsy/coolpython</span><br><span class="line">Requirement already satisfied: click in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from click-example-db==0.1) (7.0)</span><br><span class="line">Installing collected packages: click-example-db</span><br><span class="line">  Running setup.py develop for click-example-db</span><br><span class="line">Successfully installed click-example-db</span><br></pre></td></tr></table></figure>
+
+<p>Successfully 表示安装成功，现在，就可以像使用pip命令一样使用cooldb命令了</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">cooldb dropdb</span><br><span class="line">Dropped the database</span><br><span class="line">cooldb --help</span><br><span class="line"></span><br><span class="line">Usage: cooldb [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  dropdb  删除数据库 :return:</span><br><span class="line">  initdb  初始化数据库 :return:</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="python创建定时任务"><a href="#python创建定时任务" class="headerlink" title="python创建定时任务"></a>python创建定时任务</h1><p>一个很常见的需求，在某天的固定时刻，需要执行某个python脚本来完成特定的任务，面对这样需求，你可能想到的最简单的实现方法是在程序里使用while循环，每次循环使用time.sleep(1)，等时间来到规定的时间点就执行某个函数来完成任务，这样的方法可行么？当然可以，只不过太丑陋了。</p>
+<p>在linux系统下，你可以使用crontab命令设置定时任务，不多这个命令对于初学者来说用起来不那么简单直观，本文推荐你使用定时任框架APScheduler</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip install apscheduler</span><br></pre></td></tr></table></figure>
+
+<p>该框架的接口定义十分友好，比如你希望你的爬虫函数run_spider 在每天的10点15分能够准时启动，那么你的代码可以写成下面的样子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> apscheduler.schedulers.blocking <span class="keyword">import</span> BlockingScheduler</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_spider</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;启动爬虫&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sched = BlockingScheduler()</span><br><span class="line">sched.add_job(run_spider, <span class="string">&#x27;cron&#x27;</span>, hour=<span class="number">10</span>, minute=<span class="number">15</span>)</span><br><span class="line">sched.start()</span><br></pre></td></tr></table></figure>
+
+<p>在add_job方法里，关于时间的设置，可以参考 CronTrigger类的初始化函数</p>
+<p>如果你希望自己的爬虫每3分钟就执行一次爬取，那么你可以将代码写成下面的样子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> apscheduler.schedulers.blocking <span class="keyword">import</span> BlockingScheduler</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_spider</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;启动爬虫&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sched = BlockingScheduler()</span><br><span class="line">sched.add_job(run_spider, <span class="string">&#x27;interval&#x27;</span>, minutes=<span class="number">3</span>)</span><br><span class="line">sched.start()</span><br></pre></td></tr></table></figure>
+
+<p>关于时间的设置，可以参考IntervalTrigger类的初始化函数</p>
+<p>掌握上面两种定时任务设置方法，搞定绝大多数定时任务已经绰绰有余了</p>
+<h1 id="python库打包分发setup-py编写指南"><a href="#python库打包分发setup-py编写指南" class="headerlink" title="python库打包分发setup.py编写指南"></a>python库打包分发setup.py编写指南</h1><p>python之所以强大，在于有许许多多的人贡献自己的力量，他们将自己开发的项目打包上传至pypi，这使得python社区有取之不尽用之不竭的第三方库。工作中，你也可以将自己编写的库打包，分享给其他同事，或者在生产环境进行安装部署，本文将教会你如何制作setup.py文件用以打包python库。</p>
+<h2 id="1-setuptools"><a href="#1-setuptools" class="headerlink" title="1. setuptools"></a>1. setuptools</h2><p>setuptools是增强版的distutils，而distutils则是python标准库的一部分，于2000年发布，它能够进行python库的安装和发布，除了setuptools和distutils之外，还有一个distribute，它是setuptools的一个fork分支，弱水三千，只取一瓢，咱们掌握setuptools就可以了。</p>
+<h2 id="2-setup-py"><a href="#2-setup-py" class="headerlink" title="2. setup.py"></a>2. setup.py</h2><p>python打包分发的关键在于编写setup.py文件，咱们来看一下flask的setup.py是如何编写的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> io</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> find_packages</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> io.<span class="built_in">open</span>(<span class="string">&quot;README.rst&quot;</span>, <span class="string">&quot;rt&quot;</span>, encoding=<span class="string">&quot;utf8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    readme = f.read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> io.<span class="built_in">open</span>(<span class="string">&quot;src/flask/__init__.py&quot;</span>, <span class="string">&quot;rt&quot;</span>, encoding=<span class="string">&quot;utf8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    version = re.search(<span class="string">r&#x27;__version__ = &quot;(.*?)&quot;&#x27;</span>, f.read()).group(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&quot;Flask&quot;</span>,</span><br><span class="line">    version=version,</span><br><span class="line">    url=<span class="string">&quot;https://palletsprojects.com/p/flask/&quot;</span>,</span><br><span class="line">    project_urls=&#123;</span><br><span class="line">        <span class="string">&quot;Documentation&quot;</span>: <span class="string">&quot;https://flask.palletsprojects.com/&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Code&quot;</span>: <span class="string">&quot;https://github.com/pallets/flask&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Issue tracker&quot;</span>: <span class="string">&quot;https://github.com/pallets/flask/issues&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    license=<span class="string">&quot;BSD-3-Clause&quot;</span>,</span><br><span class="line">    author=<span class="string">&quot;Armin Ronacher&quot;</span>,</span><br><span class="line">    author_email=<span class="string">&quot;armin.ronacher@active-4.com&quot;</span>,</span><br><span class="line">    maintainer=<span class="string">&quot;Pallets&quot;</span>,</span><br><span class="line">    maintainer_email=<span class="string">&quot;contact@palletsprojects.com&quot;</span>,</span><br><span class="line">    description=<span class="string">&quot;A simple framework for building complex web applications.&quot;</span>,</span><br><span class="line">    long_description=readme,</span><br><span class="line">    classifiers=[</span><br><span class="line">        <span class="string">&quot;Development Status :: 5 - Production/Stable&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Environment :: Web Environment&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Framework :: Flask&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Intended Audience :: Developers&quot;</span>,</span><br><span class="line">        <span class="string">&quot;License :: OSI Approved :: BSD License&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Operating System :: OS Independent&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 2.7&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3.5&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3.6&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3.7&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Topic :: Internet :: WWW/HTTP :: Dynamic Content&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Topic :: Internet :: WWW/HTTP :: WSGI :: Application&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Topic :: Software Development :: Libraries :: Application Frameworks&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Topic :: Software Development :: Libraries :: Python Modules&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    packages=find_packages(<span class="string">&quot;src&quot;</span>),</span><br><span class="line">    package_dir=&#123;<span class="string">&quot;&quot;</span>: <span class="string">&quot;src&quot;</span>&#125;,</span><br><span class="line">    include_package_data=<span class="literal">True</span>,</span><br><span class="line">    python_requires=<span class="string">&quot;&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*&quot;</span>,</span><br><span class="line">    install_requires=[</span><br><span class="line">        <span class="string">&quot;Werkzeug&gt;=0.15&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Jinja2&gt;=2.10.1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;itsdangerous&gt;=0.24&quot;</span>,</span><br><span class="line">        <span class="string">&quot;click&gt;=5.1&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    extras_require=&#123;</span><br><span class="line">        <span class="string">&quot;dotenv&quot;</span>: [<span class="string">&quot;python-dotenv&quot;</span>],</span><br><span class="line">        <span class="string">&quot;dev&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;pytest&quot;</span>,</span><br><span class="line">            <span class="string">&quot;coverage&quot;</span>,</span><br><span class="line">            <span class="string">&quot;tox&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sphinx&quot;</span>,</span><br><span class="line">            <span class="string">&quot;pallets-sphinx-themes&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sphinxcontrib-log-cabinet&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sphinx-issues&quot;</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">&quot;docs&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;sphinx&quot;</span>,</span><br><span class="line">            <span class="string">&quot;pallets-sphinx-themes&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sphinxcontrib-log-cabinet&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sphinx-issues&quot;</span>,</span><br><span class="line">        ],</span><br><span class="line">    &#125;,</span><br><span class="line">    entry_points=&#123;<span class="string">&quot;console_scripts&quot;</span>: [<span class="string">&quot;flask = flask.cli:main&quot;</span>]&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>代码稍稍有点多，直击重点，setup是从setuptools模块引入的一个函数，这个函数有许多参数，正是这些参数对python打包和库安装做出了约定，下表是常用的参数说明</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>name</td>
+<td>包名称</td>
+</tr>
+<tr>
+<td>2</td>
+<td>version</td>
+<td>包版本</td>
+</tr>
+<tr>
+<td>3</td>
+<td>author</td>
+<td>作者</td>
+</tr>
+<tr>
+<td>4</td>
+<td>author_email</td>
+<td>作者的邮箱</td>
+</tr>
+<tr>
+<td>5</td>
+<td>maintainer</td>
+<td>维护者</td>
+</tr>
+<tr>
+<td>6</td>
+<td>maintainer_email</td>
+<td>维护者的邮箱</td>
+</tr>
+<tr>
+<td>7</td>
+<td>url</td>
+<td>程序的官网地址</td>
+</tr>
+<tr>
+<td>8</td>
+<td>license</td>
+<td>授权信息</td>
+</tr>
+<tr>
+<td>9</td>
+<td>description</td>
+<td>程序的简单描述</td>
+</tr>
+<tr>
+<td>10</td>
+<td>long_description</td>
+<td>程序的详细描述</td>
+</tr>
+<tr>
+<td>11</td>
+<td>platforms</td>
+<td>程序适用的软件平台列表</td>
+</tr>
+<tr>
+<td>12</td>
+<td>classifiers</td>
+<td>程序的所属分类列表</td>
+</tr>
+<tr>
+<td>13</td>
+<td>keywords</td>
+<td>程序的关键字列表</td>
+</tr>
+<tr>
+<td>14</td>
+<td>packages</td>
+<td>需要打包的包目录(通常为包含 <strong>init</strong>.py 的文件夹)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>py_modules</td>
+<td>需要打包的 Python 单文件列表</td>
+</tr>
+<tr>
+<td>16</td>
+<td>download_url</td>
+<td>程序的下载地址</td>
+</tr>
+<tr>
+<td>17</td>
+<td>cmdclass</td>
+<td>添加自定义命令</td>
+</tr>
+<tr>
+<td>18</td>
+<td>package_data</td>
+<td>指定包内需要包含的数据文件</td>
+</tr>
+<tr>
+<td>19</td>
+<td>include_package_data</td>
+<td>自动包含包内所有受版本控制(cvs&#x2F;svn&#x2F;git)的数据文件</td>
+</tr>
+<tr>
+<td>20</td>
+<td>exclude_package_data</td>
+<td>当 include_package_data 为 True 时该选项用于排除部分文件</td>
+</tr>
+<tr>
+<td>21</td>
+<td>data_files</td>
+<td>打包时需要打包的数据文件，如图片，配置文件等</td>
+</tr>
+<tr>
+<td>22</td>
+<td>ext_modules</td>
+<td>指定扩展模块</td>
+</tr>
+<tr>
+<td>23</td>
+<td>scripts</td>
+<td>指定可执行脚本,安装时脚本会被安装到系统 PATH 路径下</td>
+</tr>
+<tr>
+<td>24</td>
+<td>package_dir</td>
+<td>指定哪些目录下的文件被映射到哪个源码包</td>
+</tr>
+<tr>
+<td>25</td>
+<td>requires</td>
+<td>指定依赖的其他包</td>
+</tr>
+<tr>
+<td>26</td>
+<td>provides</td>
+<td>指定可以为哪些模块提供依赖</td>
+</tr>
+<tr>
+<td>27</td>
+<td>install_requires</td>
+<td>安装时需要安装的依赖包</td>
+</tr>
+<tr>
+<td>28</td>
+<td>entry_points</td>
+<td>动态发现服务和插件</td>
+</tr>
+<tr>
+<td>29</td>
+<td>setup_requires</td>
+<td>指定运行 setup.py 文件本身所依赖的包</td>
+</tr>
+<tr>
+<td>30</td>
+<td>dependency_links</td>
+<td>指定依赖包的下载地址</td>
+</tr>
+<tr>
+<td>31</td>
+<td>extras_require</td>
+<td>当前包的高级&#x2F;额外特性需要依赖的分发包</td>
+</tr>
+<tr>
+<td>32</td>
+<td>zip_safe</td>
+<td>不压缩包，而是以目录的形式安装</td>
+</tr>
+<tr>
+<td>33</td>
+<td>python_requires</td>
+<td>需要的python版本</td>
+</tr>
+</tbody></table>
+<p>下面对几个重要的参数进行讲解</p>
+<h3 id="2-1-find-packages"><a href="#2-1-find-packages" class="headerlink" title="2.1 find_packages"></a>2.1 find_packages</h3><p>find_packages默认在setup.py所在的目录下搜索包含__init__.py文件的目录作为要添加的包，它的函数定义如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@classmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find</span>(<span class="params">cls, where=<span class="string">&#x27;.&#x27;</span>, exclude=(<span class="params"></span>), include=(<span class="params"><span class="string">&#x27;*&#x27;</span>,</span>)</span>):</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>where指定在哪个目录下搜索</li>
+<li>exclude设置需要排除的包</li>
+<li>include设置要包含的包</li>
+</ul>
+<p>在flask的setup.py文件中，find_packages函数第一个参数设置为src,这是因为作者将flask的源码放在了src目录下，src目录下没有__init__.py文件，而src&#x2F;flask目录下有该文件。</p>
+<h3 id="2-2-name"><a href="#2-2-name" class="headerlink" title="2.2 name"></a>2.2 name</h3><p>name是一个容易错误理解的参数，在flask的setup.py文件中，name的值是Flask, Flask是库的名字，安装以后在使用时，我们需要使用flask，而非Flask</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br></pre></td></tr></table></figure>
+
+<p>这里的库的名称flask的由来是src&#x2F;flask这个目录</p>
+<h3 id="2-3-python-requires"><a href="#2-3-python-requires" class="headerlink" title="2.3 python_requires"></a>2.3 python_requires</h3><p>python一直处于发展变化中，尽管做了最大的努力来保证向下兼容，但不同版本间的区别仍然导致第三方库无法在所有版本上运行，因此打包时需指明这个库可以在哪写python版本上运行，当你使用pip安装第三方库时，pip会做版本兼容性检查</p>
+<h3 id="2-4-install-requires"><a href="#2-4-install-requires" class="headerlink" title="2.4 install_requires"></a>2.4 install_requires</h3><p>安装时需要安装的依赖包，如果你的程序依赖于其他的第三方库，那么你需要在这里指明，当使用pip进行安装时，pip会自动将这些一来的第三方库一起安装</p>
+<h3 id="2-5-license"><a href="#2-5-license" class="headerlink" title="2.5 license"></a>2.5 license</h3><p>程序的授权信息，开源社区有6种常用的授权协议，下面这张图很好的解释了他们之间的区别<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100333884.jpeg" alt="6种常见开源软件授权协议"></p>
+<h2 id="3-打包分发示例"><a href="#3-打包分发示例" class="headerlink" title="3. 打包分发示例"></a>3. 打包分发示例</h2><h3 id="3-1-新建项目packaging-demo"><a href="#3-1-新建项目packaging-demo" class="headerlink" title="3.1 新建项目packaging_demo"></a>3.1 新建项目packaging_demo</h3><p>新建一个项目，项目结构如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">├── hibiscus</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── decorator</span><br><span class="line">│   │   ├── __init__.py</span><br><span class="line">│   │   ├── __pycache__</span><br><span class="line">│   │   └── func_decorator.py</span><br><span class="line">│   └── func_utils</span><br><span class="line">│       ├── __init__.py</span><br><span class="line">│       └── utils.py</span><br><span class="line">└── setup.py</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827100321529.jpeg" alt="python程序打包"></p>
+<p>篇幅有限，我只贴出三个文件的代码</p>
+<h4 id="3-1-1-packaging-demo-hibiscus-init-py"><a href="#3-1-1-packaging-demo-hibiscus-init-py" class="headerlink" title="3.1.1. packaging_demo&#x2F;hibiscus&#x2F;init.py"></a>3.1.1. packaging_demo&#x2F;hibiscus&#x2F;<strong>init</strong>.py</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> .decorator <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> .func_utils <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-packaging-demo-hibiscus-decorator-func-decorator-py"><a href="#3-1-2-packaging-demo-hibiscus-decorator-func-decorator-py" class="headerlink" title="3.1.2. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;func_decorator.py"></a>3.1.2. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;func_decorator.py</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FuncTimeDecorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):</span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        t1 = time.time()</span><br><span class="line">        res = <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数执行时长:&quot;</span>+ <span class="built_in">str</span>(t2 - t1))</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-3-packaging-demo-hibiscus-decorator-init-py"><a href="#3-1-3-packaging-demo-hibiscus-decorator-init-py" class="headerlink" title="3.1.3. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;init.py"></a>3.1.3. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;<strong>init</strong>.py</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> .func_decorator <span class="keyword">import</span> FuncTimeDecorator</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-4-setup-py"><a href="#3-1-4-setup-py" class="headerlink" title="3.1.4 setup.py"></a>3.1.4 setup.py</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup, find_packages</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;Hibiscus&#x27;</span>,</span><br><span class="line">    version=<span class="string">&#x27;0.0.1&#x27;</span>,</span><br><span class="line">    author=<span class="string">&#x27;酷python&#x27;</span>,</span><br><span class="line">    author_email=<span class="string">&#x27;pythonlinks@163.com&#x27;</span>,</span><br><span class="line">    description=<span class="string">&#x27;打包示例&#x27;</span>,</span><br><span class="line">    url=<span class="string">&#x27;http://www.coolpython.net&#x27;</span>,</span><br><span class="line">    packages=find_packages(),</span><br><span class="line">    classifiers=[</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;License :: OSI Approved :: MIT License&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Operating System :: OS Independent&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    python_requires=<span class="string">&#x27;&gt;=3.6&#x27;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-打包"><a href="#3-2-打包" class="headerlink" title="3.2 打包"></a>3.2 打包</h3><p>打包之前，先确认所需要的工具是否齐全，主要是setuptools和wheel</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 -m pip install --user --upgrade setuptools wheel</span><br></pre></td></tr></table></figure>
+
+<p>之后在setup.py所在目录执行下面的命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 setup.py sdist bdist_wheel</span><br></pre></td></tr></table></figure>
+
+<p>打包之后会生成几个重要文件夹，主要关注dist，在这个文件夹下生成了两个文件</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Hibiscus-0.0.1-py3-none-any.whl</span><br><span class="line">Hibiscus-0.0.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>.whl可以理解为二进制安装包，.tar.gz可以理解为源码安装包,解压后可以看到程序的源码</p>
+<h3 id="3-3-安装"><a href="#3-3-安装" class="headerlink" title="3.3 安装"></a>3.3 安装</h3><p>安装就比较方便了，在执行完下面的命令后</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 setup.py sdist bdist_wheel</span><br></pre></td></tr></table></figure>
+
+<p>有多种安装方法</p>
+<h4 id="3-3-1-在自己的程序源码里安装"><a href="#3-3-1-在自己的程序源码里安装" class="headerlink" title="3.3.1 在自己的程序源码里安装"></a>3.3.1 在自己的程序源码里安装</h4><p>可以直接利用setup.py进行安装</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2-使用-whl文件"><a href="#3-3-2-使用-whl文件" class="headerlink" title="3.3.2 使用.whl文件"></a>3.3.2 使用.whl文件</h4><p>也可以进入dist目录，执行下面的命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip3 install Hibiscus-0.0.1-py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-3-使用tar-gz文件"><a href="#3-3-3-使用tar-gz文件" class="headerlink" title="3.3.3 使用tar.gz文件"></a>3.3.3 使用tar.gz文件</h4><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">pip3 install Hibiscus-0.0.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>这种方法先编译出wheel文件，然后再进行安装，如下是其安装过程</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Processing ./Hibiscus-0.0.1.tar.gz</span><br><span class="line">Building wheels for collected packages: Hibiscus</span><br><span class="line">  Building wheel for Hibiscus (setup.py) ... done</span><br><span class="line">  Created wheel for Hibiscus: filename=Hibiscus-0.0.1-py3-none-any.whl size=2382 sha256=e4f46223ac138f0b30c3c7fdad3f3284f964144d35e31188fb3d58761aced350</span><br><span class="line">  Stored in directory: /Users/kwsy/Library/Caches/pip/wheels/6f/9f/44/951064df5b5bba5bc41bf713804006c271b2a6946e139dd79c</span><br><span class="line">Successfully built Hibiscus</span><br><span class="line">Installing collected packages: Hibiscus</span><br><span class="line">Successfully installed Hibiscus-0.0.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-4-解压tar-gz文件然后使用setup-py安装"><a href="#3-3-4-解压tar-gz文件然后使用setup-py安装" class="headerlink" title="3.3.4 解压tar.gz文件然后使用setup.py安装"></a>3.3.4 解压tar.gz文件然后使用setup.py安装</h4><p>对tar.gz解压，解压后的文件目录如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">├── Hibiscus.egg-info</span><br><span class="line">│   ├── PKG-INFO</span><br><span class="line">│   ├── SOURCES.txt</span><br><span class="line">│   ├── dependency_links.txt</span><br><span class="line">│   └── top_level.txt</span><br><span class="line">├── PKG-INFO</span><br><span class="line">├── build</span><br><span class="line">│   ├── bdist.macosx-10.9-x86_64</span><br><span class="line">│   └── lib</span><br><span class="line">│       └── hibiscus</span><br><span class="line">│           ├── __init__.py</span><br><span class="line">│           ├── decorator</span><br><span class="line">│           │   ├── __init__.py</span><br><span class="line">│           │   └── func_decorator.py</span><br><span class="line">│           └── func_utils</span><br><span class="line">│               ├── __init__.py</span><br><span class="line">│               └── utils.py</span><br><span class="line">├── dist</span><br><span class="line">│   └── Hibiscus-0.0.1-py3.6.egg</span><br><span class="line">├── hibiscus</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── decorator</span><br><span class="line">│   │   ├── __init__.py</span><br><span class="line">│   │   └── func_decorator.py</span><br><span class="line">│   └── func_utils</span><br><span class="line">│       ├── __init__.py</span><br><span class="line">│       └── utils.py</span><br><span class="line">├── setup.cfg</span><br><span class="line">└── setup.py</span><br></pre></td></tr></table></figure>
+
+<p>执行命令</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
+
+<p>注意看dist目录里的Hibiscus-0.0.1-py3.6.egg，就是这个文件被安装到了site-packages目录下。</p>
+<h3 id="3-4-使用pip安装和python命令安装的区别"><a href="#3-4-使用pip安装和python命令安装的区别" class="headerlink" title="3.4 使用pip安装和python命令安装的区别"></a>3.4 使用pip安装和python命令安装的区别</h3><p>使用python命令进行安装</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
+
+<p>经过这种方式安装，会将Hibiscus-0.0.1-py3.6.egg文件安装到site-packages目录下，而如果使用pip命令安装，则会在site-packages目录下创建一个名为hibiscus的目录, 在这个目录下有程序的源码。</p>
+<p>简单总结，pip安装后可以在site-packages目录下找到源码，而使用python命令直接安装，则只能找到一个.egg文件</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-advanced/project/config.html">7.3 配置文件</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-advanced/network/index.html">8.1 本章导读</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5%E5%AF%BC%E8%AF%BB"><span class="toc-text">项目实践导读</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%BF%97%E2%80%93logging%E8%AF%A6%E8%A7%A3"><span class="toc-text">项目日志–logging详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><span class="toc-text">1.日志级别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB%E5%90%AB%E4%B9%89"><span class="toc-text">1.1 日志级别含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%85%8D%E7%BD%AE%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><span class="toc-text">1.2 配置日志级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Logger"><span class="toc-text">2. Logger</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Handler"><span class="toc-text">3. Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-FileHandler"><span class="toc-text">3.1 FileHandler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-StreamHandler"><span class="toc-text">3.2 StreamHandler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Formatter"><span class="toc-text">4. Formatter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F"><span class="toc-text">4.1 日志格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-json%E6%A0%BC%E5%BC%8F"><span class="toc-text">4.2 json格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Filter%EF%BC%8C%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">5. Filter，过滤器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-LoggerAdapter-%E6%89%A9%E5%B1%95"><span class="toc-text">6.LoggerAdapter 扩展</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%9C%A8%E5%BC%80%E5%8F%91%E4%B8%8E%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">python虚拟环境在开发与生产环境下的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%AE%89%E8%A3%85%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="toc-text">1. 第三方库安装在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%90%8C%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC"><span class="toc-text">2. 同一个第三方库的不同版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-text">3. 虚拟环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%AE%89%E8%A3%85"><span class="toc-text">3.1 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%88%9B%E5%BB%BA%E6%96%B0%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-text">3.2 创建新虚拟环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E8%BF%9B%E5%85%A5%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-text">3.3 进入虚拟环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E9%80%80%E5%87%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-text">3.4 退出虚拟环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Pycharm%E8%87%AA%E5%B8%A6%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-text">4. Pycharm自带虚拟环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE%E7%9A%84python%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="toc-text">4.1 配置项目的python解释器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%80%9A%E8%BF%87pycharm%E5%AE%89%E8%A3%85%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93"><span class="toc-text">4.2 通过pycharm安装第三方库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7click"><span class="toc-text">python命令行工具click</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-text">1. 为何需要命令行工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-click"><span class="toc-text">2. click</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-click-command"><span class="toc-text">2.1 click.command()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-click-option"><span class="toc-text">2.2 click.option()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-click-argument"><span class="toc-text">2.3 click.argument</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-click-group"><span class="toc-text">2.4 click.group()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%89%93%E5%8C%85"><span class="toc-text">3. 打包</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%88%9B%E5%BB%BA%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-text">python创建定时任务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%BA%93%E6%89%93%E5%8C%85%E5%88%86%E5%8F%91setup-py%E7%BC%96%E5%86%99%E6%8C%87%E5%8D%97"><span class="toc-text">python库打包分发setup.py编写指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-setuptools"><span class="toc-text">1. setuptools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-setup-py"><span class="toc-text">2. setup.py</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-find-packages"><span class="toc-text">2.1 find_packages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-name"><span class="toc-text">2.2 name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-python-requires"><span class="toc-text">2.3 python_requires</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-install-requires"><span class="toc-text">2.4 install_requires</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-license"><span class="toc-text">2.5 license</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%89%93%E5%8C%85%E5%88%86%E5%8F%91%E7%A4%BA%E4%BE%8B"><span class="toc-text">3. 打包分发示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AEpackaging-demo"><span class="toc-text">3.1 新建项目packaging_demo</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-packaging-demo-hibiscus-init-py"><span class="toc-text">3.1.1. packaging_demo&#x2F;hibiscus&#x2F;init.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-packaging-demo-hibiscus-decorator-func-decorator-py"><span class="toc-text">3.1.2. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;func_decorator.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3-packaging-demo-hibiscus-decorator-init-py"><span class="toc-text">3.1.3. packaging_demo&#x2F;hibiscus&#x2F;decorator&#x2F;init.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4-setup-py"><span class="toc-text">3.1.4 setup.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%89%93%E5%8C%85"><span class="toc-text">3.2 打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%AE%89%E8%A3%85"><span class="toc-text">3.3 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E5%9C%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%BA%90%E7%A0%81%E9%87%8C%E5%AE%89%E8%A3%85"><span class="toc-text">3.3.1 在自己的程序源码里安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-%E4%BD%BF%E7%94%A8-whl%E6%96%87%E4%BB%B6"><span class="toc-text">3.3.2 使用.whl文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-%E4%BD%BF%E7%94%A8tar-gz%E6%96%87%E4%BB%B6"><span class="toc-text">3.3.3 使用tar.gz文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-4-%E8%A7%A3%E5%8E%8Btar-gz%E6%96%87%E4%BB%B6%E7%84%B6%E5%90%8E%E4%BD%BF%E7%94%A8setup-py%E5%AE%89%E8%A3%85"><span class="toc-text">3.3.4 解压tar.gz文件然后使用setup.py安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E4%BD%BF%E7%94%A8pip%E5%AE%89%E8%A3%85%E5%92%8Cpython%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">3.4 使用pip安装和python命令安装的区别</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

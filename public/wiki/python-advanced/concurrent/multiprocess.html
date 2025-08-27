@@ -1,0 +1,1028 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1" theme-name="Stellar" theme-version="1.30.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Python进阶教程：11.3 多线程 - 烟火075的博客</title>
+
+  
+    <meta name="description" content="多进程导读1. 学习多进程关于这个问题，你大概了解过一些概念，比如CPU密集型的任务适合使用多进程，IO密集型的任务可以使用多线程。这都只是很笼统的说法，实际上，关于何时使用多进程何时使用多线程，要考虑的因素很多。并发编程本身是一件困难的事情，在没有明确问题关键点，没有找到系统瓶颈前，贸然的使用多进程或者多线程，只会引入新的问题而不是解决问题。 在我工作的大部分时间里，很少用到多进程，这是由工作内">
+<meta property="og:type" content="website">
+<meta property="og:title" content="11.3 多线程">
+<meta property="og:url" content="https://blog.zycloud.tk/wiki/python-advanced/concurrent/multiprocess.html">
+<meta property="og:site_name" content="烟火075的博客">
+<meta property="og:description" content="多进程导读1. 学习多进程关于这个问题，你大概了解过一些概念，比如CPU密集型的任务适合使用多进程，IO密集型的任务可以使用多线程。这都只是很笼统的说法，实际上，关于何时使用多进程何时使用多线程，要考虑的因素很多。并发编程本身是一件困难的事情，在没有明确问题关键点，没有找到系统瓶颈前，贸然的使用多进程或者多线程，只会引入新的问题而不是解决问题。 在我工作的大部分时间里，很少用到多进程，这是由工作内">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827103109346.jpeg">
+<meta property="article:published_time" content="2025-08-27T07:05:20.328Z">
+<meta property="article:modified_time" content="2025-08-27T07:05:20.328Z">
+<meta property="article:author" content="YanHuo075">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827103109346.jpeg">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.1">
+
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreen.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+
+
+<div class="l_body content tech" id="start" layout="wiki" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/python-icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/python-advanced/data-type/enum.html"><div class="main" ff="title">Python进阶教程</div><div class="sub normal cap">编程语言</div><div class="sub hover cap" style="opacity:0"> Designed by YanHuo075</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/python-advanced/" placeholder="在Python基础教程文档中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="笔记" href="/notes/" style="color:#FA6400"><img no-lazy src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/memo.svg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="友链" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">第1章 数据类型</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/data-type/enum.html#start"><span class="toc-text">1.1 python3枚举</span></a><a class="link" href="/wiki/python-advanced/data-type/bytes.html"><span class="toc-text">1.2 bytes字节串</span></a><a class="link" href="/wiki/python-advanced/data-type/str_format.html"><span class="toc-text">1.3 字符串格式化高级用法</span></a><a class="link" href="/wiki/python-advanced/data-type/power-f-string.html"><span class="toc-text">1.4 功能强大的f-string</span></a><a class="link" href="/wiki/python-advanced/data-type/type_hints.html"><span class="toc-text">1.5 类型标注</span></a><a class="link" href="/wiki/python-advanced/data-type/py-type-hints-detail.html"><span class="toc-text">1.6 类型标注详解</span></a><a class="link" href="/wiki/python-advanced/data-type/mypy.html"><span class="toc-text">1.7 静态类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/typecheck.html"><span class="toc-text">1.8 运行时类型检查</span></a><a class="link" href="/wiki/python-advanced/data-type/py-dict-views.html"><span class="toc-text">1.9 字典视图对象</span></a></div><div class="widget-header dis-select"><span class="name">第2章 正则表达式</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/index.html"><span class="toc-text">2.1 什么是正则表达式</span></a><a class="link" href="/wiki/python-advanced/regex/special_char.html"><span class="toc-text">2.2 特殊代码</span></a><a class="link" href="/wiki/python-advanced/regex/re_replace.html"><span class="toc-text">2.3 字符转义</span></a><a class="link" href="/wiki/python-advanced/regex/re_match.html"><span class="toc-text">2.4 匹配</span></a><a class="link" href="/wiki/python-advanced/regex/re_search_findall.html"><span class="toc-text">2.5 查找</span></a><a class="link" href="/wiki/python-advanced/regex/re_split_sub.html"><span class="toc-text">2.6 分割和替换</span></a><a class="link" href="/wiki/python-advanced/regex/py-re-group.html"><span class="toc-text">2.7 分组</span></a><a class="link" href="/wiki/python-advanced/regex/re_exercises.html"><span class="toc-text">2.8 正则表达式练习题</span></a></div><div class="widget-header dis-select"><span class="name">第3章 python内存管理</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/memory/index.html"><span class="toc-text">3.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/memory/obj_ref.html"><span class="toc-text">3.2 变量引用</span></a><a class="link" href="/wiki/python-advanced/memory/immutable.html"><span class="toc-text">3.3 可变对象与不可变对象</span></a><a class="link" href="/wiki/python-advanced/memory/memory_copy.html"><span class="toc-text">3.4 深拷贝与浅拷贝</span></a><a class="link" href="/wiki/python-advanced/memory/memory_pool.html"><span class="toc-text">3.5 内存池技术</span></a><a class="link" href="/wiki/python-advanced/memory/list_tuple_mem_optimize.html"><span class="toc-text">3.6 列表/元组内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/str_mem_optimize.html"><span class="toc-text">3.7 字符串内存分配优化</span></a><a class="link" href="/wiki/python-advanced/memory/gc.html"><span class="toc-text">3.8 垃圾回收机制</span></a></div><div class="widget-header dis-select"><span class="name">第4章 深入学习python模块</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/module/module_learn.html"><span class="toc-text">4.1 模块概念深入学习</span></a><a class="link" href="/wiki/python-advanced/module/standard_module.html"><span class="toc-text">4.2 标准模块</span></a><a class="link" href="/wiki/python-advanced/module/third_module.html"><span class="toc-text">4.3 第三方库</span></a><a class="link" href="/wiki/python-advanced/module/data-feather-csv-compare.html"><span class="toc-text">4.4 数据处理</span></a></div><div class="widget-header dis-select"><span class="name">第5章 高阶函数</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/adv-function/index.html"><span class="toc-text">5.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/adv-function/compile.html"><span class="toc-text">5.2 compile</span></a><a class="link" href="/wiki/python-advanced/adv-function/locals_globals.html"><span class="toc-text">5.3 locals与globals</span></a><a class="link" href="/wiki/python-advanced/adv-function/partial.html"><span class="toc-text">5.3 partial</span></a><a class="link" href="/wiki/python-advanced/adv-function/lambda.html"><span class="toc-text">5.4 lambda</span></a><a class="link" href="/wiki/python-advanced/adv-function/zip.html"><span class="toc-text">5.5 zip</span></a><a class="link" href="/wiki/python-advanced/adv-function/map.html"><span class="toc-text">5.6 map</span></a><a class="link" href="/wiki/python-advanced/adv-function/reduce.html"><span class="toc-text">5.7 reduce</span></a><a class="link" href="/wiki/python-advanced/adv-function/setattr_hasattr_getattr.html"><span class="toc-text">5.8 attr</span></a><a class="link" href="/wiki/python-advanced/adv-function/filter.html"><span class="toc-text">5.9 filter</span></a><a class="link" href="/wiki/python-advanced/adv-function/function_talk.html"><span class="toc-text">5.10 函数杂谈</span></a></div><div class="widget-header dis-select"><span class="name">第6章 装饰器和递归</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/decor-recur/decorator.html"><span class="toc-text">6.1 装饰器</span></a><a class="link" href="/wiki/python-advanced/decor-recur/recursion.html"><span class="toc-text">6.2 递归</span></a></div><div class="widget-header dis-select"><span class="name">第7章 工程开发</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/project/index.html"><span class="toc-text">7.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/project/code_quality.html"><span class="toc-text">7.2 代码质量</span></a><a class="link" href="/wiki/python-advanced/project/config.html"><span class="toc-text">7.3 配置文件</span></a><a class="link" href="/wiki/python-advanced/project/pro_practice.html"><span class="toc-text">7.4 项目实践</span></a></div><div class="widget-header dis-select"><span class="name">第8章 网络编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/network/index.html"><span class="toc-text">8.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/network/tcp.html"><span class="toc-text">8.2 TCP</span></a><a class="link" href="/wiki/python-advanced/network/http.html"><span class="toc-text">8.3 HTTP</span></a></div><div class="widget-header dis-select"><span class="name">第9章 python高级特性</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/feature/index.html"><span class="toc-text">9.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/feature/three_ternary_expression.html"><span class="toc-text">9.2 三元表达式</span></a><a class="link" href="/wiki/python-advanced/feature/pack_unpack.html"><span class="toc-text">9.3 封包与解包</span></a><a class="link" href="/wiki/python-advanced/feature/everything_is_object.html"><span class="toc-text">9.4 一切皆对象</span></a><a class="link" href="/wiki/python-advanced/feature/callable.html"><span class="toc-text">9.5 callable概念</span></a><a class="link" href="/wiki/python-advanced/feature/with.html"><span class="toc-text">9.6 with语句</span></a><a class="link" href="/wiki/python-advanced/feature/comprehensions.html"><span class="toc-text">9.7 生成式</span></a><a class="link" href="/wiki/python-advanced/feature/generator.html"><span class="toc-text">9.8 生成器</span></a><a class="link" href="/wiki/python-advanced/feature/generator_eg.html"><span class="toc-text">9.9 生成器的作用实例</span></a><a class="link" href="/wiki/python-advanced/feature/iterator.html"><span class="toc-text">9.10 迭代器和可迭代对象</span></a><a class="link" href="/wiki/python-advanced/feature/introspection.html"><span class="toc-text">9.11 自省</span></a><a class="link" href="/wiki/python-advanced/feature/underline_effect.html"><span class="toc-text">9.12 下划线的作用</span></a></div><div class="widget-header dis-select"><span class="name">第10章 面向对象</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/oop/index.html"><span class="toc-text">10.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/oop/method_belong_class.html"><span class="toc-text">10.2 类方法/实例属性</span></a><a class="link" href="/wiki/python-advanced/oop/new_init.html"><span class="toc-text">10.3 __new__ 和 __init__</span></a><a class="link" href="/wiki/python-advanced/oop/super.html"><span class="toc-text">10.4 super()</span></a><a class="link" href="/wiki/python-advanced/oop/call.html"><span class="toc-text">10.5 __call__()</span></a><a class="link" href="/wiki/python-advanced/oop/metaclass.html"><span class="toc-text">10.6 metaclass元类</span></a><a class="link" href="/wiki/python-advanced/oop/propery_getter_setter.html"><span class="toc-text">10.7 用propery代替getter和setter方法</span></a><a class="link" href="/wiki/python-advanced/oop/propery_reconsitution.html"><span class="toc-text">10.8 用propery重构代码</span></a><a class="link" href="/wiki/python-advanced/oop/overloading.html"><span class="toc-text">10.9 运算符重载</span></a><a class="link" href="/wiki/python-advanced/oop/slots.html"><span class="toc-text">10.10 使用__slots__节省内存空间</span></a><a class="link" href="/wiki/python-advanced/oop/internal_manager.html"><span class="toc-text">10.11 类的内部管理</span></a><a class="link" href="/wiki/python-advanced/oop/py-class-effect.html"><span class="toc-text">10.12 从封装看类的作用</span></a><a class="link" href="/wiki/python-advanced/oop/py-magic-method.html"><span class="toc-text">10.13 python的魔法方法</span></a><a class="link" href="/wiki/python-advanced/oop/dataclass.html"><span class="toc-text">10.14 理解python数据类</span></a><a class="link" href="/wiki/python-advanced/oop/init_subclass.html"><span class="toc-text">10.15 子类的定义</span></a></div><div class="widget-header dis-select"><span class="name">第11章 并发编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/concurrent/index.html"><span class="toc-text">11.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/concurrent/multithreading.html"><span class="toc-text">11.2 多线程</span></a><a class="link active" href="/wiki/python-advanced/concurrent/multiprocess.html"><span class="toc-text">11.3 多线程</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/python-advanced/concurrent/association.html"><span class="toc-text">11.4 协程</span></a></div><div class="widget-header dis-select"><span class="name">第12章 python实用代码</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/pytip/index.html"><span class="toc-text">12.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/pytip/examples.html"><span class="toc-text">12.2 实用代码示例</span></a></div><div class="widget-header dis-select"><span class="name">第13章 python项目实践</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/practices/index.html"><span class="toc-text">13.1 本章导读</span></a><a class="link" href="/wiki/python-advanced/practices/char_picture.html"><span class="toc-text">13.2 字符画及其原理</span></a><a class="link" href="/wiki/python-advanced/practices/find_big_file.html"><span class="toc-text">13.3 找出大文件</span></a><a class="link" href="/wiki/python-advanced/practices/generate_password.html"><span class="toc-text">13.4 制作密码生成器</span></a><a class="link" href="/wiki/python-advanced/practices/five_rings_by_turtle.html"><span class="toc-text">13.5 使用turtle模块画奥运五环</span></a><a class="link" href="/wiki/python-advanced/practices/py_download_file.html"><span class="toc-text">13.6 下载文件并添加进度条</span></a><a class="link" href="/wiki/python-advanced/practices/active_email.html"><span class="toc-text">13.7 发送网站注册激活邮件</span></a><a class="link" href="/wiki/python-advanced/practices/short_url.html"><span class="toc-text">13.8 开发简单的URL短链接</span></a><a class="link" href="/wiki/python-advanced/practices/valid_code.html"><span class="toc-text">13.9 制作图片验证码</span></a><a class="link" href="/wiki/python-advanced/practices/find_open_port.html"><span class="toc-text">13.10 探测主机开放的端口</span></a><a class="link" href="/wiki/python-advanced/practices/google_history.html"><span class="toc-text">13.11 获取谷歌浏览器的历史记录</span></a><a class="link" href="/wiki/python-advanced/practices/get_wifi_windows.html"><span class="toc-text">13.12 获取可用wifi信息</span></a><a class="link" href="/wiki/python-advanced/practices/get_localip_by_google_dns.html"><span class="toc-text">13.13 利用谷歌dns服务器获取本地ip地址</span></a><a class="link" href="/wiki/python-advanced/practices/cpu_speed.html"><span class="toc-text">13.14 获取电脑cpu的速度</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/python-advanced/regex/re_repeat.html"><span class="toc-text">2.3 重复</span></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程语言</span></div><div class="widget-body"><a class="item wiki" href="/wiki/python-basic/preface/introduction.html"><span class="title">Python基础教程</span><span class="excerpt">Python 是一种简洁易读、功能强大且应用广泛的高级编程语言。。</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="/" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/python-advanced/data-type/enum.html">Python进阶教程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-08-27T07:05:20.328Z">2025-08-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>11.3 多线程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="多进程导读"><a href="#多进程导读" class="headerlink" title="多进程导读"></a>多进程导读</h1><h2 id="1-学习多进程"><a href="#1-学习多进程" class="headerlink" title="1. 学习多进程"></a>1. 学习多进程</h2><p>关于这个问题，你大概了解过一些概念，比如CPU密集型的任务适合使用多进程，IO密集型的任务可以使用多线程。这都只是很笼统的说法，实际上，关于何时使用多进程何时使用多线程，要考虑的因素很多。并发编程本身是一件困难的事情，在没有明确问题关键点，没有找到系统瓶颈前，贸然的使用多进程或者多线程，只会引入新的问题而不是解决问题。</p>
+<p>在我工作的大部分时间里，很少用到多进程，这是由工作内容决定的，但学习理解多进程仍然是有必要的，虽然自己工作中用不到，但工作中所使用的其他系统和工具可能是多进程相关的，了解多进程，有助于你了解所使用的工具。</p>
+<h2 id="2-父进程，子进程"><a href="#2-父进程，子进程" class="headerlink" title="2. 父进程，子进程"></a>2. 父进程，子进程</h2><p>当我们提到多进程时，一定是指父进程产生了一些子进程，他们之间有着紧密的联系。父进程如何产生子进程，本教程只讲解fork这一种方式，这是linux系统的实现方式，redis将内存中的数据保存到硬盘时会fork出一个子进程来进行这个操作。</p>
+<p>我们所熟知的nginx，实际处理请求的也是子进程，子进程的数量建议设置为CPU的核数。部署python web系统时所使用uwsgi所采用的也是多进程。</p>
+<h2 id="3-并行的关键"><a href="#3-并行的关键" class="headerlink" title="3. 并行的关键"></a>3. 并行的关键</h2><p>不论是多进程还是多线程，并行的关键在于如何分配任务。一定是存在大量的任务单个进程无法满足要求，我们才使用多进程进行处理，期望每个进程处理任务的一部分。既然每个子进程只处理任务的一部分，那么如何分配这些任务就成为了问题的关键。</p>
+<p>任务的分配，最直接，最简单的办法是使用队列，python的multiprcessing模块提供了Queue，它是线程安全和进程安全的。</p>
+<h1 id="python多进程之multiprocessing"><a href="#python多进程之multiprocessing" class="headerlink" title="python多进程之multiprocessing"></a>python多进程之multiprocessing</h1><ul>
+<li>python多进程之multiprocessing<ul>
+<li><ol>
+<li>Process 类</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>继承 Process 类</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>进程池</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>map 与 map_async</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>multiprocessing与threading有着相似的API，是一个用于产生进程的包。使用这个模块，可以让你轻松的创建出多进程程序。</p>
+<h2 id="1-Process-类"><a href="#1-Process-类" class="headerlink" title="1. Process 类"></a>1. Process 类</h2><p>创建一个Process类的实例，然后调用它的start方法就可以创建出一个子进程，下面看一个简单的示例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">seconds</span>):</span><br><span class="line">    pid = os.getpid()</span><br><span class="line">    ppid = os.getppid()         <span class="comment"># 父进程pid</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;父进程pid: &#123;ppid&#125;, 子进程pid: &#123;pid&#125;&quot;</span>.<span class="built_in">format</span>(ppid=ppid, pid=pid))</span><br><span class="line">    time.sleep(seconds)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    pid = os.getpid()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;主进程pid: &#123;pid&#125;&quot;</span>.<span class="built_in">format</span>(pid=pid))</span><br><span class="line">    p = Process(target=f, args=(<span class="number">3</span>,))</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">主进程pid: 19544</span><br><span class="line">父进程pid: 19544, 子进程pid: 19545</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>os.getpid() 可以获取当前进程的pid</li>
+<li>os.getppid() 可以获取当前进程的父进程pid</li>
+</ol>
+<p>一旦提到多进程，必然是一个主进程（父进程）产生出至少一个子进程，至于主进程如何产生出子进程，在不同的系统下有着不同的实现，下面是python官方文档对于多进程启动方式的介绍：</p>
+<p><strong>spawn</strong><br>父进程启动一个新的Python解释器进程。子进程只会继承那些运行进程对象的 run() 方法所需的资源。特别是父进程中非必须的文件描述符和句柄不会被继承。相对于使用 fork 或者 forkserver，使用这个方法启动进程相当慢。</p>
+<p>可在Unix和Windows上使用。 Windows上的默认设置。</p>
+<p><strong>fork</strong><br>父进程使用 os.fork() 来产生 Python 解释器分叉。子进程在开始时实际上与父进程相同。父进程的所有资源都由子进程继承。请注意，安全分叉多线程进程是棘手的。</p>
+<p>只存在于Unix。Unix中的默认值。</p>
+<p><strong>forkserver</strong><br>程序启动并选择* forkserver * 启动方法时，将启动服务器进程。从那时起，每当需要一个新进程时，父进程就会连接到服务器并请求它分叉一个新进程。分叉服务器进程是单线程的，因此使用 os.fork() 是安全的。没有不必要的资源被继承。</p>
+<p>可在Unix平台上使用，支持通过Unix管道传递文件描述符</p>
+<p>在创建Process实例时，需要指明子进程需要执行的函数以及需要传入的参数,args的类型是tuple，即便只有一个参数，也要在后面写一个逗号。</p>
+<p>只有执行了start方法后，才正式的创建出子进程。</p>
+<h2 id="2-继承-Process-类"><a href="#2-继承-Process-类" class="headerlink" title="2. 继承 Process 类"></a>2. 继承 Process 类</h2><p>在第一小节中，创建子进程时使用的是函数，除了这种方法外，还可以使用类，创建一个类并继承Process，这个类必须实现run方法。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyProcess</span>(<span class="title class_ inherited__">Process</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, seconds</span>):</span><br><span class="line">        <span class="built_in">super</span>(MyProcess,<span class="variable language_">self</span>).__init__()</span><br><span class="line">        <span class="variable language_">self</span>.seconds = seconds</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        pid = os.getpid()</span><br><span class="line">        ppid = os.getppid()         <span class="comment"># 父进程pid</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;父进程pid: &#123;ppid&#125;, 子进程pid: &#123;pid&#125;&quot;</span>.<span class="built_in">format</span>(ppid=ppid, pid=pid))</span><br><span class="line">        time.sleep(<span class="variable language_">self</span>.seconds)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    pid = os.getpid()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;主进程pid: &#123;pid&#125;&quot;</span>.<span class="built_in">format</span>(pid=pid))</span><br><span class="line">    p = MyProcess(<span class="number">3</span>)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-进程池"><a href="#3-进程池" class="headerlink" title="3. 进程池"></a>3. 进程池</h2><p>进程池内部维护若干个进程，当需要时可以去进程池中获取一个进程，如果进程池中没有可用的进程，程序进入等待状态直到有可用的进程为止。进程池有两种方法，apply_async 和 apply， apply_async是异步的，apply是同步的，一般我们使用异步方法。</p>
+<p>已知列表中有10个整数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br></pre></td></tr></table></figure>
+
+<p>现在要求你计算他们的平方，为了加快计算速度，我决定使用多进程，这样操作仅仅是为了向你展示如何使用进程池进行编程。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">return</span> num**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">pool = Pool(<span class="number">4</span>)   <span class="comment"># 创建4个进程</span></span><br><span class="line">results = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> lst:</span><br><span class="line">    results.append(pool.apply_async(func, (item, )))</span><br><span class="line"></span><br><span class="line">pool.close()    <span class="comment"># 关闭进程池，表示不能再往进程池中添加进程，需要在join之前调用</span></span><br><span class="line">pool.join()     <span class="comment"># 等待进程池中的所有进程执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(results[<span class="number">0</span>]))</span><br><span class="line"><span class="keyword">for</span> res <span class="keyword">in</span> results:</span><br><span class="line">    <span class="built_in">print</span>(res.get())</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&lt;class &#x27;multiprocessing.pool.ApplyResult&#x27;&gt;</span><br><span class="line">1</span><br><span class="line">4</span><br><span class="line">9</span><br><span class="line">16</span><br><span class="line">25</span><br><span class="line">36</span><br><span class="line">49</span><br><span class="line">64</span><br><span class="line">81</span><br><span class="line">100</span><br></pre></td></tr></table></figure>
+
+<p>很多人误以为列表results里存储的数据类型是int，但其实是ApplyResult，必须通过get方法才能获得真正的结果。apply（单个任务同步）与apply_async之间的区别我们不必去深究，因为python官方建议废弃apply而使用apply_async，所以，我们只需要了解apply_async就可以了。</p>
+<p>在上面的示例中，我启动了拥有4个进程的进程池，当我们启动子进程进行计算时，主进程并没有被阻塞，也就是说主进程也在执行，因此我在代码里加了pool.join()这行代码，它的作用是等待进程池里所有的进程执行结束然后再继续执行主进程里的代码，如果没有这行代码，进程池里的进程还没有运行结束呢，可能主进程就已经结束了。</p>
+<h2 id="4-map-与-map-async"><a href="#4-map-与-map-async" class="headerlink" title="4. map 与 map_async"></a>4. map 与 map_async</h2><p>map是多个任务同步，map_async是多个任务异步，使用起来差别不大，与apply_async相比，只是改变了编程的方式，其本质是一样的，都是利用多进程并行运算，先来看map版本的并行运算</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">return</span> num**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">pool = Pool(<span class="number">4</span>)   <span class="comment"># 创建4个进程</span></span><br><span class="line"></span><br><span class="line">results = pool.<span class="built_in">map</span>(func, lst)</span><br><span class="line"></span><br><span class="line">pool.close()    <span class="comment"># 关闭进程池，表示不能再往进程池中添加进程，需要在join之前调用</span></span><br><span class="line">pool.join()     <span class="comment"># 等待进程池中的所有进程执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(results)</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span><br></pre></td></tr></table></figure>
+
+<p>再来看map_async版本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">return</span> num**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">pool = Pool(<span class="number">4</span>)   <span class="comment"># 创建4个进程</span></span><br><span class="line"></span><br><span class="line">results = pool.map_async(func, lst)</span><br><span class="line"></span><br><span class="line">pool.close()    <span class="comment"># 关闭进程池，表示不能再往进程池中添加进程，需要在join之前调用</span></span><br><span class="line">pool.join()     <span class="comment"># 等待进程池中的所有进程执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(results.get())</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="python-fork子进程"><a href="#python-fork子进程" class="headerlink" title="python fork子进程"></a>python fork子进程</h1><ul>
+<li>python fork子进程<ul>
+<li><ol>
+<li>初识fork</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>第一个简单示例</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>父子内存关系—写时复制</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>收尸</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>fork是个好动西，它通过系统调用能够创建出一个与原来进程一模一样的进程，子进程可以执行和父进程一样的代码，通过逻辑控制，也可以让父进程和子进程执行完全不同的代码块。如果你只是会使用multiprocessing模块进行编程，那么并不能说明你真的理解多进程，因为你并不清楚多进程是如何创建的，创建出的子进程与父进程之间的关系是怎样的，也不会明白同一个变量在父进程和子进程都进行修改时会发生什么，知其然，更要知其所以然。</p>
+<h2 id="1-初识fork"><a href="#1-初识fork" class="headerlink" title="1. 初识fork"></a>1. 初识fork</h2><p>创建子进程的过程非常简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pid = os.fork()</span><br></pre></td></tr></table></figure>
+
+<p>返回值有三种</p>
+<ol>
+<li>pid &lt; 0 表示创建失败</li>
+<li>pid &#x3D; 0 此时，处在子进程中</li>
+<li>pid &gt; 0 此时，处在父进程中 pid 的值就是刚刚创建出来的子进程的pid</li>
+</ol>
+<h2 id="2-第一个简单示例"><a href="#2-第一个简单示例" class="headerlink" title="2. 第一个简单示例"></a>2. 第一个简单示例</h2><p>下面看一段简单的代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_child</span>():</span><br><span class="line">    pid0 = os.getpid()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;主进程&#x27;</span>, pid0)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        pid1 = os.fork()</span><br><span class="line">    <span class="keyword">except</span> OSError:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;你的系统不支持fork&#x27;</span>)</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> pid1 &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;创建子进程失败&#x27;</span>)</span><br><span class="line">    <span class="keyword">elif</span> pid1 == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;子进程 &#x27;</span>, pid1, os.getpid(), os.getppid())</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;主进程 &#x27;</span>, pid1, os.getpid(), os.getppid())</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;这句话,父进程和子进程都会执行&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    create_child()</span><br></pre></td></tr></table></figure>
+
+<p>如果fork函数执行成功，那么从if pid1 &lt; 0 这行代码开始的代码，父进程和子进程都会执行，此时，他们已经是两个完全不相干的进程了。程序输出结果是</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">主进程 70522</span><br><span class="line">主进程  70523 70522 366</span><br><span class="line">这句话,父进程和子进程都会执行</span><br><span class="line">子进程  0 70523 70522</span><br><span class="line">这句话,父进程和子进程都会执行</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-父子内存关系—写时复制"><a href="#3-父子内存关系—写时复制" class="headerlink" title="3. 父子内存关系—写时复制"></a>3. 父子内存关系—写时复制</h2><p>对于fork，有一点必须搞清楚，那就是原来父进程里的那些变量和子进程里的变量是什么关系。一种普遍的存在误区的理解是子进程完全拷贝了父进程的数据段、栈和堆上的内容，但实际情况是linux引入了写时拷贝技术，子进程的页表项只想了与父进程相同的物理内存页，这样只拷贝父进程的页表项就可以了，这些页面被标记为只读，如果父子进程都不去修改内存内容，大家相安无事，一旦父子进程中的某一个尝试修改，就会引发缺页异常。此时，内核会尝试为该页面创建一个新的物理页面，并将内容真实的复制到物理页面中，这样，父子页面就各自拥有了各自的物理内存,看下面这段代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestFork</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,age</span>):</span><br><span class="line">        <span class="variable language_">self</span>.age = age</span><br><span class="line"></span><br><span class="line">tf = TestFork(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">child_work</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;我是子进程&#x27;</span>, os.getpid())</span><br><span class="line">    tf.age = os.getpid()</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">2</span>, <span class="string">&quot;age的值是&#123;age&#125;, tf对象的内存地址是&#123;tf&#125;\n&quot;</span>.<span class="built_in">format</span>(age=tf.age, tf=<span class="built_in">id</span>(tf)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parent_work</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;我是主进程&#x27;</span>,os.getpid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">1</span>, <span class="string">&quot;age的值是&#123;age&#125;, tf对象的内存地址是&#123;tf&#125;\n&quot;</span>.<span class="built_in">format</span>(age=tf.age, tf=<span class="built_in">id</span>(tf)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fork_many_child</span>(<span class="params">count</span>):</span><br><span class="line">    <span class="keyword">if</span> count == <span class="number">0</span>:</span><br><span class="line">        parent_work()</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    pid1 = os.fork()</span><br><span class="line">    <span class="keyword">if</span> pid1 == <span class="number">0</span>:</span><br><span class="line">        child_work()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        fork_many_child(count-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fork_many_child(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>程序运行结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">我是主进程 72544</span><br><span class="line">主进程72544, age的值是10, tf对象的内存地址是4357220672</span><br><span class="line"></span><br><span class="line">我是子进程 72545</span><br><span class="line">子进程72545中, age的值是72545, tf对象的内存地址是4357220672</span><br><span class="line"></span><br><span class="line">我是子进程 72546</span><br><span class="line">子进程72546中, age的值是72546, tf对象的内存地址是4357220672</span><br><span class="line"></span><br><span class="line">我是子进程 72547</span><br><span class="line">子进程72547中, age的值是72547, tf对象的内存地址是4357220672</span><br></pre></td></tr></table></figure>
+
+<p>在父进程中，我创建了一个TestFork对象，子进程里去修改age的值，然后输出tf.age的值和tf对象的内存地址。子进程各自对tf对象的age属性进行了修改，因此输出的age值是不同的，但是请注意，子进程中tf对象的内存地址和父进程里的是相同的，这是因为程序只是修改了age属性，引发age属性的写时复制，但变量tf仍然指向之前的对象，因此不会引发写时复制，tf的内存地址不会变化。</p>
+<h2 id="4-收尸"><a href="#4-收尸" class="headerlink" title="4. 收尸"></a>4. 收尸</h2><p>如果父进程还存在，而子进程退出了，那么子进程会变成一个僵尸进程，父进程必须为他收尸。如果父进程先结束了，而子进程还没有结束，此时，子进程的父进程就变成了init进程，由它来负责为子进程退出后收尸。</p>
+<p>收尸有两种方法，一个是wait，一个是os.waitpid，wait是阻塞的，而os.waitpid可以设置为非阻塞的，本篇重点讲解waitpid。<br>waitpid函数定义为  def waitpid(pid, options)，第一个参数取值有以下几种情况：</p>
+<ol>
+<li><p>pid &gt; 0  等待进程ID为pid的子进程，此时是精确打击</p>
+</li>
+<li><p>pid &#x3D; 0 等待与调用进程同一个进程组的任意子进程</p>
+</li>
+<li><p>pid &#x3D; -1 等待任意子进程，此时和wait等价</p>
+</li>
+<li><p>pid &lt; -1 等待进程组ID与pid 绝对值相等的所有子进程</p>
+</li>
+<li></li>
+</ol>
+<p>options 是以下几个标志位的组合</p>
+<ol>
+<li>os.WNOHANG     如果子进程没有发生变化，则立刻返回，不会阻塞</li>
+<li>os.WUNTRACED 除了关心终止进程的信息，也关心因信号而停止的子进程信息</li>
+<li>os.WCONTINUED 除了关心终止进程的信息，也关心因受到信号而恢复执行的子进程信息</li>
+</ol>
+<p>函数的返回值有两个，分别为pid 和 status：</p>
+<ol>
+<li>pid &#x3D; 0 表示子进程没有发生变化,status不需要理会</li>
+<li>pid &#x3D; -1 表示waitpid调用失败，此时要关心status的值，status 为 ECHLD，表示没有发现有子进程需要等待，status 为EINTR，表示函数被信号中断</li>
+<li>pid &gt;0 pid是发生变化的子进程的pid，具体子进程何种状态，因为什么退出，需要根据status来判断，如果子进程是正常退出，status就是0；如果子进程是被信号杀死的，status记录的就是终止的信号；如果子进程被停止，或者恢复执行，status记录对应的值，这里要重点说明一下，假设你是用SIGSTOP信号停止了子进程的运行，这个status的值可不是SIGSTOP所对应的常量值，具体是多少，取决于系统，mac下的和linux下的值是不一样的，那怎么根据status的值来判断是停止还是恢复亦或是被信号杀死呢，还好，系统提供了跨平台的判断方法，具体看下面的例子</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> errno</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">child_work2</span>():</span><br><span class="line">    <span class="comment"># 子进程</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;我是子进程&#x27;</span>,os.getpid())</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;子进程&#123;i&#125;&#x27;</span>.<span class="built_in">format</span>(i=i))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_wait</span>():</span><br><span class="line">    pid = os.fork()</span><br><span class="line">    <span class="keyword">if</span> pid == <span class="number">0</span>:</span><br><span class="line">        child_work2()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;子进程&#x27;</span>,pid)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                time.sleep(<span class="number">4</span>)</span><br><span class="line">                p, status = os.waitpid(pid,os.WNOHANG|os.WUNTRACED|os.WCONTINUED)</span><br><span class="line">            <span class="keyword">except</span> OSError:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;没有子进程需要等待&#x27;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="built_in">print</span>(p,status)</span><br><span class="line">            <span class="keyword">if</span> p == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">                <span class="comment">#print u&#x27;子进程没有退出&#x27;</span></span><br><span class="line">            <span class="keyword">elif</span> p &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> status == errno.EINTR:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;被信号中断&#x27;</span>)</span><br><span class="line">                <span class="keyword">elif</span> status == errno.ECHILD:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;该pid不可等待&#x27;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> os.WIFSTOPPED(status):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;子进程并没有退出,只是停止工作&#x27;</span>)</span><br><span class="line">                <span class="keyword">elif</span> os.WIFCONTINUED(status):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;子进程恢复了运行&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;子进程结束了&#x27;</span>)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test_wait()</span><br></pre></td></tr></table></figure>
+
+<p>实验步骤如下:</p>
+<ol>
+<li>程序启动后，父进程创建一个子进程，然后开始进行waitpid操作，子进程则每隔3秒做一次输出。</li>
+<li>执行kill -17 + 子进程的PID，子进程会停止打印，同时父进程会提示子进程没有退出，只是停止工作</li>
+<li>一段时间后，再执行kill -19 +子进程PID，子进程被唤醒，继续打印，而父进程也会提示子进程恢复了运行，</li>
+</ol>
+<p>强调一点，我刚才讲述的是在mac环境下，mac和linux环境下的信号所对应的常量值是不一样的，执行kill -l，可以查看信号与常量值之间的关系，如果你是linux环境下实验，发送停止信号时应该是kill -19,发送恢复信号时，应该是kill -18</p>
+<h1 id="进程绑定CPU"><a href="#进程绑定CPU" class="headerlink" title="进程绑定CPU"></a>进程绑定CPU</h1><p>本文所讲述内容仅适用于linux环境</p>
+<h2 id="1-CPU亲和性"><a href="#1-CPU亲和性" class="headerlink" title="1. CPU亲和性"></a>1. CPU亲和性</h2><p>CPU亲和性是指进程在某个给定的CPU上长时间运行，尽可能少的迁移到其他处理器的倾向性。linux内核的进程调度器天生就具有这样的特性，它尽可能保证一个进程不在处理器之间频繁的迁移，频繁的迁移意味着会增加CPU缓存miss的概率，增加从主存到CPU缓存的复制时间。</p>
+<p>2.6版本linux内核新增了一个机制，它允许开发人员可以编程实现硬CPU亲和性，即程序可以显示的指定进程在哪个CPU上执行。</p>
+<h2 id="2-CPU亲和性应用场景"><a href="#2-CPU亲和性应用场景" class="headerlink" title="2. CPU亲和性应用场景"></a>2. CPU亲和性应用场景</h2><ol>
+<li>有大量计算</li>
+<li>系统对时间敏感，对性能要求高</li>
+</ol>
+<p>最常见的例子就是nginx，在配置nginx子进程的数量时，一般设置成CPU的核心数，同时通过设置worker_cpu_affinity，将不同的子进程绑定到不同的CPU核上，来增强nginx的响应能力。</p>
+<p>如果你的服务器只有一个核，那么是否绑定也就无所谓了。</p>
+<h2 id="3-python程序如何绑定CPU"><a href="#3-python程序如何绑定CPU" class="headerlink" title="3. python程序如何绑定CPU"></a>3. python程序如何绑定CPU</h2><p>Linux 内核 API 提供了一些方法，让用户可以修改位掩码或查看当前的位掩码：</p>
+<ol>
+<li>sched_set_affinity() （用来修改位掩码）</li>
+<li>sched_get_affinity() （用来查看当前的位掩码）</li>
+</ol>
+<p>python开发人员不需要使用这么底层的API，第三方库psutil就可以完成这些操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> psutil</span><br><span class="line"></span><br><span class="line">count = psutil.cpu_count()</span><br><span class="line">p = psutil.Process()</span><br><span class="line"></span><br><span class="line">cpu_lst = p.cpu_affinity()  <span class="comment"># [0, 1, 2, 3]</span></span><br><span class="line">p.cpu_affinity([<span class="number">0</span>, <span class="number">1</span>])     <span class="comment"># 将进程绑定到0和1这两个cpu核上</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="进程，线程，协程概念"><a href="#进程，线程，协程概念" class="headerlink" title="进程，线程，协程概念"></a>进程，线程，协程概念</h1><h2 id="1-先来对比进程和线程"><a href="#1-先来对比进程和线程" class="headerlink" title="1. 先来对比进程和线程"></a>1. 先来对比进程和线程</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>可以拥有自己的独立资源</th>
+<th>切换消耗</th>
+<th>是资源分配单位</th>
+<th>是执行单元</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>进程</td>
+<td>可以</td>
+<td>消耗大</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>线程</td>
+<td>不可以</td>
+<td>消耗小</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>进程是资源容器，我们只会说一个进程占用了多少内存，而从来不会说一个线程占用了多少内存。资源归属于进程，线程却拥有资源的使用权。</p>
+<p>线程的概念是建立在进程的基础上的，一个进程至少有一个主线程，有0个或多个子线程，这些线程共用这个进程所申请的资源，因此才会有线程间同步与资源互斥这些概念。由于进程已经是资源分配的单位，因此，进程与进程之间都是相互隔离的，就如同一家一户，各有各的围墙，各有各的宅基地，线程如同家庭里的亲人，这些亲人共同使用家里的资源。</p>
+<p>本质上，是线程在执行，进程只是负责申请资源，因此线程才是操作系统调度的最小单位。对于操作系统来说，在进程之间进行切换，就如同从一个住宅切换到另一家住宅，而在线程间切换，就如同从房子的一间卧室切换到客厅。线程间切换要比进程间切换容易的多。</p>
+<h2 id="2-什么是协程"><a href="#2-什么是协程" class="headerlink" title="2. 什么是协程"></a>2. 什么是协程</h2><p>进程，线程是大家非常熟悉的概念，然而说到协程，很多人表示懵逼了，关于协程，要准确掌握以下两个概念</p>
+<ol>
+<li>协程在一个线程中存在</li>
+<li>协程不是系统调度的，而是程序自己负责调度</li>
+</ol>
+<p>协程是线程的异步编程模型，因此我才说，协程在一个线程中存在，我特意强调一个线程，是想让你明确一点，系统并没有创建出若干个协程来进行工作，在这个线程中，存在多个子程序，假设有子程序A，B，C，那么最初是A在执行，中途遇到了IO，于是停止A，执行B，然后B中也遇到了IO，这个时候再回来执行A，A执行结束后再执行C</p>
+<p>你会看到，在一个线程内，A,B,C三个子程序互相协调工作，这个就是协程。这里所谓的子程序，你可以理解为函数，但是执行过程又不是函数之间的调用，因为代码里，这三个函数并不存在调用关系，他们可能都是在爬取一个url里的内容，各自的运行是独立的，但是子程序在执行过程中发生了中断，将控制权交出，在适当的时候返回来继续执行。</p>
+<h3 id="2-1-和线程的对比"><a href="#2-1-和线程的对比" class="headerlink" title="2.1 和线程的对比"></a>2.1 和线程的对比</h3><p>线程是系统创建的，具体什么时候执行，执行多久，都是由系统决定的，而协程则是程序自己创建的，在python中，yield 和gevent都可以实现协程。</p>
+<p>python的多线程由于存在GIL锁，因此一个时刻只有一个线程在运行，如果你起了10个线程，那么CPU要在这10个线程之间不停的切换，每个线程都有自己的一组CUP寄存器，这里保存了线程的上下文，线程之间的切换是会耗费资源的，线程越多，切换的越频繁，耗费的资源也就越多。</p>
+<p>协程之间也存在切换，但是这些协程都是在一个线程中，由程序自身负责切换，而不是CPU负责切换，这种切换相比于线程之间的切换就快的多了，协程拥有自己的寄存器上下文和栈，当需要切换时，将这些内容保存到其他地方，需要切换回来时，将这些内容回复回来，找到上一次离开时所处的逻辑流位置并继续执行。</p>
+<p>线程之间对共享资源的访问必须加锁，但协程不需要，原因很简单，协程始终生存在于一个线程中，根本不存在同时修改一个共享资源的情况。</p>
+<p>协程是在线程层面上进行了拆分，与线程相关的是抢占式多任务，与协程相关的是协作式多任务。</p>
+<p>如果没有协程，当一个线程内遇到IO等待时，会切换到别的线程去执行，但是有了协程，一个线程内的某个子程序遇到IO等待时，会将控制权交给同在线程内的其他子程序，没有了线程之间的切换，没有了锁，效率自然变高了。</p>
+<h1 id="python进程杂谈"><a href="#python进程杂谈" class="headerlink" title="python进程杂谈"></a>python进程杂谈</h1><ul>
+<li>python进程杂谈<ul>
+<li><ol>
+<li>给进程命名</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>杀掉一个进程</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>子进程在后台运行</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>使用队列交换对象</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-给进程命名"><a href="#1-给进程命名" class="headerlink" title="1. 给进程命名"></a>1. 给进程命名</h2><p>我们可以给进程起一个名字，这样在debug的时候能够提供一些帮助</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">    <span class="built_in">print</span>(multiprocessing.current_process().name)   <span class="comment"># 当前进程的名字</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p1 = Process(name=<span class="string">&#x27;test&#x27;</span>, target=func)</span><br><span class="line">p1.start()</span><br><span class="line"></span><br><span class="line">p2 = Process(target=func)</span><br><span class="line">p2.start()</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">test</span><br><span class="line">Process-2</span><br></pre></td></tr></table></figure>
+
+<p>如果程序没有主动为进程起一个名字，那么会默认为进程分配一个名字。</p>
+<h2 id="2-杀掉一个进程"><a href="#2-杀掉一个进程" class="headerlink" title="2. 杀掉一个进程"></a>2. 杀掉一个进程</h2><p>杀掉进程可以使用terminate方法，假设有这样的需求场景，进程启动后，我们希望5秒钟后不论程序执行结果如何都将其杀死，那么就可以这样来设计，使用Process创建一个子进程p，随后启动一个线程来检查时间和进程p的状态，5秒钟过后，在线程中调用进程的terminate方法将其杀死，示例代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">monitor</span>(<span class="params">p</span>):</span><br><span class="line">    t1 = time.time()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="keyword">if</span> t2 - t1 &gt; <span class="number">5</span>:</span><br><span class="line">            <span class="keyword">if</span> p.is_alive():</span><br><span class="line">                p.terminate()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;子进程在运行&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p = multiprocessing.Process(name=<span class="string">&#x27;测试&#x27;</span>, target=func)</span><br><span class="line">p.start()</span><br><span class="line"></span><br><span class="line">t = threading.Thread(target=monitor, args=(p, ))</span><br><span class="line">t.start()</span><br><span class="line"></span><br><span class="line">p.join()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;状态码:&#x27;</span>, p.exitcode)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>is_alive可以检查进程是否存活</li>
+<li>exitcode 是进程退出的状态码，如果是0表示正常退出，大于0表示进程有错误，小于0表示被对应的信号杀死。</li>
+</ol>
+<h2 id="3-子进程在后台运行"><a href="#3-子进程在后台运行" class="headerlink" title="3. 子进程在后台运行"></a>3. 子进程在后台运行</h2><p>首先要明确一点，后台进程不是守护进程或者服务，如果需要处理的任务比较大同时又不需要人工干预，那么可以将其设置为后台进程</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">    t1 = time.time()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        t2 = time.time()</span><br><span class="line">        <span class="keyword">if</span> t2 - t1 &gt; <span class="number">10</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;子进程&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">p = multiprocessing.Process(target=func)</span><br><span class="line">p.daemon = <span class="literal">True</span></span><br><span class="line">p.start()</span><br><span class="line"></span><br><span class="line">p.join()</span><br></pre></td></tr></table></figure>
+
+<p>只需要将daemon设置为True，进程就变为后台进程，与非后台进程相比有以下几点不同:</p>
+<ol>
+<li>后台进程不会在终端输出任何信息，非后端进程则会输出print里的内容</li>
+<li>后台进程不允许再启动子进程，因为后台进程会在主进程结束退出，非后台进程则没有这样的限制</li>
+</ol>
+<h2 id="4-使用队列交换对象"><a href="#4-使用队列交换对象" class="headerlink" title="4. 使用队列交换对象"></a>4. 使用队列交换对象</h2><p>进程间通信可以使用队列，Queue返回一个进程共享的队列，它既是线程安全的也是进程安全的。任何可以序列化的对象都可以通过它来传输。在下面的示例中，主进程中有一个列表lst,里面存储了10个任务，启动两个子进程，主进程与子进程通过队列来交换数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">q</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> q.empty():</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            task = q.get()</span><br><span class="line">            name = multiprocessing.current_process().name</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;进程&#123;name&#125;处理任务&#123;task&#125;&quot;</span>.<span class="built_in">format</span>(name=name, task=task))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">    q = multiprocessing.Queue()</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> lst:</span><br><span class="line">        q.put(item)</span><br><span class="line"></span><br><span class="line">    p_lst = [multiprocessing.Process(target=func, args=(q, )) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>)]</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> p_lst:</span><br><span class="line">        p.start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> p_lst:</span><br><span class="line">        p.join()</span><br></pre></td></tr></table></figure>
+
+<p>程序输出结果</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">进程Process-1处理任务1</span><br><span class="line">进程Process-2处理任务2</span><br><span class="line">进程Process-1处理任务3</span><br><span class="line">进程Process-2处理任务4</span><br><span class="line">进程Process-1处理任务5</span><br><span class="line">进程Process-2处理任务6</span><br><span class="line">进程Process-1处理任务7</span><br><span class="line">进程Process-2处理任务8</span><br><span class="line">进程Process-1处理任务9</span><br><span class="line">进程Process-2处理任务10</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用concurrent-futures-模块提供的进程池进行并发"><a href="#使用concurrent-futures-模块提供的进程池进行并发" class="headerlink" title="使用concurrent.futures 模块提供的进程池进行并发"></a>使用concurrent.futures 模块提供的进程池进行并发</h1><p>concurrent.futures 从python 3.2 版本被加入到发行版中，它提供了线程池和进程池，具有管理并行编程任务、处理非确定性的执行流程、进程&#x2F;线程同步等功能, 它的submit和map方法可以让你快速的实现多进程并发。</p>
+<p>使用进程池，你无需关心进程的创建与销毁，结果的收集，使用起来极为方便，下图是对进程池工作原理的解释<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250827103109346.jpeg" alt="img"></p>
+<h2 id="1-使用submit提交任务到进程池"><a href="#1-使用submit提交任务到进程池" class="headerlink" title="1. 使用submit提交任务到进程池"></a>1. 使用submit提交任务到进程池</h2><p>假设你有1000个url需要进行爬取，这类任务十分适合使用多线程处理，本示例仅是为了展示进程池如何使用，实践中，这类IO密集型任务应当使用多线程进行并发处理，CPU密集型任务则应当使用多进程并发处理。让我们看看使用concurrent.futures 提供的进程池该如何进行并发。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> concurrent.futures</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">crawl</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    爬虫函数, 这里只是模拟爬取过程，耗时0.001秒</span></span><br><span class="line"><span class="string">    :param url:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time.sleep(<span class="number">0.001</span>)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_pool</span>():</span><br><span class="line">    urls = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>)]        <span class="comment"># 模拟1000个url</span></span><br><span class="line"></span><br><span class="line">    crawl_result = []</span><br><span class="line">    <span class="keyword">with</span> concurrent.futures.ProcessPoolExecutor(max_workers=<span class="number">30</span>) <span class="keyword">as</span> executor:</span><br><span class="line">        futures = [executor.submit(crawl, url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br><span class="line">        <span class="keyword">for</span> future <span class="keyword">in</span> concurrent.futures.as_completed(futures):</span><br><span class="line">            crawl_result.append(future.result())</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(crawl_result[:<span class="number">20</span>])</span><br><span class="line">    <span class="keyword">return</span> crawl_result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    process_pool()</span><br></pre></td></tr></table></figure>
+
+<p>进程池只是提供了并发的机制，你需要自己完成并发时需要调用的函数，这里指的是crawl， 它完成单次任务，爬取一个url并返回结果。</p>
+<p>第1步创建进程池， max_workers 定义了进程池的大小</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> concurrent.futures.ProcessPoolExecutor(max_workers=<span class="number">30</span>) <span class="keyword">as</span> executor:</span><br></pre></td></tr></table></figure>
+
+<p>第2步，向进程池提交任务</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">futures = [executor.submit(crawl, url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br></pre></td></tr></table></figure>
+
+<p>调用executor 的submit方法，第一个参数是在进程中需要被执行的函数，从第二个参数开始是函数所需要参数。futures 里存储的并不是最终的结果，而是future对象，要等到进程执行函数有了返回值以后才能调用result方法获得返回结果。</p>
+<p>第3步，等待返回结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> future <span class="keyword">in</span> concurrent.futures.as_completed(futures):</span><br><span class="line">    crawl_result.append(future.result())</span><br></pre></td></tr></table></figure>
+
+<p>你不必关系哪个进程完成了一次crawl函数的调用，as_completed方法会帮你识别出已经完成的任务，调用result方法即可获得crawl函数的返回值。</p>
+<p>这里要特别强调一点，crawl_result存储的数据与urls 之间是不存在依据索引位置的一一对应关系的，在代码里，我输出了crawl_result前10个元素</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[0, 16, 6, 5, 3, 4, 2, 15, 14, 13, 12, 11, 10, 9, 8, 7, 1, 18, 20, 22]</span><br></pre></td></tr></table></figure>
+
+<p>显然，与urls之间毫无关联关系，urls中的0是最先被提交的，但未必是最先完成的，因此这两个列表的索引是不能最为输入与输出之间的映射关系的。如果想要在他们之间建立某个联系，建议在crawl 函数的返回值中加入输入的参数url ， 根据这个url 就能够找到对应的urls中的输入信息。</p>
+<h2 id="2-使用map方法并发执行任务"><a href="#2-使用map方法并发执行任务" class="headerlink" title="2. 使用map方法并发执行任务"></a>2. 使用map方法并发执行任务</h2><p>map 与 submit 的最显著的区别在于，map方法返回的结果是有序的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> concurrent.futures</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">crawl</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    爬虫函数, 这里只是模拟爬取过程，耗时0.001秒</span></span><br><span class="line"><span class="string">    :param url:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time.sleep(<span class="number">0.001</span>)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_pool</span>():</span><br><span class="line">    urls = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>)]        <span class="comment"># 模拟1000个url</span></span><br><span class="line"></span><br><span class="line">    crawl_result = []</span><br><span class="line">    <span class="keyword">with</span> concurrent.futures.ProcessPoolExecutor(max_workers=<span class="number">30</span>) <span class="keyword">as</span> executor:</span><br><span class="line">        res = executor.<span class="built_in">map</span>(crawl, urls)</span><br><span class="line">        crawl_result = <span class="built_in">list</span>(res)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(crawl_result[:<span class="number">20</span>])</span><br><span class="line">    <span class="keyword">return</span> crawl_result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    process_pool()</span><br></pre></td></tr></table></figure>
+
+<p>map方法会遍历urls，传入crawl 函数进行调用，返回的结果res是一个生成器，其结果是有序的，使用list方法将生成器转为列表，输出前20个元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>]</span><br></pre></td></tr></table></figure>
+
+<p>这与urls的前20个元素是一一对应的。</p>
+
+<div class="article-footer fs14"></div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/python-advanced/concurrent/multithreading.html">11.2 多线程</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/python-advanced/concurrent/association.html">11.4 协程</a></div></section></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">YanHuo075</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.1">Stellar 1.30.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%AF%BB"><span class="toc-text">多进程导读</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AD%A6%E4%B9%A0%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="toc-text">1. 学习多进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%88%B6%E8%BF%9B%E7%A8%8B%EF%BC%8C%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="toc-text">2. 父进程，子进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%85%B3%E9%94%AE"><span class="toc-text">3. 并行的关键</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E4%B9%8Bmultiprocessing"><span class="toc-text">python多进程之multiprocessing</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Process-%E7%B1%BB"><span class="toc-text">1. Process 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%A7%E6%89%BF-Process-%E7%B1%BB"><span class="toc-text">2. 继承 Process 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E6%B1%A0"><span class="toc-text">3. 进程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-map-%E4%B8%8E-map-async"><span class="toc-text">4. map 与 map_async</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python-fork%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="toc-text">python fork子进程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%9D%E8%AF%86fork"><span class="toc-text">1. 初识fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B"><span class="toc-text">2. 第一个简单示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%88%B6%E5%AD%90%E5%86%85%E5%AD%98%E5%85%B3%E7%B3%BB%E2%80%94%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6"><span class="toc-text">3. 父子内存关系—写时复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%94%B6%E5%B0%B8"><span class="toc-text">4. 收尸</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%91%E5%AE%9ACPU"><span class="toc-text">进程绑定CPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CPU%E4%BA%B2%E5%92%8C%E6%80%A7"><span class="toc-text">1. CPU亲和性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CPU%E4%BA%B2%E5%92%8C%E6%80%A7%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">2. CPU亲和性应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-python%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E7%BB%91%E5%AE%9ACPU"><span class="toc-text">3. python程序如何绑定CPU</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">进程，线程，协程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%85%88%E6%9D%A5%E5%AF%B9%E6%AF%94%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-text">1. 先来对比进程和线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B"><span class="toc-text">2. 什么是协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">2.1 和线程的对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E8%BF%9B%E7%A8%8B%E6%9D%82%E8%B0%88"><span class="toc-text">python进程杂谈</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BB%99%E8%BF%9B%E7%A8%8B%E5%91%BD%E5%90%8D"><span class="toc-text">1. 给进程命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9D%80%E6%8E%89%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B"><span class="toc-text">2. 杀掉一个进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AD%90%E8%BF%9B%E7%A8%8B%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C"><span class="toc-text">3. 子进程在后台运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E9%98%9F%E5%88%97%E4%BA%A4%E6%8D%A2%E5%AF%B9%E8%B1%A1"><span class="toc-text">4. 使用队列交换对象</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8concurrent-futures-%E6%A8%A1%E5%9D%97%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BF%9B%E7%A8%8B%E6%B1%A0%E8%BF%9B%E8%A1%8C%E5%B9%B6%E5%8F%91"><span class="toc-text">使用concurrent.futures 模块提供的进程池进行并发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8submit%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1%E5%88%B0%E8%BF%9B%E7%A8%8B%E6%B1%A0"><span class="toc-text">1. 使用submit提交任务到进程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8map%E6%96%B9%E6%B3%95%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1"><span class="toc-text">2. 使用map方法并发执行任务</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://fastly.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://fastly.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://fastly.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
+<script>var posts=["2025/06/26/hello-world/","2025/06/23/2025/06/Typora-Github-PicGo/","2025/06/09/2025/06/theme-design1/","2025/06/23/2025/06/theme-design2/","2025/06/26/2025/06/network-command/","2025/06/26/2025/06/yunwei20250626-1544/","2025/06/26/2025/06/git20250626-1624/","2025/06/26/2025/06/docker20250626-1714/","2025/06/26/2025/06/yunwei20250626-1745/","2025/07/03/2025/07/yunwei20250703-2212/","2025/07/06/2025/07/yunwei20250706-1107/","2025/07/17/2025/07/yunwei20250717-1758/","2025/07/18/2025/07/yunwei20250718-0933/","2025/07/24/2025/07/yunwei20250724-0957/","2025/07/24/2025/07/yunwei20250724-1423/","2025/07/25/2025/07/yunwei20250725-1656/","2025/08/22/2025/08/yunwei20250822-0912/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>
