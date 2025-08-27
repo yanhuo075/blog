@@ -1,8 +1,8 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 2.3 字符转义
-order: 2
+title: 2.4 字符转义
+order: 3
 ---
 
 # 正则表达式之字符转义,替换,反义

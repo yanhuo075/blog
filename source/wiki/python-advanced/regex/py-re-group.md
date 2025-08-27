@@ -1,8 +1,8 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 2.7 分组
-order: 6
+title: 2.8 分组
+order: 7
 ---
 
 # python正则表达式精讲--分组

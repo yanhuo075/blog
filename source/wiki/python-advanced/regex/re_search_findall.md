@@ -1,8 +1,8 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 2.5 查找
-order: 4
+title: 2.6 查找
+order: 5
 ---
 
 # python正则表达式精讲---search与findall

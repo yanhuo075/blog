@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 13.13 利用谷歌dns服务器获取本地ip地址
+title: 13.13 利用dns服务获取本地ip地址
 order: 12
 ---
 

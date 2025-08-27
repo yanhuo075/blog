@@ -30,6 +30,7 @@ tree:
   '第2章 正则表达式':
     - regex/index
     - regex/special_char
+    - regex/re_repeat
     - regex/re_replace
     - regex/re_match
     - regex/re_search_findall

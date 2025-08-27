@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 10.7 用propery代替getter和setter方法
+title: 10.7 用propery代替getter和setter
 order: 6
 ---
 

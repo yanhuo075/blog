@@ -1,8 +1,8 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-advanced # 这是项目id，对应 /_data/wiki/python-advanced.yml
-title: 2.4 匹配
-order: 3
+title: 2.5 匹配
+order: 4
 ---
 
 # python正则表达式精讲---match
