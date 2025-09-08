@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 6.10 理解python的赋值语句
+title: 6.10 python函数练习题
 order: 9
 ---
 
