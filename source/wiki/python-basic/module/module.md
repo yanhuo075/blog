@@ -1,11 +1,11 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 8.2 模块
+title: 8.2 认识模块
 order: 1
 ---
 
-# 模块
+# 认识模块
 
 ## 1. 什么是模块
 

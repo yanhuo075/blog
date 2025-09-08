@@ -1,7 +1,7 @@
 ---
 layout: wiki  # 使用wiki布局模板
 wiki: python-basic # 这是项目id，对应 /_data/wiki/python-basic.yml
-title: 8.3 什么是pip
+title: 8.3 模块安装之pip
 order: 2
 ---
 
