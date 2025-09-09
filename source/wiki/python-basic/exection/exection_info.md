@@ -26,7 +26,7 @@ func_tet()
 
 运行这段程序，异常信息如下
 
-![python异常信息](http://www.coolpython.net/pictures/python_primary/exection/exection_info-1583242480-0.jpg)
+![python异常信息](https://fastly.jsdelivr.net/gh/yanhuo075/images-repo/upload/20250909102756084.jpeg)
 
 我将异常信息分为两部分，分析时，先关注最后一行绿色框内的信息，这里的信息明确的指明了异常的类型和异常的解释信息，这是我们分析问题的第一步，随着经验的积累，你很容就能通过异常信息分析出为何会发生异常。
 
