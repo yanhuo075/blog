@@ -164,3 +164,6 @@ tree:
     - algorithm/easy_execises
     - algorithm/hard_execises
     - algorithm/hell_execises
+
+  '附录':
+    - appendix/builtin-func
