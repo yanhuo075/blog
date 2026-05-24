@@ -8,6 +8,10 @@ git remote add origin https://github.com/yanhuo075/blog.git
 git push -u origin main
 
 附录
+更新文章命令：
+hexo clean 或简写 hexo c
+hexo generate 或简写hexo g
+
 1.添加wiki文档步骤：
 
 ①添加项目id配置文件source/_data/wiki/xx.yml

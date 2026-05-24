@@ -1,6 +1,6 @@
 ---
 title: 英语音标拼读规则大全
-categories: [运维技能]
+categories: [英语技能]
 tags: [英语技能]
 ---
 
